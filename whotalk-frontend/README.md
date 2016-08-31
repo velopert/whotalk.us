@@ -1,2 +1,0 @@
-#whotalk-frontend
-##about

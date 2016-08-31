@@ -22,8 +22,6 @@ module.exports = {
       helpers: false,
       polyfill: false,
       regenerator: true
-    }],
-    // Optimization: hoist JSX that never changes out of render()
-    require.resolve('babel-plugin-transform-react-constant-elements')
+    }]
   ],
 };
