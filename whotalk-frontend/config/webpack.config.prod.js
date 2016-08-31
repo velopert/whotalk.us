@@ -64,7 +64,8 @@ module.exports = {
       // a dependency in generated projects.
       // See https://github.com/facebookincubator/create-react-app/issues/255
       'babel-runtime/regenerator': require.resolve('babel-runtime/regenerator'),
-      'react-native': 'react-native-web'
+      'react-native': 'react-native-web',
+      'lib/semantic/': path.resolve('./semantic')
     }
   },
   // Resolve loaders (webpack plugins for CSS, images, transpilation) from the
