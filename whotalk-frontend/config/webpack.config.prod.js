@@ -51,7 +51,6 @@ module.exports = {
     publicPath: publicPath
   },
   resolve: {
-    root: path.resolve('./src'),
     // These are the reasonable defaults supported by the Node ecosystem.
     extensions: ['.js', '.json', ''],
     alias: {
@@ -64,8 +63,7 @@ module.exports = {
       // a dependency in generated projects.
       // See https://github.com/facebookincubator/create-react-app/issues/255
       'babel-runtime/regenerator': require.resolve('babel-runtime/regenerator'),
-      'react-native': 'react-native-web',
-      'lib/semantic/': path.resolve('./semantic')
+      'react-native': 'react-native-web'
     }
   },
   // Resolve loaders (webpack plugins for CSS, images, transpilation) from the
@@ -118,11 +116,6 @@ module.exports = {
         // https://github.com/webpack/webpack/issues/283
         loader: ExtractTextPlugin.extract('style', 'css?-autoprefixer!postcss')
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
-      },
-      {
-        test: /\.scss$/,
-        include: [paths.appSrc, paths.appNodeModules],
-        loader: ExtractTextPlugin.extract('style', 'css!sass')
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
@@ -217,10 +210,6 @@ module.exports = {
       }
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-    new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery"
-    })
+    new ExtractTextPlugin('static/css/[name].[contenthash:8].css')
   ]
 };

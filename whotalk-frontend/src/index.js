@@ -1,12 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import 'lib/semantic/dist/semantic.css';
-
-import { App } from 'containers'
+import App from './App';
+import './index.css';
 
 ReactDOM.render(
   <App />,
   document.getElementById('root')
 );
-
