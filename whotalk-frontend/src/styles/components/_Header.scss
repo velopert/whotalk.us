@@ -1,15 +1,36 @@
 .header {
     background-color: white;
+    text-align: center;
+
+    h1 {
+        font-family: 'Righteous', cursive;
+    }
 
     @include media("<=tablet") {
         height: 85px;
+        padding-top: 28px;
+
+        h1 {
+            font-size: 25px;
+        }
+
     }
 
     @include media(">tablet", "<=desktop") {
         height: 185px;
+        padding-top: 44px;
+
+        h1 {
+            font-size: 36px;
+        }
     }
 
     @include media(">desktop") {
         height: 250px;
+        padding-top: 78px;
+
+        h1 {
+            font-size: 44px;
+        }
     }
 }

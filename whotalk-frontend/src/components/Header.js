@@ -16,7 +16,9 @@ class Header extends React.Component {
 
     render() {
         return(
-            <div className="header">Header</div>
+            <div className="header">
+                <h1>whotalk</h1>
+            </div>
         );
     }
 }
