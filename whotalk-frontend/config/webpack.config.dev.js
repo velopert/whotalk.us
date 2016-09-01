@@ -37,8 +37,11 @@ module.exports = {
     require.resolve('webpack/hot/dev-server'),
     // We ship a few polyfills by default.
     require.resolve('./polyfills'),
+    /*
     path.resolve('./semantic/dist/semantic.min.css'),
     path.resolve('./semantic/dist/semantic.min.js'),
+    */
+    path.resolve('./src/styles/main.scss'),
     // Finally, this is your app's code:
     path.join(paths.appSrc, 'index'),
     // We include the app code last so that if there is a runtime error during
@@ -108,6 +111,11 @@ module.exports = {
         test: /\.css$/,
         include: [paths.appSrc, paths.appNodeModules, paths.semantic],
         loader: 'style!css!postcss'
+      },
+      {
+        test: /\.scss$/,
+        include: [paths.appSrc, paths.appNodeModules],
+        loader: 'style!css!sass'
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
@@ -180,9 +188,9 @@ module.exports = {
     // makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebookincubator/create-react-app/issues/186
     new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-    new webpack.ProvidePlugin({
+    /* new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
-        })
+        }) */
   ]
 };

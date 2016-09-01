@@ -37,8 +37,11 @@ module.exports = {
   // In production, we only want to load the polyfills and the app code.
   entry: [
     require.resolve('./polyfills'),
-    path.resolve('./semantic/dist/semantic.min.css'),
-    path.resolve('./semantic/dist/semantic.min.js'),
+    /*
+        path.resolve('./semantic/dist/semantic.min.css'),
+        path.resolve('./semantic/dist/semantic.min.js'),
+    */
+    path.resolve('./src/styles/main.scss'),
     path.join(paths.appSrc, 'index')
   ],
   output: {
@@ -119,6 +122,11 @@ module.exports = {
         // https://github.com/webpack/webpack/issues/283
         loader: ExtractTextPlugin.extract('style', 'css?-autoprefixer!postcss')
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+      },
+      {
+        test: /\.scss$/,
+        include: [paths.appSrc, paths.appNodeModules],
+        loader: ExtractTextPlugin.extract('style', 'css?-autoprefixer!postcss')
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
@@ -214,9 +222,9 @@ module.exports = {
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),
-    new webpack.ProvidePlugin({
+    /*new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
-        })
+        })*/
   ]
 };
