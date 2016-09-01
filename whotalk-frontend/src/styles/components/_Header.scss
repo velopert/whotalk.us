@@ -1,0 +1,15 @@
+.header {
+    background-color: white;
+
+    @include media("<=tablet") {
+        height: 85px;
+    }
+
+    @include media(">tablet", "<=desktop") {
+        height: 185px;
+    }
+
+    @include media(">desktop") {
+        height: 250px;
+    }
+}
