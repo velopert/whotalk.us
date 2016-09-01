@@ -37,6 +37,8 @@ module.exports = {
   // In production, we only want to load the polyfills and the app code.
   entry: [
     require.resolve('./polyfills'),
+    path.resolve('./semantic/dist/semantic.min.css'),
+    path.resolve('./semantic/dist/semantic.min.js'),
     path.join(paths.appSrc, 'index')
   ],
   output: {
@@ -105,7 +107,7 @@ module.exports = {
       // in the main CSS file.
       {
         test: /\.css$/,
-        include: [paths.appSrc, paths.appNodeModules],
+        include: [paths.appSrc, paths.appNodeModules, paths.semantic],
         // "?-autoprefixer" disables autoprefixer in css-loader itself:
         // https://github.com/webpack/css-loader/issues/281
         // We already have it thanks to postcss. We only pass this flag in
@@ -128,7 +130,7 @@ module.exports = {
       // When you `import` an asset, you get its filename.
       {
         test: /\.(jpg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-        include: [paths.appSrc, paths.appNodeModules],
+        include: [paths.appSrc, paths.appNodeModules, paths.semantic],
         loader: 'file',
         query: {
           name: 'static/media/[name].[hash:8].[ext]'
@@ -210,6 +212,10 @@ module.exports = {
       }
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-    new ExtractTextPlugin('static/css/[name].[contenthash:8].css')
+    new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),
+    new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
   ]
 };

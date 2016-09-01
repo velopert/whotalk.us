@@ -37,8 +37,10 @@ module.exports = {
     require.resolve('webpack/hot/dev-server'),
     // We ship a few polyfills by default.
     require.resolve('./polyfills'),
+    path.resolve('./semantic/dist/semantic.min.css'),
+    path.resolve('./semantic/dist/semantic.min.js'),
     // Finally, this is your app's code:
-    path.join(paths.appSrc, 'index')
+    path.join(paths.appSrc, 'index'),
     // We include the app code last so that if there is a runtime error during
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
@@ -103,7 +105,7 @@ module.exports = {
       // in development "style" loader enables hot editing of CSS.
       {
         test: /\.css$/,
-        include: [paths.appSrc, paths.appNodeModules],
+        include: [paths.appSrc, paths.appNodeModules, paths.semantic],
         loader: 'style!css!postcss'
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
@@ -118,7 +120,7 @@ module.exports = {
       // In production, they would get copied to the `build` folder.
       {
         test: /\.(jpg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-        include: [paths.appSrc, paths.appNodeModules],
+        include: [paths.appSrc, paths.appNodeModules, paths.semantic],
         loader: 'file',
         query: {
           name: 'static/media/[name].[hash:8].[ext]'
@@ -176,6 +178,10 @@ module.exports = {
     // to restart the development server for Webpack to discover it. This plugin
     // makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebookincubator/create-react-app/issues/186
-    new WatchMissingNodeModulesPlugin(paths.appNodeModules)
+    new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+    new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
   ]
 };

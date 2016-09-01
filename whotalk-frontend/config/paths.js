@@ -31,7 +31,8 @@ if (isInCreateReactAppSource) {
     appPackageJson: resolveOwn('../package.json'),
     appSrc: resolveOwn('../template/src'),
     appNodeModules: resolveOwn('../node_modules'),
-    ownNodeModules: resolveOwn('../node_modules')
+    ownNodeModules: resolveOwn('../node_modules'),
+    semantic: resolveOwn('../semantic')
   };
 } else if (!isEjected) {
   // before eject: we're in ./node_modules/react-scripts/config/
@@ -54,6 +55,7 @@ if (isInCreateReactAppSource) {
     appPackageJson: resolveApp('package.json'),
     appSrc: resolveApp('src'),
     appNodeModules: resolveApp('node_modules'),
-    ownNodeModules: resolveApp('node_modules')
+    ownNodeModules: resolveApp('node_modules'),
+    semantic: resolveApp('semantic')
   };
 }
