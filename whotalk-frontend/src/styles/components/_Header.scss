@@ -160,6 +160,16 @@
         }
     }
 
+    .like-button {
+        position: absolute;
+        right: 10px;
+        bottom: -10px;
+
+        @include media("<=tablet") {
+            display: none;
+        }
+    }
+
     @include media("<=tablet") {
         .button-container {
             text-align: center;
@@ -235,6 +245,8 @@ transform: translateY(-12px);
     animation-name: slide-up-and-down;
     opacity: 1;
 }
+
+
 /*
 
 .header {

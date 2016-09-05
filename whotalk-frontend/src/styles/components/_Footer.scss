@@ -1,0 +1,50 @@
+.footer {
+    box-shadow: 0px -15px 15px -15px rgba(0,0,0,.85);
+    -webkit-box-shadow: 0px -15px 15px -15px rgba(0,0,0,.85);
+    -moz-box-shadow: 0px -15px 15px -15px rgba(0,0,0,.85);
+    background-color: rgba(44,62,80,0.75);
+    color: white;
+    border-top: 1px solid black;
+    letter-spacing: 2px;
+
+    .container {
+        @include media("<=tablet") {
+            margin: 0;
+        }
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        list-style-type: none;
+    }
+
+    li {
+        float: left;
+
+        @include media("<=tablet") {
+            float: none;
+        }
+
+        &.right {
+            padding: 20px;
+            float: right;
+            font-weight: bold;
+            @include media("<=tablet") {
+                float: none;
+                text-align: center;
+            }
+        }
+    }
+
+    li a {
+        display: block;
+        color: white;
+        padding: 20px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgba(0,0,0, 0.1);
+        }
+    }
+}

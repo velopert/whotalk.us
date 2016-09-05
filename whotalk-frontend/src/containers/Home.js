@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Header, InfoSection, MainSection, DevSection } from 'components';
+import { 
+    Header, 
+    InfoSection, 
+    MainSection, 
+    DevSection, 
+    Footer 
+} from 'components';
 import { HeaderMode } from 'components/Header';
 import { Events, scrollSpy } from 'react-scroll';
 
@@ -54,6 +60,8 @@ class Home extends Component {
                 />
 
                 <DevSection/>
+
+                <Footer/>
             </div>
         );
     }

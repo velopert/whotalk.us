@@ -65,6 +65,9 @@ class Header extends Component {
                         </div>
                 </div>
 
+                <iframe className="like-button" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fvelopert%2F&width=187&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=664322480382395" width="152" height="46" style={{border: 'none', overflow: 'hidden'}} scrolling="no" frameBorder="0" allowTransparency="true"></iframe>
+                
+
                     <ScrollLink to="below-header" activeClass="active" spy={true} smooth={true} offset={1} duration={1000}>
                         <div className="learn-more">
                             <div className={`wrapper ${animate}`}>
