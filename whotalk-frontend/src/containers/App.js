@@ -4,7 +4,7 @@ import { Home } from 'containers';
 class App extends Component {
   render() {
     return (
-      <Home/>
+        <Home/>
     );
   }
 }
