@@ -31,13 +31,13 @@ class Header extends Component {
 
     componentDidMount() {
         // trigger animation after 1.5 seconds
-        setTimeout(()=>{
-            this.setState({isLoaded: true});
+        setTimeout(() => {
+            this.setState({ isLoaded: true });
             // then, fade in background
             setTimeout(() => {
-                this.setState({loadBackground: true});
+                this.setState({ loadBackground: true });
                 setTimeout(() => {
-                    this.setState({showLearnMore: true})
+                    this.setState({ showLearnMore: true })
                 }, 1000)
             }, 500)
         }, 1000);
@@ -45,12 +45,12 @@ class Header extends Component {
 
     render() {
 
-        const loaded = this.state.isLoaded ? 'loaded': '';
+        const loaded = this.state.isLoaded ? 'loaded' : '';
         const fade = this.state.loadBackground ? 'fade' : '';
         const animate = this.state.showLearnMore ? 'slide-up-and-down' : '';
 
 
-        const background = (
+        const home = (
             <div>
                 <div className="background">
                     <div className={`image ${fade}`}>a</div>
@@ -67,28 +67,30 @@ class Header extends Component {
                         <div className="button-container">
                             <button className="ui inverted basic orange button">CREATE YOUR CHANNEL</button><button className="ui inverted basic greendigi button">SIGN IN</button>
                         </div>
-                </div>
-                
-                 <iframe className={"like-button" + (this.props.like ? '' : ' hide')} src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fvelopert%2F&width=187&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=664322480382395" width="152" height="46" style={{border: 'none', overflow: 'hidden'}} scrolling="no" frameBorder="0" allowTransparency="true"></iframe> 
-                
-                
+                    </div>
 
-                    <ScrollLink to="below-header" activeClass="active" spy={true} smooth={true} offset={1} duration={1000}>
-                        <div className="learn-more">
-                            <div className={`wrapper ${animate}`}>
-                                <div className="text">MORE</div>
-                                <i className="angle double down icon"></i>
+                    
+                        <iframe className={"like-button" + (this.props.like ? '' : ' hide') } src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fvelopert%2F&width=187&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=664322480382395" width="152" height="46" style={{ border: 'none', overflow: 'hidden' }} scrolling="no" frameBorder="0" allowTransparency="true"></iframe>
+
+
+
+                        <ScrollLink to="below-header" activeClass="active" spy={true} smooth={true} offset={1} duration={1000}>
+                            <div className="learn-more">
+                                <div className={`wrapper ${animate}`}>
+                                    <div className="text">MORE</div>
+                                    <i className="angle double down icon"></i>
+                                </div>
                             </div>
-                        </div>
-                    </ScrollLink>
+                        </ScrollLink>
+
                 </div>
             </div>
         );
 
-        return(
+        return (
             <div className="header">
                 <div className="top">
-                    <div className={"bar" + (this.props.bar ? ' show' : '')}>
+                    <div className={"bar" + (this.props.bar ? ' show' : '') }>
                         <div className="top-logo">WHOTALK</div>
                     </div>
                     <div className="search-button">
@@ -98,7 +100,7 @@ class Header extends Component {
                         </div>
                     </div>
                 </div>
-                { this.props.mode === HeaderMode.HOME ? background : undefined }
+                { this.props.mode === HeaderMode.HOME ? home : undefined }
             </div>
         );
     }

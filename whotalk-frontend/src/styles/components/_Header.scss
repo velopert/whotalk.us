@@ -273,6 +273,7 @@
     animation-duration: 1s;
     -webkit-animation-name: slide-up-and-down;
     animation-name: slide-up-and-down;
+    animation-timing-function: ease;
     opacity: 1;
 }
 
