@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { 
-    Header, 
-    InfoSection, 
-    MainSection, 
-    DevSection, 
-    Footer 
+import {
+    Header,
+    InfoSection,
+    MainSection,
+    DevSection,
+    Footer
 } from 'components';
 import { HeaderMode } from 'components/Header';
 import { Events, scrollSpy } from 'react-scroll';
@@ -21,17 +21,18 @@ class Home extends Component {
         this.handleScroll = this.handleScroll.bind(this);
 
         this.state = {
-            showLikebutton: true
+            showLikeButton: true,
+            showHeaderBar: false
         };
     }
 
 
     componentDidMount() {
-        Events.scrollEvent.register('begin', function(to, element) {
+        Events.scrollEvent.register('begin', function (to, element) {
             console.log("begin", arguments);
         });
 
-        Events.scrollEvent.register('end', function(to, element) {
+        Events.scrollEvent.register('end', function (to, element) {
             console.log("end", arguments);
         });
 
@@ -41,37 +42,54 @@ class Home extends Component {
     }
 
     handleScroll(e) {
-      console.log(window.scrollY);
-      console.log(window.innerHeight - window.scrollY);
+        // console.log(window.scrollY);
+        console.log(window.innerHeight - window.scrollY);
 
-      /* HIDE & SHOW FACEBOOK LIKE BUTTON */
+        /* HIDE & SHOW FACEBOOK LIKE BUTTON */
 
-      if(window.innerHeight - window.scrollY <= 50 && !this.state.showLikeButton) {
-          this.setState({
-              showLikeButton: false
-          });
-      } 
+        if (window.innerHeight - window.scrollY <= 100 && this.state.showLikeButton) {
+            this.setState({
+                showLikeButton: false
+            });
+        }
 
-      if(window.innerHeight - window.scrollY > 50 && this.state.showLikeButton) {
-          this.setState({
-              showLikeButton: true
-          });
-      } 
+        if (window.innerHeight - window.scrollY > 100 && !this.state.showLikeButton) {
+            this.setState({
+                showLikeButton: true
+            });
+        }
 
+        /* HIDE & SHOW HEADER BAR */
+        if(window.innerHeight - window.scrollY <= 50 && !this.state.showHeaderBar) {
+            this.setState({
+                showHeaderBar: true
+            });
+        }
+
+        /* HIDE & SHOW HEADER BAR */
+        if(window.innerHeight - window.scrollY > 50 && this.state.showHeaderBar) {
+            this.setState({
+                showHeaderBar: false
+            });
+        }
 
     }
 
     componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
     }
-    
-    
+
+
 
     render() {
+
+        console.log(this.state.showLikeButton);
+
         return (
             <div className="home">
+                
 
-                <Header mode={HeaderMode.HOME}/>
+                <Header mode={HeaderMode.HOME} like={this.state.showLikeButton} bar={this.state.showHeaderBar}/>
 
                 <MainSection/>
 
@@ -80,20 +98,20 @@ class Home extends Component {
                     title="ANONYMOUS TALKS"
                     text={`STRANGERS CAN TALK TO YOU ANONYMOUSLY. \nTELL THEM TO ASK ANYTHING ABOUT YOU`}
                     inverted={false}
-                />
+                    />
 
                 <InfoSection
                     image={type}
                     title="USER TALKS"
                     text={`YOU CAN SIGN IN AND TALK TO ANOTHER USERS USING YOUR USERNAME. \nYOU CAN STILL CHOOSE TO REMAIN ANONYMOUS WHILE SIGNED IN THOUGH.`}
                     inverted={true}
-                />
+                    />
                 <InfoSection
                     image={hands}
                     title="FOLLOW"
                     text={`YOU CAN FOLLOW YOUR FAVORITE CHANNELS SO THAT YOU CAN VISIT THEM EASILY.`}
                     inverted={false}
-                />
+                    />
 
                 <DevSection/>
 

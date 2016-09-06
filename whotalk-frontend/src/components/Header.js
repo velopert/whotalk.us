@@ -6,11 +6,15 @@ export const HeaderMode = {
 }
 
 const propTypes = {
-    mode: PropTypes.oneOf(Object.keys(HeaderMode))
+    mode: PropTypes.oneOf(Object.keys(HeaderMode)),
+    like: PropTypes.bool,
+    bar: PropTypes.bool
 };
 
 const defaultProps = {
-    mode: HeaderMode.MAIN
+    mode: HeaderMode.MAIN,
+    like: false,
+    bar: false
 };
 
 class Header extends Component {
@@ -64,8 +68,9 @@ class Header extends Component {
                             <button className="ui inverted basic orange button">CREATE YOUR CHANNEL</button><button className="ui inverted basic greendigi button">SIGN IN</button>
                         </div>
                 </div>
-
-                <iframe className="like-button" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fvelopert%2F&width=187&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=664322480382395" width="152" height="46" style={{border: 'none', overflow: 'hidden'}} scrolling="no" frameBorder="0" allowTransparency="true"></iframe>
+                
+                 <iframe className={"like-button" + (this.props.like ? '' : ' hide')} src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fvelopert%2F&width=187&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=664322480382395" width="152" height="46" style={{border: 'none', overflow: 'hidden'}} scrolling="no" frameBorder="0" allowTransparency="true"></iframe> 
+                
                 
 
                     <ScrollLink to="below-header" activeClass="active" spy={true} smooth={true} offset={1} duration={1000}>
@@ -83,6 +88,9 @@ class Header extends Component {
         return(
             <div className="header">
                 <div className="top">
+                    <div className={"bar" + (this.props.bar ? ' show' : '')}>
+                        <div className="top-logo">WHOTALK</div>
+                    </div>
                     <div className="search-button">
                         <div className="icon-wrapper">
                             <i className="search icon">

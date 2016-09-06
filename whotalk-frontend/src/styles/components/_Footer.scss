@@ -30,7 +30,7 @@
         &.right {
             padding: 20px;
             float: right;
-            font-weight: bold;
+            font-weight: 600;
             @include media("<=tablet") {
                 float: none;
                 text-align: center;
