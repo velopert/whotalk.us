@@ -1,5 +1,14 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import { Link as ScrollLink } from 'react-scroll';
+
+
+const propTypes = {
+    like: PropTypes.bool
+};
+
+const defaultProps = {
+    like: false
+};
 
 class HomeScreen extends Component {
 
@@ -7,7 +16,6 @@ class HomeScreen extends Component {
         super(props);
         this.state = {
             isLoaded: false,
-            loadBackground: false,
             showLearnMore: false
         };
     }
@@ -27,10 +35,7 @@ class HomeScreen extends Component {
     render() {
 
         const loaded = this.state.isLoaded ? 'loaded' : '';
-        const fade = this.state.loadBackground ? 'fade' : '';
         const animate = this.state.showLearnMore ? 'slide-up-and-down' : '';
-
-
 
         return (
             <div>
@@ -50,8 +55,6 @@ class HomeScreen extends Component {
 
                     <iframe className={"like-button" + (this.props.like ? '' : ' hide') } src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fvelopert%2F&width=187&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=664322480382395" width="152" height="46" style={{ border: 'none', overflow: 'hidden' }} scrolling="no" frameBorder="0" allowTransparency="true"></iframe>
 
-
-
                     <ScrollLink to="below-header" activeClass="active" spy={true} smooth={true} offset={1} duration={1000}>
                         <div className="learn-more">
                             <div className={`wrapper ${animate}`}>
@@ -65,5 +68,8 @@ class HomeScreen extends Component {
         );
     }
 }
+
+HomeScreen.propTypes = propTypes;
+HomeScreen.defaultProps = defaultProps;
 
 export default HomeScreen;
