@@ -16,6 +16,16 @@ import hands from 'assets/hands.jpg';
 
 class Home extends Component {
 
+    constructor(props) {
+        super(props);
+        this.handleScroll = this.handleScroll.bind(this);
+
+        this.state = {
+            showLikebutton: true
+        };
+    }
+
+
     componentDidMount() {
         Events.scrollEvent.register('begin', function(to, element) {
             console.log("begin", arguments);
@@ -26,16 +36,42 @@ class Home extends Component {
         });
 
         scrollSpy.update();
+
+        window.addEventListener('scroll', this.handleScroll);
     }
 
+    handleScroll(e) {
+      console.log(window.scrollY);
+      console.log(window.innerHeight - window.scrollY);
+
+      /* HIDE & SHOW FACEBOOK LIKE BUTTON */
+
+      if(window.innerHeight - window.scrollY <= 50 && !this.state.showLikeButton) {
+          this.setState({
+              showLikeButton: false
+          });
+      } 
+
+      if(window.innerHeight - window.scrollY > 50 && this.state.showLikeButton) {
+          this.setState({
+              showLikeButton: true
+          });
+      } 
+
+
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+    }
+    
+    
 
     render() {
-
-
         return (
             <div className="home">
 
-                <Header mode={HeaderMode.HOME} />
+                <Header mode={HeaderMode.HOME}/>
 
                 <MainSection/>
 

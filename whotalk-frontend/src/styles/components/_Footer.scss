@@ -2,7 +2,7 @@
     box-shadow: 0px -15px 15px -15px rgba(0,0,0,.85);
     -webkit-box-shadow: 0px -15px 15px -15px rgba(0,0,0,.85);
     -moz-box-shadow: 0px -15px 15px -15px rgba(0,0,0,.85);
-    background-color: rgba(44,62,80,0.75);
+    background-color: rgba(154,172,190,0.15);
     color: white;
     border-top: 1px solid black;
     letter-spacing: 2px;
@@ -44,7 +44,7 @@
         padding: 20px;
         cursor: pointer;
         &:hover {
-            background-color: rgba(0,0,0, 0.1);
+            background-color: rgba(0,0,0, 0.5);
         }
     }
 }

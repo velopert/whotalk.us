@@ -1,5 +1,38 @@
 .header {
 
+    .top {
+        position: fixed;
+        top: 0;
+        height: 50px;
+        width: 100%;
+        border-bottom: 1px solid white;
+        z-index: 2;
+        .search-button {
+            position: absolute;
+            right: 0px;
+            width: 50px;
+            color: rgba(255,255,255,0.8);
+            height: 50px;
+            cursor: pointer;
+            .icon-wrapper {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                i {
+                    font-size: 15px;
+                    transition: all 100ms ease;
+                    transition-property: font-size, opacity;
+
+                    &:hover {
+                        font-size: 20px;
+                        color: rgba(255,255,255,1);
+                    }
+                }
+            }
+        }
+    }
+
     .background {
         position: fixed;
         width: 100%;

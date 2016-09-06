@@ -82,6 +82,14 @@ class Header extends Component {
 
         return(
             <div className="header">
+                <div className="top">
+                    <div className="search-button">
+                        <div className="icon-wrapper">
+                            <i className="search icon">
+                            </i>
+                        </div>
+                    </div>
+                </div>
                 { this.props.mode === HeaderMode.HOME ? background : undefined }
             </div>
         );
