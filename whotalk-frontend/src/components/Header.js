@@ -66,7 +66,6 @@ class Header extends Component {
                         </div>
                     </div>
                 </div>
-                { this.props.mode === HeaderMode.HOME ? home : undefined }
             </div>
         );
     }

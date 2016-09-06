@@ -38,7 +38,7 @@ class HomeScreen extends Component {
         const animate = this.state.showLearnMore ? 'slide-up-and-down' : '';
 
         return (
-            <div>
+            <div className="home-screen">
                 <div className="space">
                     <div className="header-contents">
                         <div className='logo-wrapper'>

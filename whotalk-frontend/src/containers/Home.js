@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     Header,
+    HomeScreen,
     InfoSection,
     MainSection,
     DevSection,
@@ -89,8 +90,8 @@ class Home extends Component {
             <div className="home">
                 
 
-                <Header mode={HeaderMode.HOME} like={this.state.showLikeButton} bar={this.state.showHeaderBar}/>
-
+                <Header mode={HeaderMode.HOME}  bar={this.state.showHeaderBar}/>
+                <HomeScreen like={this.state.showLikeButton}/>
                 <MainSection/>
 
                 <InfoSection
