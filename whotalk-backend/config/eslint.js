@@ -12,7 +12,7 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+    
     ],
     "rules": {
         'array-callback-return': 'warn',
