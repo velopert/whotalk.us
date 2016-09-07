@@ -4,8 +4,28 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "babel src -d build --presets=es2015,stage-0",
+    "start": "node build",
+    "dev": "node scripts/development.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "eslint": "^3.4.0",
+    "nodemon": "^1.10.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "connect-mongo": "^1.3.2",
+    "express": "^4.14.0",
+    "express-graphql": "^0.5.4",
+    "express-session": "^1.14.1",
+    "graphql": "^0.7.0",
+    "mongoose": "^4.6.0",
+    "morgan": "^1.7.0"
+  }
 }
