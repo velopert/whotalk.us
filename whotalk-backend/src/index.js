@@ -7,8 +7,7 @@ import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 
 import passport from 'passport';
-import { Strategy as FacebookStrategy}  from 'passport-facebook';
-import fbConfig from './passport/fb';
+require('./passport'); // set up passport
 
 import api from './routes';
 
@@ -22,32 +21,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const MongoStore = connectMongo(session);
-
-/* SETUP PASSPORT */
-passport.serializeUser((user, cb) => {
-    cb(null, user);
-});
-
-passport.deserializeUser((user, cb) => {
-    cb(null, user);
-});
-
-
-passport.use(
-    new FacebookStrategy({
-        clientID: fbConfig.appID,
-        clientSecret: fbConfig.appSecret,
-        callbackURL: fbConfig.callbackURL,
-        profileFields: fbConfig.profileFields
-    },
-    (access_token, refresh_token, profile, cb) => {
-
-        console.log(JSON.stringify(profile));
-        var user = {access_token, profile};
-        cb(null, user);
-    }
-));
-
 
 /* SETUP MIDDLEWARE */
 
