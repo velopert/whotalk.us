@@ -27,9 +27,11 @@
     "express-session": "^1.14.1",
     "graphql": "^0.7.0",
     "mongoose": "^4.6.0",
-    "morgan": "^1.7.0"
-    },
-    "eslintConfig": {
-        "extends": "./config/eslint.js"
-    }
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1"
+  },
+  "eslintConfig": {
+    "extends": "./config/eslint.js"
+  }
 }
