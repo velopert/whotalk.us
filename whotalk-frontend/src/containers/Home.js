@@ -88,10 +88,11 @@ class Home extends Component {
 
         return (
             <div className="home">
-                
 
-                <Header mode={HeaderMode.HOME}  bar={this.state.showHeaderBar}/>
+                <Header mode={HeaderMode.HOME} bar={this.state.showHeaderBar}/>
+
                 <HomeScreen like={this.state.showLikeButton}/>
+
                 <MainSection/>
 
                 <InfoSection
@@ -99,20 +100,21 @@ class Home extends Component {
                     title="ANONYMOUS TALKS"
                     text={`STRANGERS CAN TALK TO YOU ANONYMOUSLY. \nTELL THEM TO ASK ANYTHING ABOUT YOU`}
                     inverted={false}
-                    />
+                />
 
                 <InfoSection
                     image={type}
                     title="USER TALKS"
                     text={`YOU CAN SIGN IN AND TALK TO ANOTHER USERS USING YOUR USERNAME. \nYOU CAN STILL CHOOSE TO REMAIN ANONYMOUS WHILE SIGNED IN THOUGH.`}
                     inverted={true}
-                    />
+                />
+
                 <InfoSection
                     image={hands}
                     title="FOLLOW"
                     text={`YOU CAN FOLLOW YOUR FAVORITE CHANNELS SO THAT YOU CAN VISIT THEM EASILY.`}
                     inverted={false}
-                    />
+                />
 
                 <DevSection/>
 
