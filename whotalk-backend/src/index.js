@@ -25,7 +25,6 @@ const MongoStore = connectMongo(session);
 /* SETUP MIDDLEWARE */
 
 app.use(bodyParser.json()); // parses json
-app.use(morgan('tiny')) // server logger
 app.use(session({
     secret: 'tHeSeCrEtKeY@#)#*&',
     resave: false,
@@ -44,12 +43,24 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-
 // SERVE STATIC FILES
 app.use('/', express.static(path.join(__dirname, '../../whotalk-frontend/build/')));
 
 // SETUP ROUTER
 app.use('/api', api);
+
+/* handle error */
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        error: {
+            message: 'Something Broke!',
+            code: 0
+        }
+    });
+    next();
+});
+
 
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
@@ -57,6 +68,16 @@ db.on('error', console.error);
 db.once('open', () => {
     console.log('Connected to mongod server');
 })
+
+
+
+
+// ENABLE DEBUG WHEN DEV ENVIRONMENT
+if(process.env.NODE_ENV === 'development') {
+    mongoose.set('debug', true);
+    app.use(morgan('tiny')); // server logger
+}
+
 
 mongoose.connect(process.env.DB_URI);
 

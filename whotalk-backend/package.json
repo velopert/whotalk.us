@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "babel src -d build --presets=es2015,stage-0",
+    "build": "babel src -d build",
     "start": "node build",
     "dev": "node scripts/development.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,9 +19,13 @@
     "nodemon": "^1.10.2"
   },
   "dependencies": {
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
     "connect-mongo": "^1.3.2",
     "dotenv": "^2.0.0",
+    "eslint-plugin-async-await": "0.0.0",
     "express": "^4.14.0",
     "express-graphql": "^0.5.4",
     "express-session": "^1.14.1",
@@ -31,7 +35,9 @@
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google": "^0.3.0",
-    "passport-google-oauth20": "^1.0.0"
+    "passport-google-oauth20": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0"
   },
   "eslintConfig": {
     "extends": "./config/eslint.js"

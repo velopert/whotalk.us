@@ -4,17 +4,21 @@ module.exports = {
         "es6": true,
         "node": true
     },
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
             "jsx": true
         },
-        "sourceType": "module"
+        "sourceType": "module",
+        "allowImportExportEverywhere": false
     },
     "plugins": [
-    
+        "async-await"
     ],
     "rules": {
+        "async-await/space-after-async": 2,
+        "async-await/space-after-await": 2,
         'array-callback-return': 'warn',
             'default-case': ['warn', { commentPattern: '^no default$' }],
             'dot-location': ['warn', 'property'],
