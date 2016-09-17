@@ -138,7 +138,7 @@ router.get('/facebook/callback',
 
 /* google */
 
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile', 'email'] }));
 
 router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/api/authentication/failure' }),

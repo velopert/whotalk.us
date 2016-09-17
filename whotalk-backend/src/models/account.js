@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 const type = "local facebook google".split(' ');
-const gender = "male female".split(' ');
+const gender = "male female hidden".split(' ');
 
 
 const Account = new Schema({
@@ -41,5 +41,8 @@ Account.statics.findUserByFacebookId = function(id) {
     return this.findOne({ 'o_auth.facebook.id' : id });
 }
 
+Account.statics.findUserByGoogleId = function(id) {
+    return this.findOne({ 'o_auth.google.id' : id });
+}
 
 export default mongoose.model('account', Account);

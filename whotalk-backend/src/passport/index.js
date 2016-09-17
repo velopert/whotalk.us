@@ -89,9 +89,45 @@ passport.use(
         clientSecret: googleConfig.appSecret,
         callbackURL: googleConfig.callbackURL,
     },
-        (access_token, refresh_token, profile, cb) => {
-            var user = { access_token, profile: profile };
-            cb(null, user);
+        (access_token, refresh_token, profile, done) => {
+            Account.findUserByGoogleId(profile.id)
+            .then(
+                account => {
+                    // user is found
+                    if(account) {
+                        done(null, account);
+                        return;
+                    } else {
+                        const newAccount = new Account({
+                            type: 'google',
+                            common_profile: {
+                                username: null,
+                                familyName: profile.name.familyName,
+                                givenName: profile.name.givenName,
+                                gender: profile.gender || 'hidden', // if the info is not public, it will return undefined,
+                                email: profile.emails[0].value,
+                            }, 
+                            o_auth: {
+                                google: {
+                                    id: profile.id,
+                                    access_token
+                                }
+                            }
+                        });
+
+                        return newAccount.save();
+                    }
+                }
+            ).then(
+                account => {
+                    if(!account) return;
+                    return done(null, account);
+                }
+            ).catch(
+                error => {
+                    done(error);
+                }
+            )
         }
     ));
 
