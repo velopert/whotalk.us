@@ -1,14 +1,16 @@
 import express from 'express';
 import passport from 'passport';
-import { generateHash, compareHash } from './../helpers/bcrypt';
 import inspector from 'schema-inspector';
 import PassportError from './../passport/PassportError.js';
 import Account from './../models/account.js'
+import cache from './../helpers/cache';
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-   
+   res.json({
+       session: req.session
+   });
 });
 
 router.get('/success', (req, res) => {
@@ -34,7 +36,7 @@ router.post('/oauth/register', (req, res) => {
     }
 
     // is registered already
-    if(req.user.username !== null) {
+    if(req.user.common_profile.username !== null) {
         return res.status(403).json({
             code: 1,
             message: 'REGISTERED ALREADY'
@@ -62,7 +64,7 @@ router.post('/oauth/register', (req, res) => {
 
     // check username / email duplication
     const p1 = Account.findUser(info.username);
-    const p2 = Account.findByEmail(info.email);
+    const p2 = Account.findUserByEmail(info.email);
 
     // wait for all fulfillments
     Promise.all([p1, p2]).then(
@@ -76,18 +78,21 @@ router.post('/oauth/register', (req, res) => {
                 throw new PassportError(2, "EMAIL EXISTS");
             }
 
-            // prepare document to save
-            const account = new Account(req.user);
+            // find User 
+            return Account.findById(req.user._id).exec();
+        }
+    ).then(
+        account => {
             account.common_profile.username = info.username;
             account.common_profile.email = info.email;
-
             return account.save();
         }
     ).then(
-        doc => {
+        account => {
             req.user.common_profile.username = info.username;
             req.user.common_profile.email = info.email;
-            req.user._id = doc._id;
+            req.user._id = account._id;
+            cache.passport.set(req.user._id.toString(), account); // store user in cache
 
             return res.json({
                 success: true

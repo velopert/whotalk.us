@@ -7,15 +7,29 @@ import googleConfig from './google';
 import Account from './../models/account';
 import { generateHash, compareHash } from './../helpers/bcrypt';
 import PassportError from './PassportError';
-import inspector from 'schema-inspector';
+import cache from './../helpers/cache';
 
 /* SETUP PASSPORT SERIALIZATION */
-passport.serializeUser((user, cb) => {
-    cb(null, user);
+passport.serializeUser((user, done) => {
+    cache.passport.set(user._id, user); // store user in cache
+    done(null, user._id);
 });
 
-passport.deserializeUser((user, cb) => {
-    cb(null, user);
+passport.deserializeUser((id, done) => {
+    if(cache.passport.has(id)) {
+        return done(null, cache.passport.get(id));
+    }
+    //cb(null, user);
+    Account.findById(id).exec().then(
+        account => {
+            cache.passport.set(id, account);
+            done(null, account);
+        }
+    ).catch(
+        (error) => {
+            done(error);
+        }
+    );
 });
 
 /* facebook */
@@ -32,7 +46,8 @@ passport.use(
                 account => {
                     // user is found
                     if(account) {
-                        return done(null, account);
+                        done(null, account);
+                        return;
                     } else {
                         const newAccount = new Account({
                             type: 'facebook',
@@ -56,6 +71,7 @@ passport.use(
                 }
             ).then(
                 account => {
+                    if(!account) return; // skip this if user is found
                     return done(null, account);
                 }
             ).catch(
@@ -137,66 +153,6 @@ passport.use(
         }
     )
 )
-
-// passport.use(
-//     'local-register',
-//     new LocalStrategy(
-//         (username, password, done) => {
-//             Account.findOne({ type: 'local', 'common_profile.username': username })
-//             .exec()
-//             .then(
-//             account => {
-//                 // if account exists
-//                 if (account) {
-//                     return done(new PassportError(1, "USERNAME EXISTS"));
-//                 } else {
-//                     // if does not exist, create an account
-//                     const newAccount = new Account();
-                    
-//                     newAccount.type = "local";
-//                     newAccount.common_profile.username = username;
-//                     newAccount.common_profile.familyName =  req.body.familyName;
-//                     newAccount.common_profile.givenName =  req.body.givenName;
-//                     newAccount.common_profile.gender =  req.body.gender;
-//                     newAccount.common_profile.email =  req.body.email;
-
-
-//                     // generate hash asyncly
-//                     generateHash(password)
-//                     .then(
-//                         // hash generated
-//                         hash => {
-//                             newAccount.password = hash;
-//                             newAccount.save()
-//                             .then(doc => {
-//                                 done(null, {
-//                                     _id: newAccount._id,
-//                                     type: newAccount.type,
-//                                     common_profile: newAccount.common_profile
-//                                 });
-//                             }).catch(
-//                                 error => {
-//                                     done(new PassportError(0, "DATABASE ERROR"));
-//                                 }
-//                             );
-//                         }
-//                     ).catch(
-//                         // error occured while hashing
-//                         error => {
-//                             done(new PassportError(3, "INVALID PASSWORD"));
-//                         }
-//                     );
-//                 }
-
-//             }
-//             ).catch(
-//                 error => {
-//                     return done(new PassportError(0, 'DATABASE ERROR'));
-//                 }
-//             );
-//         }
-//     )
-// );
 
 passport.use(
     'local-login',
