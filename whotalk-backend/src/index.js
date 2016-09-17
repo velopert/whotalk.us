@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config(); // LOAD CONFIG
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
@@ -11,11 +14,9 @@ require('./passport'); // set up passport
 
 import api from './routes';
 
-import dotenv from 'dotenv';
-
 import path from 'path';
 
-dotenv.config(); // LOAD CONFIG
+
 
 const app = express();
 const port = process.env.PORT || 3000;
