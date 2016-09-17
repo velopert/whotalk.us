@@ -1,5 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import bcrypt from 'bcryptjs';
 
 const type = "local facebook google".split(' ');
 const gender = "male female".split(' ');
@@ -19,35 +18,28 @@ const Account = new Schema({
     o_auth: {
         facebook: {
             id: String,
-            access_token: String,
-            friends: Schema.Types.Mixed
+            access_token: String
         },
         google: {
             id: String,
-            access_token: String,
-            language: String
+            access_token: String
         }
     }
 });
 
 
-// generate hash, using promise
-Account.methods.generateHash = function(password) {
-    const p = new Promise(
-        (resolve, reject) => {
-            bcrypt.hash(password, 8, (err, hash) => {
-                if(err) { 
-                    reject(err); 
-                    return;
-                }
-                resolve(hash);
-            });
-        }
-    );
-
-    return p;
+// static methods
+Account.statics.findUser = function(username) {
+    return this.findOne({ 'common_profile.username': username}).exec();
 }
 
+Account.statics.findUserByEmail = function(email) {
+    return this.findOne({ 'common_profile.email': email}).exec();
+}
+
+Account.statics.findUserByFacebookId = function(id) {
+    return this.findOne({ 'o_auth.facebook.id' : id });
+}
 
 
 export default mongoose.model('account', Account);

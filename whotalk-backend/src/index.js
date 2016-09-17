@@ -26,7 +26,7 @@ const MongoStore = connectMongo(session);
 
 app.use(bodyParser.json()); // parses json
 app.use(session({
-    secret: 'tHeSeCrEtKeY@#)#*&',
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -38,9 +38,11 @@ app.use(session({
     }) // store session @ mongodb
 })); // setup session
 
+
 // using passport
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 
 // SERVE STATIC FILES
