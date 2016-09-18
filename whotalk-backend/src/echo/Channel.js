@@ -26,7 +26,9 @@ function Channel(name) {
 
     //broadcast the data to this Channel
     this.broadcast = (data) => {
-
+        for(let userId in this.users) {
+            emit(sockets[userId], data);
+        }
     }
 }
 

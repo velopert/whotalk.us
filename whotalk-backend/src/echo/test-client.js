@@ -4,6 +4,7 @@ import SockJS from 'sockjs-client';
 let intervalId = null;
 let socket = null;
 let username = null;
+let channel = null;
 
 
 const rl = readline.createInterface({
@@ -32,24 +33,40 @@ function createJoin(username) {
 }
 
 
+// creates action object
+function createAction(type, payload) {
+    return JSON.stringify({
+        type,
+        payload
+    });
+}
+
+
 
 async function setUsername() {
-    const name = await ask("[Client] What is your username?");
-    username = name;
-    socket.send(createJoin(username));
+    if (!username) {
+        const name = await ask("[Client] What is your username?");
+        username = name;
+    }
+
+    if (!channel) {
+        const c = await ask("[Client] Type channel name to join");
+        channel = c;
+    }
+
+    socket.send(createAction('JOIN', { username, channel }));
 }
+
 
 const initConnection = () => {
     socket = new SockJS("http://localhost:4000/echo");
     clearInterval(intervalId);
     socket.onopen = function () {
         console.log('connected');
-        if (!username) {
-            setUsername();
-        }
+        setUsername();
     };
     socket.onmessage = function (e) {
-        if(username) 
+        if (username)
             console.log(e.data);
     };
     socket.onclose = function () {
