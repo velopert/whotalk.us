@@ -83,9 +83,6 @@ class Home extends Component {
 
 
     render() {
-
-        console.log(this.state.showLikeButton);
-
         return (
             <div className="home">
 
