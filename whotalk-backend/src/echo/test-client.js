@@ -2,25 +2,7 @@ import readline from 'readline';
 import SockJS from 'sockjs-client';
 let intervalId = null;
 let socket = null;
-let username = null;
-let channel = null;
 
-import zlib from 'zlib';
-
-var object = JSON.stringify({"type":"AUTH","payload":{"session":"Mon Sep 19 2016 17:40:26 GMT+0900 (대한민국 표준시)","channel":"a","anon":true}});
-
-console.log(object + ": " + object.length + " characters, " +
-            Buffer.byteLength(object, 'utf8') + " bytes");
-
-zlib.deflate(object, (err, buffer) => {
-    if(!err) {
-        const encoded = buffer.toString('base64');
-        console.log(encoded + ": " + encoded.length + " characters, " +
-            Buffer.byteLength(buffer) + " bytes");
-    } else {
-        console.log(err);
-    }
-});
 
 const TYPE = {
     MSG: "MSG",

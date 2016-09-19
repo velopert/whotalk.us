@@ -62,5 +62,6 @@
   },
   "eslintConfig": {
     "extends": "./config/eslint.js"
-  }
+  },
+  "proxy": "http://localhost:4000"
 }
