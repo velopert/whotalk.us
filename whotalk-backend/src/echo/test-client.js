@@ -1,11 +1,34 @@
-import readline from 'readline'
+import readline from 'readline';
 import SockJS from 'sockjs-client';
-
 let intervalId = null;
 let socket = null;
 let username = null;
 let channel = null;
 
+import zlib from 'zlib';
+
+var object = JSON.stringify({"type":"AUTH","payload":{"session":"Mon Sep 19 2016 17:40:26 GMT+0900 (대한민국 표준시)","channel":"a","anon":true}});
+
+console.log(object + ": " + object.length + " characters, " +
+            Buffer.byteLength(object, 'utf8') + " bytes");
+
+zlib.deflate(object, (err, buffer) => {
+    if(!err) {
+        const encoded = buffer.toString('base64');
+        console.log(encoded + ": " + encoded.length + " characters, " +
+            Buffer.byteLength(buffer) + " bytes");
+    } else {
+        console.log(err);
+    }
+});
+
+const TYPE = {
+    MSG: "MSG",
+    JOIN: "JOIN",
+    ERROR: "ERROR",
+    LEAVE: "LEAVE",
+    AUTH: "AUTH"
+};
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -14,7 +37,7 @@ const rl = readline.createInterface({
 
 function ask(question) {
     return new Promise((resolve) => {
-        rl.question(question + '\n> ', (answer) => { resolve(answer) })
+        rl.question("[CLIENT] " + question + '\n> ', (answer) => { resolve(answer) })
     });
 }
 
@@ -25,49 +48,70 @@ function createMessage(message) {
     });
 }
 
-function createJoin(username) {
-    return JSON.stringify({
-        type: "JOIN",
-        username
-    });
-}
-
-
 // creates action object
 function createAction(type, payload) {
-    return JSON.stringify({
+    return {
         type,
         payload
-    });
+    };
+}
+
+// creates action object
+function send(data) {
+    socket.send(JSON.stringify(data));
 }
 
 
-
-async function setUsername() {
-    if (!username) {
-        const name = await ask("[Client] What is your username?");
-        username = name;
+async function authenticate() {
+    let anon = await ask("Anonymously? y/n");
+    let session = null;
+    if(anon === "n") {
+        session = await ask("Input your sessionId");
+    } else {
+        session = (new Date()).toString();
     }
-
-    if (!channel) {
-        const c = await ask("[Client] Type channel name to join");
-        channel = c;
-    }
-
-    socket.send(createAction('JOIN', { username, channel }));
+    
+    let channel = await ask("Channel Name?");
+    const action = createAction(
+        TYPE.AUTH,
+        {
+            session,
+            channel,
+            anon: anon === 'y'
+        }
+    );
+    send(action);
 }
 
+// async function setUsername() {
+//     if (!username) {
+//         const name = await ask("[Client] What is your username?");
+//         username = name;
+//     }
+
+//     if (!channel) {
+//         const c = await ask("[Client] Type channel name to join");
+//         channel = c;
+//     }
+
+//     socket.send(createAction('JOIN', { username, channel }));
+// }
+
+function authenticate(session) {
+    // later-fix: should get the req.sessionID instead of data
+    const data = new Date();
+
+}
 
 const initConnection = () => {
     socket = new SockJS("http://localhost:4000/echo");
     clearInterval(intervalId);
     socket.onopen = function () {
         console.log('connected');
-        setUsername();
+        authenticate();
     };
     socket.onmessage = function (e) {
-        if (username)
-            console.log(e.data);
+        console.log(e.data);
     };
     socket.onclose = function () {
         socket = null;
@@ -105,29 +149,30 @@ rl.setPrompt('');
 rl.prompt();
 
 rl.on('line', function (line) {
-    const l = line.trim();
-    const token = l.split(" ");
-    if (token.length === 0) {
-        console.log('Invalid Request');
-        rl.prompt();
-        return;
-    }
+    // const token = l.split(" ");
+    // if (token.length === 0) {
+    //     console.log('Invalid Request');
+    //     rl.prompt();
+    //     return;
+    // }
 
-    const text = l.substring(4, l.length);
-    switch (token[0]) {
-        case 'say':
-            socket.send(createMessage(text));
-            break;
-        case 'send':
-            socket.send(JSON.stringify(text));
-            break;
-        case 'join':
-            socket.send(createJoin(text));
-            break;
-        default:
-            console.log('Invalid Request');
-            break;
-    }
+    // const text = l.substring(4, l.length);
+    // switch (token[0]) {
+    //     case 'say':
+    //         send(createAction(TYPE.MSG, {
+    //             message: text
+    //         }));
+    //         break;
+    //     case 'send':
+    //         socket.send(text);
+    //         break;
+    //     default:
+    //         console.log('Invalid Request');
+    //         break;
+    // }
+    send(createAction(TYPE.MSG, {
+        message: line
+    }));
     rl.prompt();
 }).on('close', function () {
     console.log('Have a great day!');

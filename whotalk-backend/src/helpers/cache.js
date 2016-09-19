@@ -1,16 +1,15 @@
 import LRU from 'lru-cache';
 
 const options = {
-    passport: {
-        max: 500,
-        length: (n, key) => n * 2 + key.length,
-        maxAge: 1000 * 60 * 60
-    }
+    max: 500,
+    length: (n, key) => n * 2 + key.length,
+    maxAge: 1000 * 60 * 60
 }
 
 const cache = {
-    passport: LRU(options.passport)
-}
+    passport: LRU(options),
+    session: LRU(options)
+};
 
 console.log("Cache is initialized");
 

@@ -1,6 +1,8 @@
 import sockjs from 'sockjs';
 import _ from 'lodash';
 import channel from './channel';
+import validate from './validate';
+import session from './session';
 
 // initialize server
 const options = { sockjs_url: 'http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.js' };
@@ -34,7 +36,8 @@ const TYPE = {
     JOIN: "JOIN",
     ERROR: "ERROR",
     LEAVE: "LEAVE",
-    AUTH: "AUTH"
+    AUTH: "AUTH",
+    SUCCESS: "SUCCESS"
 };
 
 // creates error object
@@ -45,11 +48,13 @@ function error(code) {
             message = "INVALID REQUEST";
             break;
         case 1:
-            message = "USERNAME NOT DEFINED";
+            message = "SESSION NOT VALIDATED";
             break;
         case 2:
-            message = "USERNAME ALREADY DEFINED";
+            message = "INVALID SESSION";
             break;
+        case 3:
+            message = "SESSION NOT VALIDATED"
         default:
             message = "WHAT ARE YOU DOING?";
             break;
@@ -95,14 +100,120 @@ function connect(connection) {
         username: null,
         channel: null,
         valid: false,
-        anonymous: false
-    }
+        anon: false,
+        session: null
+    };
 
     log(`Socket ${connection.id} Connected - ${getSocketsLength()}`);
 }
 
+function authenticate(connection, payload) {
+    if (payload.anon) {
+        const username = session.getAnon(payload.session, payload.channel);
+        connection.data.username = username;
+        connection.data.session = payload.session;
+        connection.data.anon = true;
+        connection.data.channel = payload.channel;
+        connection.data.valid = true;
+        emit(connection, createAction(TYPE.SUCCESS));
+
+        // join to the channel
+        const ch = channel.get(payload.channel);
+        ch.push(connection.id);
+
+        // multiple window
+        if (ch.userCount(username) > 1) return;
+
+        // broadcast that following user has joined
+        ch.broadcast(createAction(TYPE.JOIN, {
+            username
+        }));
+    } else {
+        session.get(payload.session, (username) => {
+            if (!username) {
+                // username not found
+                return emit(connection, error(2));
+            }
+
+            connection.data.username = username;
+            connection.data.session = payload.session;
+            connection.data.anon = false;
+            connection.data.channel = payload.channel;
+            connection.data.valid = true;
+            emit(connection, createAction(TYPE.SUCCESS));
+
+            // join to the channel
+            const ch = channel.get(payload.channel)
+            ch.push(connection.id);
+
+            // multiple window
+            if (ch.userCount(username) > 1) return;
+
+            // broadcast that following user has joined
+            ch.broadcast(createAction(TYPE.JOIN, {
+                username
+            }));
+        });
+    }
+}
+
+function message(connection, payload) {
+    const ch = channel.get(connection.data.channel);
+    ch.broadcast(createAction(TYPE.MSG,{
+        username: connection.data.username,
+        msg: payload.message
+    }));
+}
+
+
+function tryParseJSON(jsonString) {
+    try {
+        var o = JSON.parse(jsonString);
+
+        // Handle non-exception-throwing cases:
+        // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+        // but... JSON.parse(null) returns null, and typeof null === "object", 
+        // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+        if (o && typeof o === "object") {
+            return o;
+        }
+    }
+    catch (e) { }
+
+    return false;
+};
+
 function handleData(connection, data) {
     log(data);
+    const o = tryParseJSON(data);
+
+    // not an object
+    if(!o) {
+        return emit(connection, error(0));
+    }
+
+    // if session not valid, only accept JOIN
+    if(!connection.data.valid && o.type !== TYPE.AUTH) {
+        return emit(connection, error(1));
+    }
+
+    // validate request
+    if(!validate(o)) {
+        return emit(connection, error(0));
+    }
+
+    switch (o.type) {
+        case TYPE.AUTH: 
+            authenticate(connection, o.payload);
+            break;
+        case TYPE.MSG:
+            message(connection, o.payload);
+            break;
+        default:
+            emit(connection, error(0));
+    }
+
+
 }
 
 // unregister lost connection
@@ -124,187 +235,21 @@ echo.on('connection', connection => {
     });
 
     connection.on('close', data => {
+        if(connection.data.valid) {
+            // handle user leave
+            const ch = channel.get(connection.data.channel);
+            ch.remove(connection.id);
+            if(!ch.userCount(connection.data.username)) {
+                ch.broadcast(createAction(
+                    TYPE.LEAVE,
+                    {
+                        username: connection.data.username
+                    }
+                ));
+            }
+        }
         disconnect(connection);
     });
 });
 
 export default echo;
-
-
-// import Echo from './Echo';
-
-// import sockjs from 'sockjs';
-// import _ from 'lodash';
-
-// /* initialize sockjs server*/
-// const options = { sockjs_url: 'http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.js' };
-// const echo = sockjs.createServer(options);
-
-// const sockets = {};
-// let data = {};
-// let socketCounter = 0;
-// let freeSlot = [];
-
-// const MSG = "MSG";
-// const JOIN = "JOIN";
-// const ERROR = "ERROR";
-// const LETT = "LEFT";
-
-
-// // send only to a socket
-// function sendTo(id, data) {
-//     sockets[id].write(JSON.stringify(data));
-// }
-
-// // broadcasts the data to every socket
-// function broadcast(id, data) {
-//     if (data.type === ERROR) {
-//         return sendTo(id, data);
-//     }
-
-//     for (let socket in sockets) {
-//         sockets[socket].write(JSON.stringify(data));
-//     }
-// }
-
-// function error(code) {
-//     let message;
-//     switch (code) {
-//         case 0:
-//             message = "INVALID REQUEST";
-//             break;
-//         case 1:
-//             message = "USERNAME NOT DEFINED";
-//             break;
-//         case 2:
-//             message = "USERNAME ALREADY DEFINED";
-//             break;
-//         default:
-//             message = "WHAT ARE YOU DOING?";
-//             break;
-//     }
-
-//     return {
-//         type: ERROR,
-//         code,
-//         message
-//     };
-
-// }
-
-// function createMessage(id, message) {
-
-//     // check whether it has a username
-//     if (!sockets[id].data.username) {
-//         return error(1);
-//     }
-
-//     // check message validity
-//     if (!message || message === "") {
-//         return error(0);
-//     }
-
-//     return {
-//         type: "MSG",
-//         username: sockets[id].data.username,
-//         message
-//     };
-// }
-
-// function tryParseJSON(jsonString) {
-//     try {
-//         var o = JSON.parse(jsonString);
-
-//         // Handle non-exception-throwing cases:
-//         // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
-//         // but... JSON.parse(null) returns null, and typeof null === "object", 
-//         // so we must check for that, too. Thankfully, null is falsey, so this suffices:
-//         if (o && typeof o === "object") {
-//             return o;
-//         }
-//     }
-//     catch (e) { }
-
-//     return false;
-// };
-
-// // handles data
-// function handleData(conn, data) {
-//     // check whether it's an object
-
-//     const o = tryParseJSON(data);
-
-//     if (typeof o !== "object") {
-//         return sendTo(conn.id, error(0));
-//     } 
-
-//     // check whether the type is good
-//     const re = /(MSG|JOIN)$/;
-//     if (!re.test(o.type)) {
-//         return sendTo(conn.id, error(0));
-//     }
-
-//     switch (o.type) {
-//         case MSG:
-//             //broadcast the message
-//             broadcast(conn.id, createMessage(conn.id, o.message));
-//             break;
-//         case JOIN:
-//             //if the user has username already, error
-//             if (conn.data.username) {
-//                 sendTo(conn.id, error(2));
-//                 break;
-//             }
-//             // wrong username
-//             if(!o.username || o.username==="") {
-//                 sendTo(conn.id, error(0));
-//                 break;
-//             }
-
-//             conn.data.username = o.username;
-
-//             // broadcast it
-//             broadcast(conn.id, o);
-//             break;
-//         default:
-//             sendTo(conn.id, error(0));
-//     }
-
-// }
-
-// echo.on('connection', function (conn) {
-
-//     // if there is a free slot, assign.
-//     // or else, create a new slot
-//     const freeId = freeSlot.shift();
-//     if (freeId) {
-//         conn.id = freeId;
-//     } else {
-//         conn.id = ++socketCounter;
-//     }
-
-//     // setting up sockets 
-//     sockets[conn.id] = conn;
-//     conn.data = {
-//         username: null
-//     };
-
-//     console.log(`[SOCKET] Socket ${conn.id} Connected [${Object.keys(sockets).length - freeSlot.length}]`);
-
-//     conn.on('data', function (data) {
-//         handleData(conn, data);
-//     });
-
-//     conn.on('close', function (data) {
-//         _.remove(sockets, function (sock) {
-//             return conn.id === sock.id;
-//         });
-
-//         freeSlot.push(conn.id);
-
-//         console.log(`[SOCKET] Socket ${conn.id} Disconnected [${Object.keys(sockets).length - freeSlot.length}]`);
-//     });
-
-// });
-
-// export default echo;
