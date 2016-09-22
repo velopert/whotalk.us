@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { Link as ScrollLink } from 'react-scroll';
+import { Link } from 'react-router';
 
 
 const propTypes = {
@@ -18,14 +19,16 @@ class HomeScreen extends Component {
             isLoaded: false,
             showLearnMore: false
         };
+        this.timeoutId = {};
+
     }
 
     componentDidMount() {
         // trigger animation after 1.5 seconds
-        setTimeout(() => {
+        this.timeoutId.t1 = setTimeout(() => {
             this.setState({ isLoaded: true });
             // then, fade in background
-            setTimeout(() => {
+            this.timeoutId.t2 = setTimeout(() => {
                 this.setState({ showLearnMore: true })
             }, 1000)
         }, 1000);
@@ -48,7 +51,7 @@ class HomeScreen extends Component {
                         </div>
                         <div className="site-info"><b>ANYONE</b> CAN TALK TO YOU.</div>
                         <div className="button-container">
-                            <button className="ui inverted basic orange button">CREATE YOUR CHANNEL</button><button className="ui inverted basic greendigi button">SIGN IN</button>
+                            <button className="ui inverted basic orange button">CREATE YOUR CHANNEL</button><Link to="/auth" className="ui inverted basic greendigi button">SIGN IN</Link>
                         </div>
                     </div>
 
@@ -67,6 +70,12 @@ class HomeScreen extends Component {
             </div>
         );
     }
+
+    componentWillUnmount() {
+        clearTimeout(this.timeoutId.t1);
+        clearTimeout(this.timeoutId.t2);
+    }
+    
 }
 
 HomeScreen.propTypes = propTypes;

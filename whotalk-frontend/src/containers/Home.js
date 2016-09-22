@@ -86,7 +86,7 @@ class Home extends Component {
         return (
             <div className="home">
 
-                <Header mode={HeaderMode.HOME} bar={this.state.showHeaderBar}/>
+                <Header mode={HeaderMode.HOME} bar={this.state.showHeaderBar} search={true}/>
 
                 <HomeScreen like={this.state.showLikeButton}/>
 

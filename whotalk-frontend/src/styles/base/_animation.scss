@@ -1,0 +1,17 @@
+.router-enter {
+  opacity: 0.01;
+}
+
+.router-enter.router-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.router-leave {
+  opacity: 1;
+}
+
+.router-leave.router-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}

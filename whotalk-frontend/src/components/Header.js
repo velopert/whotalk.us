@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { HomeScreen } from 'components';
+import { Link } from 'react-router';
 
 export const HeaderMode = {
-    HOME: 'HOME'
+    DEFAULT: 'DEFAULT',
+    HOME: 'HOME',
+    LOGIN: 'LOGIN'
 }
 
 const propTypes = {
@@ -12,59 +14,33 @@ const propTypes = {
 };
 
 const defaultProps = {
-    mode: HeaderMode.MAIN,
+    mode: HeaderMode.DEFAULT,
     like: false,
-    bar: false
+    bar: false,
+    search: false
 };
 
 class Header extends Component {
-
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoaded: false,
-            loadBackground: false,
-            showLearnMore: false
-        };
-    }
-
-    componentDidMount() {
-        // trigger animation after 1.5 seconds
-        setTimeout(() => {
-            this.setState({ loadBackground: true });
-        }, 2000);
-    }
-
-
     render() {
-        const home = (
-            <div>
-                <HomeScreen/>
+        
+        const search = (
+            <div className="search-button">
+                <div className="icon-wrapper">
+                    <i className="search icon">
+                    </i>
+                </div>
             </div>
-        );
-
-        const fade = this.state.loadBackground ? 'fade' : '';
-
+        )
 
         return (
-
-            
             <div className="header">
-                <div className="background">
-                    <div className={`image ${fade}`}>a</div>
-                </div>
-
                 <div className="top">
                     <div className={"bar" + (this.props.bar ? ' show' : '') }>
-                        <div className="top-logo">WHOTALK</div>
                     </div>
-                    <div className="search-button">
-                        <div className="icon-wrapper">
-                            <i className="search icon">
-                            </i>
-                        </div>
-                    </div>
+                     <Link to="/" className="top-logo">WHOTALK</Link>
+                    {this.props.search ? search : ''}
+                    
+                    
                 </div>
             </div>
         );

@@ -1,0 +1,121 @@
+.register {
+    h2 {
+        font-size: 19px;
+        letter-spacing: 2.5px;
+    }
+    padding-top: 150px;
+    color: white;
+    .box {
+        width: 700px;
+        background-color: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 156, 229, 0.3);
+        margin-left: 50%;
+        transform: translateX(-50%);
+        .title {
+            font-size: 23px;
+            padding: 25px;
+            letter-spacing: 3.5px;
+            text-align: center;
+        }
+        .social {
+            padding: 30px;
+            //padding-top: 0px;
+            .button {
+                width: 100%;
+            }
+            border-bottom: 1px solid rgba(255, 156, 229, 0.3);
+        }
+        .divider {
+            position: relative;
+            top: -11px;
+            left: 50%;
+            font-weight: 800;
+            margin: 0px;
+            color: white;
+            width: 32px;
+        }
+        .local {
+            padding: 30px;
+            padding-top: 11px;
+            label {
+                color: white;
+                font-weight: 300;
+                font-size: 16px;
+                letter-spacing: 1.8px;
+                padding-bottom: 3px;
+            }
+            .button-container {
+                text-align: right;
+                .button {
+                    margin: 0px;
+                }
+            }
+        }
+    }
+    @include media("<desktop") {
+        .box {
+            width: 60%;
+        }
+    }
+    @include media("<=tablet") {
+        padding-top: 80px;
+        h2 {
+            font-size: 16px;
+            letter-spacing: 2px;
+        }
+        .box {
+            .local label {
+                font-size: 14px;
+                letter-spacing: 1.3px;
+                padding-bottom: 3px;
+            }
+            width: 90%;
+            .ui.massive.form {
+                font-size: 15px;
+            }
+            .ui.massive.button {
+                font-size: 15px;
+            }
+        }
+    }
+    @include media("<=phone") {
+        .box {
+            h2 {
+                font-size: 15px;
+                letter-spacing: 0px;
+            }
+            width: 100%;
+            .social,
+            .local {
+                padding: 20px;
+            }
+        }
+    }
+    
+}
+
+.slide-left {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-name: slide-left;
+        animation-name: slide-left;
+        animation-timing-function: ease-out;
+        opacity: 1;
+    }
+
+    @-webkit-keyframes slide-left {}
+    @keyframes slide-left {
+        0% {
+            transform: translateX(100px);
+            opacity: 0;
+        }
+        50% {}
+        60%,
+        80% {}
+        70% {}
+        90% {}
+        100% {
+            transform: translateX(0px);
+            opacity: 1;
+        }
+    }

@@ -1,5 +1,11 @@
 .hide-on-mobile {
     @include media("<=tablet") {
-        display: none;
+        display: none !important;
+    }
+}
+
+.hide-on-desktop {
+    @include media(">tablet") {
+        display: none !important;
     }
 }

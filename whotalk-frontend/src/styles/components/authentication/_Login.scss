@@ -1,0 +1,175 @@
+.login {
+
+    .wrapper {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .box {
+        background-color: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 156, 229, 0.3);
+        .local {
+            label {
+                color: white;
+                font-weight: 300;
+                font-size: 16px;
+        letter-spacing: 1.8px;
+                padding-bottom: 3px;
+            }
+            .login-footer {
+                padding-top: 15px;
+                text-align: right;
+                p {
+                    margin: 0px;
+                    font-size: 16px;
+                    letter-spacing: 0px;
+                }
+                p+p {
+                    margin-top: 5px;
+                }
+            }
+            a {
+                color: #FFA9E8;
+                &:hover {
+                    color: #FF5AD3;
+                }
+            }
+        }
+        p {
+            color: white;
+            font-size: 18px;
+        }
+        button {
+            display: block;
+            width: 100%
+        }
+        button+button {
+            margin-top: 15px;
+        }
+    }
+    @include media("<=desktop") {
+        .box {
+            padding-top: 35px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+            .ui.massive.form {
+                font-size: 15px;
+            }
+            .ui.massive.button {
+                font-size: 15px;
+            }
+            width: 60%;
+            p {
+                font-weight: 600;
+                color: white;
+                font-size: 16px;
+                &.title {
+                    text-align: center;
+                }
+            }
+            .divider {
+                color: white;
+            }
+            .or {
+                display: none;
+            }
+        }
+    }
+    @include media("<tablet") {
+        .box {
+            width: 90%;
+        }
+    }
+    @include media("<=phone") {
+        .box {
+            border: none;
+            background: none;
+        }
+    }
+    @include media(">desktop") {
+        .box {
+            width: 900px;
+            height: 475px;
+            .divider {
+                display: none;
+            }
+            .or:before {
+                content: "";
+                position: absolute;
+                width: 1px;
+                height: 218px;
+                top: -227px;
+                left: 50%;
+                background: linear-gradient(rgba(255, 156, 229, 0.05), rgba(255, 156, 229, 0.7));
+            }
+            .or {
+                position: absolute;
+                left: 550px;
+                color: white;
+                font-size: 17px;
+                letter-spacing: 3px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            .or:after {
+                content: "";
+                position: absolute;
+                width: 1px;
+                height: 218px;
+                left: 50%;
+                top: 29px;
+                background: linear-gradient(rgba(255, 156, 229, 0.7), rgba(255, 156, 229, 0.05));
+            }
+            .local {
+                width: 565px;
+                padding: 35px;
+                label {
+                font-weight: 300;
+                font-size: 16px;
+        letter-spacing: 1.8px;
+                }
+            }
+            .social {
+                top: 0px;
+                text-align: center;
+                position: absolute;
+                left: 565px;
+                width: 335px;
+                padding: 35px;
+            }
+            p {
+                font-size: 19px;
+                letter-spacing: 2.5px;
+            }
+        }
+    }
+}
+
+
+.slide-right-login {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-name: slide-right-login;
+        animation-name: slide-right-login;
+        animation-timing-function: ease;
+        opacity: 1;
+    }
+    
+    @-webkit-keyframes slide-right-login {}
+    @keyframes slide-right-login {
+        0% {
+            transform: translateX(-100px);
+            opacity: 0;
+        }
+        50% {}
+        60%,
+        80% {}
+        70% {}
+        90% {}
+        100% {
+            transform: translateX(0px);
+            opacity: 1;
+        }
+    }
