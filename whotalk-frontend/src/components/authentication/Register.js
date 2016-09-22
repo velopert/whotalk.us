@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router';
 
 class Register extends Component {
     render() {
         return (
-            <div className="register slide-left">
-                <div className="box">
+            <div className="register">
+                <div className="box fade-in">
                     <div className="social">
                         <h2>SIGN UP WITH</h2>
                         <div className="ui grid">
@@ -48,6 +49,7 @@ class Register extends Component {
                                     <i className="lock icon"></i>
                                 </div>
                             </div>
+                            <div className="side-message">Already have an account? <Link to="/auth">Log In</Link></div>
                             <div className="button-container">
                                 <button className="massive pink ui button">
                                     NEXT

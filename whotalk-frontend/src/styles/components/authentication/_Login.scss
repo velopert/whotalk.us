@@ -1,14 +1,11 @@
 .login {
-
-    .wrapper {
+    .box {
+        background-color: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 156, 229, 0.3);
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-    }
-    .box {
-        background-color: rgba(0, 0, 0, 0.6);
-        border: 1px solid rgba(255, 156, 229, 0.3);
         .local {
             label {
                 color: white;
@@ -147,29 +144,3 @@
     }
 }
 
-
-.slide-right-login {
-        -webkit-animation-duration: 1s;
-        animation-duration: 1s;
-        -webkit-animation-name: slide-right-login;
-        animation-name: slide-right-login;
-        animation-timing-function: ease;
-        opacity: 1;
-    }
-    
-    @-webkit-keyframes slide-right-login {}
-    @keyframes slide-right-login {
-        0% {
-            transform: translateX(-100px);
-            opacity: 0;
-        }
-        50% {}
-        60%,
-        80% {}
-        70% {}
-        90% {}
-        100% {
-            transform: translateX(0px);
-            opacity: 1;
-        }
-    }
