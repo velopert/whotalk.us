@@ -37,6 +37,7 @@
     "graphql": "^0.7.0",
     "gzip-js": "^0.3.2",
     "lru-cache": "^4.0.1",
+    "md5": "^2.2.1",
     "mongoose": "^4.6.0",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",

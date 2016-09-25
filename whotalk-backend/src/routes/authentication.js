@@ -8,40 +8,31 @@ import cache from './../helpers/cache';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-   res.json({
-       sID: req.sessionID,
-       session: req.session
-   });
+    res.json({sID: req.sessionID, session: req.session});
 });
 
 router.get('/success', (req, res) => {
-    res.json({
-        user: req.user
-    });
+    res.json({user: req.user});
 });
 
 router.get('/failure', (req, res) => {
-    res.json({
-        success: false
-    });
+    res.json({success: false});
 });
 
 /* require addition info for oauth registration */
 router.post('/oauth/register', (req, res) => {
     // not logged in through oauth
-    if(!req.user) {
-        return res.status(401).json({
-            code: 0,
-            message: 'INVALID REQUEST'
-        });
+    if (!req.user) {
+        return res
+            .status(401)
+            .json({code: 0, message: 'INVALID REQUEST'});
     }
 
     // is registered already
-    if(req.user.common_profile.username !== null) {
-        return res.status(403).json({
-            code: 1,
-            message: 'REGISTERED ALREADY'
-        });
+    if (req.user.common_profile.username !== null) {
+        return res
+            .status(403)
+            .json({code: 1, message: 'REGISTERED ALREADY'});
     }
 
     // might have to set email, for facebook accounts that do not have email
@@ -52,15 +43,20 @@ router.post('/oauth/register', (req, res) => {
 
     // do data validation
     const validation = {
-        username: { type: 'string', minLength: 5 },
-        email: { type: 'string', pattern: 'email' }
+        username: {
+            type: 'string',
+            minLength: 5
+        },
+        email: {
+            type: 'string',
+            pattern: 'email'
+        }
     };
 
-    if(inspector.validate(validation, info).length > 0) {
-        return res.status(400).json({
-            code: 2,
-            message: 'VALIDATION FAILED'
-        });
+    if (inspector.validate(validation, info).length > 0) {
+        return res
+            .status(400)
+            .json({code: 2, message: 'VALIDATION FAILED'});
     }
 
     // check username / email duplication
@@ -68,88 +64,80 @@ router.post('/oauth/register', (req, res) => {
     const p2 = Account.findUserByEmail(info.email);
 
     // wait for all fulfillments
-    Promise.all([p1, p2]).then(
-        values => {
+    Promise
+        .all([p1, p2])
+        .then(values => {
 
-            if(values[0]) {
+            if (values[0]) {
                 throw new PassportError(1, "USERNAME EXISTS");
             }
 
-            if(values[1]) {
+            if (values[1]) {
                 throw new PassportError(2, "EMAIL EXISTS");
             }
 
-            // find User 
-            return Account.findById(req.user._id).exec();
-        }
-    ).then(
-        account => {
+            // find User
+            return Account
+                .findById(req.user._id)
+                .exec();
+        })
+        .then(account => {
             account.common_profile.username = info.username;
             account.common_profile.email = info.email;
             return account.save();
-        }
-    ).then(
-        account => {
+        })
+        .then(account => {
             req.user.common_profile.username = info.username;
             req.user.common_profile.email = info.email;
             req.user._id = account._id;
-            cache.passport.set(req.user._id.toString(), account); // store user in cache
+            cache
+                .passport
+                .set(req.user._id.toString(), account); // store user in cache
 
-            return res.json({
-                success: true
-            });
-        }
-    ).catch(
-        error => {
+            return res.json({success: true});
+        })
+        .catch(error => {
             //handle error
             if (error instanceof PassportError) {
-                return res.status(422).json({
-                    code: error.code,
-                    message: error.message
-                });
+                return res
+                    .status(422)
+                    .json({code: error.code, message: error.message});
             } else {
-                return res.status(500).json({
-                    message: error.message
-                });
+                return res
+                    .status(500)
+                    .json({message: error.message});
             }
-        }
-    );
+        });
 });
-
 
 /* logout */
 
-router.post('/logout', (req,res) => {
+router.post('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 });
 
 /* facebook */
 
-router.get('/facebook', passport.authenticate('facebook', { scope: ['user_friends', 'email'] }));
+router.get('/facebook', passport.authenticate('facebook', {
+    scope: ['user_friends', 'email']
+}));
 
-router.get('/facebook/callback',
-    passport.authenticate('facebook', { failureRedirect: '/api/authentication/failure' }),
-
-    (req, res) => {
-        // SUCCEED
-        res.redirect('/api/authentication/success');
-    }
-);
+router.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/api/authentication/failure'}), (req, res) => {
+    // SUCCEED
+    res.redirect('/api/authentication/success');
+});
 
 /* google */
 
-router.get('/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile', 'email'] }));
+router.get('/google', passport.authenticate('google', {
+    scope: ['https://www.googleapis.com/auth/userinfo.profile', 'email']
+}));
 
-router.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: '/api/authentication/failure' }),
-
-    (req, res) => {
-        // SUCCEED
-        res.redirect('/api/authentication/success');
-    }
-);
-
+router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/api/authentication/failure'}), (req, res) => {
+    // SUCCEED
+    res.redirect('/api/authentication/success');
+});
 
 /* local */
 
@@ -157,56 +145,89 @@ function validateRegisterBody(body) {
     const validation = {
         type: 'object',
         properties: {
-            username: { type: 'string', minLength: 1 },
-            password: { type: 'string', minLength: 1 },
-            familyName: { type: 'string', minLength: 1 },
-            givenName: { type: 'string', minLength: 1 },
-            gender: { type: 'string', pattern: /(male|female)$/ },
-            email: { type: 'string', pattern: 'email' }
+            username: {
+                type: 'string',
+                minLength: 1
+            },
+            password: {
+                type: 'string',
+                minLength: 1
+            },
+            familyName: {
+                type: 'string',
+                minLength: 1
+            },
+            givenName: {
+                type: 'string',
+                minLength: 1
+            },
+            gender: {
+                type: 'string',
+                pattern: /(male|female)$/
+            },
+            email: {
+                type: 'string',
+                pattern: 'email'
+            }
         }
     };
     return inspector.validate(validation, body);
 }
-
 
 function validateLoginBody(body) {
     const validation = {
         type: 'object',
         properties: {
-            username: { type: 'string', minLength: 1 },
-            password: { type: 'string', minLength: 1 }
+            username: {
+                type: 'string',
+                minLength: 1
+            },
+            password: {
+                type: 'string',
+                minLength: 1
+            }
         }
     };
 
     return inspector.validate(validation, body);
 }
 
+router.get('/exists/:username', (req, res) => {
+    Account
+        .findUser(req.params.username)
+        .then(account => {
+            if (account) {
+                res.json({exists: true});
+            } else {
+                res.json({exists: false});
+            }
+        });
+});
+
 router.post('/register', (req, res, next) => {
 
-    // check whether the request body is valid
-    // do the validation @ client.
-    if(validateRegisterBody(req.body).error.length > 0) {
-        return res.status(400).json({
-            code: 0,
-            message: 'INVALID REQUEST'
-        });
+    // check whether the request body is valid do the validation @ client.
+    if (validateRegisterBody(req.body).error.length > 0) {
+        return res
+            .status(400)
+            .json({code: 0, message: 'INVALID REQUEST'});
     }
-
 
     passport.authenticate('local-register', (err, user, info) => {
         // it's either an error or a success'
         if (err) {
             if (err instanceof PassportError) {
-                return res.status(422).json({
-                    code: err.code,
-                    message: err.message
-                });
+                return res
+                    .status(422)
+                    .json({code: err.code, message: err.message});
             }
             return next(err);
         }
         req.login(user, (err) => {
-            if (err) { return next(err); }
-            res.json({ user });
+            if (err) {
+                return next(err);
+            }
+            res.json({user});
         });
     })(req, res, next);
 });
@@ -214,27 +235,26 @@ router.post('/register', (req, res, next) => {
 router.post('/login', (req, res, next) => {
 
     // check whether the request body is valid
-    if(validateLoginBody(req.body).error.length > 0) {
-        return res.status(400).json({
-            code: 0,
-            message: 'INVALID REQUEST'
-        });
+    if (validateLoginBody(req.body).error.length > 0) {
+        return res
+            .status(400)
+            .json({code: 0, message: 'INVALID REQUEST'});
     }
-
 
     passport.authenticate('local-login', (err, user, info) => {
         if (err) {
             if (err instanceof PassportError) {
-                return res.status(422).json({
-                    code: err.code,
-                    message: err.message
-                });
+                return res
+                    .status(422)
+                    .json({code: err.code, message: err.message});
             }
             return next(err);
         } else {
             req.login(user, (err) => {
-                if (err) { return next(err); }
-                res.json({ user });
+                if (err) {
+                    return next(err);
+                }
+                res.json({user});
             });
         }
     })(req, res, next);
