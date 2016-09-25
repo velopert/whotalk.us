@@ -95,21 +95,21 @@ class Home extends Component {
                 <InfoSection
                     image={unknown}
                     title="ANONYMOUS TALKS"
-                    text={`STRANGERS CAN TALK TO YOU ANONYMOUSLY. \nTELL THEM TO ASK ANYTHING ABOUT YOU`}
+                    text={`Strangers can talk to you anonymously. \nTell them to ask anything about you.`}
                     inverted={false}
                 />
 
                 <InfoSection
                     image={type}
                     title="USER TALKS"
-                    text={`YOU CAN SIGN IN AND TALK TO ANOTHER USERS USING YOUR USERNAME. \nYOU CAN STILL CHOOSE TO REMAIN ANONYMOUS WHILE SIGNED IN THOUGH.`}
+                    text={`You can sign in and talk to another users using your username. \nYou can still choose to remain anonymous while signed in though.`}
                     inverted={true}
                 />
 
                 <InfoSection
                     image={hands}
                     title="FOLLOW"
-                    text={`YOU CAN FOLLOW YOUR FAVORITE CHANNELS SO THAT YOU CAN VISIT THEM EASILY.`}
+                    text={`You can follow your favorite channels so that you can visit them easily.`}
                     inverted={false}
                 />
 

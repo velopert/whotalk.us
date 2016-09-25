@@ -1,11 +1,40 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router';
+import {Link, Redirect} from 'react-router';
 
 class Register extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            animate: false,
+            leave: false,
+            path: ''
+        };
+        this
+            .leaveTo
+            .bind(this);
+    }
+
+    leaveTo(path) {
+        this.setState({animate: true, path});
+        setTimeout(() => this.setState({leave: true}), 500)
+    }
+
     render() {
+        const redirect = (<Redirect
+            to={{
+            pathname: this.state.path,
+            state: {
+                from: this.props.location
+            }
+        }}/>);
+
         return (
             <div className="register">
-                <div className="box fade-in">
+                <div
+                    className={"box animated bounceInRight " + (this.state.animate
+                    ? 'bounceOutLeft'
+                    : '')}>
                     <div className="social">
                         <h2>SIGN UP WITH</h2>
                         <div className="ui grid">
@@ -49,15 +78,23 @@ class Register extends Component {
                                     <i className="lock icon"></i>
                                 </div>
                             </div>
-                            <div className="side-message">Already have an account? <Link to="/auth">Log In</Link></div>
+                            <div className="side-message">Already have an account?&nbsp;
+                                <a onClick={() => this.leaveTo("/auth")}>Log In</a>
+                            </div>
                             <div className="button-container">
-                                <button className="massive pink ui button">
+                                <button
+                                    onClick={() => this.leaveTo('/auth/register/additional')}
+                                    className="massive pink ui button">
                                     NEXT
                                 </button>
                             </div>
+
                         </div>
                     </div>
                 </div>
+                {this.state.leave
+                    ? redirect
+                    : undefined}
             </div>
         );
     }

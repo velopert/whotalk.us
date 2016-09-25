@@ -8,8 +8,9 @@ import Footer from './Footer';
 
 import Login from './authentication/Login';
 import Register from './authentication/Register';
+import Additional from './authentication/Additional';
+import AdditionalO from './authentication/AdditionalO';
 
-import MatchWithFade from './helpers/MatchWithFade';
 
 
 export { 
@@ -22,5 +23,6 @@ export {
     Footer, 
     Login,
     Register,
-    MatchWithFade
+    Additional,
+    AdditionalO
 }

@@ -1,0 +1,5 @@
+{
+  "beautify.CSSfiles":  ["css", "scss"],
+  "beautify.JSfiles":   [""],
+  "beautify.HTMLfiles": ["htm", "html"]
+}

@@ -1,17 +1,27 @@
-.router-enter {
-  opacity: 0.01;
+.fade-in {
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-name: fade-in;
+    animation-name: fade-in;
+    animation-timing-function: ease-out;
+    opacity: 1;
 }
 
-.router-enter.router-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
+@-webkit-keyframes fade-in {}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateX(150px);
+    }
+    50% {}
+    60%,
+    80% {}
+    70% {}
+    90% {}
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
 }
 
-.router-leave {
-  opacity: 1;
-}
-
-.router-leave.router-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
-}

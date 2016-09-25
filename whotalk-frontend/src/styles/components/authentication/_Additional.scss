@@ -1,0 +1,70 @@
+.additional {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    .box {
+        background-color: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 156, 229, 0.3);
+        color: white;
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            font-size: 16px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 300;
+        }
+        .form label {
+            color: white;
+            font-weight: 400;
+            font-size: 16px;
+            letter-spacing: 1.8px;
+            padding-bottom: 3px;
+        }
+        .button {
+            width: 100%
+        }
+    }
+    @include media(">desktop") {
+        .box {
+            width: 50vw;
+            padding: 25px;
+        }
+    }
+    @include media("<=desktop") {
+        .box {
+            width: 70vw;
+            padding: 20px;
+        }
+    }
+    @include media("<=tablet") {
+        .box {
+            width: 90vw;
+            padding: 15px;
+            .title {
+                font-size: 17px;
+                letter-spacing: 1px;
+                font-weight: 600;
+            }
+            .ui.massive.form {
+                font-size: 15px;
+            }
+            .ui.massive.button {
+                font-size: 15px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            .subtitle {
+                font-size: 13px;
+                letter-spacing: 0px;
+            }
+        }
+    }
+}

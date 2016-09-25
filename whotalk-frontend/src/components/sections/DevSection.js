@@ -7,8 +7,8 @@ class DevSection extends Component {
             <div className="dev-section">
                 <div className="text-side">
                     <h1>TALK TO DEVELOPER</h1>
-                    <p>DO YOU HAVE ANY SUGGESTIONS OR QUESTIONS?</p>
-                    <p>HOW ABOUT, TALKING TO THE DEVELOPER?</p>
+                    <p>Do you have any suggestions or questions?</p>
+                    <p>How about, talking to the developer?</p>
                 </div>
                 <div className="button-side">
                     <button className="ui inverted blue basic button">GO TO DEV CHANNEL</button>

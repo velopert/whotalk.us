@@ -10,27 +10,3 @@
     }
 }
 
-.fade-in {
-    -webkit-animation-duration: 0.25s;
-    animation-duration: 0.25s;
-    -webkit-animation-name: fade-in;
-    animation-name: fade-in;
-    animation-timing-function: ease-out;
-    opacity: 1;
-}
-
-@-webkit-keyframes fade-in {}
-
-@keyframes fade-in {
-    0% {
-        opacity: 0;
-    }
-    50% {}
-    60%,
-    80% {}
-    70% {}
-    90% {}
-    100% {
-        opacity: 1;
-    }
-}

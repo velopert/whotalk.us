@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Match } from 'react-router';
 
-import { Header, Login, Register, MatchWithFade } from 'components';
+import { Header, Login, Register, Additional, AdditionalO } from 'components';
 
 const LoginRoute = () => {
     return (
@@ -15,6 +15,17 @@ const RegisterRoute = () => {
     )
 }
 
+const AdditionalRoute = () => {
+    return (
+        <Additional/>
+    )
+}
+
+const AdditionalORoute = () => {
+    return (
+        <AdditionalO/>
+    )
+}
 // connect this component to redux
 
 
@@ -27,7 +38,9 @@ class Auth extends Component {
                 <Header/>
                 <Match exactly pattern={pathname} component={LoginRoute}/>
                 <Match pattern={`${pathname}/login`} component={LoginRoute}/>
-                <Match pattern={`${pathname}/register`} component={RegisterRoute}/>
+                <Match exactly pattern={`${pathname}/register`} component={RegisterRoute}/>
+                <Match pattern={`${pathname}/register/additional`} component={AdditionalRoute}/>
+                <Match pattern={`${pathname}/register/additional-o`} component={AdditionalORoute}/>
             </div>
         );
     }

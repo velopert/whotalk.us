@@ -43,7 +43,7 @@ class HomeScreen extends Component {
         return (
             <div className="home-screen">
                 <div className="space">
-                    <div className="header-contents">
+                    <div className="header-contents animated fadeIn">
                         <div className='logo-wrapper'>
                             <div className={`logo ${loaded}`}>
                                 WHOTALK
