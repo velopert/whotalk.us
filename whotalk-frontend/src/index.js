@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // REDUX
-import {applyMiddleware, createStore, Provider} from 'redux';
-import {thunk} from 'redux-thunk';
+import {applyMiddleware, createStore} from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import reducers from 'reducers';
 

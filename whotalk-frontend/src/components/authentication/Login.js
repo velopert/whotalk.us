@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Link, Redirect} from 'react-router';
+import {LoginForm} from './forms';
 
 class Login extends Component {
 
@@ -13,11 +14,18 @@ class Login extends Component {
         this
             .leaveTo
             .bind(this);
+        this
+            .handleLogin
+            .bind(this);
     }
 
     leaveTo(path) {
         this.setState({animate: true, path});
         setTimeout(() => this.setState({leave: true}), 700)
+    }
+
+    handleLogin(data) {
+        console.log(data);
     }
 
     render() {
@@ -38,25 +46,7 @@ class Login extends Component {
                     : '')}>
                     <div className="local">
                         <p className="title">LOG IN WITH YOUR USERNAME</p>
-                        <div className="ui massive form">
-                            <div className="field">
-                                <label>USERNAME</label>
-                                <div className="ui left icon input">
-                                    <input type="text" placeholder="Username"/>
-                                    <i className="user icon"></i>
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label>PASSWORD</label>
-                                <div className="ui left icon input">
-                                    <input type="password" placeholder="Password"/>
-                                    <i className="lock icon"></i>
-                                </div>
-                            </div>
-                            <button className="massive pink ui button">
-                                LOG IN
-                            </button>
-                        </div>
+                        <LoginForm onSubmit={this.handleLogin}/>
                         <div className="login-footer">
                             <p>New Here?&nbsp;<a onClick={() => this.leaveTo('/auth/register')}>
                                     Create an account</a>
