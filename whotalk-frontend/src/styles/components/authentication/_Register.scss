@@ -63,7 +63,8 @@
         }
         .side-message {
             position: absolute;
-            margin-top: -45px;
+            font-size: 18px;
+            margin-top: -43px;
         }
     }
     @include media("<desktop") {

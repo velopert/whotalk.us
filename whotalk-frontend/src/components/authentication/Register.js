@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router';
+import {RegisterForm} from './forms';
 
 class Register extends Component {
 
@@ -13,11 +14,18 @@ class Register extends Component {
         this
             .leaveTo
             .bind(this);
+        this
+            .handleLogin
+            .bind(this);
     }
 
     leaveTo(path) {
         this.setState({animate: true, path});
         setTimeout(() => this.setState({leave: true}), 700)
+    }
+
+    handleLogin(data) {
+        console.log(data);
     }
 
     render() {
@@ -28,6 +36,8 @@ class Register extends Component {
                 from: this.props.location
             }
         }}/>);
+
+        const { handleLogin } = this;
 
         return (
             <div className="register">
@@ -63,32 +73,9 @@ class Register extends Component {
                     </div>
                     <div className="local">
                         <h2>SIGN UP WITH YOUR USERNAME</h2>
-                        <div className="ui massive form">
-                            <div className="field">
-                                <label>USERNAME</label>
-                                <div className="ui left icon input">
-                                    <input type="text" placeholder="Username"/>
-                                    <i className="user icon"></i>
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label>PASSWORD</label>
-                                <div className="ui left icon input">
-                                    <input type="password" placeholder="Password"/>
-                                    <i className="lock icon"></i>
-                                </div>
-                            </div>
-                            <div className="button-container">
-                                <button
-                                    onClick={() => this.leaveTo('/auth/register/additional')}
-                                    className="massive pink ui button">
-                                    NEXT
-                                </button>
-                            </div>
-                            <div className="side-message">Already have an account?&nbsp;
-                                <a onClick={() => this.leaveTo("/auth")}>Log In</a>
-                            </div>
-
+                        <RegisterForm onSubmit={handleLogin}/>
+                        <div className="side-message">Already have an account?&nbsp;
+                            <a onClick={() => this.leaveTo("/auth")}>Log In</a>
                         </div>
                     </div>
                 </div>
