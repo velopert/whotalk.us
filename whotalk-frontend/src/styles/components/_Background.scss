@@ -13,8 +13,8 @@
 
     .image {
         position: relative;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.50), rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.7)), url('../assets/background-image.jpg');
         background-position: center center;
         background-repeat: no-repeat;

@@ -51,12 +51,12 @@ class AdditionalO extends Component {
                         </div>
                         <div className="ui grid">
                             <div className="six wide column">
-                                <button className="massive ui button" onClick={()=>this.leaveTo('/auth')}>
+                                <button className="massive ui button" onClick={() => this.leaveTo('/auth')}>
                                     CANCEL
                                 </button>
                             </div>
                             <div className="ten wide column">
-                                <button className="massive pink ui button" onClick={()=>this.leaveTo('/')}>
+                                <button className="massive pink ui button" onClick={() => this.leaveTo('/')}>
                                     SIGN UP
                                 </button>
                             </div>

@@ -78,15 +78,15 @@ class Register extends Component {
                                     <i className="lock icon"></i>
                                 </div>
                             </div>
-                            <div className="side-message">Already have an account?&nbsp;
-                                <a onClick={() => this.leaveTo("/auth")}>Log In</a>
-                            </div>
                             <div className="button-container">
                                 <button
                                     onClick={() => this.leaveTo('/auth/register/additional')}
                                     className="massive pink ui button">
                                     NEXT
                                 </button>
+                            </div>
+                            <div className="side-message">Already have an account?&nbsp;
+                                <a onClick={() => this.leaveTo("/auth")}>Log In</a>
                             </div>
 
                         </div>
