@@ -17,7 +17,7 @@ class Additional extends Component {
 
     leaveTo(path, invert = false) {
         this.setState({animate: true, path, invert});
-        setTimeout(() => this.setState({leave: true}), 500)
+        setTimeout(() => this.setState({leave: true}), 700)
     }
 
     componentDidMount() {

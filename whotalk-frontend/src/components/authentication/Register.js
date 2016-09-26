@@ -17,7 +17,7 @@ class Register extends Component {
 
     leaveTo(path) {
         this.setState({animate: true, path});
-        setTimeout(() => this.setState({leave: true}), 500)
+        setTimeout(() => this.setState({leave: true}), 700)
     }
 
     render() {
