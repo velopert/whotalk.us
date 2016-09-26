@@ -47,6 +47,11 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "prompt": "^1.0.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0",
+    "redux-form": "^6.0.5",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0",
     "schema-inspector": "^1.6.6",
     "sockjs": "^0.3.17",
     "sockjs-client": "^1.1.1"
