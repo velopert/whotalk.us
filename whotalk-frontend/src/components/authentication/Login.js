@@ -33,7 +33,7 @@ class Login extends Component {
         return (
             <div className="login">
                 <div
-                    className={"box animated bounceInRight " + (this.state.animate
+                    className={"box bounceInRight " + (this.state.animate
                     ? 'bounceOutLeft'
                     : '')}>
                     <div className="local">

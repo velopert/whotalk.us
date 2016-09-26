@@ -3,7 +3,7 @@
         position: fixed;
         top: 0;
         height: 50px;
-        width: 100vw;
+        width: 100%;
         z-index: 1;
 
         .bar {
@@ -66,6 +66,13 @@
         @include media("<=tablet") {
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+    }
+
+
+    @include media("<=desktop") {
+        .top {
+             width: 100vw;
         }
     }
 }

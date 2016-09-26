@@ -28,28 +28,31 @@
 
 
 
-// .bounceInRight {
-//     -webkit-animation-duration: 0.5s;
-//     animation-duration: 0.5s;
-//     -webkit-animation-name: bounceInRight;
-//     animation-name: bounceInRight;
-//     animation-timing-function: ease-out;
-//     opacity: 1;
-// }
+.bounceInRight {
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-name: bounceInRight;
+    animation-name: bounceInRight;
+    animation-timing-function: ease-out;
+    opacity: 1;
+}
 
-// @-webkit-keyframes bounceInRight {}
+@-webkit-keyframes bounceInRight {}
 
-// @keyframes bounceInRight {
-//     0% {
-//         opacity: 0;
-//         transform: translateX(50px);
-//     }
-//     50% {
-//         transform: translateX(-50px);
-//     }
-//     100% {
-//         opacity: 1;
-//         transform: translateX(0px);
-//     }
-// }
+@keyframes bounceInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    50% {
+        transform: translateX(-2.5%);
+    }
+    75% {
+        transform: translateX(1%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
 
