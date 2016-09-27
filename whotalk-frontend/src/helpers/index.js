@@ -1,5 +1,5 @@
-import createRequestAction from './request-action';
+import createRequestTypes from './request-action';
 
 export {
-    createRequestAction
+    createRequestTypes
 };
