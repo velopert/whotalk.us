@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router';
+import { AdditionalForm } from './forms';
 
 class Additional extends Component {
     constructor(props) {
@@ -13,7 +14,11 @@ class Additional extends Component {
         this
             .leaveTo
             .bind(this);
+        this
+            .handleRegister
+            .bind(this);
     }
+
 
     leaveTo(path, invert = false) {
         this.setState({animate: true, path, invert});
@@ -22,6 +27,10 @@ class Additional extends Component {
 
     componentDidMount() {
         $('.dropdown').dropdown();
+    }
+
+    handleRegister(data) {
+        console.log(data);
     }
 
     render() {
@@ -33,6 +42,8 @@ class Additional extends Component {
             }
         }}/>);
 
+        const { handleRegister, leaveTo } = this;
+
         return (
             <div className="additional">
                 <div
@@ -41,51 +52,10 @@ class Additional extends Component {
                     : '')}>
                     <div className="title">YOU ARE ALMOST THERE!</div>
                     <div className="subtitle">PLEASE TELL US MORE ABOUT YOU</div>
-                    <div className="ui massive form">
-                        <div className="field">
-                            <label>NAME</label>
-                            <div className="two fields">
-                                <div className="field">
-                                    <input type="text" placeholder="First Name"/>
-                                </div>
-                                <div className="field last-name">
-                                    <input type="text" placeholder="Last Name"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="field">
-                            <label>EMAIL</label>
-                            <div className="ui left icon input">
-                                <input type="text" placeholder="Email"/>
-                                <i className="mail icon"></i>
-                            </div>
-                        </div>
-                        <div className="field">
-                            <label>GENDER</label>
-                            <div className="ui selection dropdown">
-                                <input type="hidden" name="gender"/>
-                                <i className="dropdown icon"></i>
-                                <div className="default text">Gender</div>
-                                <div className="menu">
-                                    <div className="item" data-value="1">Male</div>
-                                    <div className="item" data-value="0">Female</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="ui grid">
-                            <div className="six wide column">
-                                <button className="massive ui button" onClick={() => this.leaveTo('/auth')}>
-                                    CANCEL
-                                </button>
-                            </div>
-                            <div className="ten wide column">
-                                <button className="massive pink ui button" onClick={() => this.leaveTo('/')}>
-                                    SIGN UP
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <AdditionalForm onSubmit={handleRegister}
+                        onCancel={()=>this.leaveTo('/auth')}/>
                 </div>
+
                 {this.state.leave
                     ? redirect
                     : undefined}
