@@ -28,11 +28,6 @@ class AdditionalO extends Component {
         console.log(data);
     }
 
-
-    componentDidMount() {
-        $('.dropdown').dropdown();
-    }
-
     render() {
         const redirect = (<Redirect
             to={{
