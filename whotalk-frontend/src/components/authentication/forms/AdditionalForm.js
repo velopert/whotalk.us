@@ -50,6 +50,6 @@ class AdditionalForm extends Component {
     }
 }
 
-AdditionalForm = reduxForm({form: 'reg-additional'})(AdditionalForm);
+AdditionalForm = reduxForm({form: 'reg_additional'})(AdditionalForm);
 
 export default AdditionalForm;

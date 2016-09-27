@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router';
+import { AdditionalOForm } from './forms';
 
 class AdditionalO extends Component {
     constructor(props) {
@@ -13,12 +14,20 @@ class AdditionalO extends Component {
         this
             .leaveTo
             .bind(this);
+        this
+            .handleRegister
+            .bind(this);
     }
 
     leaveTo(path, invert = false) {
         this.setState({animate: true, path, invert});
         setTimeout(() => this.setState({leave: true}), 700)
     }
+
+    handleRegister(data) {
+        console.log(data);
+    }
+
 
     componentDidMount() {
         $('.dropdown').dropdown();
@@ -33,6 +42,8 @@ class AdditionalO extends Component {
             }
         }}/>);
 
+        const { handleRegister, leaveTo } = this;
+
         return (
             <div className="additional">
                 <div
@@ -41,28 +52,10 @@ class AdditionalO extends Component {
                     : '')}>
                     <div className="title">YOU ARE ALMOST THERE!</div>
                     <div className="subtitle">TELL US YOUR USERNAME</div>
-                    <div className="ui massive form">
-                        <div className="field">
-                            <label>USERNAME</label>
-                            <div className="ui left icon input">
-                                <input type="text" placeholder="Username"/>
-                                <i className="user icon"></i>
-                            </div>
-                        </div>
-                        <div className="ui grid">
-                            <div className="six wide column">
-                                <button className="massive ui button" onClick={()=>this.leaveTo('/auth')}>
-                                    CANCEL
-                                </button>
-                            </div>
-                            <div className="ten wide column">
-                                <button className="massive pink ui button" onClick={()=>this.leaveTo('/')}>
-                                    SIGN UP
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <AdditionalOForm onSubmit={handleRegister}
+                    onCancel={()=>this.leaveTo('/auth')}/>
                 </div>
+
                 {this.state.leave
                     ? redirect
                     : undefined}
