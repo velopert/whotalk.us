@@ -33,13 +33,13 @@
 @keyframes bounceInRight {
     0% {
         opacity: 0;
-        transform: translateX(100%);
+        transform: translateX(500px);
     }
     50% {
-        transform: translateX(-2.5%);
+        transform: translateX(-30px);
     }
     75% {
-        transform: translateX(1%);
+        transform: translateX(15px);
     }
     100% {
         opacity: 1;
@@ -63,15 +63,15 @@
         opacity: 1;
     }
     25% {
-        transform: translateX(-1%);
+        transform: translateX(-15px);
     }
     50% {
         opacity: 1;
-        transform: translateX(2.5%)
+        transform: translateX(30px)
     }
     100% {
         opacity: 0;
-        transform: translateX(-100%);
+        transform: translateX(-500px);
     }
 }
 
