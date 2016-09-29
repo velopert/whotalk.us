@@ -1,11 +1,8 @@
-import { createRequestTypes } from 'utils';
-
-
 /* AUTHENTICATION */
 
-export const CHECK_USERNAME_EXISTS = 'CHECK_USERNAME_EXISTS';
+export const CHECK_USERNAME = 'CHECK_USERNAME';
 
-export const LOCAL_REGISTER_FIRST_STEP = 'LOCAL_REGISTER_FIRST_STEP';
+export const LOCAL_REGISTER_PRIOR = 'LOCAL_REGISTER_PRIOR';
 export const LOCAL_REGISTER = 'LOCAL_REGISTER';
 
 export const LOCAL_LOGIN = 'LOCAL_LOGIN';

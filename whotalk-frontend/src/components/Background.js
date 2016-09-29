@@ -14,11 +14,11 @@ class Background extends Component {
     }
 
     render() {
-        const fade = this.state.showImage ? 'fade' : '';
+        const fade = this.state.showImage ? 1 : 0;
 
         return (
             <div className="background">
-                <div className={`image ${fade}`}></div>
+                <div className='image' style={{opacity: fade}}></div>
             </div>
         );
     }

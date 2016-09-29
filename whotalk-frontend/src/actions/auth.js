@@ -1,10 +1,12 @@
 import * as ActionTypes from './ActionTypes';
 import { createAction } from 'redux-actions';
+import * as service from 'services/auth';
 
+export const checkUsername = (username) => ({
+    type: ActionTypes.CHECK_USERNAME,
+    payload: {
+        promise: service.checkUsername(username)
+    }
+});
 
-export const checkUsernameExists = createAction(ActionTypes.CHECK_SESSION_REQ.INIT);
-
-export const localRegisterFirstStep = createAction(ActionTypes.LOCAL_REGISTER_FIRST_STEP);
-export const localRegister = createAction(ActionTypes.LOCAL_REGISTER_REQ.INIT);
-
-export const localLogin = createAction(ActionTypes.LOCAL_LOGIN_REQ)
+export const localRegisterPrior = createAction(ActionTypes.LOCAL_REGISTER_PRIOR);

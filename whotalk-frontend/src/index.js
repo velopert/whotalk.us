@@ -7,13 +7,14 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import reducers from 'reducers';
+import promiseMiddleware from 'redux-promise-middleware';
 
 import {App} from 'containers';
 
 // REDUX SETUP
 
 const logger = createLogger();
-const store = createStore(reducers, applyMiddleware(thunk, logger));
+const store = createStore(reducers, applyMiddleware(thunk, logger, promiseMiddleware()));
 
 ReactDOM.render((
     <Provider store={store}>
