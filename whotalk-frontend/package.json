@@ -62,6 +62,7 @@
     "redux-actions": "^0.12.0",
     "redux-form": "^6.0.5",
     "redux-logger": "^2.6.1",
+    "redux-promise-middleware": "^4.0.0",
     "redux-thunk": "^2.1.0",
     "remove": "^0.1.5",
     "sass-loader": "^4.0.1"
