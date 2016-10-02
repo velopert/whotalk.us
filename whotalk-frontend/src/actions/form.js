@@ -19,3 +19,6 @@ export const changeInput = createAction(FORM.CHANGE_INPUT);
     }
 */
 export const setInputError = createAction(FORM.SET_INPUT_ERROR);
+
+/* empty payload */
+export const formReset = createAction(FORM.FORM_RESET);

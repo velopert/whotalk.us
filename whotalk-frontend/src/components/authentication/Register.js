@@ -71,12 +71,16 @@ class Register extends Component {
                 .checkUsername(form.username)
                 .then((result) => {
                     if (result.action.payload.data.exists) {
-                        toastr.error('That username is already taken, please try another one.<b><i>Username</i></b> al' +
-                                'ready');
+                        toastr.error('That username is already taken, please try another one.');
                     }
                 });
         }
     }
+
+    componentWillUnmount() {
+        this.props.FormActions.formReset();
+    }
+    
 
     render() {
         const redirect = (<Redirect
