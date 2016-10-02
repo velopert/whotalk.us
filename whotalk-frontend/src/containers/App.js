@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Link, Match, Miss} from 'react-router';
-import {Background, MatchWithFade} from 'components';
+import {BrowserRouter as Router, Match} from 'react-router';
+import {Background} from 'components';
 import {Home, Auth} from 'containers';
+
 
 class App extends Component {
     render() {

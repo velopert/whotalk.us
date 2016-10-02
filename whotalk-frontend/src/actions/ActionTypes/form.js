@@ -1,0 +1,7 @@
+const FORM = {
+    CHANGE_INPUT: 'CHANGE_INPUT',
+    SET_INPUT_ERROR: 'SET_INPUT_ERROR',
+    FORM_RESET: 'FORM_RESET'
+}
+
+export default FORM;

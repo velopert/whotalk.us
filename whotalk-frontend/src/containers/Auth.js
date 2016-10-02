@@ -5,7 +5,8 @@ import {Header, Login, Register, Additional, AdditionalO} from 'components';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as auth from './../actions/auth.js';
+import * as auth from 'actions/auth.js';
+import * as form from 'actions/form';
 
 const LoginRoute = () => {
     return (<Login/>)
@@ -17,10 +18,23 @@ let RegisterRoute = (props) => {
 
 RegisterRoute = connect(
     state => {
-        return { };
+        return { 
+            form: state.form.register,
+            formError: state.form.error.register,
+            status: {
+                usernameExists: state.auth.register.usernameExists,
+                isChecking: state.auth.requests.checkUsername.fetching
+            }
+        };
     },
     dispatch => {
-        return {actions: bindActionCreators({onCheckUsername: auth.checkUsername}, dispatch) };
+        return {
+            AuthActions: bindActionCreators({
+                checkUsername: auth.checkUsername,
+                localRegisterPrior: auth.localRegisterPrior
+            }, dispatch),
+            FormActions: bindActionCreators(form, dispatch)
+        };
     }
 )(RegisterRoute);
 

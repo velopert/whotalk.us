@@ -147,11 +147,11 @@ function validateRegisterBody(body) {
         properties: {
             username: {
                 type: 'string',
-                minLength: 1
+                minLength: 4
             },
             password: {
                 type: 'string',
-                minLength: 1
+                minLength: 5
             },
             familyName: {
                 type: 'string',

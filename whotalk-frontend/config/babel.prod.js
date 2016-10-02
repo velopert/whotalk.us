@@ -8,6 +8,8 @@ module.exports = {
     require.resolve('babel-preset-react')
   ],
   plugins: [
+    // @autobind
+     require.resolve('babel-plugin-transform-decorators-legacy'),
     // class { handleClick = () => { } }
     require.resolve('babel-plugin-transform-class-properties'),
     // { ...todo, completed: true }

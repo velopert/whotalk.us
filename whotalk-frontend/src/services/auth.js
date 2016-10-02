@@ -1,7 +1,7 @@
 import request from 'helpers/request';
 
 export const checkUsername = (username) => {
-    return request('/api/authentication/exists/velopert');
+    return request({url: '/api/authentication/exists/' + username});
 }
 
 export const localRegister = ({username, password, familyName, givenName, gender, email}) => {
