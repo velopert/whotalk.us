@@ -17,6 +17,7 @@ class Register extends Component {
         this
             .handleLogin
             .bind(this);
+        
     }
 
     leaveTo(path) {
@@ -29,6 +30,7 @@ class Register extends Component {
     }
 
     render() {
+        console.log(this.props);
         const redirect = (<Redirect
             to={{
             pathname: this.state.path,

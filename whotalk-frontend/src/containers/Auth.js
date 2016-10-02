@@ -3,13 +3,27 @@ import {Match} from 'react-router';
 
 import {Header, Login, Register, Additional, AdditionalO} from 'components';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as auth from './../actions/auth.js';
+
 const LoginRoute = () => {
     return (<Login/>)
 }
 
-const RegisterRoute = () => {
-    return (<Register/>)
+let RegisterRoute = (props) => {
+    return (<Register {...props}/>)
 }
+
+RegisterRoute = connect(
+    state => {
+        return { };
+    },
+    dispatch => {
+        return {actions: bindActionCreators({onCheckUsername: auth.checkUsername}, dispatch) };
+    }
+)(RegisterRoute);
+
 
 const AdditionalRoute = () => {
     return (<Additional/>)
@@ -22,8 +36,7 @@ const AdditionalORoute = () => {
 
 class Auth extends Component {
     render() {
-        const {pathname} = this.props;
-
+        const {pathname, checkUsername} = this.props;
         return (
             <div>
                 <Header/>
@@ -38,5 +51,6 @@ class Auth extends Component {
         );
     }
 }
+
 
 export default Auth;

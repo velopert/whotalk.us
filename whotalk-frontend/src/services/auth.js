@@ -1,4 +1,4 @@
-import request from 'utils/request';
+import request from 'helpers/request';
 
 export const checkUsername = (username) => {
     return request('/api/authentication/exists/velopert');
