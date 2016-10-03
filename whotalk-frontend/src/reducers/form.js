@@ -5,6 +5,10 @@ const initialState = {
         username: '',
         password: ''
     },
+    additional: {
+        firstName: '',
+        lastName: '',   
+    },
     login: {
         username: '',
         password: ''
@@ -21,12 +25,12 @@ function form(state=initialState, action) {
     const payload = action.payload;
     switch(action.type) {
         case FORM.CHANGE_INPUT:
-            const newForm = {};
-            newForm[payload.form] = {...state[payload.form]};
-            newForm[payload.form][payload.name] = payload.value;
             return {
                 ...state,
-                ...newForm
+                [payload.form]: {
+                    ...state[payload.form],
+                    [payload.name]: payload.value
+                }
             };
         case FORM.SET_INPUT_ERROR: 
             const err = {};

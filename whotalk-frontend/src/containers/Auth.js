@@ -42,9 +42,18 @@ RegisterRoute = connect(
 )(RegisterRoute);
 
 
-const AdditionalRoute = () => {
-    return (<Additional/>)
+let AdditionalRoute = (props) => {
+    return (<Additional {...props}/>)
 }
+
+AdditionalRoute = connect(
+    state => ({
+        form: state.form.additional
+    }),
+    dispatch => ({
+        FormActions: bindActionCreators(form, dispatch)
+    })
+)(AdditionalRoute);
 
 const AdditionalORoute = () => {
     return (<AdditionalO/>)

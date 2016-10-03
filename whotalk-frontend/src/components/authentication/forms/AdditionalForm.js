@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 
-const AdditionalForm = ({form}) => (
+const AdditionalForm = ({form, onSelect}) => (
     <form className="ui massive form">
         <div className="field">
             <label>NAME</label>
             <div className="two fields">
                 <div className="field">
-                    <input name="first_name" type="text" placeholder="First name"/>
+                    <input name="firstName" type="text" placeholder="First name"/>
                 </div>
                 <div className="field last-name">
-                    <input name="last_name" type="text" placeholder="Last name"/>
+                    <input name="lastName" type="text" placeholder="Last name"/>
                 </div>
             </div>
         </div>
@@ -22,11 +22,21 @@ const AdditionalForm = ({form}) => (
         </div>
         <div className="field">
             <label>GENDER</label>
-            <select name="gender">
-                <option disabled value="">Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
+            <div className="ui selection dropdown">
+                <input type="hidden" name="gender"/>
+                <i className="dropdown icon"></i>
+                <div className="default text">Gender</div>
+                <div className="menu">
+                    <div className="item select-item" data-value="male" data-text="Male" onClick={()=>onSelect('gender', 'male')}>
+                        <i className="male icon"></i>
+                        Male
+                    </div>
+                    <div className="item select-item" data-value="female" data-text="Female" onClick={()=>onSelect('gender', 'female')}>
+                        <i className="female icon"></i>
+                        Female
+                    </div>
+                </div>
+            </div>
         </div>
         <div className="ui grid">
             <div className="six wide column">

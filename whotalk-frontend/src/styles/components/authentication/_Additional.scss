@@ -7,6 +7,7 @@
         background-color: rgba(0, 0, 0, 0.6);
         border: 1px solid rgba(255, 156, 229, 0.3);
         color: white;
+        
         .title {
             font-size: 20px;
             font-weight: 600;
@@ -36,6 +37,12 @@
         .box {
             width: 50vw;
             padding: 25px;
+        }
+    }
+
+    @include media(">=tablet") {
+        .ui.selection.dropdown .menu>.item {
+            font-size: 24px;
         }
     }
     @include media("<=desktop") {
@@ -68,3 +75,4 @@
         }
     }
 }
+

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router';
 import { AdditionalForm } from './forms';
+import autobind from 'autobind-decorator';
+
 
 class Additional extends Component {
     constructor(props) {
@@ -11,15 +13,9 @@ class Additional extends Component {
             path: '',
             invert: false
         };
-        this
-            .leaveTo
-            .bind(this);
-        this
-            .handleRegister
-            .bind(this);
     }
 
-
+    @autobind
     leaveTo(path, invert = false) {
         this.setState({animate: true, path, invert});
         setTimeout(() => this.setState({leave: true}), 700)
@@ -29,6 +25,13 @@ class Additional extends Component {
         $('.dropdown').dropdown();
     }
 
+    @autobind
+    handleSelect(name, value) {
+        const {FormActions} = this.props;
+        FormActions.changeInput({form: 'additional', name, value})
+    }
+
+    @autobind
     handleRegister(data) {
         console.log(data);
     }
@@ -42,7 +45,9 @@ class Additional extends Component {
             }
         }}/>);
 
-        const { handleRegister, leaveTo } = this;
+        const { handleSelect } = this;
+        const { form } = this.props;
+
 
         return (
             <div className="additional">
@@ -52,8 +57,7 @@ class Additional extends Component {
                     : '')}>
                     <div className="title">YOU ARE ALMOST THERE!</div>
                     <div className="subtitle">PLEASE TELL US MORE ABOUT YOU</div>
-                    <AdditionalForm onSubmit={handleRegister}
-                        onCancel={()=>this.leaveTo('/auth')}/>
+                    <AdditionalForm form={form} onSelect={handleSelect}/>
                 </div>
 
                 {this.state.leave
