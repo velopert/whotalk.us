@@ -204,6 +204,18 @@ router.get('/exists/:username', (req, res) => {
         });
 });
 
+router.get('/exists/email/:email', (req, res) => {
+    Account
+        .findUserByEmail(req.params.email)
+        .then(account => {
+            if (account) {
+                res.json({exists: true});
+            } else {
+                res.json({exists: false});
+            }
+        });
+});
+
 router.post('/register', (req, res, next) => {
 
     // check whether the request body is valid do the validation @ client.
