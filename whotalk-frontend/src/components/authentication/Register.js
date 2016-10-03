@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router';
 import {RegisterForm} from './forms';
 import autobind from 'autobind-decorator'
+
 const toastr = window.toastr;
 
 class Register extends Component {
@@ -22,8 +23,8 @@ class Register extends Component {
     }
 
     @autobind
-    handleRegister() {
-        const {form, AuthActions, FormActions} = this.props;
+    async handleRegister() {
+        const {form, status, AuthActions, FormActions} = this.props;
         const {username, password} = form;
 
         // do username / password regex check
@@ -46,6 +47,14 @@ class Register extends Component {
             FormActions.setInputError({form: 'register', name: 'username', error: true});
         }
 
+        if (status.usernameExists) {
+            const result = await AuthActions.checkUsername(form.username);
+            if (result.action.payload.data.exists) {
+                toastr.error('That username is already taken, please try another one.');
+                error = true;
+            }
+        }
+
         // stop at here if there is an error
         if (error) {
             return;
@@ -62,25 +71,35 @@ class Register extends Component {
     }
 
     @autobind
-    handleBlur(e) {
-        const {form, status, AuthActions} = this.props;
+    async handleBlur(e) {
+        const {form, AuthActions} = this.props;
 
         if (e.target.name === 'username') {
             // on username blur, do check username
-            AuthActions
-                .checkUsername(form.username)
-                .then((result) => {
-                    if (result.action.payload.data.exists) {
-                        toastr.error('That username is already taken, please try another one.');
-                    }
-                });
+            const result = await AuthActions.checkUsername(form.username);
+            if (result.action.payload.data.exists) {
+                toastr.error('That username is already taken, please try another one.');
+            }
+        }
+    }
+
+    @autobind
+    handleKeyPress(e) {
+        if (e.charCode === 13) {
+            this.handleRegister();
         }
     }
 
     componentWillUnmount() {
-        this.props.FormActions.formReset();
+        this
+            .props
+            .FormActions
+            .formReset();
+        this
+            .props
+            .AuthActions
+            .resetRegisterStatus();
     }
-    
 
     render() {
         const redirect = (<Redirect
@@ -91,7 +110,7 @@ class Register extends Component {
             }
         }}/>);
 
-        const {handleChange, handleRegister, handleBlur} = this;
+        const {handleChange, handleRegister, handleBlur, handleKeyPress} = this;
         const {form, formError, status} = this.props;
 
         return (
@@ -136,7 +155,8 @@ class Register extends Component {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             onSubmit={handleRegister}
-                            error={formError}/>
+                            error={formError}
+                            onKeyPress={handleKeyPress}/>
                         <div className="side-message">Already have an account?&nbsp;
                             <a onClick={() => this.leaveTo("/auth")}>Log In</a>
                         </div>

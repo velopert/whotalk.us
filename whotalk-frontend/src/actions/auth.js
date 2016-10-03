@@ -9,4 +9,14 @@ export const checkUsername = (username) => ({
     }
 });
 
+export const checkEmail = (email) => ({
+    type: AUTH.CHECK_EMAIL,
+    payload: {
+        promise: service.checkEmail(email)
+    }
+});
+
 export const localRegisterPrior = createAction(AUTH.LOCAL_REGISTER_PRIOR);
+
+
+export const resetRegisterStatus = createAction(AUTH.RESET_REGISTER_STATUS);

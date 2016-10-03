@@ -6,16 +6,26 @@ const request = {
     error: null
 }
 
+const registerStatus = {
+    usernameExists: false,
+    emailExists: false
+}
 const register = {
     username: '',
     password: '',
-    usernameExists: false
+    status : {
+        ...registerStatus
+    }
+   
 }
 
 const initialState = {
     register: { ...register },
     requests: {
         checkUsername: {
+            ...request
+        },
+        checkEmail: {
             ...request
         }
     }
@@ -35,11 +45,7 @@ function auth(state=initialState, action) {
             return {
                 ...state,
                 requests: {
-                    checkUsername: {
-                        fetching: true,
-                        fetched: false,
-                        error: null
-                    }
+                    checkUsername: { fetching: true, fetched: false, error: null }
                 }
             }
 
@@ -48,25 +54,51 @@ function auth(state=initialState, action) {
                 ...state,
                 register: {
                     ...state.register,
-                    usernameExists: payload.data.exists
+                    status: {
+                        ...state.register.status,
+                        usernameExists: payload.data.exists
+                    }
                 },
                 requests: {
                     ...state.requests,
-                    checkUsername: {
-                        fetching: false,
-                        fetched: true,
-                        error: null
-                    }
+                    checkUsername: { fetching: false, fetched: true, error: null }
                 }
             };
         case AUTH.CHECK_USERNAME + '_REJECTED':
             return {
                 ...state,
                 requests: {
-                    checkUsername: {
-                        fetching: false,
-                        error: payload
-                    }
+                    checkUsername: { fetching: false, error: payload }
+                }
+            };
+
+        /* CHECK_EMAIL */
+
+        case AUTH.CHECK_EMAIL + "_PENDING": 
+            return {
+                ...state,
+                requests: {
+                    checkEmail: { fetching: true, fetched: false, error: null }
+                }
+            }
+
+        case AUTH.CHECK_EMAIL + '_FULFILLED': 
+            return {
+                ...state,
+                register: {
+                    ...state.register,
+                    emailExists: payload.data.exists
+                },
+                requests: {
+                    ...state.requests,
+                    checkEmail: { fetching: false, fetched: true, error: null }
+                }
+            };
+        case AUTH.CHECK_EMAIL + '_REJECTED':
+            return {
+                ...state,
+                requests: {
+                    checkEmail: { fetching: false, error: payload }
                 }
             };
 
@@ -79,6 +111,20 @@ function auth(state=initialState, action) {
                     ...state.register,
                     username: payload.username,
                     password: payload.password
+                }
+            }
+
+
+        /* RESET_REGISTER_STATUS */
+
+        case AUTH.RESET_REGISTER_STATUS:
+            return {
+                ...state,
+                register: {
+                    ...state,
+                    status: {
+                        ...registerStatus
+                    }
                 }
             }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RegisterForm = ({username, password, status, onChange, onBlur, onSubmit, error}) => (
+const RegisterForm = ({username, password, status, onChange, onBlur, onSubmit, onKeyPress, error}) => (
     <div className="ui massive form">
         <div className="field">
             <label>USERNAME</label>
@@ -27,7 +27,8 @@ const RegisterForm = ({username, password, status, onChange, onBlur, onSubmit, e
                     placeholder="Password"
                     type="password"
                     value={password}
-                    onChange={onChange}/>
+                    onChange={onChange}
+                    onKeyPress={onKeyPress}/>
                 <i className="icon lock"></i>
             </div>
         </div>

@@ -22,7 +22,7 @@ RegisterRoute = connect(
             form: state.form.register,
             formError: state.form.error.register,
             status: {
-                usernameExists: state.auth.register.usernameExists,
+                usernameExists: state.auth.register.status.usernameExists,
                 isChecking: state.auth.requests.checkUsername.fetching
             }
         };
@@ -31,7 +31,8 @@ RegisterRoute = connect(
         return {
             AuthActions: bindActionCreators({
                 checkUsername: auth.checkUsername,
-                localRegisterPrior: auth.localRegisterPrior
+                localRegisterPrior: auth.localRegisterPrior,
+                resetRegisterStatus: auth.resetRegisterStatus
             }, dispatch),
             FormActions: bindActionCreators(form, dispatch)
         };
