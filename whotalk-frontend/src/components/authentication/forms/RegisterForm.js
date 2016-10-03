@@ -1,10 +1,19 @@
 import React from 'react';
 
-const RegisterForm = ({username, password, status, onChange, onBlur, onSubmit, onKeyPress, error}) => (
+const RegisterForm = ({
+    username,
+    password,
+    status,
+    onChange,
+    onBlur,
+    onSubmit,
+    onKeyPress,
+    error
+}) => (
     <div className="ui massive form">
         <div className="field">
             <label>USERNAME</label>
-            <div className="ui left icon input">
+            <div className={`ui left icon input ${status.isChecking ? 'loading' : ''}`}>
                 <input
                     className={status.usernameExists || error.username
                     ? 'error'
@@ -14,7 +23,8 @@ const RegisterForm = ({username, password, status, onChange, onBlur, onSubmit, o
                     type="text"
                     value={username}
                     onChange={onChange}
-                    onBlur={onBlur}/>
+                    onBlur={onBlur}
+                    disabled={status.submitting}/>
                 <i className="icon user"></i>
             </div>
         </div>
@@ -22,18 +32,21 @@ const RegisterForm = ({username, password, status, onChange, onBlur, onSubmit, o
             <label>PASSWORD</label>
             <div className="ui left icon input">
                 <input
-                    className={error.password ? 'error' : ''}
+                    className={error.password
+                    ? 'error'
+                    : ''}
                     name="password"
                     placeholder="Password"
                     type="password"
                     value={password}
                     onChange={onChange}
-                    onKeyPress={onKeyPress}/>
+                    onKeyPress={onKeyPress}
+                    disabled={status.submitting}/>
                 <i className="icon lock"></i>
             </div>
         </div>
         <div className="button-container">
-            <button className="massive pink ui button" onClick={onSubmit}>
+            <button className={`massive pink ui button ${status.submitting ? 'loading' : ''}`} onClick={onSubmit} disabled={status.submitting}>
                 NEXT
             </button>
         </div>

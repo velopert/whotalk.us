@@ -27,6 +27,8 @@ class Register extends Component {
         const {form, status, AuthActions, FormActions} = this.props;
         const {username, password} = form;
 
+        AuthActions.setSubmitStatus({name: 'register', value: true});
+
         // do username / password regex check
         const regex = {
             username: /^[0-9a-zA-Z]{4,15}$/,
@@ -47,14 +49,16 @@ class Register extends Component {
             FormActions.setInputError({form: 'register', name: 'username', error: true});
         }
 
-        if (status.usernameExists) {
-            const result = await AuthActions.checkUsername(form.username);
-            if (result.action.payload.data.exists) {
-                toastr.error('That username is already taken, please try another one.');
-                error = true;
-            }
+
+        const result = await AuthActions.checkUsername(form.username);
+        if (result.action.payload.data.exists) {
+            toastr.error('That username is already taken, please try another one.');
+            error = true;
         }
 
+
+        AuthActions.setSubmitStatus({name: 'register', value: false});
+        
         // stop at here if there is an error
         if (error) {
             return;
@@ -62,6 +66,8 @@ class Register extends Component {
 
         AuthActions.localRegisterPrior({username, password});
         this.leaveTo('/auth/register/additional');
+
+        
     }
 
     @autobind

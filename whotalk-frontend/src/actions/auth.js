@@ -20,3 +20,12 @@ export const localRegisterPrior = createAction(AUTH.LOCAL_REGISTER_PRIOR);
 
 
 export const resetRegisterStatus = createAction(AUTH.RESET_REGISTER_STATUS);
+
+
+/*
+    payload: {
+        name,
+        value
+    }
+*/
+export const setSubmitStatus = createAction(AUTH.SET_SUBMIT_STATUS);

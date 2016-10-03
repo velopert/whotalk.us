@@ -8,7 +8,8 @@ const request = {
 
 const registerStatus = {
     usernameExists: false,
-    emailExists: false
+    emailExists: false,
+    submitting: false
 }
 const register = {
     username: '',
@@ -16,7 +17,10 @@ const register = {
     status : {
         ...registerStatus
     }
-   
+}
+
+const submitStatus = {
+    register: false
 }
 
 const initialState = {
@@ -28,19 +32,17 @@ const initialState = {
         checkEmail: {
             ...request
         }
-    }
+    },
+    submitStatus: { ...submitStatus }
 };
 
 
 function auth(state=initialState, action) {
-    const payload = action.payload;
-
-   
-
+    const payload = action.payload
+    
     switch(action.type) {
         
         /* CHECK_USERNAME */
-
         case AUTH.CHECK_USERNAME + "_PENDING": 
             return {
                 ...state,
@@ -56,6 +58,7 @@ function auth(state=initialState, action) {
                     ...state.register,
                     status: {
                         ...state.register.status,
+                        submitting: false,
                         usernameExists: payload.data.exists
                     }
                 },
@@ -126,6 +129,17 @@ function auth(state=initialState, action) {
                         ...registerStatus
                     }
                 }
+            };
+        
+        /* SET_SUBMIT_STATUS */
+        case AUTH.SET_SUBMIT_STATUS:
+            return {
+                ...state,
+                submitStatus: {
+                    ...submitStatus,
+                    [payload.name]: payload.value
+                }
+
             }
 
         default:
