@@ -48,6 +48,10 @@ let AdditionalRoute = (props) => {
 
 AdditionalRoute = connect(
     state => ({
+        accountInfo: { 
+            username: state.auth.register.username,
+            password: state.auth.register.password
+        },
         form: state.form.additional,
         formError: state.form.error.additional,
         status: {
@@ -59,7 +63,8 @@ AdditionalRoute = connect(
         FormActions: bindActionCreators(form, dispatch),
         AuthActions: bindActionCreators({
             checkEmail: auth.checkEmail,
-            setSubmitStatus: auth.setSubmitStatus
+            setSubmitStatus: auth.setSubmitStatus,
+            localRegister: auth.localRegister
         }, dispatch)
     })
 )(AdditionalRoute);

@@ -8,8 +8,7 @@ const request = {
 
 const registerStatus = {
     usernameExists: false,
-    emailExists: false,
-    submitting: false
+    emailExists: false
 }
 const register = {
     username: '',
@@ -59,7 +58,6 @@ function auth(state=initialState, action) {
                     ...state.register,
                     status: {
                         ...state.register.status,
-                        submitting: false,
                         usernameExists: payload.data.exists
                     }
                 },
@@ -140,7 +138,6 @@ function auth(state=initialState, action) {
                     ...submitStatus,
                     [payload.name]: payload.value
                 }
-
             }
 
         default:

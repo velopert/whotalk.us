@@ -16,6 +16,13 @@ export const checkEmail = (email) => ({
     }
 });
 
+export const localRegister = (params) => ({
+    type: AUTH.LOCAL_REGISTER,
+    payload: {
+        promise: service.localRegister(params)
+    }
+});
+
 export const localRegisterPrior = createAction(AUTH.LOCAL_REGISTER_PRIOR);
 
 
