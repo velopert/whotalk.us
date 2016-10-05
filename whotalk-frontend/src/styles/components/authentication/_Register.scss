@@ -47,6 +47,8 @@
             padding: 25px;
             padding-top: 0px;
             padding-bottom: 20px;
+
+            
             label {
                 color: white;
                 font-weight: 400;
@@ -54,11 +56,12 @@
                 letter-spacing: 1.8px;
                 padding-bottom: 3px;
             }
-            input.error {
-                background-color: #FFDDDD;
-                color: #FF5C73;
-                border: 1px solid #FF5757;
+
+            .ui.form .field.error label {
+                color: #dc9694;
+
             }
+
             .button-container {
                 text-align: right;
                 .button {

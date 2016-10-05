@@ -7,7 +7,9 @@ const initialState = {
     },
     additional: {
         firstName: '',
-        lastName: '',   
+        lastName: '',
+        email: '',
+        gender: ''
     },
     login: {
         username: '',
@@ -17,13 +19,19 @@ const initialState = {
         register: {
             username: false,
             password: false
+        },
+        additional: {
+            firstName: false,
+            lastName: false,
+            email: false,
+            gender: false
         }
     }
 }
 
-function form(state=initialState, action) {
+function form(state = initialState, action) {
     const payload = action.payload;
-    switch(action.type) {
+    switch (action.type) {
         case FORM.CHANGE_INPUT:
             return {
                 ...state,
@@ -32,9 +40,11 @@ function form(state=initialState, action) {
                     [payload.name]: payload.value
                 }
             };
-        case FORM.SET_INPUT_ERROR: 
+        case FORM.SET_INPUT_ERROR:
             const err = {};
-            err[payload.form] = {...state.error[payload.form]};
+            err[payload.form] = {
+                ...state.error[payload.form]
+            };
             err[payload.form][payload.name] = payload.error
             return {
                 ...state,
@@ -43,7 +53,7 @@ function form(state=initialState, action) {
                     ...err
                 }
             }
-        case FORM.FORM_RESET: 
+        case FORM.FORM_RESET:
             return initialState;
         default:
             return state;

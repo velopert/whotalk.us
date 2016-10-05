@@ -1,37 +1,61 @@
 import React, {Component} from 'react';
 
-const AdditionalForm = ({form, onSelect}) => (
-    <form className="ui massive form">
+const AdditionalForm = ({form, status, onSelect, onChange, onSubmit, onBlur, error}) => (
+    <div className="ui massive form">
         <div className="field">
             <label>NAME</label>
             <div className="two fields">
-                <div className="field">
-                    <input name="firstName" type="text" placeholder="First name"/>
+                <div className={`field ${error.firstName ? 'error' : ''}`}>
+                    <input
+                        name="firstName"
+                        type="text"
+                        placeholder="First name"
+                        onChange={onChange}
+                        value={form.firstName}/>
                 </div>
-                <div className="field last-name">
-                    <input name="lastName" type="text" placeholder="Last name"/>
+                <div className={`field ${error.lastName ? 'error' : ''}`}>
+                    <input
+                        name="lastName"
+                        type="text"
+                        placeholder="Last name"
+                        onChange={onChange}
+                        value={form.lastName}/>
                 </div>
             </div>
         </div>
-        <div className="field">
+        <div className={`field ${error.email ? 'error' : ''}`}>
             <label>EMAIL</label>
-            <div className="ui left icon input">
-                <input name="email" type="email" placeholder="Email"/>
+            <div className={`ui left icon input ${status.checking ? 'loading' : ''}`}>
+                <input
+                    name="email"
+                    type="text"
+                    placeholder="Email"
+                    onChange={onChange}
+                    value={form.email}
+                    onBlur={onBlur}/>
                 <i className="mail icon"></i>
             </div>
         </div>
-        <div className="field">
+        <div className={`field ${error.gender ? 'error' : ''}`}>
             <label>GENDER</label>
             <div className="ui selection dropdown">
-                <input type="hidden" name="gender"/>
+                <input type="hidden" name="gender" value={form.gender}/>
                 <i className="dropdown icon"></i>
                 <div className="default text">Gender</div>
                 <div className="menu">
-                    <div className="item select-item" data-value="male" data-text="Male" onClick={()=>onSelect('gender', 'male')}>
+                    <div
+                        className="item select-item"
+                        data-value="male"
+                        data-text="Male"
+                        onClick={() => onSelect('gender', 'male')}>
                         <i className="male icon"></i>
                         Male
                     </div>
-                    <div className="item select-item" data-value="female" data-text="Female" onClick={()=>onSelect('gender', 'female')}>
+                    <div
+                        className="item select-item"
+                        data-value="female"
+                        data-text="Female"
+                        onClick={() => onSelect('gender', 'female')}>
                         <i className="female icon"></i>
                         Female
                     </div>
@@ -45,11 +69,11 @@ const AdditionalForm = ({form, onSelect}) => (
                 </a>
             </div>
             <div className="ten wide column">
-                <button className="massive pink ui button" type="submit">
+                <button className={`massive pink ui button ${status.submitting ? 'loading' : ''}`} onClick={onSubmit} disabled={status.submitting}>
                     SIGN UP
                 </button>
             </div>
         </div>
-    </form>
+    </div>
 );
 export default AdditionalForm;

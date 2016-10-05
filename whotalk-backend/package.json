@@ -40,6 +40,7 @@
     "md5": "^2.2.1",
     "mongoose": "^4.6.0",
     "morgan": "^1.7.0",
+    "nodemon": "^1.10.2",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google": "^0.3.0",

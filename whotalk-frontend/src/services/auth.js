@@ -5,7 +5,7 @@ export const checkUsername = (username) => {
 }
 
 export const checkEmail = (email) => {
-    return request({url: 'http://localhost:4000/api/authentication/exists/email/' + email});
+    return request({url: '/api/authentication/exists/email/' + email});
 }
 
 export const localRegister = ({username, password, familyName, givenName, gender, email}) => {

@@ -20,7 +20,8 @@ const register = {
 }
 
 const submitStatus = {
-    register: false
+    register: false,
+    additional: false
 }
 
 const initialState = {

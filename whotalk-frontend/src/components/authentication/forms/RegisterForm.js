@@ -11,13 +11,10 @@ const RegisterForm = ({
     error
 }) => (
     <div className="ui massive form">
-        <div className="field">
+        <div className={`field ${status.usernameExists || error.username ? 'error' : ''}`}>
             <label>USERNAME</label>
             <div className={`ui left icon input ${status.isChecking ? 'loading' : ''}`}>
                 <input
-                    className={status.usernameExists || error.username
-                    ? 'error'
-                    : ''}
                     name="username"
                     placeholder="Username"
                     type="text"
@@ -28,13 +25,10 @@ const RegisterForm = ({
                 <i className="icon user"></i>
             </div>
         </div>
-        <div className="field">
+        <div className={`field ${error.password ? 'error' : ''}`}>
             <label>PASSWORD</label>
             <div className="ui left icon input">
                 <input
-                    className={error.password
-                    ? 'error'
-                    : ''}
                     name="password"
                     placeholder="Password"
                     type="password"

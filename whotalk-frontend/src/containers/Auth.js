@@ -48,10 +48,19 @@ let AdditionalRoute = (props) => {
 
 AdditionalRoute = connect(
     state => ({
-        form: state.form.additional
+        form: state.form.additional,
+        formError: state.form.error.additional,
+        status: {
+            checking: state.auth.requests.checkEmail.fetching,
+            submitting: state.auth.submitStatus.additional
+        }
     }),
     dispatch => ({
-        FormActions: bindActionCreators(form, dispatch)
+        FormActions: bindActionCreators(form, dispatch),
+        AuthActions: bindActionCreators({
+            checkEmail: auth.checkEmail,
+            setSubmitStatus: auth.setSubmitStatus
+        }, dispatch)
     })
 )(AdditionalRoute);
 

@@ -23,7 +23,7 @@ class Register extends Component {
     }
 
     @autobind
-    async handleRegister() {
+    async handleSubmit() {
         const {form, status, AuthActions, FormActions} = this.props;
         const {username, password} = form;
 
@@ -41,24 +41,35 @@ class Register extends Component {
             error = true;
             toastr.error('<b><i>Password</i></b> should be 5 ~ 30 alphanumeric characters.');
             FormActions.setInputError({form: 'register', name: 'password', error: true});
+        } else {
+            FormActions.setInputError({form: 'register', name: 'password', error: false});
         }
 
         if (!regex.username.test(username)) {
             error = true;
             toastr.error('<b><i>Username</i></b> should be 4 ~ 14 alphanumeric characters.');
             FormActions.setInputError({form: 'register', name: 'username', error: true});
+        } else {
+            FormActions.setInputError({form: 'register', name: 'username', error: false});
         }
 
-
-        const result = await AuthActions.checkUsername(form.username);
-        if (result.action.payload.data.exists) {
-            toastr.error('That username is already taken, please try another one.');
-            error = true;
+        if (!error) {
+            try {
+                const result = await AuthActions.checkUsername(form.username);
+                if (result.action.payload.data.exists) {
+                    FormActions.setInputError({form: 'register', name: 'username', error: true});
+                    toastr.error('That username is already taken, please try another one.');
+                    error = true;
+                } else {
+                    FormActions.setInputError({form: 'register', name: 'username', error: false});
+                }
+            } catch (e) {
+                toastr.error('Oops!');
+            }
         }
-
 
         AuthActions.setSubmitStatus({name: 'register', value: false});
-        
+
         // stop at here if there is an error
         if (error) {
             return;
@@ -67,7 +78,6 @@ class Register extends Component {
         AuthActions.localRegisterPrior({username, password});
         this.leaveTo('/auth/register/additional');
 
-        
     }
 
     @autobind
@@ -89,10 +99,12 @@ class Register extends Component {
         }
     }
 
+    
+
     @autobind
     handleKeyPress(e) {
         if (e.charCode === 13) {
-            this.handleRegister();
+            this.handleSubmit();
         }
     }
 
@@ -116,7 +128,7 @@ class Register extends Component {
             }
         }}/>);
 
-        const {handleChange, handleRegister, handleBlur, handleKeyPress} = this;
+        const {handleChange, handleSubmit, handleBlur, handleKeyPress} = this;
         const {form, formError, status} = this.props;
 
         return (
@@ -160,7 +172,7 @@ class Register extends Component {
                             status={status}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            onSubmit={handleRegister}
+                            onSubmit={handleSubmit}
                             error={formError}
                             onKeyPress={handleKeyPress}/>
                         <div className="side-message">Already have an account?&nbsp;
