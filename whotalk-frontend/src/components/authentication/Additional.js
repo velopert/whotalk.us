@@ -33,18 +33,19 @@ class Additional extends Component {
 
     @autobind
     async handleSubmit() {
-        const { form, FormActions, AuthActions } = this.props;
+        const { form, accountInfo, status, FormActions, AuthActions } = this.props;
         const { firstName, lastName, email, gender } = form;
+        const { username, password } = accountInfo;
 
         AuthActions.setSubmitStatus({name: 'additional', value: true});
         
         const validation = {
             firstName: {
-                regex: /^[a-zA-Z]{1,30}$/,
+                regex: /^.{1,30}$/,
                 message: 'First name should not be empty'
             },
             lastName: {
-                regex: /^[a-zA-Z]{1,30}$/,
+                regex: /^.{1,30}$/,
                 message: 'Last name should not be empty'
             },
             email: {
@@ -73,7 +74,7 @@ class Additional extends Component {
 
         if(!error) {
             const result = await AuthActions.checkEmail(form.email);
-            if (result.action.payload.data.exists) {
+            if (this.props.status.emailExists) {
                 FormActions.setInputError({form: 'additional', name: 'email', error: true});
                 toastr.error('Oops, that email already exists. You might already have an account!');
                 error = true;
@@ -88,7 +89,16 @@ class Additional extends Component {
             return;
         }
 
-        
+        const reg = await AuthActions.localRegister({
+            username,
+            password,
+            familyName: lastName,
+            givenName: firstName,
+            gender,
+            email
+        });
+
+        console.log(this.props.status);
 
         AuthActions.setSubmitStatus({name: 'additional', value: false});
     }
@@ -99,7 +109,7 @@ class Additional extends Component {
         const { form, AuthActions, FormActions } = this.props;
         if(e.target.name==='email') {
             const result = await AuthActions.checkEmail(form.email);
-            if (result.action.payload.data.exists) {
+            if (this.props.status.emailExists) {
                 FormActions.setInputError({form: 'additional', name: 'email', error: true});
                 toastr.error('Oops, that email already exists. You might already have an account!');
             } else {

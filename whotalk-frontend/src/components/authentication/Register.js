@@ -56,7 +56,7 @@ class Register extends Component {
         if (!error) {
             try {
                 const result = await AuthActions.checkUsername(form.username);
-                if (result.action.payload.data.exists) {
+                if (this.props.status.usernameExists) {
                     FormActions.setInputError({form: 'register', name: 'username', error: true});
                     toastr.error('That username is already taken, please try another one.');
                     error = true;
@@ -93,7 +93,7 @@ class Register extends Component {
         if (e.target.name === 'username') {
             // on username blur, do check username
             const result = await AuthActions.checkUsername(form.username);
-            if (result.action.payload.data.exists) {
+            if (this.props.status.usernameExists) {
                 toastr.error('That username is already taken, please try another one.');
             }
         }

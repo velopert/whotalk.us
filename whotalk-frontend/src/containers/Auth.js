@@ -56,7 +56,10 @@ AdditionalRoute = connect(
         formError: state.form.error.additional,
         status: {
             checking: state.auth.requests.checkEmail.fetching,
-            submitting: state.auth.submitStatus.additional
+            emailExists: state.auth.register.status.emailExists,
+            submitting: state.auth.submitStatus.additional,
+            success: state.auth.register.status.success,
+            error: state.auth.requests.localRegister.error
         }
     }),
     dispatch => ({

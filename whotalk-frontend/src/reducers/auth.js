@@ -42,7 +42,7 @@ const initialState = {
 
 const pending = {fetching: true, fetched: false, error: null};
 const fulfilled = {fetching: false, fetched: true, error: null};
-
+const rejected = {fetching: false, fetched: false}
 
 function auth(state=initialState, action) {
     const payload = action.payload
@@ -79,16 +79,18 @@ function auth(state=initialState, action) {
                 ...state,
                 requests: {
                      ...state.requests,
-                    checkUsername: { fetching: false, error: payload }
+                    checkUsername: { ...rejected, error: payload }
                 }
             };
 
+        
         /* CHECK_EMAIL */
 
         case AUTH.CHECK_EMAIL + "_PENDING": 
             return {
                 ...state,
                 requests: {
+                    ...state.requests,
                     checkEmail: { fetching: true, fetched: false, error: null }
                 }
             }
@@ -98,7 +100,10 @@ function auth(state=initialState, action) {
                 ...state,
                 register: {
                     ...state.register,
-                    emailExists: payload.data.exists
+                    status: {
+                        ...state.register.status,
+                        emailExists: payload.data.exists
+                    }
                 },
                 requests: {
                     ...state.requests,
@@ -109,7 +114,8 @@ function auth(state=initialState, action) {
             return {
                 ...state,
                 requests: {
-                    checkEmail: { fetching: false, error: payload }
+                    ...state.requests,
+                    checkEmail: { ...rejected, error: payload }
                 }
             };
 
@@ -132,7 +138,7 @@ function auth(state=initialState, action) {
             return {
                 ...state,
                 register: {
-                    ...state,
+                    ...state.register,
                     status: {
                         ...registerStatus
                     }
@@ -153,6 +159,7 @@ function auth(state=initialState, action) {
             return {
                 ...state,
                 requests: {
+                    ...state.requests,
                     localRegister: {...pending}
                 }
             };
@@ -160,14 +167,31 @@ function auth(state=initialState, action) {
         case AUTH.LOCAL_REGISTER + "_FULFILLED": 
             return {
                 ...state,
-                registerStatus: {
-                    ...state.registerStatus,
-                    success: (payload.data.user !== undefined)
+                register: {
+                    ...state.register,
+                    status: {
+                        ...state.registerStatus,
+                        success: payload.data.user !== undefined
+                    }
                 },
                 requests: {
+                    ...state.requests,
                     localRegister: {...fulfilled}
                 }
             };
+
+        case AUTH.LOCAL_REGISTER + "_REJECTED":
+            return {
+                ...state,
+                registerStatus: {
+                    ...state.registerStatus,
+                    success: false
+                },
+                requests: {
+                    ...state.requests,
+                    localRegister: { ...rejected, error: payload}
+                }
+            }
 
 
         
