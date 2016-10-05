@@ -31,11 +31,15 @@ const initialState = {
         },
         checkEmail: {
             ...request
+        },
+        localRegister: {
+            ...request
         }
     },
     submitStatus: { ...submitStatus }
 };
 
+const pending = {fetching: true, fetched: false, error: null};
 
 function auth(state=initialState, action) {
     const payload = action.payload
@@ -47,6 +51,7 @@ function auth(state=initialState, action) {
             return {
                 ...state,
                 requests: {
+                    ...state.requests,
                     checkUsername: { fetching: true, fetched: false, error: null }
                 }
             }
@@ -70,6 +75,7 @@ function auth(state=initialState, action) {
             return {
                 ...state,
                 requests: {
+                     ...state.requests,
                     checkUsername: { fetching: false, error: payload }
                 }
             };
@@ -137,6 +143,14 @@ function auth(state=initialState, action) {
                 submitStatus: {
                     ...submitStatus,
                     [payload.name]: payload.value
+                }
+            }
+        
+        case AUTH.LOCAL_REGISTER + "_PENDING": 
+            return {
+                ...state,
+                requests: {
+                    localRegister: {...pending}
                 }
             }
 
