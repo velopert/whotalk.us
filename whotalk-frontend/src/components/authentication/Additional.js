@@ -88,7 +88,7 @@ class Additional extends Component {
             return;
         }
 
-        alert('registerfucker');
+        
 
         AuthActions.setSubmitStatus({name: 'additional', value: false});
     }
