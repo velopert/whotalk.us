@@ -8,7 +8,8 @@ const request = {
 
 const registerStatus = {
     usernameExists: false,
-    emailExists: false
+    emailExists: false,
+    success: false
 }
 const register = {
     username: '',
@@ -40,6 +41,8 @@ const initialState = {
 };
 
 const pending = {fetching: true, fetched: false, error: null};
+const fulfilled = {fetching: false, fetched: true, error: null};
+
 
 function auth(state=initialState, action) {
     const payload = action.payload
@@ -144,7 +147,7 @@ function auth(state=initialState, action) {
                     ...submitStatus,
                     [payload.name]: payload.value
                 }
-            }
+            };
         
         case AUTH.LOCAL_REGISTER + "_PENDING": 
             return {
@@ -152,7 +155,22 @@ function auth(state=initialState, action) {
                 requests: {
                     localRegister: {...pending}
                 }
-            }
+            };
+
+        case AUTH.LOCAL_REGISTER + "_FULFILLED": 
+            return {
+                ...state,
+                registerStatus: {
+                    ...state.registerStatus,
+                    success: (payload.data.user !== undefined)
+                },
+                requests: {
+                    localRegister: {...fulfilled}
+                }
+            };
+
+
+        
 
         default:
             return state;
