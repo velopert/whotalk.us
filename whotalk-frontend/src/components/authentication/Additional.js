@@ -64,7 +64,7 @@ class Additional extends Component {
 
         for(let value of values) {
             if(!validation[value].regex.test(form[value])) {
-                 toastr.error(validation[value].message);
+                 toastr.error(validation[value].message, 'ERROR');
                  FormActions.setInputError({form: 'additional', name: value, error: true});
                  error = true;
             } else {
@@ -73,10 +73,10 @@ class Additional extends Component {
         }
 
         if(!error) {
-            const result = await AuthActions.checkEmail(form.email);
+            await AuthActions.checkEmail(form.email);
             if (this.props.status.emailExists) {
                 FormActions.setInputError({form: 'additional', name: 'email', error: true});
-                toastr.error('Oops, that email already exists. You might already have an account!');
+                toastr.error('Oops, that email already exists. You might already have an account!', 'ERROR');
                 error = true;
             } else {
                 FormActions.setInputError({form: 'additional', name: 'email', error: false});
@@ -89,18 +89,25 @@ class Additional extends Component {
             return;
         }
 
-        const reg = await AuthActions.localRegister({
-            username,
-            password,
-            familyName: lastName,
-            givenName: firstName,
-            gender,
-            email
-        });
-
-        console.log(this.props.status);
+        try {
+            await AuthActions.localRegister({
+                username,
+                password,
+                familyName: lastName,
+                givenName: firstName,
+                gender,
+                email
+            });
+        } catch (e) {
+            toastr.error('Oops, server rejected your request, please try again (' + e.response.data.message + ')', 'ERROR');
+            AuthActions.setSubmitStatus({name: 'additional', value: false});
+            this.leaveTo('/auth');
+            return;
+        }
 
         AuthActions.setSubmitStatus({name: 'additional', value: false});
+        toastr.success(`Hello, ${firstName}!`, 'SUCCESS')
+        this.leaveTo('/auth');
     }
 
 
