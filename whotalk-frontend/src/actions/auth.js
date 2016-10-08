@@ -23,9 +23,16 @@ export const localRegister = (params) => ({
     }
 });
 
+export const localLogin = (params) => ({
+    type: AUTH.LOCAL_LOGIN,
+    payload: {
+        promise: service.localLogin(params)
+    }
+});
+
 export const localRegisterPrior = createAction(AUTH.LOCAL_REGISTER_PRIOR);
 
-
+// { username, password }
 export const resetRegisterStatus = createAction(AUTH.RESET_REGISTER_STATUS);
 
 
@@ -36,3 +43,5 @@ export const resetRegisterStatus = createAction(AUTH.RESET_REGISTER_STATUS);
     }
 */
 export const setSubmitStatus = createAction(AUTH.SET_SUBMIT_STATUS);
+
+export const checkSession = createAction(AUTH.CHECK_SESSION);

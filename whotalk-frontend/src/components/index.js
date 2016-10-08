@@ -10,7 +10,7 @@ import Login from './authentication/Login';
 import Register from './authentication/Register';
 import Additional from './authentication/Additional';
 import AdditionalO from './authentication/AdditionalO';
-
+import OAuthFailure from './authentication/OAuthFailure';
 
 
 export { 
@@ -24,5 +24,6 @@ export {
     Login,
     Register,
     Additional,
-    AdditionalO
+    AdditionalO,
+    OAuthFailure
 }

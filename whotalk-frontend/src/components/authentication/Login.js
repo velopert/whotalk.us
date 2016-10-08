@@ -1,6 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {Link, Redirect} from 'react-router';
 import {LoginForm} from './forms';
+import autobind from 'autobind-decorator';
+const toastr = window.toastr;
+
 
 class Login extends Component {
 
@@ -11,21 +14,48 @@ class Login extends Component {
             leave: false,
             path: ''
         };
-        this
-            .leaveTo
-            .bind(this);
-        this
-            .handleLogin
-            .bind(this);
     }
 
+    @autobind
+    handleChange(e) {
+        const {FormActions} = this.props;
+        FormActions.changeInput({form: 'login', name: e.target.name, value: e.target.value})
+    }
+
+    @autobind
     leaveTo(path) {
         this.setState({animate: true, path});
         setTimeout(() => this.setState({leave: true}), 700)
     }
 
-    handleLogin(data) {
-        console.log(data);
+    @autobind
+    async handleSubmit() {
+        const {form, status, FormActions, AuthActions} = this.props;
+
+        const {username, password} = form;
+
+        const regex = /^[0-9a-zA-Z]{4,30}$/;
+
+        if(!(regex.test(username) && regex.test(password))) {
+            toastr.error('Please check your username or password');
+            return;
+        }
+
+        AuthActions.setSubmitStatus({name: 'login', value: true});
+
+        try {
+            await AuthActions.localLogin({username, password});
+        } catch (e) {
+             toastr.error('Incorrect username or password');
+             AuthActions.setSubmitStatus({name: 'login', value: false});
+             return;
+        }
+
+        this.leaveTo('/');
+        toastr.success(`Hello, ${this.props.status.user.common_profile.givenName}!`, 'SUCCESS')
+        
+        AuthActions.setSubmitStatus({name: 'login', value: false});
+        
     }
 
     render() {
@@ -38,6 +68,11 @@ class Login extends Component {
             }
         }}/>);
 
+        
+        const {handleChange, handleSubmit} = this;
+        const { form, status } = this.props;
+
+
         return (
             <div className="login">
                 <div
@@ -46,7 +81,11 @@ class Login extends Component {
                     : '')}>
                     <div className="local">
                         <p className="title">LOG IN WITH YOUR USERNAME</p>
-                        <LoginForm onSubmit={this.handleLogin}/>
+                        <LoginForm 
+                            form={form}
+                            onChange={handleChange}
+                            onSubmit={handleSubmit}
+                        />
                         <div className="login-footer">
                             <p>New Here?&nbsp;<a onClick={() => this.leaveTo('/auth/register')}>
                                     Create an account</a>
@@ -93,6 +132,10 @@ class Login extends Component {
                     : undefined}
             </div>
         );
+    }
+
+    componentWillUnmount() {
+        this.props.FormActions.formReset();
     }
 }
 

@@ -1,16 +1,38 @@
 import React, {Component} from 'react';
 import {Match} from 'react-router';
 
-import {Header, Login, Register, Additional, AdditionalO} from 'components';
+import {Header, Login, Register, Additional, AdditionalO, OAuthFailure} from 'components';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as auth from 'actions/auth.js';
 import * as form from 'actions/form';
 
-const LoginRoute = () => {
-    return (<Login/>)
-}
+let LoginRoute = (props) => {
+    return (<Login {...props}/>)
+};
+
+LoginRoute = connect(
+    state => {
+        return {
+            form: state.form.login,
+            status: {
+                logged: state.auth.session.logged,
+                submitting: state.auth.submitStatus.login,
+                user: state.auth.session.user
+            }
+        }
+    },
+    dispatch => {
+        return {
+            AuthActions: bindActionCreators({
+                localLogin: auth.localLogin,
+                setSubmitStatus: auth.setSubmitStatus
+            }, dispatch),
+            FormActions: bindActionCreators(form, dispatch)
+        }
+    }
+)(LoginRoute);
 
 let RegisterRoute = (props) => {
     return (<Register {...props}/>)
@@ -67,7 +89,8 @@ AdditionalRoute = connect(
         AuthActions: bindActionCreators({
             checkEmail: auth.checkEmail,
             setSubmitStatus: auth.setSubmitStatus,
-            localRegister: auth.localRegister
+            localRegister: auth.localRegister,
+            resetRegisterStatus: auth.resetRegisterStatus,
         }, dispatch)
     })
 )(AdditionalRoute);
@@ -90,6 +113,7 @@ class Auth extends Component {
                 <Match
                     pattern={`${pathname}/register/additional-o`}
                     component={AdditionalORoute}/>
+                <Match pattern={`${pathname}/oauth-failure`} component={OAuthFailure}/>
             </div>
         );
     }

@@ -12,7 +12,23 @@ router.get('/', (req, res) => {
 });
 
 router.get('/success', (req, res) => {
-    res.json({user: req.user});
+    //res.json({user: req.user});
+    if(process.env.NODE_ENV === 'development') {
+        if (req.user.common_profile.username !== null) {
+            res.redirect('http://localhost:3000/');
+        } else {
+            res.redirect('http://localhost:3000/auth/register/additional-o');
+        }
+    }
+});
+
+router.get('/check', (req, res) => {
+    const { _id, type, common_profile } = req.user;
+    res.json({
+        user: {
+            _id, type, common_profile
+        }
+    });
 });
 
 router.get('/failure', (req, res) => {
@@ -147,7 +163,7 @@ function validateRegisterBody(body) {
         properties: {
             username: {
                 type: 'string',
-                minLength: 4
+                pattern: /^[0-9a-z]{4,15}$/
             },
             password: {
                 type: 'string',
@@ -171,6 +187,7 @@ function validateRegisterBody(body) {
             }
         }
     };
+
     return inspector.validate(validation, body);
 }
 

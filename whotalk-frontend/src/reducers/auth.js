@@ -19,13 +19,20 @@ const register = {
     }
 }
 
+const session = {
+    user: null,
+    logged: false
+}
+
 const submitStatus = {
     register: false,
-    additional: false
+    additional: false,
+    login: false
 }
 
 const initialState = {
     register: { ...register },
+    session: { ...session },
     requests: {
         checkUsername: {
             ...request
@@ -34,6 +41,12 @@ const initialState = {
             ...request
         },
         localRegister: {
+            ...request
+        },
+        localLogin: {
+            ...request
+        },
+        checkSession: {
             ...request
         }
     },
@@ -110,12 +123,50 @@ function auth(state=initialState, action) {
                     checkEmail: { fetching: false, fetched: true, error: null }
                 }
             };
+
         case AUTH.CHECK_EMAIL + '_REJECTED':
             return {
                 ...state,
                 requests: {
                     ...state.requests,
                     checkEmail: { ...rejected, error: payload }
+                }
+            };
+
+        /* LOCAL_LOGIN */
+
+        case AUTH.LOCAL_LOGIN + 'PENDING':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    localLogin: { ...pending }
+                }
+            };
+
+        case AUTH.LOCAL_LOGIN + '_FULFILLED':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    localLogin: { ...fulfilled }
+                },
+                session: {
+                    user: payload.data.user,
+                    logged: true
+                }
+            };
+
+        case AUTH.LOCAL_LOGIN + '_REJECTED':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    localLogin: { ...rejected }
+                },
+                session: {
+                    user: null,
+                    logged: false
                 }
             };
 
@@ -144,6 +195,7 @@ function auth(state=initialState, action) {
                     }
                 }
             };
+        
         
         /* SET_SUBMIT_STATUS */
         case AUTH.SET_SUBMIT_STATUS:

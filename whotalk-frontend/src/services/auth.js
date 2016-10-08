@@ -30,4 +30,20 @@ export const localRegister = ({
         gender,
         email
     }
-})
+});
+
+export const localLogin = ({
+    username,
+    password
+}) => request({
+    url: '/api/authentication/login',
+    method: 'post',
+    data: {
+        username,
+        password
+    }
+});
+
+export const checkSession = () => request({
+    url: '/api/authentication/check'
+});

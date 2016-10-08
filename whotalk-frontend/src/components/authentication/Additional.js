@@ -23,6 +23,11 @@ class Additional extends Component {
 
     componentDidMount() {
         $('.dropdown').dropdown();
+        const { username, password } = this.props.accountInfo;
+        if(username==='' || password==='') {
+            toastr.error('Oops, you took the wrong path!');
+            this.leaveTo('/auth');
+        }
     }
 
     @autobind
@@ -64,7 +69,7 @@ class Additional extends Component {
 
         for(let value of values) {
             if(!validation[value].regex.test(form[value])) {
-                 toastr.error(validation[value].message, 'ERROR');
+                 toastr.error(validation[value].message);
                  FormActions.setInputError({form: 'additional', name: value, error: true});
                  error = true;
             } else {
@@ -76,7 +81,7 @@ class Additional extends Component {
             await AuthActions.checkEmail(form.email);
             if (this.props.status.emailExists) {
                 FormActions.setInputError({form: 'additional', name: 'email', error: true});
-                toastr.error('Oops, that email already exists. You might already have an account!', 'ERROR');
+                toastr.error('Oops, that email already exists. You might already have an account!');
                 error = true;
             } else {
                 FormActions.setInputError({form: 'additional', name: 'email', error: false});
@@ -99,7 +104,7 @@ class Additional extends Component {
                 email
             });
         } catch (e) {
-            toastr.error('Oops, server rejected your request, please try again (' + e.response.data.message + ')', 'ERROR');
+            toastr.error('Oops, server rejected your request, please try again (' + e.response.data.message + ')');
             AuthActions.setSubmitStatus({name: 'additional', value: false});
             this.leaveTo('/auth');
             return;
@@ -166,6 +171,11 @@ class Additional extends Component {
                     : undefined}
             </div>
         );
+    }
+
+    componentWillUnmount() {
+        this.props.FormActions.formReset();
+        this.props.AuthActions.resetRegisterStatus();
     }
 }
 

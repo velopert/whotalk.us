@@ -31,8 +31,8 @@ class Register extends Component {
 
         // do username / password regex check
         const regex = {
-            username: /^[0-9a-zA-Z]{4,15}$/,
-            password: /^[0-9a-zA-Z]{5,30}$/
+            username: /^[0-9a-z]{4,15}$/,
+            password: /^.{5,30}$/
         }
 
         let error = false;
@@ -94,7 +94,7 @@ class Register extends Component {
             // on username blur, do check username
             const result = await AuthActions.checkUsername(form.username);
             if (this.props.status.usernameExists) {
-                toastr.error('That username is already taken, please try another one.');
+                toastr.error('That username is already taken, please try another one.', 'ERROR');
             }
         }
     }
@@ -109,14 +109,8 @@ class Register extends Component {
     }
 
     componentWillUnmount() {
-        this
-            .props
-            .FormActions
-            .formReset();
-        this
-            .props
-            .AuthActions
-            .resetRegisterStatus();
+        this.props.FormActions.formReset();
+        this.props.AuthActions.resetRegisterStatus();
     }
 
     render() {

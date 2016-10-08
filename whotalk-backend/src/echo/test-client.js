@@ -86,7 +86,7 @@ function authenticate(session) {
 }
 
 const initConnection = () => {
-    socket = new SockJS("http://localhost:4000/echo");
+    socket = new SockJS("http://localhost:3000/echo");
     clearInterval(intervalId);
     socket.onopen = function () {
         console.log('connected');
