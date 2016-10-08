@@ -95,9 +95,23 @@ AdditionalRoute = connect(
     })
 )(AdditionalRoute);
 
-const AdditionalORoute = () => {
-    return (<AdditionalO/>)
-}
+let AdditionalORoute = (props) => {
+    return (<AdditionalO {...props}/>)
+};
+
+
+AdditionalORoute = connect(
+    state => ({
+        session: state.auth.session
+    }),
+    dispatch => ({
+        FormActions: bindActionCreators(form, dispatch),
+        AuthActions: bindActionCreators({
+            checkSession: auth.checkSession
+        }, dispatch)
+    })
+)(AdditionalORoute);
+
 // connect this component to redux
 
 class Auth extends Component {

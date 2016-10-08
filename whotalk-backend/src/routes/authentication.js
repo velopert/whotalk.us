@@ -25,7 +25,7 @@ router.get('/success', (req, res) => {
 router.get('/check', (req, res) => {
 
     let user = null;
-    
+
     if(req.user) {
         const { _id, type, common_profile } = req.user;
         user = {_id, type, common_profile };
@@ -38,7 +38,9 @@ router.get('/check', (req, res) => {
 });
 
 router.get('/failure', (req, res) => {
-    res.json({success: false});
+    if(process.env.NODE_ENV === 'development') {
+        res.redirect('http://localhost:3000/auth/oauth-failure');
+    }
 });
 
 /* require addition info for oauth registration */
@@ -136,7 +138,6 @@ router.post('/oauth/register', (req, res) => {
 
 router.post('/logout', (req, res) => {
     req.logout();
-    res.redirect('/');
 });
 
 /* facebook */

@@ -44,4 +44,9 @@ export const resetRegisterStatus = createAction(AUTH.RESET_REGISTER_STATUS);
 */
 export const setSubmitStatus = createAction(AUTH.SET_SUBMIT_STATUS);
 
-export const checkSession = createAction(AUTH.CHECK_SESSION);
+export const checkSession = () => ({
+    type: AUTH.LOCAL_LOGIN,
+    payload: {
+        promise: service.checkSession()
+    }
+});

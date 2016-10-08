@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router';
 import { AdditionalOForm } from './forms';
 
+import autobind from 'autobind-decorator';
+
 class AdditionalO extends Component {
     constructor(props) {
         super(props);
@@ -11,22 +13,28 @@ class AdditionalO extends Component {
             path: '',
             invert: false
         };
-        this
-            .leaveTo
-            .bind(this);
-        this
-            .handleRegister
-            .bind(this);
     }
 
+    @autobind
     leaveTo(path, invert = false) {
         this.setState({animate: true, path, invert});
         setTimeout(() => this.setState({leave: true}), 700)
     }
 
+    @autobind
     handleRegister(data) {
         console.log(data);
     }
+
+    componentDidMount() {
+        this.checkSession();
+    }
+
+    @autobind
+    async checkSession() {
+        await this.props.AuthActions.checkSession();
+    }
+    
 
     render() {
         const redirect = (<Redirect
