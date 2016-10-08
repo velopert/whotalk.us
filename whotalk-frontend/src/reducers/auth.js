@@ -162,7 +162,7 @@ function auth(state=initialState, action) {
                 ...state,
                 requests: {
                     ...state.requests,
-                    localLogin: { ...rejected }
+                    localLogin: { ...rejected, error: payload }
                 },
                 session: {
                     user: null,
@@ -245,6 +245,36 @@ function auth(state=initialState, action) {
                 }
             }
 
+        case AUTH.CHECK_SESSION + "_PENDING":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    checkSession: { ...pending }
+                }
+            }
+        
+        case AUTH.CHECK_SESSION + "_FULFILLED":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    checkSession: { ...fulfilled }
+                },
+                session: {
+                    user: payload.data.user,
+                    logged: payload.data.user !== null
+                }
+            }
+
+        case AUTH.CHECK_SESSION + "_REJECTED":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    checkSession: { ...pending, error: payload }
+                }
+            }
 
         
 
