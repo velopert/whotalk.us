@@ -23,11 +23,17 @@ router.get('/success', (req, res) => {
 });
 
 router.get('/check', (req, res) => {
-    const { _id, type, common_profile } = req.user;
+
+    let user = null;
+    
+    if(req.user) {
+        const { _id, type, common_profile } = req.user;
+        user = {_id, type, common_profile };
+    }
+    
     res.json({
-        user: {
-            _id, type, common_profile
-        }
+        sID: req.sessionID,
+        user
     });
 });
 
