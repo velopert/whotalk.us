@@ -191,7 +191,7 @@ button.toast-close-button {
     width: 11em;
   }
   #toast-container > div.rtl {
-    padding: 8px 50px 8px 8px;
+    padding: 8px 80px 8px 8px;
   }
   #toast-container .toast-close-button {
     right: -0.2em;
@@ -204,11 +204,11 @@ button.toast-close-button {
 }
 @media all and (min-width: 241px) and (max-width: 480px) {
   #toast-container > div {
-    padding: 8px 8px 8px 50px;
+    padding: 8px 8px 8px 8px;
     width: 18em;
   }
   #toast-container > div.rtl {
-    padding: 8px 50px 8px 8px;
+    padding: 8px 8px 8px 8px;
   }
   #toast-container .toast-close-button {
     right: -0.2em;
@@ -221,10 +221,10 @@ button.toast-close-button {
 }
 @media all and (min-width: 481px) and (max-width: 768px) {
   #toast-container > div {
-    padding: 15px 15px 15px 50px;
+    padding: 15px 15px 15px 15px;
     width: 25em;
   }
   #toast-container > div.rtl {
-    padding: 15px 50px 15px 15px;
+    padding: 15px 15px 15px 15px;
   }
 }
