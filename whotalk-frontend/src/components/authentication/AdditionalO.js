@@ -69,6 +69,11 @@ class AdditionalO extends Component {
             return;
         }
 
+        AuthActions.setSubmitStatus({name: 'register', value: true});
+
+
+        AuthActions.setSubmitStatus({name: 'register', value: false});
+
         
     }
     
