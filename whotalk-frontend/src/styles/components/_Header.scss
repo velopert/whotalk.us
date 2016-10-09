@@ -5,25 +5,44 @@
         height: 50px;
         width: 100%;
         z-index: 1;
-
         .bar {
             position: absolute;
             width: 100%;
-            background-color: rgba(28,34,37, 0.95);
+            background-color: rgba(28, 34, 37, 0.95);
             height: 50px;
-            box-shadow: 0 5px 10px -5px rgba(0,0,0,0.8);
+            box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.8);
             border-bottom: 1px solid black;
             transition: all 0.5s ease;
             opacity: 0;
-
-            
-
             &.show {
                 opacity: 1;
             }
-
         }
-
+        .menu-button {
+            z-index: 2;
+            position: absolute;
+            left: 0px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            .icon-wrapper {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                i {
+                    color: rgba(255, 255, 255, 0.85);
+                    font-size: 15px;
+                    transition: all 100ms ease;
+                }
+            }
+            &:hover {
+                i {
+                    color: white;
+                    font-size: 18px;
+                }
+            }
+        }
         .search-button {
             z-index: 2;
             position: absolute;
@@ -42,18 +61,14 @@
                     transition: all 100ms ease;
                 }
             }
-
             &:hover {
                 i {
                     color: white;
                     font-size: 19px;
                 }
             }
-
-
         }
     }
-
     .top-logo {
         color: white;
         font-size: 18px;
@@ -61,22 +76,24 @@
         letter-spacing: 4px;
         position: absolute;
         top: 50%;
-        left: 60px;
+        left: 50px;
         transform: translateY(-50%);
         @include media("<=tablet") {
             left: 50%;
             transform: translate(-50%, -50%);
         }
     }
-
     .menu-icon {
-        color: white;
+        color: rgba(255, 255, 255, 0.85);
         position: absolute;
         top: 50%;
-        left: 25px;
+        left: 16px;
         transform: translateY(-50%);
+        cursor: pointer;
+        &:hover {
+            i {
+                color: white;
+            }
+        }
     }
-
-
-
 }
