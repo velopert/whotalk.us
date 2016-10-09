@@ -64,7 +64,7 @@ const AdditionalForm = ({form, status, onSelect, onChange, onSubmit, onBlur, onL
         </div>
         <div className="ui grid">
             <div className="six wide column">
-                <a className="massive ui button" onClick={onLeave}>
+                <a className="massive ui button" onClick={onCancel}>
                     CANCEL
                 </a>
             </div>

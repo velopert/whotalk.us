@@ -163,7 +163,7 @@ class Additional extends Component {
                         onSelect={handleSelect} 
                         onChange={handleChange} 
                         onSubmit={handleSubmit} 
-                        onLeave={()=>leaveTo('/auth/register')}
+                        onCancel={()=>leaveTo('/auth/register')}
                         onBlur={handleBlur} 
                         error={formError} 
                         status={status}
