@@ -25,10 +25,15 @@ class Login extends Component {
     @autobind
     leaveTo({path, express=false}) {
          this.setState({animate: true, path});
-        if(express && process.env.NODE_ENV === 'development') {
-            document.location.href = "http://localhost:4000" + path ; 
-            return;
-        }
+
+         if(express) {
+             if(process.env.NODE_ENV==='development') {
+                 document.location.href = "http://localhost:4000" + path;
+             } else {
+                 document.location.href = path;
+             }
+             return;
+         }
         setTimeout(() => this.setState({leave: true}), 700)
     }
 
@@ -115,19 +120,19 @@ class Login extends Component {
                                 Facebook
                             </button>
 
-                            <button className="ui google plus oauth button massive">
+                            <button className="ui google plus oauth button massive" onClick={()=>this.leaveTo({path: '/api/authentication/google', express: true})}>
                                 <i className="google icon"></i>
                                 Google
                             </button>
                         </div>
                         <div className="ui grid hide-on-desktop">
                             <div className="eight wide column">
-                                <button className="ui facebook button icon massive">
+                                <button className="ui facebook button icon massive" onClick={()=>this.leaveTo({path: '/api/authentication/facebook', express: true})}>
                                     <i className="facebook icon"></i>
                                 </button>
                             </div>
                             <div className="eight wide column">
-                                <button className="ui google plus icon button massive">
+                                <button className="ui google plus icon button massive" onClick={()=>this.leaveTo({path: '/api/authentication/google', express: true})}>
                                     <i className="google icon"></i>
                                 </button>
                             </div>
