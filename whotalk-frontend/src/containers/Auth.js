@@ -102,12 +102,14 @@ let AdditionalORoute = (props) => {
 
 AdditionalORoute = connect(
     state => ({
+        form: state.form.additional_o,
         session: state.auth.session
     }),
     dispatch => ({
         FormActions: bindActionCreators(form, dispatch),
         AuthActions: bindActionCreators({
-            checkSession: auth.checkSession
+            checkSession: auth.checkSession,
+            checkUsername: auth.checkUsername
         }, dispatch)
     })
 )(AdditionalORoute);

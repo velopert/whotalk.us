@@ -3,6 +3,7 @@ import {Redirect} from 'react-router';
 import { AdditionalOForm } from './forms';
 
 import autobind from 'autobind-decorator';
+const toastr = window.toastr;
 
 class AdditionalO extends Component {
     constructor(props) {
@@ -33,6 +34,42 @@ class AdditionalO extends Component {
     @autobind
     async checkSession() {
         await this.props.AuthActions.checkSession();
+
+        if(!this.props.session.user) {
+            // INVALID REQUEST
+            this.leaveTo('/auth');
+            toastr.error('Oops, your social ID is invalid');
+            return;            
+        }
+
+        if(this.props.session.logged) {
+            // already has a username
+            this.leaveTo('/');
+            toastr.warning('You already have signed in');
+            toastr.success(`Hello, ${this.props.session.user.common_profile.givenName}!`);
+            return;
+        }
+    }
+
+    @autobind
+    handleChange(e) {
+        const {FormActions} = this.props;
+        FormActions.changeInput({form: 'additional_o', name: e.target.name, value: e.target.value})
+    }
+
+    @autobind
+    async handleSubmit() {
+        const { form, AuthActions } = this.props;
+
+        const regex = /^[0-9a-z]{4,15}$/;
+        
+        // check regex
+        if(!regex.test(form.username)) {
+            toastr.error('<b><i>Username</i></b> should be 4 ~ 14 alphanumeric characters.');
+            return;
+        }
+
+        
     }
     
 
@@ -45,7 +82,8 @@ class AdditionalO extends Component {
             }
         }}/>);
 
-        const { handleRegister, leaveTo } = this;
+        const { handleChange, leaveTo } = this;
+        const { form } = this.props;
 
         return (
             <div className="additional">
@@ -55,8 +93,11 @@ class AdditionalO extends Component {
                     : '')}>
                     <div className="title">YOU ARE ALMOST THERE!</div>
                     <div className="subtitle">TELL US YOUR USERNAME</div>
-                    <AdditionalOForm onSubmit={handleRegister}
-                    onCancel={()=>this.leaveTo('/auth')}/>
+                    <AdditionalOForm
+                        form={form}
+                        onChange={handleChange}
+                        onCancel={()=>leaveTo('/auth')}
+                    />
                 </div>
 
                 {this.state.leave

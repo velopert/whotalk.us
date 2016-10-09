@@ -27,6 +27,8 @@ class Register extends Component {
         const {form, status, AuthActions, FormActions} = this.props;
         const {username, password} = form;
 
+        toastr.clear();
+
         AuthActions.setSubmitStatus({name: 'register', value: true});
 
         // do username / password regex check

@@ -27,6 +27,7 @@ const session = {
 const submitStatus = {
     register: false,
     additional: false,
+    additional_o: false,
     login: false
 }
 

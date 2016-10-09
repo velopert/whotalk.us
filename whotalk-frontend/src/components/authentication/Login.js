@@ -34,6 +34,8 @@ class Login extends Component {
 
         const {username, password} = form;
 
+        toastr.clear();
+
         const regex = /^[0-9a-zA-Z]{4,30}$/;
 
         if(!(regex.test(username) && regex.test(password))) {
@@ -52,7 +54,7 @@ class Login extends Component {
         }
 
         this.leaveTo('/');
-        toastr.success(`Hello, ${this.props.status.user.common_profile.givenName}!`, 'SUCCESS')
+        toastr.success(`Hello, ${this.props.status.user.common_profile.givenName}!`);
         
         AuthActions.setSubmitStatus({name: 'login', value: false});
         
@@ -83,6 +85,7 @@ class Login extends Component {
                         <p className="title">LOG IN WITH YOUR USERNAME</p>
                         <LoginForm 
                             form={form}
+                            status={status}
                             onChange={handleChange}
                             onSubmit={handleSubmit}
                         />

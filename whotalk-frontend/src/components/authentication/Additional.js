@@ -43,6 +43,8 @@ class Additional extends Component {
         const { username, password } = accountInfo;
 
         AuthActions.setSubmitStatus({name: 'additional', value: true});
+
+        toastr.clear();
         
         const validation = {
             firstName: {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-const LoginForm = ({form, onChange, onSubmit}) => (
+const LoginForm = ({form, status, onChange, onSubmit}) => (
     <div className="ui massive form">
         <div className="field">
             <label>USERNAME</label>
@@ -28,7 +28,7 @@ const LoginForm = ({form, onChange, onSubmit}) => (
                 <i className="lock icon"></i>
             </div>
         </div>
-        <button className="massive pink ui button" type="submit" onClick={onSubmit}>
+        <button className={`massive pink ui button ${status.submitting ? 'loading' : ''}`} type="submit" onClick={onSubmit} disabled={status.submitting}>
             LOG IN
         </button>
     </div>

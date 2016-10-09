@@ -11,6 +11,9 @@ const initialState = {
         email: '',
         gender: ''
     },
+    additional_o: {
+        username: ''
+    },
     login: {
         username: '',
         password: ''
@@ -25,6 +28,9 @@ const initialState = {
             lastName: false,
             email: false,
             gender: false
+        },
+        additional_o: {
+            username: false
         }
     }
 }
