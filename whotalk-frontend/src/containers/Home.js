@@ -9,6 +9,8 @@ import {
 } from 'components';
 import { HeaderMode } from 'components/Header';
 import { Events, scrollSpy } from 'react-scroll';
+import { connect } from 'react-redux';
+
 
 import unknown from 'assets/unknown.jpg';
 import type from 'assets/type.jpg';
@@ -126,4 +128,11 @@ class Home extends Component {
     }
 }
 
+Home = connect(
+    state => ({
+        status: {
+            session: state.auth.session
+        }
+    })
+)(Home)
 export default Home;
