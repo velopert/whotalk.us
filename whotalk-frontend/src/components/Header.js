@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
+import autobind from 'autobind-decorator';
 
 export const HeaderMode = {
     DEFAULT: 'DEFAULT',
@@ -21,6 +22,12 @@ const defaultProps = {
 };
 
 class Header extends Component {
+
+    @autobind
+    toggleHeader() {
+        $('.ui.sidebar').sidebar('toggle');
+    }
+
     render() {
 
         const search = (
@@ -39,7 +46,7 @@ class Header extends Component {
                         ? ' show'
                         : '')}></div>
                     <Link to="/" className="top-logo">WHOTALK</Link>
-                    <div className="menu-button">
+                    <div className="menu-button" onClick={this.toggleHeader}>
                         <div className="icon-wrapper">
                             <i className="sidebar icon"></i>
                         </div>

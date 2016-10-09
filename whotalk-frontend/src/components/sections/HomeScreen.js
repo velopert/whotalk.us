@@ -34,13 +34,13 @@ class HomeScreen extends Component {
         }, 1000);
 
 
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.8&appId=664322480382395";
-            fjs.parentNode.insertBefore(js, fjs);
-        } (document, 'script', 'facebook-jssdk'));
+        // (function (d, s, id) {
+        //     var js, fjs = d.getElementsByTagName(s)[0];
+        //     if (d.getElementById(id)) return;
+        //     js = d.createElement(s); js.id = id;
+        //     js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.8&appId=664322480382395";
+        //     fjs.parentNode.insertBefore(js, fjs);
+        // } (document, 'script', 'facebook-jssdk'));
     }
 
 
@@ -68,7 +68,7 @@ class HomeScreen extends Component {
 
         return (
             <div className="home-screen">
-                <div id="fb-root"></div>
+            
                 <div className="space">
                     <div className="header-contents fadeIn">
                         <div className='logo-wrapper'>

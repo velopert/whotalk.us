@@ -3,12 +3,13 @@
         height: 100vh;
         text-align: center;
     }
-
     .header-contents {
         position: absolute;
-        top: 50%;
+        top: 50vh;
         left: 50%;
         transform: translate(-50%, -50%);
+        color: white;
+
     }
     .logo-wrapper {
         display: inline-block;
