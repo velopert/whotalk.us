@@ -267,7 +267,7 @@ function auth(state=initialState, action) {
                 },
                 session: {
                     user: payload.data.user,
-                    logged: payload.data.user.common_profile.username !== null
+                    logged: (payload.data.user !== null && payload.data.user.common_profile.username !== null)
                 }
             }
 

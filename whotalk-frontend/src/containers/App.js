@@ -4,14 +4,35 @@ import {Background} from 'components';
 import {Home, Auth} from 'containers';
 import { connect } from 'react-redux';
 import { storage } from 'helpers';
-
+import {bindActionCreators} from 'redux';
+import * as auth from 'actions/auth.js';
+const toastr = window.toastr;
 
 class App extends Component {
-    componentDidMount() {
-        const session = storage.get('session');
+    async componentDidMount() {
+        let session = storage.get('session');
+
         if(session) {
-            if(session.logged) {
-                
+            if(session.expired) {
+                toastr.error('Your session is expired');
+                storage.set('session', {...session, expired: false});
+                return;
+            }
+        }
+        await this.props.AuthActions.checkSession();
+        
+        if(!this.props.status.session.logged) {
+            storage.set('session', { ...session, logged: false });
+            if(session.logged){
+                // session is expired
+                session = storage.get('session');
+                storage.set('session', {...session, expired: true});
+                location.reload();
+            }
+        } else {
+            if(!session.logged) {
+                // got a new session
+                storage.set('session', {...this.props.status.session});
             }
         }
     }
@@ -28,5 +49,18 @@ class App extends Component {
         );
     }
 }
+
+App = connect(
+    state => ({
+        status: {
+            session: state.auth.session
+        }
+    }),
+    dispatch => ({
+        AuthActions: bindActionCreators({
+            checkSession: auth.checkSession
+        },dispatch)
+    })
+)(App);
 
 export default App;
