@@ -32,6 +32,15 @@ class HomeScreen extends Component {
                 this.setState({ showLearnMore: true })
             }, 1000)
         }, 1000);
+
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.8&appId=664322480382395";
+            fjs.parentNode.insertBefore(js, fjs);
+        } (document, 'script', 'facebook-jssdk'));
     }
 
 
@@ -42,6 +51,7 @@ class HomeScreen extends Component {
 
         return (
             <div className="home-screen">
+                <div id="fb-root"></div>
                 <div className="space">
                     <div className="header-contents fadeIn">
                         <div className='logo-wrapper'>
@@ -56,8 +66,8 @@ class HomeScreen extends Component {
                     </div>
 
 
-                    {/*<iframe className={"like-button" + (this.props.like ? '' : ' hide') } src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fvelopert%2F&width=187&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=664322480382395" width="152" height="46" style={{ border: 'none', overflow: 'hidden' }} scrolling="no" frameBorder="0" allowTransparency="true"></iframe>*/}
-                    <div className="like-button fb-like" data-href="http://facebook.com/velopert" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+                    <iframe className={"like-button" + (this.props.like ? '' : ' hide') } src="https://www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffacebook.com%2Fvelopert&width=152&layout=button_count&action=like&size=small&show_faces=false&share=true&height=46&appId=2114304178795129" width="152" height="46" style={{ border: 'none', overflow: 'hidden' }} scrolling="no" frameBorder="0" allowTransparency="true"></iframe>
+                    {/*<div className="like-button fb-like" data-href="http://facebook.com/velopert" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>*/}
 
 
 
