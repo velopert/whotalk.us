@@ -26,7 +26,7 @@ LoginRoute = connect(state => {
         status: {
             logged: state.auth.session.logged,
             submitting: state.auth.submitStatus.login,
-            user: state.auth.session.user
+            session: state.auth.session
         }
     }
 }, dispatch => {

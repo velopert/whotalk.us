@@ -99,6 +99,13 @@ class AdditionalO extends Component {
         toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`)
         this.leaveTo('/');
     }
+
+    @autobind
+    handleKeyPress(e) {
+        if (e.charCode === 13) {
+            this.handleSubmit();
+        }
+    }
     
 
     render() {
@@ -110,7 +117,7 @@ class AdditionalO extends Component {
             }
         }}/>);
 
-        const { handleChange, handleSubmit, leaveTo } = this;
+        const { handleChange, handleSubmit, handleKeyPress, leaveTo } = this;
         const { form, status } = this.props;
 
         return (
@@ -126,6 +133,7 @@ class AdditionalO extends Component {
                         status={status}
                         onChange={handleChange}
                         onCancel={()=>leaveTo('/auth')}
+                        onKeyPress={handleKeyPress}
                         onSubmit={handleSubmit}
                     />
                 </div>

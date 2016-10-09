@@ -2,6 +2,9 @@ import React, {Component, PropTypes} from 'react';
 import {Link, Redirect} from 'react-router';
 import {LoginForm} from './forms';
 import autobind from 'autobind-decorator';
+import { storage } from 'helpers';
+
+
 const toastr = window.toastr;
 
 
@@ -63,7 +66,9 @@ class Login extends Component {
         }
 
         this.leaveTo({path: '/'});
-        toastr.success(`Hello, ${this.props.status.user.common_profile.givenName}!`);
+        toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
+
+        storage.set('session', this.props.status.session);
         
         AuthActions.setSubmitStatus({name: 'login', value: false});
         

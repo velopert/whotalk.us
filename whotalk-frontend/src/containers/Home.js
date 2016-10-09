@@ -90,7 +90,10 @@ class Home extends Component {
 
                 <Header mode={HeaderMode.HOME} bar={this.state.showHeaderBar} search={true}/>
 
-                <HomeScreen like={this.state.showLikeButton}/>
+                <HomeScreen 
+                    like={this.state.showLikeButton}
+                    logged={this.props.status.session.logged}
+                />
 
                 <MainSection/>
 

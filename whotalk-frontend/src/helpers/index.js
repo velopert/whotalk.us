@@ -1,6 +1,6 @@
-import createRequestTypes from './request-action';
 import request from './request';
+import storage from './storage';
 export {
-    createRequestTypes,
-    request
+    request,
+    storage
 };

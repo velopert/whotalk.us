@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-const AdditionalOForm = ({form, status, onChange, onSubmit, onCancel}) => (
+const AdditionalOForm = ({form, status, onChange, onSubmit, onCancel, onKeyPress}) => (
     <div className="ui massive form">
         <div className="field">
             <label>USERNAME</label>
@@ -10,7 +10,9 @@ const AdditionalOForm = ({form, status, onChange, onSubmit, onCancel}) => (
                     name="username"
                     placeholder="Username"
                     value={form.username}
-                    onChange={onChange}/>
+                    onChange={onChange}
+                    onKeyPress={onKeyPress}    
+                />
                 <i className="user icon"></i>
             </div>
         </div>

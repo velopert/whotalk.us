@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router';
 import autobind from 'autobind-decorator';
+import { storage } from 'helpers';
 
 const toastr = window.toastr;
 
@@ -42,6 +43,7 @@ class OAuthSuccess extends Component {
             // already has a username
             this.leave();
             toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
+            storage.set('session', this.props.status.session);
             return;
         }
     }

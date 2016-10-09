@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { Link as ScrollLink } from 'react-scroll';
 import { Link } from 'react-router';
-
+import { storage } from 'helpers';
 
 const propTypes = {
     like: PropTypes.bool
@@ -20,7 +20,7 @@ class HomeScreen extends Component {
             showLearnMore: false
         };
         this.timeoutId = {};
-
+        this.session =  storage.get('session');
     }
 
     componentDidMount() {
@@ -46,8 +46,25 @@ class HomeScreen extends Component {
 
     render() {
 
+        const { logged } = this.props;
+
         const loaded = this.state.isLoaded ? 'loaded' : '';
         const animate = this.state.showLearnMore ? 'slide-up-and-down' : '';
+
+        const notLogged = (
+            <div>
+                <Link to="/auth/register" className="ui inverted basic orange button">CREATE YOUR CHANNEL</Link><Link to="/auth" className="ui inverted basic green button">SIGN IN</Link>
+            </div>
+        );
+
+
+        const isLogged = (
+            <div>
+                <Link to="/" className="ui inverted basic orange button">MY CHANNEL</Link><Link to="/" className="ui inverted basic green button">EXPLORE</Link>
+            </div>
+        );
+
+        const buttons = logged || this.session.logged ? isLogged : notLogged;
 
         return (
             <div className="home-screen">
@@ -61,7 +78,7 @@ class HomeScreen extends Component {
                         </div>
                         <div className="site-info"><b>ANYONE</b> CAN TALK TO YOU.</div>
                         <div className="button-container">
-                            <Link to="/auth/register" className="ui inverted basic orange button">CREATE YOUR CHANNEL</Link><Link to="/auth" className="ui inverted basic greendigi button">SIGN IN</Link>
+                            {buttons}
                         </div>
                     </div>
 
