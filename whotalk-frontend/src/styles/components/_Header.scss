@@ -70,9 +70,5 @@
     }
 
 
-    @include media("<=desktop") {
-        .top {
-             width: 100vw;
-        }
-    }
+
 }
