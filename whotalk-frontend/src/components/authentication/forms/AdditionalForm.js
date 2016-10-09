@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-const AdditionalForm = ({form, status, onSelect, onChange, onSubmit, onBlur, error}) => (
+const AdditionalForm = ({form, status, onSelect, onChange, onSubmit, onBlur, onLeave, error}) => (
     <div className="ui massive form">
         <div className="field">
             <label>NAME</label>
@@ -64,7 +64,7 @@ const AdditionalForm = ({form, status, onSelect, onChange, onSubmit, onBlur, err
         </div>
         <div className="ui grid">
             <div className="six wide column">
-                <a className="massive ui button">
+                <a className="massive ui button" onClick={onLeave}>
                     CANCEL
                 </a>
             </div>

@@ -26,7 +26,7 @@ class Additional extends Component {
         const { username, password } = this.props.accountInfo;
         if(username==='' || password==='') {
             toastr.error('Oops, you took the wrong path!');
-            this.leaveTo('/auth');
+            this.leaveTo('/auth/register');
         }
     }
 
@@ -147,7 +147,7 @@ class Additional extends Component {
             }
         }}/>);
 
-        const {handleSelect, handleChange, handleSubmit, handleBlur} = this;
+        const {handleSelect, handleChange, handleSubmit, handleBlur, leaveTo} = this;
         const {form, formError, status} = this.props;
 
         return (
@@ -163,9 +163,11 @@ class Additional extends Component {
                         onSelect={handleSelect} 
                         onChange={handleChange} 
                         onSubmit={handleSubmit} 
+                        onLeave={()=>leaveTo('/auth/register')}
                         onBlur={handleBlur} 
                         error={formError} 
-                        status={status}/>
+                        status={status}
+                    />
                 </div>
 
                 {this.state.leave
