@@ -51,12 +51,15 @@ class HomeScreen extends Component {
                         </div>
                         <div className="site-info"><b>ANYONE</b> CAN TALK TO YOU.</div>
                         <div className="button-container">
-                            <button className="ui inverted basic orange button">CREATE YOUR CHANNEL</button><Link to="/auth" className="ui inverted basic greendigi button">SIGN IN</Link>
+                            <Link to="/auth/register" className="ui inverted basic orange button">CREATE YOUR CHANNEL</Link><Link to="/auth" className="ui inverted basic greendigi button">SIGN IN</Link>
                         </div>
                     </div>
 
 
-                    <iframe className={"like-button" + (this.props.like ? '' : ' hide') } src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fvelopert%2F&width=187&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=664322480382395" width="152" height="46" style={{ border: 'none', overflow: 'hidden' }} scrolling="no" frameBorder="0" allowTransparency="true"></iframe>
+                    {/*<iframe className={"like-button" + (this.props.like ? '' : ' hide') } src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fvelopert%2F&width=187&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=664322480382395" width="152" height="46" style={{ border: 'none', overflow: 'hidden' }} scrolling="no" frameBorder="0" allowTransparency="true"></iframe>*/}
+                    <div className="like-button fb-like" data-href="http://facebook.com/velopert" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+
+
 
                     <ScrollLink to="below-header" activeClass="active" spy={true} smooth={true} offset={-50} duration={1000}>
                         <div className="learn-more">
