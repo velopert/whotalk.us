@@ -140,6 +140,9 @@ router.post('/oauth/register', (req, res) => {
 
 router.post('/logout', (req, res) => {
     req.logout();
+    res.json({
+        success: true
+    });
 });
 
 /* facebook */

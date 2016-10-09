@@ -204,6 +204,9 @@ passport.use(
                     if(!account) {
                         throw new PassportError(1, 'INVALID AUTH');
                     } else {
+                        if(account.type !== 'local') {
+                            throw new PassportError(1, 'INVALID AUTH');
+                        }
                         // account exists, check password validity
                         _account = account;
                         return compareHash(account.password, password);
