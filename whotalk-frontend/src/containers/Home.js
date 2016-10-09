@@ -46,7 +46,7 @@ class Home extends Component {
 
     handleScroll(e) {
         // console.log(window.scrollY);
-        console.log(window.innerHeight - window.scrollY);
+        // console.log(window.innerHeight - window.scrollY);
 
         /* HIDE & SHOW FACEBOOK LIKE BUTTON */
 

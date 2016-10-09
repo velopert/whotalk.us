@@ -37,7 +37,8 @@ class Header extends Component {
                 <div className="top">
                     <div className={"bar" + (this.props.bar ? ' show' : '') }>
                     </div>
-                     <Link to="/" className="top-logo">WHOTALK</Link>
+                    <Link to="/" className="top-logo">WHOTALK</Link>
+                    <div className="menu-icon"><i className="sidebar icon"></i></div>
                     {this.props.search ? search : ''}
                     
                     

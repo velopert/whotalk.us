@@ -61,12 +61,20 @@
         letter-spacing: 4px;
         position: absolute;
         top: 50%;
-        left: 25px;
+        left: 60px;
         transform: translateY(-50%);
         @include media("<=tablet") {
             left: 50%;
             transform: translate(-50%, -50%);
         }
+    }
+
+    .menu-icon {
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 25px;
+        transform: translateY(-50%);
     }
 
 
