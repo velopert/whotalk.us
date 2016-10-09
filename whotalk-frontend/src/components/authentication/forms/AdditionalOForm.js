@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-const AdditionalOForm = ({form, onChange, onSubmit, onCancel}) => (
+const AdditionalOForm = ({form, status, onChange, onSubmit, onCancel}) => (
     <div className="ui massive form">
         <div className="field">
             <label>USERNAME</label>
@@ -10,8 +10,7 @@ const AdditionalOForm = ({form, onChange, onSubmit, onCancel}) => (
                     name="username"
                     placeholder="Username"
                     value={form.username}
-                    onChange={onChange}
-                />
+                    onChange={onChange}/>
                 <i className="user icon"></i>
             </div>
         </div>
@@ -22,7 +21,11 @@ const AdditionalOForm = ({form, onChange, onSubmit, onCancel}) => (
                 </a>
             </div>
             <div className="ten wide column">
-                <button className="massive pink ui button">
+                <button
+                    className={`massive pink ui button ${status.submitting ? 'loading' : ''}`}
+                    type="submit"
+                    onClick={onSubmit}
+                    disabled={status.submitting}>
                     SIGN UP
                 </button>
             </div>

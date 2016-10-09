@@ -15,7 +15,7 @@ router.get('/success', (req, res) => {
     //res.json({user: req.user});
     if(process.env.NODE_ENV === 'development') {
         if (req.user.common_profile.username !== null) {
-            res.redirect('http://localhost:3000/');
+            res.redirect('http://localhost:3000/auth/oauth-success');
         } else {
             res.redirect('http://localhost:3000/auth/register/additional-o');
         }
@@ -73,7 +73,8 @@ router.post('/oauth/register', (req, res) => {
         },
         email: {
             type: 'string',
-            pattern: 'email'
+            pattern: 'email',
+            optional: true
         }
     };
 
@@ -89,16 +90,17 @@ router.post('/oauth/register', (req, res) => {
 
     // wait for all fulfillments
     Promise
-        .all([p1, p2])
+        .all([p1/*, p2*/])
         .then(values => {
 
             if (values[0]) {
                 throw new PassportError(1, "USERNAME EXISTS");
             }
 
-            if (values[1]) {
-                throw new PassportError(2, "EMAIL EXISTS");
-            }
+            /* email duplication */
+            // if (values[1]) {
+            //     throw new PassportError(2, "EMAIL EXISTS");
+            // }
 
             // find User
             return Account
@@ -107,12 +109,12 @@ router.post('/oauth/register', (req, res) => {
         })
         .then(account => {
             account.common_profile.username = info.username;
-            account.common_profile.email = info.email;
+            //account.common_profile.email = info.email;
             return account.save();
         })
         .then(account => {
             req.user.common_profile.username = info.username;
-            req.user.common_profile.email = info.email;
+            //req.user.common_profile.email = info.email;
             req.user._id = account._id;
             cache
                 .passport

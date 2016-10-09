@@ -23,8 +23,12 @@ class Login extends Component {
     }
 
     @autobind
-    leaveTo(path) {
-        this.setState({animate: true, path});
+    leaveTo({path, express=false}) {
+         this.setState({animate: true, path});
+        if(express && process.env.NODE_ENV === 'development') {
+            document.location.href = "http://localhost:4000" + path ; 
+            return;
+        }
         setTimeout(() => this.setState({leave: true}), 700)
     }
 
@@ -53,7 +57,7 @@ class Login extends Component {
              return;
         }
 
-        this.leaveTo('/');
+        this.leaveTo({path: '/'});
         toastr.success(`Hello, ${this.props.status.user.common_profile.givenName}!`);
         
         AuthActions.setSubmitStatus({name: 'login', value: false});
@@ -71,7 +75,7 @@ class Login extends Component {
         }}/>);
 
         
-        const {handleChange, handleSubmit} = this;
+        const {handleChange, handleSubmit, leaveTo} = this;
         const { form, status } = this.props;
 
 
@@ -90,7 +94,7 @@ class Login extends Component {
                             onSubmit={handleSubmit}
                         />
                         <div className="login-footer">
-                            <p>New Here?&nbsp;<a onClick={() => this.leaveTo('/auth/register')}>
+                            <p>New Here?&nbsp;<a onClick={() => this.leaveTo({path: '/auth/register'})}>
                                     Create an account</a>
                             </p>
                             <p>
@@ -106,7 +110,7 @@ class Login extends Component {
                     <div className="social">
                         <p className="title">CLICK TO LOG IN WITH</p>
                         <div className="hide-on-mobile">
-                            <button className="ui facebook oauth button massive">
+                            <button className="ui facebook oauth button massive" onClick={()=>this.leaveTo({path: '/api/authentication/facebook', express: true})}>
                                 <i className="facebook icon"></i>
                                 Facebook
                             </button>

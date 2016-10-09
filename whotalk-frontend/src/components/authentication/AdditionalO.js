@@ -35,18 +35,18 @@ class AdditionalO extends Component {
     async checkSession() {
         await this.props.AuthActions.checkSession();
 
-        if(!this.props.session.user) {
+        if(!this.props.status.session.user) {
             // INVALID REQUEST
             this.leaveTo('/auth');
             toastr.error('Oops, your social ID is invalid');
             return;            
         }
 
-        if(this.props.session.logged) {
+        if(this.props.status.session.logged) {
             // already has a username
             this.leaveTo('/');
             toastr.warning('You already have signed in');
-            toastr.success(`Hello, ${this.props.session.user.common_profile.givenName}!`);
+            toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
             return;
         }
     }
@@ -69,12 +69,35 @@ class AdditionalO extends Component {
             return;
         }
 
-        AuthActions.setSubmitStatus({name: 'register', value: true});
+        AuthActions.setSubmitStatus({name: 'additional_o', value: true});
 
-
-        AuthActions.setSubmitStatus({name: 'register', value: false});
-
+        // check username
+        await AuthActions.checkUsername(form.username);
         
+        if(this.props.status.usernameExists) {
+            toastr.error('That username is already taken, please try another one.');
+            AuthActions.setSubmitStatus({name: 'register', value: false});
+            return;
+        }
+
+        try {
+            await AuthActions.oauthRegister({
+                username: form.username
+            });
+        } catch (e) {
+            toastr.error('Oops, server rejected your request (' + e.response.data.message + ')');
+            AuthActions.setSubmitStatus({name: 'additional', value: false});
+            this.leaveTo('/auth');
+            return;
+        }
+
+
+        // do session check one more time
+        await this.props.AuthActions.checkSession();
+
+        AuthActions.setSubmitStatus({name: 'additional_o', value: false});
+        toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`)
+        this.leaveTo('/');
     }
     
 
@@ -87,8 +110,8 @@ class AdditionalO extends Component {
             }
         }}/>);
 
-        const { handleChange, leaveTo } = this;
-        const { form } = this.props;
+        const { handleChange, handleSubmit, leaveTo } = this;
+        const { form, status } = this.props;
 
         return (
             <div className="additional">
@@ -100,8 +123,10 @@ class AdditionalO extends Component {
                     <div className="subtitle">TELL US YOUR USERNAME</div>
                     <AdditionalOForm
                         form={form}
+                        status={status}
                         onChange={handleChange}
                         onCancel={()=>leaveTo('/auth')}
+                        onSubmit={handleSubmit}
                     />
                 </div>
 

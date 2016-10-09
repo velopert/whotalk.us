@@ -49,6 +49,9 @@ const initialState = {
         },
         checkSession: {
             ...request
+        },
+        oauthRegister: {
+            ...request
         }
     },
     submitStatus: { ...submitStatus }
@@ -273,10 +276,36 @@ function auth(state=initialState, action) {
                 ...state,
                 requests: {
                     ...state.requests,
-                    checkSession: { ...pending, error: payload }
+                    checkSession: { ...rejected, error: payload }
                 }
             }
 
+        case AUTH.OAUTH_REGISTER + "_PENDING":
+            return {
+                ...state,
+                request: {
+                    ...state.requests,
+                    oauthRegister: { ...pending }
+                }
+            }
+            
+        case AUTH.OAUTH_REGISTER + "_FULFILLED":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    checkSession: { ...fulfilled }
+                }
+            }
+
+        case AUTH.OAUTH_REGISTER + "_REJECTED":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    checkSession: { ...rejected, error: payload }
+                }
+            }
         
 
         default:

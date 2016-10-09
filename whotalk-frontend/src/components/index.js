@@ -11,6 +11,7 @@ import Register from './authentication/Register';
 import Additional from './authentication/Additional';
 import AdditionalO from './authentication/AdditionalO';
 import OAuthFailure from './authentication/OAuthFailure';
+import OAuthSuccess from './authentication/OAuthSuccess';
 
 
 export { 
@@ -25,5 +26,6 @@ export {
     Register,
     Additional,
     AdditionalO,
-    OAuthFailure
+    OAuthFailure,
+    OAuthSuccess
 }

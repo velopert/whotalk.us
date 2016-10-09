@@ -10,8 +10,7 @@ const LoginForm = ({form, status, onChange, onSubmit}) => (
                     type="text"
                     placeholder="Username"
                     value={form.username}
-                    onChange={onChange}
-                />
+                    onChange={onChange}/>
                 <i className="user icon"></i>
             </div>
         </div>
@@ -23,12 +22,17 @@ const LoginForm = ({form, status, onChange, onSubmit}) => (
                     type="password"
                     placeholder="Password"
                     value={form.password}
-                    onChange={onChange}
-                />
+                    onChange={onChange}/>
                 <i className="lock icon"></i>
             </div>
         </div>
-        <button className={`massive pink ui button ${status.submitting ? 'loading' : ''}`} type="submit" onClick={onSubmit} disabled={status.submitting}>
+        <button
+            className={`massive pink ui button ${status.submitting
+            ? 'loading'
+            : ''}`}
+            type="submit"
+            onClick={onSubmit}
+            disabled={status.submitting}>
             LOG IN
         </button>
     </div>

@@ -47,3 +47,9 @@ export const localLogin = ({
 export const checkSession = () => request({
     url: '/api/authentication/check'
 });
+
+export const oauthRegister = ({username}) => request({
+    url: '/api/authentication/oauth/register',
+    method: 'post',
+    data: { username }
+});

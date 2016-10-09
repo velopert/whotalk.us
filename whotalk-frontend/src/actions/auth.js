@@ -50,3 +50,11 @@ export const checkSession = () => ({
         promise: service.checkSession()
     }
 });
+
+
+export const oauthRegister = ({username}) => ({
+    type: AUTH.OAUTH_REGISTER,
+    payload: {
+        promise: service.oauthRegister({username})
+    }
+});
