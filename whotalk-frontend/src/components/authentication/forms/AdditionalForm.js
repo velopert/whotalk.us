@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-const AdditionalForm = ({form, status, onSelect, onChange, onSubmit, onBlur, onLeave, error}) => (
+const AdditionalForm = ({form, status, onSelect, onChange, onSubmit, onBlur, onCancel, error}) => (
     <div className="ui massive form">
         <div className="field">
             <label>NAME</label>
