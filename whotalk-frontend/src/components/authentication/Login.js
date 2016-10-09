@@ -69,6 +69,13 @@ class Login extends Component {
         
     }
 
+    @autobind
+    handleKeyPress(e) {
+        if (e.charCode === 13) {
+            this.handleSubmit();
+        }
+    }
+
     render() {
 
         const redirect = (<Redirect
@@ -80,7 +87,7 @@ class Login extends Component {
         }}/>);
 
         
-        const {handleChange, handleSubmit, leaveTo} = this;
+        const {handleChange, handleSubmit, handleKeyPress, leaveTo} = this;
         const { form, status } = this.props;
 
 
@@ -97,6 +104,7 @@ class Login extends Component {
                             status={status}
                             onChange={handleChange}
                             onSubmit={handleSubmit}
+                            onKeyPress={handleKeyPress}
                         />
                         <div className="login-footer">
                             <p>New Here?&nbsp;<a onClick={() => this.leaveTo({path: '/auth/register'})}>
@@ -115,24 +123,24 @@ class Login extends Component {
                     <div className="social">
                         <p className="title">CLICK TO LOG IN WITH</p>
                         <div className="hide-on-mobile">
-                            <button className="ui facebook oauth button massive" onClick={()=>this.leaveTo({path: '/api/authentication/facebook', express: true})}>
+                            <button className="ui facebook oauth button massive" onClick={()=>leaveTo({path: '/api/authentication/facebook', express: true})}>
                                 <i className="facebook icon"></i>
                                 Facebook
                             </button>
 
-                            <button className="ui google plus oauth button massive" onClick={()=>this.leaveTo({path: '/api/authentication/google', express: true})}>
+                            <button className="ui google plus oauth button massive" onClick={()=>leaveTo({path: '/api/authentication/google', express: true})}>
                                 <i className="google icon"></i>
                                 Google
                             </button>
                         </div>
                         <div className="ui grid hide-on-desktop">
                             <div className="eight wide column">
-                                <button className="ui facebook button icon massive" onClick={()=>this.leaveTo({path: '/api/authentication/facebook', express: true})}>
+                                <button className="ui facebook button icon massive" onClick={()=>leaveTo({path: '/api/authentication/facebook', express: true})}>
                                     <i className="facebook icon"></i>
                                 </button>
                             </div>
                             <div className="eight wide column">
-                                <button className="ui google plus icon button massive" onClick={()=>this.leaveTo({path: '/api/authentication/google', express: true})}>
+                                <button className="ui google plus icon button massive" onClick={()=>leaveTo({path: '/api/authentication/google', express: true})}>
                                     <i className="google icon"></i>
                                 </button>
                             </div>

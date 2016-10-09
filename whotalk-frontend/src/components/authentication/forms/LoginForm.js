@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-const LoginForm = ({form, status, onChange, onSubmit}) => (
+const LoginForm = ({form, status, onChange, onSubmit, onKeyPress}) => (
     <div className="ui massive form">
         <div className="field">
             <label>USERNAME</label>
@@ -22,7 +22,9 @@ const LoginForm = ({form, status, onChange, onSubmit}) => (
                     type="password"
                     placeholder="Password"
                     value={form.password}
-                    onChange={onChange}/>
+                    onChange={onChange}
+                    onKeyPress={onKeyPress}
+                />
                 <i className="lock icon"></i>
             </div>
         </div>
