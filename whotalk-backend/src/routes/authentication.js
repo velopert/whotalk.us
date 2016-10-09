@@ -69,7 +69,7 @@ router.post('/oauth/register', (req, res) => {
     const validation = {
         username: {
             type: 'string',
-            minLength: 5
+            pattern: /^[0-9a-z_]{4,20}$/
         },
         email: {
             type: 'string',
@@ -172,7 +172,7 @@ function validateRegisterBody(body) {
         properties: {
             username: {
                 type: 'string',
-                pattern: /^[0-9a-z]{4,15}$/
+                pattern: /^[0-9a-z_]{4,20}$/
             },
             password: {
                 type: 'string',
