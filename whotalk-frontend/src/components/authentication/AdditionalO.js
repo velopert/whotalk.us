@@ -61,11 +61,11 @@ class AdditionalO extends Component {
     async handleSubmit() {
         const { form, AuthActions } = this.props;
 
-        const regex = /^[0-9a-z]{4,15}$/;
+        const regex = /^[0-9a-z_]{4,20}$/
         
         // check regex
         if(!regex.test(form.username)) {
-            toastr.error('<b><i>Username</i></b> should be 4 ~ 14 alphanumeric characters.');
+            toastr.error('<b><i>Username</i></b> should be 4 ~ 20 alphanumeric characters or an underscore (_)');
             return;
         }
 

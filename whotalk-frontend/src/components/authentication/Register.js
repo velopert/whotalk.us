@@ -33,7 +33,7 @@ class Register extends Component {
 
         // do username / password regex check
         const regex = {
-            username: /^[0-9a-z]{4,15}$/,
+            username: /^[0-9a-z_]{4,20}$/,
             password: /^.{5,30}$/
         }
 
@@ -49,7 +49,7 @@ class Register extends Component {
 
         if (!regex.username.test(username)) {
             error = true;
-            toastr.error('<b><i>Username</i></b> should be 4 ~ 14 alphanumeric characters.');
+            toastr.error('<b><i>Username</i></b> should be 4 ~ 20 alphanumeric characters or an underscore (_)');
             FormActions.setInputError({form: 'register', name: 'username', error: true});
         } else {
             FormActions.setInputError({form: 'register', name: 'username', error: false});
