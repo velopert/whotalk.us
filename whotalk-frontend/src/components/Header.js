@@ -2,20 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
 
-export const HeaderMode = {
-    DEFAULT: 'DEFAULT',
-    HOME: 'HOME',
-    LOGIN: 'LOGIN'
-}
-
 const propTypes = {
-    mode: PropTypes.oneOf(Object.keys(HeaderMode)),
     like: PropTypes.bool,
     bar: PropTypes.bool
 };
 
 const defaultProps = {
-    mode: HeaderMode.DEFAULT,
     like: false,
     bar: false,
     search: false
