@@ -66,9 +66,9 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <div>
+                <div className="root">
                     <Background/>
-                    <div className="root">
+                    <div>
                         <Match exactly pattern="/" component={Home}/>
                         <Match pattern="/auth" component={Auth}/>
                     </div>

@@ -140,6 +140,7 @@ class Auth extends Component {
         return (
             <div>
                 <Header/>
+                <div className="fullscreen-container">
                 <Match exactly pattern={pathname} component={LoginRoute}/>
                 <Match pattern={`${pathname}/login`} component={LoginRoute}/>
                 <Match exactly pattern={`${pathname}/register`} component={RegisterRoute}/>
@@ -149,6 +150,7 @@ class Auth extends Component {
                     component={AdditionalORoute}/>
                 <Match pattern={`${pathname}/oauth-failure`} component={OAuthFailure}/>
                 <Match pattern={`${pathname}/oauth-success`} component={OAuthSuccessRoute}/>
+                </div>
             </div>
         );
     }

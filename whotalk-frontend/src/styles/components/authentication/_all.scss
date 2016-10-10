@@ -1,3 +1,9 @@
 @import "Login";
 @import "Register";
 @import "Additional";
+
+.fullscreen-container {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+}
