@@ -4,22 +4,16 @@ import autobind from 'autobind-decorator';
 
 const propTypes = {
     like: PropTypes.bool,
-    bar: PropTypes.bool
+    transparency: PropTypes.bool
 };
 
 const defaultProps = {
     like: false,
-    bar: false,
+    transparency: true,
     search: false
 };
 
 class Header extends Component {
-
-    @autobind
-    toggleHeader() {
-        $('.ui.sidebar').sidebar('toggle');
-    }
-
     render() {
 
         const search = (
@@ -30,15 +24,16 @@ class Header extends Component {
             </div>
         )
 
+        const { transparency } = this.props;
+
+
         return (
             <div className="header">
                 <div className="top">
                     <div
-                        className={"bar" + (this.props.bar
-                        ? ' show'
-                        : '')}></div>
+                        className={`bar ${transparency ? '' : 'show'}`}></div>
                     <Link to="/" className="top-logo">WHOTALK</Link>
-                    <div className="menu-button" onClick={this.toggleHeader}>
+                    <div className="menu-button">
                         <div className="icon-wrapper">
                             <i className="sidebar icon"></i>
                         </div>

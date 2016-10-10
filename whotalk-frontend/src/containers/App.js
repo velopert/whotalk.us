@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Match} from 'react-router';
-import {Background, Dimmed} from 'components';
+import {Background, Dimmed, Header} from 'components';
 import {Home, Auth} from 'containers';
 import {connect} from 'react-redux';
 import {storage} from 'helpers';
 import {bindActionCreators} from 'redux';
 import * as auth from 'actions/auth.js';
+import * as ui from 'actions/ui';
+import autobind from 'autobind-decorator';
+import { Events, scrollSpy } from 'react-scroll';
+
 const toastr = window.toastr;
 
 class App extends Component {
@@ -21,7 +25,47 @@ class App extends Component {
         }
     }
 
+
+    @autobind;
+    handleScroll(e) {
+        console.log(window.innerHeight - window.scrollY);
+
+        const { UIActions, ui } = this.props;
+
+        /* HIDE & SHOW HEADER BAR */
+        if(window.innerHeight - window.scrollY <= 50 && ui.header.transparent) {
+            UIActions.setHeaderTransparency(false);
+            //alert('show mofucka');
+            // this.setState({
+            //     showHeaderBar: true
+            // });
+        }
+
+        /* HIDE & SHOW HEADER BAR */
+        if(window.innerHeight - window.scrollY > 50 && !ui.header.transparent) {
+            UIActions.setHeaderTransparency(true);
+            //alert('hie mothra fucka');
+            // this.setState({
+            //     showHeaderBar: false
+            // });
+        }
+    }
+
     async componentDidMount() {
+
+
+        Events.scrollEvent.register('begin', function (to, element) {
+            console.log("begin", arguments);
+        });
+
+        Events.scrollEvent.register('end', function (to, element) {
+            console.log("end", arguments);
+        });
+
+        scrollSpy.update();
+
+        window.addEventListener('scroll', this.handleScroll);
+
         let session = storage.get('session');
 
         if (session) {
@@ -64,11 +108,15 @@ class App extends Component {
     }
 
     render() {
+
+        const { ui } = this.props;
+
         return (
             <Router>
                 <div className="root open-sidebar">
                     <Background/>
                     <Dimmed/>
+                    <Header transparency={ui.header.transparent} search={true}/>
                     <div>
                         <Match exactly pattern="/" component={Home}/>
                         <Match pattern="/auth" component={Auth}/>
@@ -77,15 +125,27 @@ class App extends Component {
             </Router>
         );
     }
+
+    componentWillUnmount() {
+         window.removeEventListener('scroll', this.handleScroll);
+    }
+    
 }
 
 App = connect(state => ({
     status: {
         session: state.auth.session
+    },
+    ui: {
+        header: state.ui.header
     }
 }), dispatch => ({
     AuthActions: bindActionCreators({
         checkSession: auth.checkSession
+    }, dispatch),
+    UIActions: bindActionCreators({
+        toggleSidebar: ui.toggleSidebar,
+        setHeaderTransparency: ui.setHeaderTransparency
     }, dispatch)
 }))(App);
 

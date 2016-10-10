@@ -87,9 +87,6 @@ class Home extends Component {
     render() {
         return (
             <div className="home">
-
-                <Header mode={HeaderMode.HOME} bar={this.state.showHeaderBar} search={true}/>
-
                 <HomeScreen 
                     like={this.state.showLikeButton}
                     logged={this.props.status.session.logged}
