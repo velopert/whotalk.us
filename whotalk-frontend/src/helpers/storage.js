@@ -5,6 +5,9 @@ storage.set = (key, object) => {
 }
 
 storage.get = (key) => {
+    if(!localStorage[key]) {
+        return undefined;
+    }
     return JSON.parse(localStorage[key]);
 }
 
