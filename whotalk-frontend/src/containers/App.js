@@ -68,8 +68,10 @@ class App extends Component {
             <Router>
                 <div>
                     <Background/>
-                    <Match exactly pattern="/" component={Home}/>
-                    <Match pattern="/auth" component={Auth}/>
+                    <div className="root">
+                        <Match exactly pattern="/" component={Home}/>
+                        <Match pattern="/auth" component={Auth}/>
+                    </div>
                 </div>
             </Router>
         );

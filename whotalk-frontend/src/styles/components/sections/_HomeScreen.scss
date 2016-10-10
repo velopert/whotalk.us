@@ -2,14 +2,14 @@
     .space {
         height: 100vh;
         text-align: center;
+        position: relative;
     }
     .header-contents {
         position: absolute;
-        top: 50vh;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         color: white;
-
     }
     .logo-wrapper {
         display: inline-block;
