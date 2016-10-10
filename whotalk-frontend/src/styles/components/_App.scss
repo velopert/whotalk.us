@@ -1,0 +1,9 @@
+.root {
+    position: absolute;
+    transition: all .5s ease;
+    left: 0px;
+
+    &.open-sidebar {
+        left: 0px;
+    }
+}

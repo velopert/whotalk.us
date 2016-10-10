@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Match} from 'react-router';
-import {Background} from 'components';
+import {Background, Dimmed} from 'components';
 import {Home, Auth} from 'containers';
 import {connect} from 'react-redux';
 import {storage} from 'helpers';
@@ -66,8 +66,9 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <div className="root">
+                <div className="root open-sidebar">
                     <Background/>
+                    <Dimmed/>
                     <div>
                         <Match exactly pattern="/" component={Home}/>
                         <Match pattern="/auth" component={Auth}/>

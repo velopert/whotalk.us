@@ -13,7 +13,8 @@ import AdditionalO from './authentication/AdditionalO';
 import OAuthFailure from './authentication/OAuthFailure';
 import OAuthSuccess from './authentication/OAuthSuccess';
 
-
+import Sidebar from './Sidebar';
+import Dimmed from './Dimmed';
 export { 
     Background, 
     Header, 
@@ -27,5 +28,7 @@ export {
     Additional,
     AdditionalO,
     OAuthFailure,
-    OAuthSuccess
+    OAuthSuccess,
+    Sidebar,
+    Dimmed
 }
