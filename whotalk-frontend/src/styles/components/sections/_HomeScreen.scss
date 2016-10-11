@@ -118,7 +118,7 @@
     }
     .like-button {
         position: absolute;
-        right: 20px;
+        right: 33px;
         bottom: -10px;
         @include media("<=tablet") {
             display: none;

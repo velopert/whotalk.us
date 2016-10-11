@@ -15,6 +15,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as auth from 'actions/auth.js';
 import * as form from 'actions/form';
+import * as ui from 'actions/ui';
 
 let LoginRoute = (props) => {
     return (<Login {...props}/>)
@@ -135,11 +136,15 @@ OAuthSuccessRoute = connect(
 // connect this component to redux
 
 class Auth extends Component {
+    componentDidMount() {
+        const { dispatch } = this.props;
+        dispatch(ui.setHeaderTransparency(true));
+    }
+    
     render() {
         const {pathname} = this.props;
         return (
             <div>
-                <Header/>
                 <div className="fullscreen-container">
                 <Match exactly pattern={pathname} component={LoginRoute}/>
                 <Match pattern={`${pathname}/login`} component={LoginRoute}/>
@@ -156,4 +161,5 @@ class Auth extends Component {
     }
 }
 
+Auth = connect()(Auth);
 export default Auth;

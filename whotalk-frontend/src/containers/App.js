@@ -32,22 +32,25 @@ class App extends Component {
 
         const { UIActions, ui } = this.props;
 
-        /* HIDE & SHOW HEADER BAR */
-        if(window.innerHeight - window.scrollY <= 50 && ui.header.transparent) {
-            UIActions.setHeaderTransparency(false);
-            //alert('show mofucka');
-            // this.setState({
-            //     showHeaderBar: true
-            // });
-        }
 
-        /* HIDE & SHOW HEADER BAR */
-        if(window.innerHeight - window.scrollY > 50 && !ui.header.transparent) {
-            UIActions.setHeaderTransparency(true);
-            //alert('hie mothra fucka');
-            // this.setState({
-            //     showHeaderBar: false
-            // });
+        if(window.location.pathname === "/") {
+            /* HIDE & SHOW HEADER BAR */
+            if(window.innerHeight - window.scrollY <= 50 && ui.header.transparent) {
+                UIActions.setHeaderTransparency(false);
+                //alert('show mofucka');
+                // this.setState({
+                //     showHeaderBar: true
+                // });
+            }
+
+            /* HIDE & SHOW HEADER BAR */
+            if(window.innerHeight - window.scrollY > 50 && !ui.header.transparent) {
+                UIActions.setHeaderTransparency(true);
+                //alert('hie mothra fucka');
+                // this.setState({
+                //     showHeaderBar: false
+                // });
+            }
         }
     }
 
