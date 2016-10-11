@@ -4,14 +4,25 @@ div.sidebar { // just a '.sidebar' will also be applied to the sidebar
     top: 0;
     
     
-    width: 280px;
+    width: 0px;
     height: 100%;
-    background-color: #495057;
+    background-color: #e9ecef;
     //transform: translateX(-300px);
     transition: all .5s ease;
-    z-index: -3;
+    color: red;
+    overflow-x: hidden;
 
     &.open {
         //transform: translateX(0px);
+        width: 280px;
+    }
+
+        a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
     }
 }
