@@ -1,0 +1,17 @@
+div.sidebar { // just a '.sidebar' will also be applied to the sidebar
+    position: fixed;
+    left: 0;
+    top: 0;
+    
+    
+    width: 280px;
+    height: 100%;
+    background-color: #495057;
+    //transform: translateX(-300px);
+    transition: all .5s ease;
+    z-index: -3;
+
+    &.open {
+        //transform: translateX(0px);
+    }
+}

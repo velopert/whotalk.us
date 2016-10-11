@@ -4,6 +4,7 @@
     left: 0px;
 
     &.open-sidebar {
-        left: 0px;
+        box-shadow: -10px 0 10px -10px #333;
+        left: 280px;
     }
 }

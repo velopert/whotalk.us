@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Dimmed = () => {
+const Dimmed = ({enable, onClick}) => {
     return (
-        <div className="dimmed">
+        <div className={`dimmed ${enable ? 'enable' : ''}`} onClick={onClick}>
             
         </div>
     );

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Match} from 'react-router';
-import {Background, Dimmed, Header} from 'components';
+import {Background, Dimmed, Header, Sidebar} from 'components';
 import {Home, Auth} from 'containers';
 import {connect} from 'react-redux';
 import {storage} from 'helpers';
@@ -9,6 +9,8 @@ import * as auth from 'actions/auth.js';
 import * as ui from 'actions/ui';
 import autobind from 'autobind-decorator';
 import { Events, scrollSpy } from 'react-scroll';
+import { toggleScroll } from 'helpers/scroll';
+
 
 const toastr = window.toastr;
 
@@ -25,8 +27,14 @@ class App extends Component {
         }
     }
 
+    @autobind
+    handleSidebarToggle() {
+        const { UIActions } = this.props;
+        UIActions.toggleSidebar();
+        toggleScroll();
+    }
 
-    @autobind;
+    @autobind
     handleScroll(e) {
         console.log(window.innerHeight - window.scrollY);
 
@@ -113,13 +121,15 @@ class App extends Component {
     render() {
 
         const { ui } = this.props;
+        const { handleSidebarToggle } = this;
 
         return (
             <Router>
-                <div className="root open-sidebar">
+                <div className={`root ${ui.sidebar.show ? 'open-sidebar' : ''}`}>
                     <Background/>
-                    <Dimmed/>
-                    <Header transparency={ui.header.transparent} search={true}/>
+                    <Sidebar open={ui.sidebar.show}/>
+                    <Dimmed enable={ui.sidebar.show} onClick={handleSidebarToggle}/>
+                    <Header transparency={ui.header.transparent} onSidebarToggle={handleSidebarToggle}/>
                     <div>
                         <Match exactly pattern="/" component={Home}/>
                         <Match pattern="/auth" component={Auth}/>
@@ -140,6 +150,7 @@ App = connect(state => ({
         session: state.auth.session
     },
     ui: {
+        sidebar: state.ui.sidebar,
         header: state.ui.header
     }
 }), dispatch => ({
