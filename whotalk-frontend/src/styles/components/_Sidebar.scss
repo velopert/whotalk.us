@@ -1,4 +1,5 @@
-div.sidebar { // just a '.sidebar' will also be applied to the sidebar
+div.sidebar {
+    // just a '.sidebar' will also be applied to the sidebar
     position: fixed;
     left: 0;
     top: 0;
@@ -8,27 +9,41 @@ div.sidebar { // just a '.sidebar' will also be applied to the sidebar
     //transform: translateX(-300px);
     transition: all .5s ease;
     overflow-x: hidden;
-
     &.open {
         //transform: translateX(0px);
         width: 280px;
     }
-
     .sidebar-top {
         background-color: #495057;
         padding: 20px;
         width: 280px;
-        
         .button-container {
             text-align: right;
-            
             .circular-button {
                 display: inline-block;
             }
-
-            .circular-button + .circular-button {
+            .circular-button+.circular-button {
                 margin-left: 5px;
             }
         }
+
+        .profile {
+            .circle {
+                border-radius: 50%;
+                width: 150px;
+                height: 150px;
+                background-color: #F8F8F8;
+                margin-top: 20px;
+                margin-left: 50%;
+                transform: translateX(-50%);
+                box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+                .image {
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                }
+            }
+        }
+
     }
 }

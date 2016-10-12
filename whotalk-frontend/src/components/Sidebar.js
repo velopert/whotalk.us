@@ -17,6 +17,9 @@ class Sidebar extends Component {
                         <SettingsButton/>
                         <SignOutButton/>
                     </ButtonContainer>
+                    <Profile>
+                        <Circle/>
+                    </Profile>
                 </Top>
             </div>
         );
@@ -36,7 +39,9 @@ const ButtonContainer = ({children}) => (
 )
 
 const SettingsButton = ({onClick}) => (
-    <div className="settings-button circular-button" data-content="Settings"
+    <div
+        className="settings-button circular-button"
+        data-content="Settings"
         data-variation="inverted">
         <button className="ui circular grey icon button">
             <i className="setting icon"></i>
@@ -54,5 +59,24 @@ const SignOutButton = ({onClick}) => (
         </button>
     </div>
 )
+
+const Profile = ({children}) => (
+    <div className="profile">
+        {children}
+    </div>
+);
+
+const Circle = ({image}) => (
+    <div className="circle">
+        <div className="image"
+        style={{
+            background: `url(${image}) no-repeat`
+        }}></div>
+    </div>
+)
+
+Circle.defaultProps = {
+    image: 'http://imgh.us/1472483328_user.svg'
+}
 
 export default Sidebar;
