@@ -12,10 +12,15 @@ import store from './store';
 
 const toastr = window.toastr;
 
-ReactDOM.render((
-    <Provider store={store}>
-        <App/>
-    </Provider>
-), document.getElementById('root'));
+
 
 toastr.options.preventDuplicates = true;
+
+$(window).bind("load", function() {
+    $('#loader').addClass('hide');
+    ReactDOM.render((
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    ), document.getElementById('root'));
+});
