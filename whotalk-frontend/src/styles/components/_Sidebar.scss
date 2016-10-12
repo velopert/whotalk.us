@@ -43,6 +43,22 @@ div.sidebar {
                     border-radius: 50%;
                 }
             }
+
+            .info {
+                margin-top: 8px;
+                text-align: center;
+                .username {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #f8f9fa;
+                    padding-bottom: 2px;
+                }
+                .name {
+                    padding-top: 2px;
+                    font-size: 15px;
+                    color: #ced4da;
+                }
+            }
         }
 
     }

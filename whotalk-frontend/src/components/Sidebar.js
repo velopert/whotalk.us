@@ -19,6 +19,7 @@ class Sidebar extends Component {
                     </ButtonContainer>
                     <Profile>
                         <Circle/>
+                        <Info/>
                     </Profile>
                 </Top>
             </div>
@@ -73,10 +74,17 @@ const Circle = ({image}) => (
             background: `url(${image}) no-repeat`
         }}></div>
     </div>
-)
+);
 
 Circle.defaultProps = {
     image: 'http://imgh.us/1472483328_user.svg'
-}
+};
+
+const Info = () => (
+    <div className="info">
+        <div className="username">@velopert</div>
+        <div className="name">Minjun Kim</div>
+    </div>
+);
 
 export default Sidebar;
