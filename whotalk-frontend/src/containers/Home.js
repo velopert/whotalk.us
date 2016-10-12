@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import {
-    Header,
     HomeScreen,
     InfoSection,
     MainSection,
     DevSection,
     Footer
 } from 'components';
-import { HeaderMode } from 'components/Header';
 import { Events, scrollSpy } from 'react-scroll';
 import { connect } from 'react-redux';
 
