@@ -1,22 +1,57 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const Sidebar = ({open}) => {
-    return (
-        <div className={`sidebar ${open
-            ? 'open'
-            : ''}`}>
-  <a href="#">About</a>
-  <a href="#">Services</a>
-  <a href="#">Clients</a>
-  <a href="#">Contact</a>
-            <SignOut/>
-        </div>
-    );
-};
+class Sidebar extends Component {
+    componentDidMount() {
+        $('.circular-button').popup({position: 'bottom center'});
+    }
 
-const SignOut = ({onClick}) => (
-    <div className="sign-out">
-        
+    render() {
+        const {open} = this.props;
+        return (
+            <div
+                className={`sidebar ${open
+                ? 'open'
+                : ''}`}>
+                <Top>
+                    <ButtonContainer>
+                        <SettingsButton/>
+                        <SignOutButton/>
+                    </ButtonContainer>
+                </Top>
+            </div>
+        );
+    }
+}
+
+const Top = ({children}) => (
+    <div className="sidebar-top">
+        {children}
+    </div>
+)
+
+const ButtonContainer = ({children}) => (
+    <div className="button-container">
+        {children}
+    </div>
+)
+
+const SettingsButton = ({onClick}) => (
+    <div className="settings-button circular-button" data-content="Settings"
+        data-variation="inverted">
+        <button className="ui circular grey icon button">
+            <i className="setting icon"></i>
+        </button>
+    </div>
+);
+
+const SignOutButton = ({onClick}) => (
+    <div
+        className="signout-button circular-button"
+        data-content="Sign Out"
+        data-variation="inverted">
+        <button className="ui circular pink icon button">
+            <i className="sign out icon"></i>
+        </button>
     </div>
 )
 

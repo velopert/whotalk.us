@@ -2,14 +2,11 @@ div.sidebar { // just a '.sidebar' will also be applied to the sidebar
     position: fixed;
     left: 0;
     top: 0;
-    
-    
     width: 0px;
     height: 100%;
     background-color: #e9ecef;
     //transform: translateX(-300px);
     transition: all .5s ease;
-    color: red;
     overflow-x: hidden;
 
     &.open {
@@ -17,12 +14,21 @@ div.sidebar { // just a '.sidebar' will also be applied to the sidebar
         width: 280px;
     }
 
-        a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s
+    .sidebar-top {
+        background-color: #495057;
+        padding: 20px;
+        width: 280px;
+        
+        .button-container {
+            text-align: right;
+            
+            .circular-button {
+                display: inline-block;
+            }
+
+            .circular-button + .circular-button {
+                margin-left: 5px;
+            }
+        }
     }
 }
