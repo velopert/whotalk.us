@@ -22,6 +22,9 @@ class Sidebar extends Component {
                         <Info/>
                     </Profile>
                 </Top>
+                <Bottom>
+                   <Followship/>
+                </Bottom>
             </div>
         );
     }
@@ -86,5 +89,26 @@ const Info = () => (
         <div className="name">Minjun Kim</div>
     </div>
 );
+
+const Bottom = ({children}) => (
+    <div className="sidebar-bottom">
+        {children}
+    </div>
+);
+
+const Followship = () => (
+    <div className="followship">
+        <div className="ui grid">
+            <div className="eight wide column">
+                <div className="title">FOLLOWING</div>
+                <div className="value">1000</div>
+            </div>
+            <div className="eight wide column">
+                <div className="title">FOLLOWER</div>
+                <div className="value">1000</div>
+            </div>
+        </div>
+    </div>
+)
 
 export default Sidebar;

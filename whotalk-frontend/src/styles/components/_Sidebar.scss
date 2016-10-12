@@ -60,6 +60,32 @@ div.sidebar {
                 }
             }
         }
-
     }
+
+    .sidebar-bottom {
+        width: 280px;
+        .followship {
+            .grid { margin: 0 }
+            background-color: white;
+            text-align: center;
+            border-bottom: 1px solid #ced4da;
+            border-top: 1px solid #343a40;
+            .column + .column {
+                border-left: 1px solid #e9ecef;
+            }
+            .title {
+                color: #343a40;
+                font-size: 17px;
+                font-weight: 800;
+            }
+            .value {
+                padding-top: 14px;
+                color: #868e96;
+                font-size: 30px;
+                font-weight: 600;
+                padding-bottom: 3px;
+            }
+        }
+    }
+
 }
