@@ -6,7 +6,6 @@ import {
     DevSection,
     Footer
 } from 'components';
-import { Events, scrollSpy } from 'react-scroll';
 import { connect } from 'react-redux';
 
 
@@ -54,11 +53,6 @@ class Home extends Component {
                 <Footer/>
             </div>
         );
-    }
-
-    componentWillMount() {
-        Events.scrollEvent.remove('begin');
-        Events.scrollEvent.remove('end');
     }
 }
 
