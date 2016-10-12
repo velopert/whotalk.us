@@ -45,19 +45,20 @@ class App extends Component {
             /* HIDE & SHOW HEADER BAR */
             if(window.innerHeight - window.scrollY <= 50 && ui.header.transparent) {
                 UIActions.setHeaderTransparency(false);
-                //alert('show mofucka');
-                // this.setState({
-                //     showHeaderBar: true
-                // });
             }
 
             /* HIDE & SHOW HEADER BAR */
             if(window.innerHeight - window.scrollY > 50 && !ui.header.transparent) {
                 UIActions.setHeaderTransparency(true);
-                //alert('hie mothra fucka');
-                // this.setState({
-                //     showHeaderBar: false
-                // });
+            }
+
+            if(window.innerHeight - window.scrollY <= 100 && ui.like) {
+                UIActions.setLikeTransparency(false);
+            }
+
+            /* HIDE & SHOW HEADER BAR */
+            if(window.innerHeight - window.scrollY > 100 && !ui.like) {
+                UIActions.setLikeTransparency(true);
             }
         }
     }
@@ -151,7 +152,8 @@ App = connect(state => ({
     },
     ui: {
         sidebar: state.ui.sidebar,
-        header: state.ui.header
+        header: state.ui.header,
+        like: state.ui.home.like
     }
 }), dispatch => ({
     AuthActions: bindActionCreators({
@@ -159,7 +161,8 @@ App = connect(state => ({
     }, dispatch),
     UIActions: bindActionCreators({
         toggleSidebar: ui.toggleSidebar,
-        setHeaderTransparency: ui.setHeaderTransparency
+        setHeaderTransparency: ui.setHeaderTransparency,
+        setLikeTransparency: ui.setLikeTransparency
     }, dispatch)
 }))(App);
 

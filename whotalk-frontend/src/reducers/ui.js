@@ -6,6 +6,9 @@ const initialState = {
     },
     header: {
         transparent: true
+    },
+    home: {
+        like: true
     }
 };
 
@@ -20,14 +23,21 @@ function ui(state=initialState, action) {
                     ...state.sidebar,
                     show: !state.sidebar.show
                 }
-            }
+            };
         case UI.SET_HEADER_TRANSPARENCY:
             return {
                 ...state,
                 header: {
                     transparent: payload
                 }
-            }
+            };
+        case UI.SET_LIKE_TRANSPARENCY:
+            return {
+                ...state,
+                home: {
+                    like: payload
+                }
+            };
         default: 
             return state;
     }
