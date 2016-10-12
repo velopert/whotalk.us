@@ -13,7 +13,7 @@ import AdditionalO from './authentication/AdditionalO';
 import OAuthFailure from './authentication/OAuthFailure';
 import OAuthSuccess from './authentication/OAuthSuccess';
 
-import Sidebar from './Sidebar';
+import Sidebar from './sidebar/Sidebar';
 import Dimmed from './Dimmed';
 export { 
     Background, 

@@ -24,6 +24,7 @@ class Sidebar extends Component {
                 </Top>
                 <Bottom>
                    <Followship/>
+                   <Notification/>
                 </Bottom>
             </div>
         );
@@ -101,11 +102,11 @@ const Followship = () => (
         <div className="ui grid">
             <div className="eight wide column">
                 <div className="title">FOLLOWING</div>
-                <div className="value">1000</div>
+                <div className="value">0</div>
             </div>
             <div className="eight wide column">
                 <div className="title">FOLLOWER</div>
-                <div className="value">1000</div>
+                <div className="value">0</div>
             </div>
         </div>
     </div>
