@@ -12,6 +12,8 @@ import store from './store';
 
 import 'helpers/alertifyStyles';
 
+
+
 const toastr = window.toastr;
 toastr.options.preventDuplicates = true;
 

@@ -21,7 +21,6 @@
     "nodemon": "^1.10.2"
   },
   "dependencies": {
-    "alertify": "^0.3.0",
     "babel-eslint": "^6.1.2",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-preset-es2016": "^6.11.3",

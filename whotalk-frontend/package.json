@@ -69,7 +69,8 @@
     "redux-promise-middleware": "^4.0.0",
     "redux-thunk": "^2.1.0",
     "remove": "^0.1.5",
-    "sass-loader": "^4.0.1"
+    "sass-loader": "^4.0.1",
+    "string-hash": "^1.1.0"
   },
   "scripts": {
     "start": "node ./scripts/start.js",

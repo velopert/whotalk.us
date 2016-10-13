@@ -3,6 +3,7 @@ import {Link, Redirect} from 'react-router';
 import {LoginForm} from './forms';
 import autobind from 'autobind-decorator';
 import { storage } from 'helpers';
+import notify from 'helpers/notify';
 
 
 const toastr = window.toastr;
@@ -51,7 +52,8 @@ class Login extends Component {
         const regex = /^[0-9a-zA-Z]{4,30}$/;
 
         if(!(regex.test(username) && regex.test(password))) {
-            toastr.error('Please check your username or password');
+            //toastr.error('Please check your username or password');
+            notify({type: 'error', message: 'Please check your username or password', wait: 300});
             return;
         }
 
@@ -60,14 +62,15 @@ class Login extends Component {
         try {
             await AuthActions.localLogin({username, password});
         } catch (e) {
-             toastr.error('Incorrect username or password');
+             //toastr.error('Incorrect username or password');
+             notify({type: 'error', message: 'Incorrect username or password'});
              AuthActions.setSubmitStatus({name: 'login', value: false});
              return;
         }
 
         this.leaveTo({path: '/'});
-        toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
-
+        //toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
+        notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`});
         storage.set('session', this.props.status.session);
         
         AuthActions.setSubmitStatus({name: 'login', value: false});
