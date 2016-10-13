@@ -51,10 +51,7 @@ class OAuthSuccess extends Component {
     render() {
         const redirect = (<Redirect
             to={{
-            pathname: '/',
-            state: {
-                from: this.props.location
-            }
+            pathname: '/'
         }}/>);
         
         return (

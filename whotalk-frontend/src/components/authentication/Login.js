@@ -84,12 +84,7 @@ class Login extends Component {
     render() {
 
         const redirect = (<Redirect
-            to={{
-            pathname: this.state.path,
-            state: {
-                from: this.props.location
-            }
-        }}/>);
+            to={this.state.path}/>);
 
         
         const {handleChange, handleSubmit, handleKeyPress, leaveTo} = this;

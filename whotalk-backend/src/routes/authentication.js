@@ -14,10 +14,15 @@ router.get('/', (req, res) => {
 router.get('/success', (req, res) => {
     //res.json({user: req.user});
     if(process.env.NODE_ENV === 'development') {
-        if (req.user.common_profile.username !== null) {
-            res.redirect('http://localhost:3000/auth/oauth-success');
+        if(req.user) {
+            if (req.user.common_profile.username !== null) {
+                res.redirect('http://localhost:3000/auth/oauth-success');
+            } else {
+                res.redirect('http://localhost:3000/auth/register/additional-o');
+            }
         } else {
-            res.redirect('http://localhost:3000/auth/register/additional-o');
+            console.log('ERR? : ' + JSON.stringify(req.user));
+            res.redirect('http://localhost:3000/');
         }
     }
 });

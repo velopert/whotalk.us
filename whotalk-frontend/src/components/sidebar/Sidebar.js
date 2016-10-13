@@ -39,7 +39,7 @@ class Sidebar extends Component {
                                 <SettingsButton/>
                                 <SignOutButton/>
                             </ButtonContainer>
-                        ): undefined }
+                        ): '' }
                     <Profile>
                         <Circle/>
                         <Info name="Minjun Kim" username={username} name={name}/>
