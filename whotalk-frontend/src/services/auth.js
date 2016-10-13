@@ -53,3 +53,9 @@ export const oauthRegister = ({username}) => request({
     method: 'post',
     data: { username }
 });
+
+
+export const logout = () => request({
+    url: '/api/authentication/logout',
+    method: 'post'
+});

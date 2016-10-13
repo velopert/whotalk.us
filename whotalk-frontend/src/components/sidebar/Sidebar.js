@@ -2,23 +2,26 @@ import React, {Component} from 'react';
 import Top from './Top';
 import ButtonContainer from './ButtonContainer';
 import SettingsButton from './SettingsButton';
-import SignOutButton from './SignOutButton';
+import LogoutButton from './LogoutButton';
 import Profile from './Profile';
 import Circle from './Circle';
 import Info from './Info';
 import Bottom from './Bottom';
 import Followship from './Followship';
-import SignInButton from './SignInButton';
+import LoginButton from './LoginButton';
 
 
 class Sidebar extends Component {
-    componentDidMount() {
-        // initialize tooltip
-        $('.circular-button').popup({position: 'bottom center'});
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.session.logged !== this.props.session.logged && this.props.session.logged) {
+            $('.circular-button').popup({position: 'bottom center'});
+        }
+         
     }
+    
 
     render() {
-        const {open, session, onToggle} = this.props;
+        const {open, session, onToggle, onLogout} = this.props;
 
         let username,
             name;
@@ -37,7 +40,7 @@ class Sidebar extends Component {
                         ? (
                             <ButtonContainer>
                                 <SettingsButton/>
-                                <SignOutButton/>
+                                <LogoutButton onClick={onLogout}/>
                             </ButtonContainer>
                         ): '' }
                     <Profile>
@@ -48,7 +51,7 @@ class Sidebar extends Component {
 
 
                 <Bottom>
-                    { session.logged ? (<Followship/>) : <SignInButton onClick={onToggle}/> }
+                    { session.logged ? (<Followship/>) : <LoginButton onClick={onToggle}/> }
                 </Bottom>
             </div>
         );

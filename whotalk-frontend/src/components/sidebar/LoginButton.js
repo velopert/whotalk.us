@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 const SignInButton = ({onClick}) => {
     return (
-        <div className="sign-in-button" onClick={onClick}>
+        <div className="login-button" onClick={onClick}>
             <Link className="huge ui button grey" to='/auth'>
                 Sign In
             </Link>

@@ -58,3 +58,10 @@ export const oauthRegister = ({username}) => ({
         promise: service.oauthRegister({username})
     }
 });
+
+export const logout = () => ({
+    type: AUTH.LOGOUT,
+    payload: {
+        promise: service.logout()
+    }
+})

@@ -28,6 +28,17 @@ class App extends Component {
     }
 
     @autobind
+    async handleLogout() {
+        const { AuthActions } = this.props;
+        await AuthActions.logout();
+        storage.set('session', { user: null, logged: false });
+        toastr.info('Good Bye!');
+        this.handleSidebarToggle();
+        setTimeout(() => {location.reload(); }, 3000);
+        
+    }
+
+    @autobind
     handleSidebarToggle() {
         const { UIActions } = this.props;
         UIActions.toggleSidebar();
@@ -122,7 +133,7 @@ class App extends Component {
     render() {
 
         const { ui, status } = this.props;
-        const { handleSidebarToggle } = this;
+        const { handleSidebarToggle, handleLogout } = this;
 
         return (
             <Router>
@@ -132,6 +143,7 @@ class App extends Component {
                         open={ui.sidebar.show}
                         session={status.session}
                         onToggle={handleSidebarToggle}
+                        onLogout={handleLogout}
                     />
                     <Dimmed enable={ui.sidebar.show} onClick={handleSidebarToggle}/>
                     <Header transparency={ui.header.transparent} onSidebarToggle={handleSidebarToggle}/>
@@ -161,7 +173,8 @@ App = connect(state => ({
     }
 }), dispatch => ({
     AuthActions: bindActionCreators({
-        checkSession: auth.checkSession
+        checkSession: auth.checkSession,
+        logout: auth.logout
     }, dispatch),
     UIActions: bindActionCreators({
         toggleSidebar: ui.toggleSidebar,
