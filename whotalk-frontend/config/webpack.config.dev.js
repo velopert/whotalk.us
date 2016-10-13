@@ -43,7 +43,7 @@ module.exports = {
     */
     path.resolve('./src/styles/main.scss'),
     // Finally, this is your app's code:
-    path.join(paths.appSrc, 'index'),
+    path.join(paths.appSrc, 'index')
     // We include the app code last so that if there is a runtime error during
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
