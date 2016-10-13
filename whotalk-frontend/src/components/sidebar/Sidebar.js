@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Top from './Top';
 import ButtonContainer from './ButtonContainer';
 import SettingsButton from './SettingsButton';
@@ -8,6 +8,8 @@ import Circle from './Circle';
 import Info from './Info';
 import Bottom from './Bottom';
 import Followship from './Followship';
+import SignInButton from './SignInButton';
+
 
 class Sidebar extends Component {
     componentDidMount() {
@@ -16,23 +18,37 @@ class Sidebar extends Component {
     }
 
     render() {
-        const {open} = this.props;
+        const {open, session, onToggle} = this.props;
+
+        let username,
+            name;
+        if (session.logged) {
+            username = session.user.common_profile.username;
+            name = session.user.common_profile.givenName + ' ' + session.user.common_profile.familyName;
+        }
 
         return (
             <div
-                className={`sidebar ${open ? 'open': ''}`}>
+                className={`sidebar ${open
+                ? 'open'
+                : ''}`}>
                 <Top>
-                    <ButtonContainer>
-                        <SettingsButton/>
-                        <SignOutButton/>
-                    </ButtonContainer>
+                    {session.logged
+                        ? (
+                            <ButtonContainer>
+                                <SettingsButton/>
+                                <SignOutButton/>
+                            </ButtonContainer>
+                        ): undefined }
                     <Profile>
                         <Circle/>
-                        <Info/>
+                        <Info name="Minjun Kim" username={username} name={name}/>
                     </Profile>
                 </Top>
+
+
                 <Bottom>
-                   <Followship/>
+                    { session.logged ? (<Followship/>) : <SignInButton onClick={onToggle}/> }
                 </Bottom>
             </div>
         );

@@ -113,7 +113,7 @@ class Additional extends Component {
         }
 
         AuthActions.setSubmitStatus({name: 'additional', value: false});
-        toastr.success(`Hello, ${firstName}!`);
+        toastr.success(`Hello, ${firstName}! Please sign in.`);
         this.leaveTo('/auth');
     }
 

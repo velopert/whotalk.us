@@ -121,14 +121,18 @@ class App extends Component {
 
     render() {
 
-        const { ui } = this.props;
+        const { ui, status } = this.props;
         const { handleSidebarToggle } = this;
 
         return (
             <Router>
                 <div className={`root ${ui.sidebar.show ? 'open-sidebar' : ''}`}>
                     <Background/>
-                    <Sidebar open={ui.sidebar.show}/>
+                    <Sidebar 
+                        open={ui.sidebar.show}
+                        session={status.session}
+                        onToggle={handleSidebarToggle}
+                    />
                     <Dimmed enable={ui.sidebar.show} onClick={handleSidebarToggle}/>
                     <Header transparency={ui.header.transparent} onSidebarToggle={handleSidebarToggle}/>
                     <div>

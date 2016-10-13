@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Info = () => (
+const Info = ({name, username}) => (
     <div className="info">
-        <div className="username">@velopert</div>
-        <div className="name">Minjun Kim</div>
+        <div className="username">{username? `@${username}` : 'anonymous'}</div>
+        <div className="name">{name}</div>
     </div>
 );
 
