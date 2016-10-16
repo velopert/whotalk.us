@@ -10,8 +10,6 @@ import {App} from 'containers';
 
 import store from './store';
 
-import 'helpers/alertifyStyles';
-
 
 
 const toastr = window.toastr;
