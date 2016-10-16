@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router';
 import autobind from 'autobind-decorator';
 import { storage } from 'helpers';
-
+import notify from 'helpers/notify';
 const toastr = window.toastr;
 
 class OAuthSuccess extends Component {
@@ -35,14 +35,16 @@ class OAuthSuccess extends Component {
         if (!this.props.status.session.user) {
             // INVALID REQUEST
             this.leave();
-            toastr.error('Oops, your social ID is invalid');
+            // toastr.error('Oops, your social ID is invalid');
+            notify({type: 'error', message: 'Oops, your social ID is invalid!'});
             return;
         }
 
         if (this.props.status.session.logged) {
             // already has a username
             this.leave();
-            toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
+            // toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
+            notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`})
             storage.set('session', this.props.status.session);
             return;
         }

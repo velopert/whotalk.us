@@ -2,7 +2,7 @@ import stringHash from 'string-hash';
 
 import alertifyjs from 'alertifyjs';
 
-const duplicates = {};
+let duplicates = {};
 
 const notify = ({
     type = 'message',
@@ -22,6 +22,10 @@ const notify = ({
         preventDuplicates ? (() => { delete duplicates[hash]; }) : undefined
     );
 };
+
+notify.clear = () => {
+    alertifyjs.dismissAll();
+}
 
 alertifyjs.set('notifier','position', 'top-right');
 

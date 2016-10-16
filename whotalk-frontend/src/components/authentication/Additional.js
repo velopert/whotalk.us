@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from 'react-router';
 import {AdditionalForm} from './forms';
 import autobind from 'autobind-decorator';
-const toastr = window.toastr;
+import notify from 'helpers/notify';
 
 class Additional extends Component {
     constructor(props) {
@@ -25,7 +25,8 @@ class Additional extends Component {
         $('.dropdown').dropdown();
         const { username, password } = this.props.accountInfo;
         if(username==='' || password==='') {
-            toastr.error('Oops, you took the wrong path!');
+            //toastr.error('Oops, you took the wrong path!');
+            notify({type: 'error', message: 'Oops, you took the wrong path!'});
             this.leaveTo('/auth/register');
         }
     }
@@ -44,7 +45,7 @@ class Additional extends Component {
 
         AuthActions.setSubmitStatus({name: 'additional', value: true});
 
-        toastr.clear();
+        notify.clear();
         
         const validation = {
             firstName: {
@@ -71,7 +72,8 @@ class Additional extends Component {
 
         for(let value of values) {
             if(!validation[value].regex.test(form[value])) {
-                 toastr.error(validation[value].message);
+                 //toastr.error(validation[value].message);
+                 notify({type: 'error', message: validation[value].message});
                  FormActions.setInputError({form: 'additional', name: value, error: true});
                  error = true;
             } else {
@@ -83,7 +85,7 @@ class Additional extends Component {
             await AuthActions.checkEmail(form.email);
             if (this.props.status.emailExists) {
                 FormActions.setInputError({form: 'additional', name: 'email', error: true});
-                toastr.error('Oops, that email already exists. You might already have an account!');
+                notify({type: 'error', message: 'Oops, that email already exists. You might already have an account!'});
                 error = true;
             } else {
                 FormActions.setInputError({form: 'additional', name: 'email', error: false});
@@ -106,14 +108,16 @@ class Additional extends Component {
                 email
             });
         } catch (e) {
-            toastr.error('Oops, server rejected your request, please try again (' + e.response.data.message + ')');
+            //toastr.error('Oops, server rejected your request, please try again (' + e.response.data.message + ')');
+            notify({type: 'error', message: 'Oops, server rejected your request, please try again (' + e.response.data.message + ')'});
             AuthActions.setSubmitStatus({name: 'additional', value: false});
             this.leaveTo('/auth');
             return;
         }
 
         AuthActions.setSubmitStatus({name: 'additional', value: false});
-        toastr.success(`Hello, ${firstName}! Please sign in.`);
+        notify({type: 'success', message: `Hello, ${firstName}! Please sign in.`});
+        //toastr.success(`Hello, ${firstName}! Please sign in.`);
         this.leaveTo('/auth');
     }
 
@@ -125,7 +129,7 @@ class Additional extends Component {
             const result = await AuthActions.checkEmail(form.email);
             if (this.props.status.emailExists) {
                 FormActions.setInputError({form: 'additional', name: 'email', error: true});
-                toastr.error('Oops, that email already exists. You might already have an account!');
+                notify({type: 'error', message: 'Oops, that email already exists. You might already have an account!'});
             } else {
                 FormActions.setInputError({form: 'additional', name: 'email', error: false});
             }

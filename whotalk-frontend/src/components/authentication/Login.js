@@ -3,11 +3,7 @@ import {Link, Redirect} from 'react-router';
 import {LoginForm} from './forms';
 import autobind from 'autobind-decorator';
 import { storage } from 'helpers';
-import notify from 'helpers/notify';
-
-
-const toastr = window.toastr;
-
+import notify from 'helpers/notify'
 
 class Login extends Component {
 
@@ -47,13 +43,14 @@ class Login extends Component {
 
         const {username, password} = form;
 
-        toastr.clear();
+        notify.clear();
+
 
         const regex = /^[0-9a-zA-Z]{4,30}$/;
 
         if(!(regex.test(username) && regex.test(password))) {
             //toastr.error('Please check your username or password');
-            notify({type: 'error', message: 'Please check your username or password', wait: 300});
+            notify({type: 'error', message: 'Please check your username or password'});
             return;
         }
 

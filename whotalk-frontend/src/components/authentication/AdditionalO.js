@@ -3,7 +3,7 @@ import {Redirect} from 'react-router';
 import { AdditionalOForm } from './forms';
 
 import autobind from 'autobind-decorator';
-const toastr = window.toastr;
+import notify from 'helpers/notify';
 
 class AdditionalO extends Component {
     constructor(props) {
@@ -38,15 +38,17 @@ class AdditionalO extends Component {
         if(!this.props.status.session.user) {
             // INVALID REQUEST
             this.leaveTo('/auth');
-            toastr.error('Oops, your social ID is invalid');
+            notify({type: 'error', message: 'Oops, your social ID is invalid'});
             return;            
         }
 
         if(this.props.status.session.logged) {
             // already has a username
             this.leaveTo('/');
-            toastr.warning('You already have signed in');
-            toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
+            // toastr.warning('You already have signed in');
+            // toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
+            notify({type: 'warning', message: 'You already have signed in'});
+            notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`})
             return;
         }
     }
@@ -63,10 +65,13 @@ class AdditionalO extends Component {
 
         const regex = /^[0-9a-z_]{4,20}$/
         
+
+        notify.clear();
+
+
         // check regex
         if(!regex.test(form.username)) {
-            toastr.error('<b><i>Username</i></b> should be 4 ~ 20 alphanumeric characters or an underscore (_)');
-            return;
+            notify({type: 'error', message: 'Username should be 4~20 alphanumeric characters or an underscore'});            return;
         }
 
         AuthActions.setSubmitStatus({name: 'additional_o', value: true});
@@ -75,7 +80,8 @@ class AdditionalO extends Component {
         await AuthActions.checkUsername(form.username);
         
         if(this.props.status.usernameExists) {
-            toastr.error('That username is already taken, please try another one.');
+            // toastr.error('That username is already taken, please try another one.');
+            notify({type: 'error', message: 'That username is already taken, please try another one.'});
             AuthActions.setSubmitStatus({name: 'register', value: false});
             return;
         }
@@ -85,7 +91,8 @@ class AdditionalO extends Component {
                 username: form.username
             });
         } catch (e) {
-            toastr.error('Oops, server rejected your request (' + e.response.data.message + ')');
+            // toastr.error('Oops, server rejected your request (' + e.response.data.message + ')');
+            notify({type: 'error', message: 'Oops, server rejected your request (' + e.response.data.message + ')'})
             AuthActions.setSubmitStatus({name: 'additional', value: false});
             this.leaveTo('/auth');
             return;
@@ -96,7 +103,8 @@ class AdditionalO extends Component {
         await this.props.AuthActions.checkSession();
 
         AuthActions.setSubmitStatus({name: 'additional_o', value: false});
-        toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`)
+        // toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`)
+        notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`});
         this.leaveTo('/');
     }
 

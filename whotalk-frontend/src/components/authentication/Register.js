@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router';
 import {RegisterForm} from './forms';
 import autobind from 'autobind-decorator'
+import notify from 'helpers/notify';
 
 const toastr = window.toastr;
 
@@ -27,7 +28,7 @@ class Register extends Component {
         const {form, status, AuthActions, FormActions} = this.props;
         const {username, password} = form;
 
-        toastr.clear();
+        notify.clear();
 
         AuthActions.setSubmitStatus({name: 'register', value: true});
 
@@ -41,7 +42,8 @@ class Register extends Component {
 
         if (!regex.password.test(password)) {
             error = true;
-            toastr.error('<b><i>Password</i></b> should be 5 ~ 30 alphanumeric characters.');
+            notify({type: 'error', message: 'Password should be 5~30 characters.'});
+            // toastr.error('<b><i>Password</i></b> should be 5 ~ 30 alphanumeric characters.');
             FormActions.setInputError({form: 'register', name: 'password', error: true});
         } else {
             FormActions.setInputError({form: 'register', name: 'password', error: false});
@@ -49,7 +51,8 @@ class Register extends Component {
 
         if (!regex.username.test(username)) {
             error = true;
-            toastr.error('<b><i>Username</i></b> should be 4 ~ 20 alphanumeric characters or an underscore (_)');
+            notify({type: 'error', message: 'Username should be 4~20 alphanumeric characters or an underscore'});
+            // toastr.error('<b><i>Username</i></b> should be 4 ~ 20 alphanumeric characters or an underscore (_)');
             FormActions.setInputError({form: 'register', name: 'username', error: true});
         } else {
             FormActions.setInputError({form: 'register', name: 'username', error: false});
@@ -60,13 +63,14 @@ class Register extends Component {
                 const result = await AuthActions.checkUsername(form.username);
                 if (this.props.status.usernameExists) {
                     FormActions.setInputError({form: 'register', name: 'username', error: true});
-                    toastr.error('That username is already taken, please try another one.');
+                    // toastr.error('That username is already taken, please try another one.');
+                    notify({type: 'error', message: 'That username is already taken, please try another one.'});
                     error = true;
                 } else {
                     FormActions.setInputError({form: 'register', name: 'username', error: false});
                 }
             } catch (e) {
-                toastr.error('Oops!');
+                notify({type: 'error', message: 'Oops!'});
             }
         }
 
@@ -96,7 +100,8 @@ class Register extends Component {
             // on username blur, do check username
             const result = await AuthActions.checkUsername(form.username);
             if (this.props.status.usernameExists) {
-                toastr.error('That username is already taken, please try another one.', 'ERROR');
+                //toastr.error('That username is already taken, please try another one.', 'ERROR');
+                notify({type: 'error', message: 'That username is already taken, please try another one.'});
             }
         }
     }

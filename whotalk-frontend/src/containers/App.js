@@ -10,7 +10,7 @@ import * as ui from 'actions/ui';
 import autobind from 'autobind-decorator';
 import { Events, scrollSpy } from 'react-scroll';
 import { toggleScroll } from 'helpers/scroll';
-
+import notify from 'helpers/notify';
 
 const toastr = window.toastr;
 
@@ -93,7 +93,8 @@ class App extends Component {
 
         if (session) {
             if (session.expired) {
-                toastr.error('Your session is expired');
+                //toastr.error('Your session is expired');
+                notify({type: 'error', messsage: 'Your session is expired'});
                 storage.set('session', {
                     ...session,
                     expired: false
