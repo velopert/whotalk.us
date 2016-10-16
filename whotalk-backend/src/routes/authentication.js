@@ -13,16 +13,11 @@ router.get('/', (req, res) => {
 
 router.get('/success', (req, res) => {
     //res.json({user: req.user});
-    if(process.env.NODE_ENV === 'development') {
-        if(req.user) {
-            if (req.user.common_profile.username !== null) {
-                res.redirect('http://localhost:3000/auth/oauth-success');
-            } else {
-                res.redirect('http://localhost:3000/auth/register/additional-o');
-            }
+    if (process.env.NODE_ENV === 'development') {
+        if (req.user.common_profile.username !== null) {
+            res.redirect('http://localhost:3000/auth/oauth-success');
         } else {
-            console.log('ERR? : ' + JSON.stringify(req.user));
-            res.redirect('http://localhost:3000/');
+            res.redirect('http://localhost:3000/auth/register/additional-o');
         }
     }
 });
@@ -31,19 +26,20 @@ router.get('/check', (req, res) => {
 
     let user = null;
 
-    if(req.user) {
-        const { _id, type, common_profile } = req.user;
-        user = {_id, type, common_profile };
+    if (req.user) {
+        const {_id, type, common_profile} = req.user;
+        user = {
+            _id,
+            type,
+            common_profile
+        };
     }
-    
-    res.json({
-        sID: req.sessionID,
-        user
-    });
+
+    res.json({sID: req.sessionID, user});
 });
 
 router.get('/failure', (req, res) => {
-    if(process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development') {
         res.redirect('http://localhost:3000/auth/oauth-failure');
     }
 });
@@ -95,7 +91,8 @@ router.post('/oauth/register', (req, res) => {
 
     // wait for all fulfillments
     Promise
-        .all([p1/*, p2*/])
+        .all([p1/*, p2*/
+        ])
         .then(values => {
 
             if (values[0]) {
@@ -103,11 +100,7 @@ router.post('/oauth/register', (req, res) => {
             }
 
             /* email duplication */
-            // if (values[1]) {
-            //     throw new PassportError(2, "EMAIL EXISTS");
-            // }
-
-            // find User
+            // if (values[1]) {     throw new PassportError(2, "EMAIL EXISTS"); } find User
             return Account
                 .findById(req.user._id)
                 .exec();
@@ -145,9 +138,7 @@ router.post('/oauth/register', (req, res) => {
 
 router.post('/logout', (req, res) => {
     req.logout();
-    res.json({
-        success: true
-    });
+    res.json({success: true});
 });
 
 /* facebook */
