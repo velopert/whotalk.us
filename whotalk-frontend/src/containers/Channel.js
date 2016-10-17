@@ -5,15 +5,6 @@ import { bindActionCreators } from 'redux';
 
 class Channel extends Component {
     
-    async componentDidMount() {
-        const { params, AuthActions } = this.props;
-        await AuthActions.checkUsername(params);
-        if(!this.props.status.valid) {
-            this.context.router.transitionTo('/404')
-        }
-    }
-    
-
     render() {
         const { params, pathname } = this.props;
         return (

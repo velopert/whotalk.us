@@ -17,6 +17,8 @@ import OAuthSuccess from './authentication/OAuthSuccess';
 
 import Sidebar from './sidebar/Sidebar';
 
+import Spinner from './Spinner';
+
 export { 
     Background, 
     Header, 
@@ -32,5 +34,6 @@ export {
     OAuthFailure,
     OAuthSuccess,
     Sidebar,
-    Dimmed
+    Dimmed,
+    Spinner
 }

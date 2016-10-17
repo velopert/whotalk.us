@@ -1,5 +1,5 @@
 const CHANNEL = {
-    CHECK: 'CHANNEL_CHECK'
+    CHECK_VALIDITY: 'CHANNEL_CHECK_VALIDITY'
 };
 
 export default CHANNEL;
