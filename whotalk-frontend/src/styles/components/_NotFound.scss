@@ -1,0 +1,38 @@
+.not-found {
+    text-align: center;
+    position: fixed;
+
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    width: 100%;
+    .number {
+        line-height: 200px;
+        font-size: 200px;
+        letter-spacing: 10px;
+    }
+    .text {
+        margin-top: 5px;
+        font-size: 23px;
+        letter-spacing: 3px;
+        font-weight: 700;
+    }
+
+    .button {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+    @include media("<=desktop") {
+        .number {
+            font-size: 100px;
+            line-height: 100px;
+            letter-spacing: 10px;
+        }
+
+        .text {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+        }
+    }
+}

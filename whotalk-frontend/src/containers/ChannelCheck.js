@@ -2,7 +2,8 @@ import React from 'react';
 import Channel from './Channel';
 
 const routes = {
-    '/auth': true
+    '/auth': true,
+    '/404': true
 };
 
 const ChannelCheck = (props) => {
