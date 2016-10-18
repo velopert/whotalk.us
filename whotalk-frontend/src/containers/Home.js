@@ -23,6 +23,7 @@ class Home extends Component {
                 <HomeScreen 
                     like={status.likeVisibility}
                     logged={status.session.logged}
+                    username={status.session.user.common_profile.username}
                 />
 
                 <MainSection/>

@@ -13,7 +13,13 @@ class ChannelCheck extends Component {
     }
 
     async componentDidMount() {
-        const { params, ChannelActions } = this.props;
+
+        const { params, pathname, ChannelActions } = this.props;
+
+        if(this.routes[pathname]) {
+            return;
+        }
+        
         await ChannelActions.checkValidity(params.username);
         if(!this.props.status.valid) {
             this.context.router.transitionTo('/404');

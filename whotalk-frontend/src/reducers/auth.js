@@ -20,7 +20,18 @@ const register = {
 }
 
 const session = {
-    user: null,
+    user: {
+        _id: null,
+        common_profile: {
+            email: null,
+            familyName: null,
+            givenName: null,
+            gender: null,
+            thumbnail: "none",
+            username: null
+        },
+        type: null
+    },
     logged: false
 }
 

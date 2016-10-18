@@ -14,6 +14,10 @@ router.get('/', (req, res) => {
 router.get('/success', (req, res) => {
     //res.json({user: req.user});
     if (process.env.NODE_ENV === 'development') {
+        if(!req.user) {
+            res.redirect('http://localhost:3000/auth/oauth-failure');
+            return;
+        }
         if (req.user.common_profile.username !== null) {
             res.redirect('http://localhost:3000/auth/oauth-success');
         } else {

@@ -46,7 +46,7 @@ class HomeScreen extends Component {
 
     render() {
 
-        const { logged } = this.props;
+        const { logged, username } = this.props;
 
         const loaded = this.state.isLoaded ? 'loaded' : '';
         const animate = this.state.showLearnMore ? 'slide-up-and-down' : '';
@@ -60,7 +60,7 @@ class HomeScreen extends Component {
 
         const isLogged = (
             <div>
-                <Link to="/" className="ui inverted basic orange button">MY CHANNEL</Link><Link to="/" className="ui inverted basic green button">EXPLORE</Link>
+                <Link to={"/" + username } className="ui inverted basic orange button">MY CHANNEL</Link><Link to="/" className="ui inverted basic green button">EXPLORE</Link>
             </div>
         );
 
