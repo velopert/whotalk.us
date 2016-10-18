@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { checkUsername } from 'actions/auth';
 import { bindActionCreators } from 'redux';
-import { Footer } from 'components';
+import { ChannelBox } from 'components';
+import * as ui from 'actions/ui';
 
 class Channel extends Component {
+    componentDidMount() {
+        const { UIActions } =  this.props;
+        UIActions.setHeaderTransparency(false);
+    }
     
     render() {
         const { params, pathname } = this.props;
         return (
             <div className="channel">
-                { params.username } { pathname }
-                <div className="container">
-                </div>
-                
+                <ChannelBox/>
             </div>
         );
     }
@@ -31,8 +32,8 @@ Channel = connect(
         }
     }),
     dispatch => ({
-        AuthActions: bindActionCreators({
-            checkUsername
+        UIActions: bindActionCreators({
+            setHeaderTransparency: ui.setHeaderTransparency
         }, dispatch)
     })
 )(Channel);

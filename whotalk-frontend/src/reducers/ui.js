@@ -12,7 +12,7 @@ const initialState = {
     },
     footer: {
         space: false,
-        show: false
+        show: true
     }
 };
 

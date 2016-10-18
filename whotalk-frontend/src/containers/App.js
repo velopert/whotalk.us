@@ -154,7 +154,7 @@ class App extends Component {
                         <Match pattern="/:username" component={ChannelCheck}/>
                         <Match pattern="/404" component={NotFound}/>
                     </div>
-                    <Footer {...ui.footer}/>
+                    {ui.footer.show ? <Footer {...ui.footer}/> : undefined}
                 </div>
             </Router>
         );
