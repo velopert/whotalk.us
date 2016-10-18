@@ -3,8 +3,7 @@ import {
     HomeScreen,
     InfoSection,
     MainSection,
-    DevSection,
-    Footer
+    DevSection
 } from 'components';
 import { connect } from 'react-redux';
 
@@ -13,8 +12,17 @@ import unknown from 'assets/unknown.jpg';
 import type from 'assets/type.jpg';
 import hands from 'assets/hands.jpg';
 
+import * as ui from 'actions/ui';
+import {bindActionCreators} from 'redux';
+
 
 class Home extends Component {
+
+    componentDidMount() {
+        const { UIActions } = this.props;
+        UIActions.setFooterSpace(true);
+    }
+    
     render() {
 
         const { status } = this.props;
@@ -51,7 +59,7 @@ class Home extends Component {
 
                 <DevSection/>
 
-                <Footer/>
+                
             </div>
         );
     }
@@ -63,6 +71,12 @@ Home = connect(
             session: state.auth.session,
             likeVisibility: state.ui.home.like
         }
+    }),
+    dispatch => ({
+        UIActions: bindActionCreators({
+            setFooterSpace: ui.setFooterSpace,
+            setFooterVisibility: ui.setFooterVisibility
+        }, dispatch)
     })
 )(Home)
 export default Home;

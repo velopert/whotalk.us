@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Match} from 'react-router';
-import {Background, Dimmed, Header, Sidebar} from 'components';
+import {Background, Dimmed, Header, Sidebar, Footer} from 'components';
 import {Home, Auth, ChannelCheck, NotFound} from 'containers';
 import {connect} from 'react-redux';
 import {storage} from 'helpers';
@@ -154,6 +154,7 @@ class App extends Component {
                         <Match pattern="/:username" component={ChannelCheck}/>
                         <Match pattern="/404" component={NotFound}/>
                     </div>
+                    <Footer {...ui.footer}/>
                 </div>
             </Router>
         );
@@ -172,7 +173,8 @@ App = connect(state => ({
     ui: {
         sidebar: state.ui.sidebar,
         header: state.ui.header,
-        like: state.ui.home.like
+        like: state.ui.home.like,
+        footer: state.ui.footer
     }
 }), dispatch => ({
     AuthActions: bindActionCreators({
@@ -182,7 +184,9 @@ App = connect(state => ({
     UIActions: bindActionCreators({
         toggleSidebar: ui.toggleSidebar,
         setHeaderTransparency: ui.setHeaderTransparency,
-        setLikeTransparency: ui.setLikeTransparency
+        setLikeTransparency: ui.setLikeTransparency,
+        setFooterSpace: ui.setFooterSpace,
+        setFooterVisibility: ui.setFooterVisibility
     }, dispatch)
 }))(App);
 

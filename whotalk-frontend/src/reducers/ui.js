@@ -9,6 +9,10 @@ const initialState = {
     },
     home: {
         like: true
+    },
+    footer: {
+        space: false,
+        show: false
     }
 };
 
@@ -36,6 +40,22 @@ function ui(state=initialState, action) {
                 ...state,
                 home: {
                     like: payload
+                }
+            };
+        case UI.SET_FOOTER_SPACE:
+            return {
+                ...state,
+                footer: {
+                    ...state.footer,
+                    space: payload
+                }
+            };
+        case UI.SET_FOOTER_VISIBILITY:
+            return {
+                ...state,
+                footer : {
+                    ...state.footer,
+                    show: payload
                 }
             };
         default: 

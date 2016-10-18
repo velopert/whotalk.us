@@ -18,8 +18,20 @@ class Register extends Component {
     }
 
     @autobind
-    leaveTo(path) {
+    leaveTo({
+        path,
+        express = false
+    }) {
         this.setState({animate: true, path});
+
+        if (express) {
+            if (process.env.NODE_ENV === 'development') {
+                document.location.href = "http://localhost:4000" + path;
+            } else {
+                document.location.href = path;
+            }
+            return;
+        }
         setTimeout(() => this.setState({leave: true}), 700)
     }
 
@@ -43,7 +55,8 @@ class Register extends Component {
         if (!regex.password.test(password)) {
             error = true;
             notify({type: 'error', message: 'Password should be 5~30 characters.'});
-            // toastr.error('<b><i>Password</i></b> should be 5 ~ 30 alphanumeric characters.');
+            // toastr.error('<b><i>Password</i></b> should be 5 ~ 30 alphanumeric
+            // characters.');
             FormActions.setInputError({form: 'register', name: 'password', error: true});
         } else {
             FormActions.setInputError({form: 'register', name: 'password', error: false});
@@ -52,7 +65,8 @@ class Register extends Component {
         if (!regex.username.test(username)) {
             error = true;
             notify({type: 'error', message: 'Username should be 4~20 alphanumeric characters or an underscore'});
-            // toastr.error('<b><i>Username</i></b> should be 4 ~ 20 alphanumeric characters or an underscore (_)');
+            // toastr.error('<b><i>Username</i></b> should be 4 ~ 20 alphanumeric characters
+            // or an underscore (_)');
             FormActions.setInputError({form: 'register', name: 'username', error: true});
         } else {
             FormActions.setInputError({form: 'register', name: 'username', error: false});
@@ -82,7 +96,7 @@ class Register extends Component {
         }
 
         AuthActions.localRegisterPrior({username, password});
-        this.leaveTo('/auth/register/additional');
+        this.leaveTo({pathname: '/auth/register/additional'});
 
     }
 
@@ -100,13 +114,12 @@ class Register extends Component {
             // on username blur, do check username
             const result = await AuthActions.checkUsername(form.username);
             if (this.props.status.usernameExists) {
-                //toastr.error('That username is already taken, please try another one.', 'ERROR');
+                // toastr.error('That username is already taken, please try another one.',
+                // 'ERROR');
                 notify({type: 'error', message: 'That username is already taken, please try another one.'});
             }
         }
     }
-
-    
 
     @autobind
     handleKeyPress(e) {
@@ -116,8 +129,14 @@ class Register extends Component {
     }
 
     componentWillUnmount() {
-        this.props.FormActions.formReset();
-        this.props.AuthActions.resetRegisterStatus();
+        this
+            .props
+            .FormActions
+            .formReset();
+        this
+            .props
+            .AuthActions
+            .resetRegisterStatus();
     }
 
     render() {
@@ -129,7 +148,7 @@ class Register extends Component {
             }
         }}/>);
 
-        const {handleChange, handleSubmit, handleBlur, handleKeyPress} = this;
+        const {handleChange, handleSubmit, handleBlur, handleKeyPress, leaveTo} = this;
         const {form, formError, status} = this.props;
 
         return (
@@ -143,20 +162,25 @@ class Register extends Component {
                         <div className="ui grid">
                             <div className="eight wide column">
                                 <button
-                                    onClick={() => toastr.error('I do not think that word means what you think it means.', 'Inconceivable!')}className="ui facebook button massive hide-on-mobile">
+                                    onClick={() => leaveTo({path: '/api/authentication/facebook', express: true})}
+                                    className="ui facebook button massive hide-on-mobile">
                                     <i className="facebook icon"></i>
                                     Facebook
                                 </button>
-                                <button className="ui facebook button icon massive hide-on-desktop">
+                                <button
+                                    onClick={() => leaveTo({path: '/api/authentication/facebook', express: true})}
+                                    className="ui facebook button icon massive hide-on-desktop">
                                     <i className="facebook icon"></i>
                                 </button>
                             </div>
                             <div className="eight wide column">
-                                <button className="ui google plus button massive hide-on-mobile">
+                                <button onClick={()=>leaveTo({path: '/api/authentication/google', express: true})}
+                                className="ui google plus button massive hide-on-mobile">
                                     <i className="google icon"></i>
                                     Google
                                 </button>
-                                <button className="ui google plus icon button massive hide-on-desktop">
+                                <button onClick={()=>leaveTo({path: '/api/authentication/google', express: true})}
+                                className="ui google plus icon button massive hide-on-desktop">
                                     <i className="google icon"></i>
                                 </button>
                             </div>
@@ -177,7 +201,7 @@ class Register extends Component {
                             error={formError}
                             onKeyPress={handleKeyPress}/>
                         <div className="side-message">Already have an account?&nbsp;
-                            <a onClick={() => this.leaveTo("/auth")}>Log In</a>
+                            <a onClick={() => this.leaveTo({pathname: "/auth"})}>Log In</a>
                         </div>
                     </div>
                 </div>

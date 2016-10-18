@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { checkUsername } from 'actions/auth';
 import { bindActionCreators } from 'redux';
+import { Footer } from 'components';
 
 class Channel extends Component {
     
@@ -10,6 +11,9 @@ class Channel extends Component {
         return (
             <div className="channel">
                 { params.username } { pathname }
+                <div className="container">
+                </div>
+                
             </div>
         );
     }

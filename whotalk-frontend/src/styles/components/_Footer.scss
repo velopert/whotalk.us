@@ -1,4 +1,20 @@
+.footer-space {
+        width: 100%;
+        @include media(">tablet") {
+            &.desktop {
+                height: 60px;
+            }
+        }
+        @include media("<=tablet") {
+            height: 295px;
+        }
+    }
+    
 .footer {
+    position: absolute;
+    
+    width: 100%;
+    bottom: 0px;
     box-shadow: 0px -15px 15px -15px rgba(0,0,0,.85);
     -webkit-box-shadow: 0px -15px 15px -15px rgba(0,0,0,.85);
     -moz-box-shadow: 0px -15px 15px -15px rgba(0,0,0,.85);

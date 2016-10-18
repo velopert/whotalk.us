@@ -180,7 +180,7 @@ function auth(state=initialState, action) {
                     localLogin: { ...rejected, error: payload }
                 },
                 session: {
-                    user: null,
+                    user: {...session.user},
                     logged: false
                 }
             };
@@ -277,7 +277,7 @@ function auth(state=initialState, action) {
                     checkSession: { ...fulfilled }
                 },
                 session: {
-                    user: payload.data.user,
+                    user: payload.data.user === null ? {...session.user} : payload.data.user,
                     logged: (payload.data.user !== null && payload.data.user.common_profile.username !== null)
                 }
             }

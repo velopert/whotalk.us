@@ -17,6 +17,9 @@ import * as auth from 'actions/auth.js';
 import * as form from 'actions/form';
 import * as ui from 'actions/ui';
 
+import detectMobile from 'helpers/detect-mobile';
+
+
 let LoginRoute = (props) => {
     return (<Login {...props}/>)
 };
@@ -139,6 +142,8 @@ class Auth extends Component {
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch(ui.setHeaderTransparency(true));
+
+        dispatch(ui.setFooterSpace(false));
     }
     
     render() {
