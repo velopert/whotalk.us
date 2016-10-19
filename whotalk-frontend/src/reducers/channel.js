@@ -23,6 +23,11 @@ const rejected = {
 
 const initialState = {
     valid: false,
+    info: {
+        familyName: null,
+        givenName: null,
+        thumbnail: "none"
+    },
     requests: {
         checkValidity: {
             ...request
@@ -50,7 +55,8 @@ function channel(state = initialState, action) {
         case CHANNEL.CHECK_VALIDITY + '_FULFILLED':
             return {
                 ...state,
-                valid: payload.data.valid,
+                valid: true,
+                info: payload.data.info,
                 requests: {
                     ...state.requests,
                     checkValidity: {
@@ -62,6 +68,8 @@ function channel(state = initialState, action) {
         case CHANNEL.CHECK_VALIDITY + '_REJECTED':
             return {
                 ...state,
+                valid: false,
+                info: {...initialState.info},
                 requests: {
                     ...state.requests,
                     checkValidity: {
