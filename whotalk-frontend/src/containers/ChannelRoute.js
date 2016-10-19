@@ -5,6 +5,12 @@ import { Channel } from 'components';
 import * as ui from 'actions/ui';
 
 class ChannelRoute extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            unmounting: false
+        };
+    }
     componentDidMount() {
         const { UIActions } =  this.props;
         UIActions.setHeaderTransparency(false);
@@ -18,11 +24,12 @@ class ChannelRoute extends Component {
     }
     
     render() {
-        const { params, pathname } = this.props;
+        const { params, pathname, status } = this.props;
         return (
             <div className="channel">
                 <Channel.Box>
-                    <Channel.Circle>TESTING</Channel.Circle>
+                    <Channel.Circle/>
+                    <Channel.Profile username={params.username} channelInfo={status.channelInfo} />
                 </Channel.Box>
             </div>
         );
@@ -36,8 +43,7 @@ ChannelRoute.contextTypes = {
 ChannelRoute = connect(
     state => ({
         status: {
-            // reuse username check from register
-            valid: state.auth.register.status.usernameExists
+            channelInfo: state.channel.info
         }
     }),
     dispatch => ({

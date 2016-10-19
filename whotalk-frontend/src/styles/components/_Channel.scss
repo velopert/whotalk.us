@@ -14,6 +14,7 @@
             height: 250px;
             background-color: #F8F8F8;
             margin-left: 50%;
+            margin-bottom: -200px;
             transform: translate(-50%, -80%);
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
             .image {
@@ -24,11 +25,40 @@
             @include media("<tablet") {
                 width: 150px;
                 height: 150px;
+                margin-bottom: -120px;
                 .image {
                     width: 150px;
                     height: 150px;
                 }
             }
+        }
+
+        .profile {
+            margin-top: 30px;
+            text-align: center;
+            .username {
+                font-size: 48px;
+                font-weight: 600;
+                color: white;
+            }
+
+            .name {
+                margin-top: 30px;
+                font-size: 25px;
+                color: #dee2e6;
+            }
+            @include media("<tablet") {
+                margin-top: 15px;
+                .username {
+                    font-size: 24px;
+                }
+                .name {
+                    margin-top: 10px;
+                    font-size: 16px;
+                }
+            }
+
+
         }
     }
 

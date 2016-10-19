@@ -136,15 +136,43 @@
 @keyframes slideUp {
     0% {
         opacity: 0;
-        transform: translateY(300px);
+        transform: translateY(400px);
     }
     25% {
     }
     80% {
-         transform: translateY(-10px);
+         transform: translateY(-30px);
     }
     100% {
         opacity: 1;
          transform: translateY(0px);
+    }
+}
+
+.slideDown {
+    -webkit-animation-duration: 0.7s;
+    animation-duration: 0.7s;
+    -webkit-animation-name: slideDown;
+    animation-name: slideDown;
+    animation-timing-function: ease;
+    opacity: 0;
+}
+
+@-webkit-keyframes slideDown {}
+
+@keyframes slideDown {
+    0% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+    20% {
+        transform: translateY(-30px);
+    }
+    80% {
+         
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(400px);
     }
 }
