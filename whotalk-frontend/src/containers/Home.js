@@ -21,6 +21,7 @@ class Home extends Component {
     componentDidMount() {
         const { UIActions } = this.props;
         UIActions.setFooterSpace(true);
+        UIActions.setHeaderTransparency(true);
     }
     
     render() {
@@ -74,6 +75,7 @@ Home = connect(
     }),
     dispatch => ({
         UIActions: bindActionCreators({
+            setHeaderTransparency: ui.setHeaderTransparency,
             setFooterSpace: ui.setFooterSpace,
             setFooterVisibility: ui.setFooterVisibility
         }, dispatch)
