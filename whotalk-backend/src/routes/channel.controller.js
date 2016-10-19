@@ -6,9 +6,17 @@ export const valid = (req, res) => {
         .findUser(req.params.username)
         .then(account => {
             if (account) {
-                res.json({valid: true});
+                const { familyName, givenName, thumbnail } = account.common_profile;
+                res.json({
+                    valid: true,
+                    info: {
+                        familyName,
+                        givenName,
+                        thumbnail
+                    }
+                });
             } else {
-                res.json({valid: false});
+                res.status(404).json({code: 0, message: 'USER NOT FOUND'});
             }
         });
 }
