@@ -7,6 +7,8 @@ import cache from './../helpers/cache';
 
 const router = express.Router();
 
+const tempFix = {};
+
 router.get('/', (req, res) => {
     res.json({sID: req.sessionID, session: req.session});
 });
@@ -15,9 +17,24 @@ router.get('/success', (req, res) => {
     //res.json({user: req.user});
     if (process.env.NODE_ENV === 'development') {
         if(!req.user) {
-            res.redirect('http://localhost:3000/auth/oauth-failure');
+            // check whether this is the first error
+            if(!tempFix[req.sessionID]) {
+                // try one more time
+                console.error('User is NULL');
+                tempFix[req.sessionID] = true;
+                res.redirect('/api/authentication/success');
+            } else {
+                // second time receiving this error
+                 delete tempFix[req.sessionID];
+                 res.redirect('http://localhost:3000/auth/oauth-failure');
+            }
             return;
         }
+
+        if(tempFix[req.sessionID]) {
+            delete tempFix[req.sessionID];
+        }
+
         if (req.user.common_profile.username !== null) {
             res.redirect('http://localhost:3000/auth/oauth-success');
         } else {
