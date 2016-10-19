@@ -12,8 +12,6 @@ import { Events, scrollSpy } from 'react-scroll';
 import { toggleScroll } from 'helpers/scroll';
 import notify from 'helpers/notify';
 
-const toastr = window.toastr;
-
 class App extends Component {
 
     constructor(props) {
@@ -32,9 +30,9 @@ class App extends Component {
         const { AuthActions } = this.props;
         await AuthActions.logout();
         storage.set('session', { user: null, logged: false });
-        toastr.info('Good Bye!');
+        notify({message: 'Good Bye!'});
         this.handleSidebarToggle();
-        setTimeout(() => {location.reload(); }, 3000);
+        setTimeout(() => {location.reload(); }, 1000);
         
     }
 

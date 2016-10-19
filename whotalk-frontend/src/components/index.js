@@ -17,7 +17,7 @@ import OAuthSuccess from './authentication/OAuthSuccess';
 
 import Sidebar from './sidebar/Sidebar';
 
-import ChannelBox from './channel/ChannelBox';
+import * as Channel from './Channel/';
 
 import Spinner from './Spinner';
 
@@ -38,5 +38,5 @@ export {
     Sidebar,
     Dimmed,
     Spinner,
-    ChannelBox
+    Channel
 }

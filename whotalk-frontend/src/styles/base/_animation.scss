@@ -119,3 +119,32 @@
 
   transform-origin: center;
 }
+
+
+
+
+.slideUp {
+    -webkit-animation-duration: 0.7s;
+    animation-duration: 0.7s;
+    -webkit-animation-name: slideUp;
+    animation-name: slideUp;
+    animation-timing-function: ease;
+}
+
+@-webkit-keyframes slideUp {}
+
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(300px);
+    }
+    25% {
+    }
+    80% {
+         transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+         transform: translateY(0px);
+    }
+}

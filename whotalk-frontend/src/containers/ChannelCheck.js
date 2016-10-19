@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Channel from './Channel';
+import ChannelRoute from './ChannelRoute';
 import { connect } from 'react-redux';
 import { checkValidity } from 'actions/channel';
 import { setFooterVisibility } from 'actions/ui';
@@ -53,7 +53,7 @@ class ChannelCheck extends Component {
             return <div/>
         }
 
-        return <Channel {...{pathname, params}}/>
+        return <ChannelRoute {...{pathname, params}}/>
 
     }
     
