@@ -19,7 +19,7 @@ class ChannelRoute extends Component {
         // disable overflow for 0.7 seconds
         document.body.style.overflow = "hidden";
         setTimeout(
-            () => { document.body.style.overflow = "visible " }, 700
+            () => { document.body.style.overflow = "" }, 700
         );
     }
     
@@ -30,6 +30,7 @@ class ChannelRoute extends Component {
                 <Channel.Box>
                     <Channel.Circle/>
                     <Channel.Profile username={params.username} channelInfo={status.channelInfo} />
+                    <Channel.Info/>
                 </Channel.Box>
             </div>
         );
