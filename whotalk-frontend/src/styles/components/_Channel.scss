@@ -64,6 +64,15 @@
             text-align: center;
             margin: 0px;
             margin-top: 50px;
+
+            .column {
+                padding-top: 10px;
+                padding-bottom: 50px;
+            }
+            .column:nth-child(2) { 
+                border-left: 1px solid #495057;
+                border-right: 1px solid #495057;
+            }
             
             .title {
                 color: #adb5bd;
@@ -73,11 +82,15 @@
             }
             .value {
                 color: #868e96;
-                margin-top: 20px;
+                margin-top: 50px;
+                font-weight: 200;
                 font-size: 48px;
             }
 
            @include media("<tablet") {
+                .column {
+                    padding-bottom: 20px;
+                }
                 .title {
                     font-size: 14px;
                     font-weight: 600;
@@ -85,7 +98,7 @@
                 }
 
                 .value {
-                    margin-top: 10px;
+                    margin-top: 15px;
                     font-size: 30px;
                 }
             }
