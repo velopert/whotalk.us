@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Channel} from 'components';
+const Chat = Channel.Chat;
 import * as ui from 'actions/ui';
 import autobind from 'autobind-decorator';
 
@@ -34,6 +35,7 @@ class ChannelRoute extends Component {
         setTimeout(() => {
             UIActions.setChannelBoxState('closed');
             document.body.style.overflow = "";
+            UIActions.setFooterVisibility(false);
         }, 700);
     }
 
@@ -41,6 +43,12 @@ class ChannelRoute extends Component {
     handleEnterChannel() {
         this.handleCloseBox();
     }
+
+    componentWillUnmount() {
+        const {UIActions} = this.props;
+        UIActions.setFooterVisibility(true);
+    }
+    
 
     render() {
         const {params, pathname, status} = this.props;
@@ -58,7 +66,7 @@ class ChannelRoute extends Component {
                             <Channel.Buttons onEnter={handleEnterChannel}/>
                         </Channel.Box>
                     )
-                    : undefined}
+                    : <Chat.Screen/>}
 
             </div>
         );
@@ -78,6 +86,7 @@ ChannelRoute = connect(state => ({
     UIActions: bindActionCreators({
         setHeaderTransparency: ui.setHeaderTransparency,
         setFooterSpace: ui.setFooterSpace,
+        setFooterVisibility: ui.setFooterVisibility,
         setChannelBoxState: ui.setChannelBoxState
     }, dispatch)
 }))(ChannelRoute);

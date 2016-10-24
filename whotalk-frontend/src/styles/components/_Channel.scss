@@ -145,27 +145,12 @@
                     }
                 }
             }
-            // margin: 0px;
-            // position: absolute;
-            // width: 100%;
-            // bottom: 60px;
-            // padding: 10px;
-            // .column {
-            //     padding: 5px;
-            // }
-            // .button {
-            //     width: 100%;
-            // }
-
-            // @include media(">=tablet") {
-            //     padding: 15px;
-            //     .column {
-            //         padding: 15px;
-            //     }
-            //     .button {
-            //         font-size: 24px;
-            //     }
-            // }
         }
+    }
+
+    .chat-screen {
+        width: 100%;
+        height: 100vh;
+        background-color: #f1f3f5;
     }
 }
