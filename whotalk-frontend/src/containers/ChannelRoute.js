@@ -64,6 +64,9 @@ class ChannelRoute extends Component {
         const {params, pathname, status} = this.props;
         const {handleEnterChannel, handleChange} = this;
 
+        const showStartButton = /(default|selecting)$/.test(status.chatState);
+        const showChannel = status.chatState === 'selecting';
+
         return (
             <div className="channel">
 
@@ -79,10 +82,13 @@ class ChannelRoute extends Component {
                     )
                     : (
                         <Chat.Screen>
-                            {/*<Chat.Input onChange={handleChange}/>*/}
-                            <Chat.Start/>
+                            { showStartButton ? <Chat.Start/> : <Chat.Input onChange={handleChange}/> }
+                             <Chat.Select/>
                         </Chat.Screen> 
-                    )}
+                    )
+                }
+
+               
 
             </div>
         );
@@ -97,6 +103,7 @@ ChannelRoute = connect(state => ({
     status: {
         channelInfo: state.channel.info,
         boxState: state.ui.channel.box.state,
+        chatState: state.ui.channel.chat.state,
         session: state.auth.session,
         form: {
             message: state.form.message

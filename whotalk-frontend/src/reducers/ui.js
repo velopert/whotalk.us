@@ -17,6 +17,9 @@ const initialState = {
     channel: {
         box: {
             state: 'default'
+        },
+        chat: {
+            state: 'default'
         }
     }
 };
@@ -70,6 +73,17 @@ function ui(state=initialState, action) {
                     ...state.channel,
                     box: {
                         ...state.channel.box,
+                        state: payload
+                    }
+                }
+            }
+        case UI.SET_CHANNELCHAT_STATE:
+            return {
+                ...state,
+                channel: {
+                    ...state.channel,
+                    chat: {
+                        ...state.channel.chat,
                         state: payload
                     }
                 }
