@@ -1,0 +1,134 @@
+.box {
+    box-shadow: 0px -15px 15px -15px rgba(0, 0, 0, .85);
+    -webkit-box-shadow: 0px -15px 15px -15px rgba(0, 0, 0, .85);
+    -moz-box-shadow: 0px -15px 15px -15px rgba(0, 0, 0, .85);
+    margin-top: 30vh;
+    height: 70vh;
+    position: relative;
+    background-color: #212529;
+    @include media(">tablet") {
+        min-height: 480px;
+    }
+    @include media("<=tablet") {
+        min-height: 380px;
+    }
+    .circle {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        background-color: #F8F8F8;
+        margin-left: 50%;
+        margin-bottom: -120px;
+        transform: translate(-50%, -80%);
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+        .image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+        @include media("<tablet") {
+            width: 100px;
+            height: 100px;
+            margin-bottom: -80px;
+            .image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    }
+    .profile {
+        margin-top: 20px;
+        text-align: center;
+        .username {
+            font-size: 32px;
+            font-weight: 600;
+            color: white;
+        }
+        .name {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #dee2e6;
+        }
+        @include media("<tablet") {
+            margin-top: 15px;
+            .username {
+                font-size: 24px;
+            }
+            .name {
+                margin-top: 10px;
+                font-size: 16px;
+            }
+        }
+    }
+    .info {
+        text-align: center;
+        margin: 0px;
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        .column {
+            padding-top: 10px;
+            padding-bottom: 50px;
+        }
+        .column:nth-child(2) {
+            border-left: 1px solid #495057;
+            border-right: 1px solid #495057;
+        }
+        .title {
+            color: #adb5bd;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .value {
+            color: #868e96;
+            margin-top: 50px;
+            font-weight: 200;
+            font-size: 48px;
+        }
+        @include media("<tablet") {
+            .column {
+                padding-bottom: 20px;
+            }
+            .title {
+                font-size: 14px;
+                font-weight: 600;
+                letter-spacing: 0px;
+            }
+            .value {
+                margin-top: 15px;
+                font-size: 28px;
+            }
+        }
+    }
+    .buttons {
+        margin: 0px;
+        position: absolute;
+        width: 100%;
+        bottom: 60px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 15px;
+        .column {
+            .button {
+                width: 100%;
+                font-size: 22px;
+            }
+        }
+        @include media("<tablet") {
+            bottom: 0px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: 10px;
+            &.ui.stackable.grid>.wide.column {
+                padding: 5px !important;
+            }
+            .column {
+                .button {
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}

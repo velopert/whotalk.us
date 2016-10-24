@@ -1,0 +1,36 @@
+.input {
+    background-color: #f8f9fa;
+    position: absolute;
+    bottom: 0px;
+    height: 70px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0px -5px 10px -5px rgba(0,0,0,.20);
+
+    .message {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 86px;
+        text-align: left;
+
+        input {
+            width: 100%;
+            border: 0px solid;
+            background-color: transparent;
+            font-size: 18px;
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    .send-button {
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+
+    }
+}
