@@ -30,8 +30,10 @@ class ChannelRoute extends Component {
         const {UIActions} = this.props;
 
         UIActions.setChannelBoxState('closing');
+        document.body.style.overflow = "hidden";
         setTimeout(() => {
-            UIActions.setChannelBoxState('closed')
+            UIActions.setChannelBoxState('closed');
+            document.body.style.overflow = "";
         }, 700);
     }
 
@@ -46,7 +48,7 @@ class ChannelRoute extends Component {
 
         return (
             <div className="channel">
-            
+
                 {status.boxState !== 'closed'
                     ? (
                         <Channel.Box isClosing={status.boxState === 'closing'}>
