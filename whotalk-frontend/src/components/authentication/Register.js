@@ -96,7 +96,7 @@ class Register extends Component {
         }
 
         AuthActions.localRegisterPrior({username, password});
-        this.leaveTo({pathname: '/auth/register/additional'});
+        this.leaveTo({path: '/auth/register/additional'});
 
     }
 
