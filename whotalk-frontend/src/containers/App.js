@@ -129,8 +129,12 @@ class App extends Component {
         }
     }
 
-    render() {
+    shouldComponentUpdate(nextProps, nextState) {
+        return JSON.stringify(nextProps) !== JSON.stringify(this.props);
+    }
+    
 
+    render() {
         const { ui, status } = this.props;
         const { handleSidebarToggle, handleLogout } = this;
 
