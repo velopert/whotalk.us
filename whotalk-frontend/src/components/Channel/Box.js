@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Box = ({children}) => {
+const Box = ({children, isClosing}) => {
     return (
-        <div className="box slideUp">
+        <div className={`box slideUp ${isClosing?'slideDown':''}`}>
             {children}
         </div>
     );

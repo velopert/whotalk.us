@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Buttons = () => {
+const Buttons = ({onEnter}) => {
     return (
         <div className="ui grid stackable buttons">
             <div className="ten wide column">
-                <div className="ui inverted pink button">
+                <div className="ui inverted pink button" onClick={onEnter}>
                     <i className="sign in icon"></i>
                     ENTER CHANNEL
                 </div>

@@ -13,6 +13,11 @@ const initialState = {
     footer: {
         space: false,
         show: true
+    },
+    channel: {
+        box: {
+            state: 'default'
+        }
     }
 };
 
@@ -58,8 +63,20 @@ function ui(state=initialState, action) {
                     show: payload
                 }
             };
+        case UI.SET_CHANNELBOX_STATE:
+            return {
+                ...state,
+                channel: {
+                    ...state.channel,
+                    box: {
+                        ...state.channel.box,
+                        state: payload
+                    }
+                }
+            }
         default: 
             return state;
+            
     }
 }
 
