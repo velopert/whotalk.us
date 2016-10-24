@@ -18,6 +18,9 @@ const initialState = {
         username: '',
         password: ''
     },
+    chat: {
+        message: ''
+    },
     error: {
         register: {
             username: false,
@@ -32,7 +35,7 @@ const initialState = {
         additional_o: {
             username: false
         }
-    }
+    },
 }
 
 function form(state = initialState, action) {
