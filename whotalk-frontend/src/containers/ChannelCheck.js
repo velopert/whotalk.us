@@ -27,7 +27,7 @@ class ChannelCheck extends Component {
         UIActions.setFooterVisibility(false);
         
         await ChannelActions.checkValidity(params.username);
-         UIActions.setFooterVisibility(true);
+
         if(!this.props.status.valid) {
             this.context.router.transitionTo('/404');
         }

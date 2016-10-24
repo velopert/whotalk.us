@@ -1,11 +1,11 @@
 import React from 'react';
 
-const ChatScreen = () => {
+const Screen = ({children}) => {
     return (
-        <div className="chat-screen bounceInRight">
-            
+        <div className="screen bounceInRight">
+            {children}
         </div>
     );
 };
 
-export default ChatScreen;
+export default Screen;

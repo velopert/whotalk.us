@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {Channel} from 'components';
 const Chat = Channel.Chat;
 import * as ui from 'actions/ui';
+import * as form from 'actions/form';
 import autobind from 'autobind-decorator';
 
 class ChannelRoute extends Component {
@@ -18,11 +19,12 @@ class ChannelRoute extends Component {
         UIActions.setHeaderTransparency(false);
         UIActions.setFooterSpace(false);
         UIActions.setChannelBoxState('default');
-
+        
         // disable overflow for 0.7 seconds
         document.body.style.overflow = "hidden";
         setTimeout(() => {
             document.body.style.overflow = ""
+            UIActions.setFooterVisibility(true);
         }, 700);
     }
 
@@ -44,15 +46,23 @@ class ChannelRoute extends Component {
         this.handleCloseBox();
     }
 
+    @autobind
+    handleChange(e) {
+        const {FormActions} = this.props;
+        FormActions.changeInput({form: 'chat', name: e.target.name, value: e.target.value})
+    }
+
     componentWillUnmount() {
         const {UIActions} = this.props;
-        UIActions.setFooterVisibility(true);
+        //UIActions.setFooterVisibility(true);
     }
+
+    
     
 
     render() {
         const {params, pathname, status} = this.props;
-        const {handleEnterChannel} = this;
+        const {handleEnterChannel, handleChange} = this;
 
         return (
             <div className="channel">
@@ -66,7 +76,11 @@ class ChannelRoute extends Component {
                             <Channel.Buttons onEnter={handleEnterChannel}/>
                         </Channel.Box>
                     )
-                    : <Chat.Screen/>}
+                    : (
+                        <Chat.Screen>
+                            <Chat.Input onChange={handleChange}/>
+                        </Chat.Screen> 
+                    )}
 
             </div>
         );
@@ -80,9 +94,13 @@ ChannelRoute.contextTypes = {
 ChannelRoute = connect(state => ({
     status: {
         channelInfo: state.channel.info,
-        boxState: state.ui.channel.box.state
+        boxState: state.ui.channel.box.state,
+        form: {
+            message: state.form.message
+        }
     }
 }), dispatch => ({
+    FormActions: bindActionCreators(form, dispatch),
     UIActions: bindActionCreators({
         setHeaderTransparency: ui.setHeaderTransparency,
         setFooterSpace: ui.setFooterSpace,
