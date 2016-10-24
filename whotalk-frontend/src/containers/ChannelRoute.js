@@ -73,12 +73,14 @@ class ChannelRoute extends Component {
                             <Channel.Circle/>
                             <Channel.Profile username={params.username} channelInfo={status.channelInfo}/>
                             <Channel.Info/>
-                            <Channel.Buttons onEnter={handleEnterChannel}/>
+                            <Channel.Buttons onEnter={handleEnterChannel}
+                            disableFollow={status.session.user.common_profile.username === params.username}/>
                         </Channel.Box>
                     )
                     : (
                         <Chat.Screen>
-                            <Chat.Input onChange={handleChange}/>
+                            {/*<Chat.Input onChange={handleChange}/>*/}
+                            <Chat.Start/>
                         </Chat.Screen> 
                     )}
 
@@ -95,6 +97,7 @@ ChannelRoute = connect(state => ({
     status: {
         channelInfo: state.channel.info,
         boxState: state.ui.channel.box.state,
+        session: state.auth.session,
         form: {
             message: state.form.message
         }

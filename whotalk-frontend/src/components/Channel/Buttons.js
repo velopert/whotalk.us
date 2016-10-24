@@ -1,19 +1,19 @@
 import React from 'react';
 
-const Buttons = ({onEnter}) => {
+const Buttons = ({onEnter, disableFollow}) => {
     return (
         <div className="ui grid stackable buttons">
             <div className="ten wide column">
-                <div className="ui inverted pink button" onClick={onEnter}>
+                <button className="ui inverted pink button" onClick={onEnter}>
                     <i className="sign in icon"></i>
                     ENTER CHANNEL
-                </div>
+                </button>
             </div>
             <div className="six wide column">
-                <div className="ui inverted button grey">
-                     <i className="rss icon"></i>
+                <button className="ui inverted button grey" disabled={disableFollow}>
+                     <i className="add user icon"></i>
                     FOLLOW
-                </div>
+                </button>
             </div>
         </div>
     );
