@@ -21,6 +21,9 @@ import * as Channel from './Channel/';
 
 import Spinner from './Spinner';
 
+
+import * as Common from './Common';
+
 export { 
     Background, 
     Header, 
@@ -38,5 +41,6 @@ export {
     Sidebar,
     Dimmed,
     Spinner,
-    Channel
+    Channel,
+    Common
 }

@@ -1,11 +1,11 @@
 .footer-space {
         width: 100%;
-        @include media(">tablet") {
+        @include media(">=tablet") {
             &.desktop {
                 height: 60px;
             }
         }
-        @include media("<=tablet") {
+        @include media("<tablet") {
             height: 295px;
         }
     }
@@ -24,7 +24,7 @@
     letter-spacing: 2px;
 
     .container {
-        @include media("<=tablet") {
+        @include media("<tablet") {
             margin: 0;
         }
     }
@@ -39,7 +39,7 @@
     li {
         float: left;
 
-        @include media("<=tablet") {
+        @include media("<tablet") {
             float: none;
         }
 
@@ -47,7 +47,7 @@
             padding: 20px;
             float: right;
             font-weight: 600;
-            @include media("<=tablet") {
+            @include media("<tablet") {
                 float: none;
                 text-align: center;
             }

@@ -31,6 +31,7 @@ class ChannelRoute extends Component {
                     <Channel.Circle/>
                     <Channel.Profile username={params.username} channelInfo={status.channelInfo} />
                     <Channel.Info/>
+                    <Channel.Buttons/>
                 </Channel.Box>
             </div>
         );

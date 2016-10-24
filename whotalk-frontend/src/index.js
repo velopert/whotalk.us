@@ -12,9 +12,6 @@ import store from './store';
 
 
 
-const toastr = window.toastr;
-toastr.options.preventDuplicates = true;
-
 $(window).bind("load", function() {
     $('#loader').addClass('hide');
     ReactDOM.render((

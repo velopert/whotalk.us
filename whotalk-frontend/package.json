@@ -56,6 +56,7 @@
     "eslint-plugin-async-await": "0.0.0",
     "eslint-plugin-flowtype": "^2.15.0",
     "node-sass": "^3.8.0",
+    "odometer": "^0.4.7",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-motion": "^0.4.4",
