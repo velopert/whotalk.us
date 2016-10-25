@@ -115,7 +115,7 @@ function authenticate(connection, payload) {
         connection.data.anon = true;
         connection.data.channel = payload.channel;
         connection.data.valid = true;
-        emit(connection, createAction(TYPE.SUCCESS));
+        emit(connection, createAction(TYPE.SUCCESS, { username }));
 
         // join to the channel
         const ch = channel.get(payload.channel);
