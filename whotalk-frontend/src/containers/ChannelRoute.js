@@ -18,7 +18,7 @@ class ChannelRoute extends Component {
         const {UIActions} = this.props;
         UIActions.setHeaderTransparency(false);
         UIActions.setFooterSpace(false);
-        UIActions.setChannelBoxState('default');
+        UIActions.initialize('channel');
         
         // disable overflow for 0.7 seconds
         document.body.style.overflow = "hidden";
@@ -52,6 +52,21 @@ class ChannelRoute extends Component {
         FormActions.changeInput({form: 'chat', name: e.target.name, value: e.target.value})
     }
 
+    @autobind
+    handleOpenSelect() {
+        const {UIActions} = this.props;
+        UIActions.setChannelChatState({selecting: true});
+    }
+
+    @autobind
+    handleCloseSelect() {
+        const {UIActions} = this.props;
+        UIActions.setChannelChatState({closing: true});
+        setTimeout(
+            ()=> { UIActions.setChannelChatState({closing: false, selecting: false})}, 700
+        );
+    }
+
     componentWillUnmount() {
         const {UIActions} = this.props;
         //UIActions.setFooterVisibility(true);
@@ -62,10 +77,11 @@ class ChannelRoute extends Component {
 
     render() {
         const {params, pathname, status} = this.props;
-        const {handleEnterChannel, handleChange} = this;
+        const {handleEnterChannel, handleChange, handleOpenSelect, handleCloseSelect} = this;
 
-        const showStartButton = /(default|selecting)$/.test(status.chatState);
-        const showChannel = status.chatState === 'selecting';
+        const showStartButton = !status.chatState.started;
+        const showSelect = status.chatState.selecting;
+        const selectClosing = status.chatState.closing;
 
         return (
             <div className="channel">
@@ -82,8 +98,11 @@ class ChannelRoute extends Component {
                     )
                     : (
                         <Chat.Screen>
-                            { showStartButton ? <Chat.Start/> : <Chat.Input onChange={handleChange}/> }
-                             <Chat.Select/>
+                            { showStartButton ? <Chat.Start onClick={handleOpenSelect}/> : <Chat.Input onChange={handleChange}/> }
+                            { showSelect ? <Chat.Select 
+                                                username={params.username}
+                                                onClose={handleCloseSelect}
+                                                closing={selectClosing}/> : undefined }
                         </Chat.Screen> 
                     )
                 }
@@ -103,7 +122,7 @@ ChannelRoute = connect(state => ({
     status: {
         channelInfo: state.channel.info,
         boxState: state.ui.channel.box.state,
-        chatState: state.ui.channel.chat.state,
+        chatState: state.ui.channel.chat,
         session: state.auth.session,
         form: {
             message: state.form.message
@@ -112,10 +131,12 @@ ChannelRoute = connect(state => ({
 }), dispatch => ({
     FormActions: bindActionCreators(form, dispatch),
     UIActions: bindActionCreators({
+        initialize: ui.initialize,
         setHeaderTransparency: ui.setHeaderTransparency,
         setFooterSpace: ui.setFooterSpace,
         setFooterVisibility: ui.setFooterVisibility,
-        setChannelBoxState: ui.setChannelBoxState
+        setChannelBoxState: ui.setChannelBoxState,
+        setChannelChatState: ui.setChannelChatState
     }, dispatch)
 }))(ChannelRoute);
 

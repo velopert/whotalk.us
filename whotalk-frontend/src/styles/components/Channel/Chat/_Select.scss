@@ -3,6 +3,39 @@
     top: 0px;
     left: 0px;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-color: rgba(0,0,0,0.75);
+    
+    .exit {
+        position: absolute;
+        top: 65px;
+        right: 5px;
+        font-size: 3rem;
+        color: #e9ecef;
+        cursor: pointer;
+        line-height: 3rem;
+
+    }
+
+    & > .wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        text-align: center;
+        transform: translate(-50%, -50%);
+        .title {
+           margin-top: -50px;
+           font-size: 5rem;
+           line-height: 5rem;
+           font-weight: 300;
+           color: #e9ecef;
+        }
+        .options {
+            margin-top: 3rem;
+            .button {
+                font-size: 2.5rem;
+            }
+        }
+    }
 }

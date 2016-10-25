@@ -19,7 +19,9 @@ const initialState = {
             state: 'default'
         },
         chat: {
-            state: 'default'
+            started: false,
+            selecting: false,
+            closing: false
         }
     }
 };
@@ -28,6 +30,11 @@ function ui(state=initialState, action) {
     const payload = action.payload;
 
     switch (action.type) {
+        case UI.INITIALIZE:
+            return {
+                ...state,
+                ...initialState[payload]
+            };
         case UI.TOGGLE_SIDEBAR:
             return {
                 ...state,
@@ -84,7 +91,7 @@ function ui(state=initialState, action) {
                     ...state.channel,
                     chat: {
                         ...state.channel.chat,
-                        state: payload
+                        ...payload
                     }
                 }
             }

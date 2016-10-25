@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Start = () => {
+const Start = ({onClick}) => {
     return (
-        <div className="start">
+        <div className="start" onClick={onClick}>
             <button className="ui pink button">START TALKING</button>
         </div>
     );
