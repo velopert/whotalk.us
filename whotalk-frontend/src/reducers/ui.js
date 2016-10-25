@@ -33,7 +33,9 @@ function ui(state=initialState, action) {
         case UI.INITIALIZE:
             return {
                 ...state,
-                ...initialState[payload]
+                [payload]: {
+                    ...initialState[payload]
+                }
             };
         case UI.TOGGLE_SIDEBAR:
             return {
