@@ -28,6 +28,9 @@ const initialState = {
         givenName: null,
         thumbnail: "none"
     },
+    chat: {
+        identity: null
+    },
     requests: {
         checkValidity: {
             ...request
@@ -39,7 +42,17 @@ function channel(state = initialState, action) {
     const payload = action.payload;
 
     switch (action.type) {
-            /* CHECK_VALIDITY */
+
+        case CHANNEL.SET_IDENTITY: 
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    identity: payload
+                }
+            };
+
+        /* CHECK_VALIDITY */
         case CHANNEL.CHECK_VALIDITY + '_PENDING':
             return {
                 ...state,

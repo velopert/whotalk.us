@@ -5,6 +5,7 @@ import {Channel} from 'components';
 const Chat = Channel.Chat;
 import * as ui from 'actions/ui';
 import * as form from 'actions/form';
+import * as channel from 'actions/channel';
 import autobind from 'autobind-decorator';
 
 class ChannelRoute extends Component {
@@ -18,7 +19,6 @@ class ChannelRoute extends Component {
         const {UIActions} = this.props;
         UIActions.setHeaderTransparency(false);
         UIActions.setFooterSpace(false);
-        UIActions.initialize('channel');
         
         // disable overflow for 0.7 seconds
         document.body.style.overflow = "hidden";
@@ -59,6 +59,15 @@ class ChannelRoute extends Component {
     }
 
     @autobind
+    handleSelect(identity){
+        const {ChannelActions, UIActions} = this.props;
+        ChannelActions.setIdentity(identity);
+        UIActions.setChannelChatState({started: true});
+
+        this.handleCloseSelect();
+    }
+
+    @autobind
     handleCloseSelect() {
         const {UIActions} = this.props;
         UIActions.setChannelChatState({closing: true});
@@ -77,7 +86,7 @@ class ChannelRoute extends Component {
 
     render() {
         const {params, pathname, status} = this.props;
-        const {handleEnterChannel, handleChange, handleOpenSelect, handleCloseSelect} = this;
+        const {handleEnterChannel, handleChange, handleOpenSelect, handleSelect, handleCloseSelect} = this;
 
         const showStartButton = !status.chatState.started;
         const showSelect = status.chatState.selecting;
@@ -102,6 +111,7 @@ class ChannelRoute extends Component {
                             { showSelect ? <Chat.Select 
                                                 username={params.username}
                                                 onClose={handleCloseSelect}
+                                                onSelect={handleSelect}
                                                 closing={selectClosing}/> : undefined }
                         </Chat.Screen> 
                     )
@@ -129,6 +139,7 @@ ChannelRoute = connect(state => ({
         }
     }
 }), dispatch => ({
+    ChannelActions: bindActionCreators(channel, dispatch),
     FormActions: bindActionCreators(form, dispatch),
     UIActions: bindActionCreators({
         initialize: ui.initialize,
