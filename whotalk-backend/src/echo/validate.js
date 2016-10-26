@@ -1,30 +1,29 @@
 import inspector from 'schema-inspector';
 
-const TYPE = {
-    MSG: "MSG",
-    JOIN: "JOIN",
-    ERROR: "ERROR",
-    LEAVE: "LEAVE",
-    AUTH: "AUTH"
-};
+import { client as RECEIVE } from './packetTypes';
 
 const actionSchema = {
     type: 'object',
     properties: {
-        type: { type: 'string', pattern: /(MSG|JOIN|ERROR|LEAVE|AUTH)$/ },
+        type: { type: 'string', pattern: /(ENTER|AUTH|MSG)$/ },
         payload: { type: 'object' }
     }
 }
 
-const authSchema = {
-    session: { type: 'string', minLength: 1 },
-    channel: { type: 'string', minLength: 1 },
-    anon: { type: 'boolean' }
-};
-
-const messageSchema = {
-    message: { type: 'string', minLength: 1 }
+const schema = {
+    enter: {
+        channel: { type: 'string', minLength: 1 }
+    },
+    auth: {
+        sessionID: { type: 'string', minLength: 1 },
+        anonymous: { type: 'boolean' }
+    },
+    message: {
+        message: { type: 'string', minLength: 1 },
+        uID: { type: 'string', exactLength: 11 }
+    }
 }
+
 
 function validate(action) {
     // validate action schema
@@ -37,12 +36,18 @@ function validate(action) {
     };
 
     switch(action.type) {
-        case TYPE.AUTH:
-            payloadSchema.properties = authSchema;
+        case RECEIVE.ENTER:
+            payloadSchema.properties = schema.join;
             break;
-        case TYPE.MSG:
-            payloadSchema.properties = messageSchema;
+        
+        case RECEIVE.AUTH:
+            payloadSchema.properties = schema.auth;
             break;
+
+        case RECEIVE.MSG:
+            payloadSchema.properties = schema.message;
+            break;
+
         default:
             return false;
     }

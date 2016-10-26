@@ -17,22 +17,33 @@ function Channel(name) {
     this.push = (userId) => {
         this.users.push(userId);
 
+        // // handles multiple window
+        // if(!this.usernames[sockets[userId].data.username]){
+        //     this.usernames[sockets[userId].data.username] = 1;
+        // } else {
+        //     this.usernames[sockets[userId].data.username]++;
+        // }
+    };
+
+    this.validate = (userId) => {
         // handles multiple window
         if(!this.usernames[sockets[userId].data.username]){
             this.usernames[sockets[userId].data.username] = 1;
         } else {
             this.usernames[sockets[userId].data.username]++;
         }
-    };
+    }
 
     // removes userId
     this.remove = (userId) => {
         
         // handles multiple window
-        if(this.usernames[sockets[userId].data.username] !== 1) {
-            this.usernames[sockets[userId].data.username]--;
-        } else {
-            delete this.usernames[sockets[userId].data.username];
+        if(sockets[userId].data.valid) {
+            if(this.usernames[sockets[userId].data.username] !== 1) {
+                this.usernames[sockets[userId].data.username]--;
+            } else {
+                delete this.usernames[sockets[userId].data.username];
+            }
         }
 
         _.remove(this.users, n => {
@@ -47,7 +58,7 @@ function Channel(name) {
         }
     }
 
-    this.userCount = (username) => {
+    this.countUser = (username) => {
         return this.usernames[username];
     }
 }
