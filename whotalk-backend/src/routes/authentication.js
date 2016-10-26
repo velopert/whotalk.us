@@ -10,7 +10,7 @@ const router = express.Router();
 const tempFix = {};
 
 router.get('/', (req, res) => {
-    res.json({sID: req.sessionID, session: req.session});
+    res.json({sessionID: req.sessionID, session: req.session});
 });
 
 router.get('/success', (req, res) => {

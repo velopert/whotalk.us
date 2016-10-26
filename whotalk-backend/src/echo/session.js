@@ -6,15 +6,15 @@ import Account from './../models/account.js';
 const session = {};
 
 // get username by sessionId
-session.get = (sessionId, cb) => {
+session.get = (sessionID, cb) => {
     // check cache whether it has one
-    if(cache.session.has(sessionId)) {
-        return cb(cache.session.get(sessionId));
+    if(cache.session.has(sessionID)) {
+        return cb(cache.session.get(sessionID));
     }
     
     let accountId = null;
     // if not, do some mongo works
-    Session.findOne({_id: sessionId}).exec()
+    Session.findOne({_id: sessionID}).exec()
     .then(
         (sess => {
             console.log(sess);
@@ -41,7 +41,7 @@ session.get = (sessionId, cb) => {
     ).then(
         account => {
             cache.passport.set(accountId, account);
-            cache.session.set(sessionId, account.common_profile.username);
+            cache.session.set(sessionID, account.common_profile.username);
             cb(account.common_profile.username);   
         }
     ).catch(
@@ -53,15 +53,15 @@ session.get = (sessionId, cb) => {
 }
 
 // gets anonymous username
-session.getAnon = (sessionId, channel) => {
+session.getAnon = (sessionID, channel) => {
     // check cache
     // different username per channels
-    if(cache.session.has(sessionId+channel)) { 
-        return cache.session.get(sessionId+channel);
+    if(cache.session.has(sessionID+channel)) { 
+        return cache.session.get(sessionID+channel);
     }
 
-    const hash = md5(sessionId+channel);
-    cache.session.set(sessionId+channel, hash.substr(0,6));
+    const hash = md5(sessionID+channel);
+    cache.session.set(sessionID+channel, hash.substr(0,6));
     return hash.substr(0,6);
 }
 
