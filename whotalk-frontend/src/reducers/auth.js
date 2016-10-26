@@ -20,6 +20,7 @@ const register = {
 }
 
 const session = {
+    sessionID: null,
     user: {
         _id: null,
         common_profile: {
@@ -277,6 +278,7 @@ function auth(state=initialState, action) {
                     checkSession: { ...fulfilled }
                 },
                 session: {
+                    sessionID: payload.data.sessionID,
                     user: payload.data.user === null ? {...session.user} : payload.data.user,
                     logged: (payload.data.user !== null && payload.data.user.common_profile.username !== null)
                 }
