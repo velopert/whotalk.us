@@ -56,7 +56,7 @@ router.get('/check', (req, res) => {
         };
     }
 
-    res.json({sID: req.sessionID, user});
+    res.json({sessionID: req.sessionID, user});
 });
 
 router.get('/failure', (req, res) => {
