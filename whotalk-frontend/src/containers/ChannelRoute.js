@@ -11,8 +11,8 @@ import sender from 'socket/packetSender';
 
 
 
-import * as socket from 'socket';
-
+import socket, { init, close } from 'socket';
+import * as s from 'socket';
 
 class ChannelRoute extends Component {
     constructor(props) {
@@ -44,13 +44,13 @@ class ChannelRoute extends Component {
             UIActions.setChannelBoxState('closed');
             document.body.style.overflow = "";
             UIActions.setFooterVisibility(false);
-        }, 700);
+        }, 300);
     }
 
     @autobind
     handleEnterChannel() {
         this.handleCloseBox();
-        socket.init();
+        init();
     }
 
     @autobind
@@ -87,6 +87,9 @@ class ChannelRoute extends Component {
     componentWillUnmount() {
         const {UIActions} = this.props;
         //UIActions.setFooterVisibility(true);
+        if(socket) {
+            close();
+        }
     }
 
     

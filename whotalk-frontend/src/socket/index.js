@@ -28,11 +28,13 @@ export const init = () => {
         socket = null;
 
         if (!closing) {
-            console.log("disconnected, reconnecting..")
+            console.log("[SOCKET] disconnected, reconnecting..")
            
             intervalId = setInterval(function () {
                 init();
             }, 2000);
+        } else {
+            console.log("[SOCKET] disconnected")
         }
     };
 }
