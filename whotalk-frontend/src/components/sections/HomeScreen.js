@@ -60,7 +60,7 @@ class HomeScreen extends Component {
 
         const isLogged = (
             <div>
-                <Link to={"/" + username } className="ui inverted basic orange button">MY CHANNEL</Link><Link to="/" className="ui inverted basic green button">EXPLORE</Link>
+                <Link to={"/" + username } className={`ui inverted basic orange button ${username===null?'disabled':''}`}>MY CHANNEL</Link><Link to="/" className="ui inverted basic green button">EXPLORE</Link>
             </div>
         );
 
