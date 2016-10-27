@@ -36,7 +36,6 @@ function Channel(name) {
 
     // removes userId
     this.remove = (userId) => {
-        
         // handles multiple window
         if(sockets[userId].data.valid) {
             if(this.usernames[sockets[userId].data.username] !== 1) {

@@ -1,5 +1,5 @@
 import { client as RECEIVE, server as SEND } from './packetTypes';
-import * as helpers from './helpers';
+import * as helper from './helper';
 import error from './error';
 import validate from './validate';
 import channel from './channel';
@@ -14,7 +14,7 @@ const service = {
         
         connection.data.channel = payload.channel;
 
-        helpers.emit(connection, helpers.createAction(SEND.SUCCESS.ENTER));
+        helper.emit(connection, helper.createAction(SEND.SUCCESS.ENTER));
     },
 
     auth: (connection, payload) => {
@@ -29,7 +29,7 @@ const service = {
             
             ch.validate(connection.id);
 
-            helpers.emit(connection, helpers.createAction(
+            helper.emit(connection, helper.createAction(
                 SEND.SUCCESS.AUTH, {
                     username: connection.data.username
                 }
@@ -41,7 +41,7 @@ const service = {
             }
 
             // broadcast that user has joined
-            ch.broadcast(helpers.createAction(SEND.JOIN, {
+            ch.broadcast(helper.createAction(SEND.JOIN, {
                 username: connection.data.username,
                 date: (new Date()).getTime()
             }));
@@ -52,15 +52,15 @@ const service = {
     message: (connection, payload) => {
         // check session validity
         if(!connection.data.valid) {
-            return helpers.emit(connection, error(1));
+            return helper.emit(connection, error(1));
         }
 
         const ch = channel.get(connection.data.channel);
-        ch.broadcast(helpers.createAction(SEND.MSG, {
+        ch.broadcast(helper.createAction(SEND.MSG, {
             username: connection.data.username,
             message: payload.message,
             uID: payload.uID,
-            suID: helpers.generateUID()
+            suID: helper.generateUID()
         }));
 
     }
@@ -76,19 +76,19 @@ export default function packetHandler(connection, packet) {
 
     // log the packet (only in dev mode)
     if(process.env.NODE_ENV === 'development') {
-        helpers.log(packet);
+        helper.log(packet);
     }
 
-    const o = helpers.tryParseJSON(packet);
+    const o = helper.tryParseJSON(packet);
 
     if(!o) {
         // INVALID REQUEST
-        return helpers.emit(connection, error(0));
+        return helper.emit(connection, error(0));
     }
 
     // validate request
     if(!validate(o)) {
-        return helpers.emit(connection, error(0));
+        return helper.emit(connection, error(0));
     }
 
     switch (o.type) {
@@ -102,7 +102,7 @@ export default function packetHandler(connection, packet) {
             service.message(connection, o.payload);
             break;
         default:
-            helpers.emit(connection, error(0));
+            helper.emit(connection, error(0));
     }
 
 

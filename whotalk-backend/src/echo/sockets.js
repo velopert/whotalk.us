@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { log } from './helpers';
+import { log } from './helper';
 
 let counter = 0;
 let freeSlot = [];
@@ -30,6 +30,14 @@ export function connect(connection) {
         sessionID: null,
         valid: false
     };
+
+    // const test = () => {
+    //     connection.write('you alive');
+
+    //     setTimeout(test, 1000);
+    // }
+
+    // test();
 
     log(`Socket ${connection.id} Connected - ${getSocketsLength()}`);
 }

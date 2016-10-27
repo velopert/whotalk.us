@@ -4,7 +4,7 @@ import packetHandler from './packetHandler';
 
 import sockets, { connect, disconnect } from './sockets';
 
-import * as helpers from './helpers';
+import * as helper from './helper';
 import { server as SEND } from './packetTypes';
 
 
@@ -25,12 +25,13 @@ echo.on('connection', connection => {
     });
 
     connection.on('close', data => {
+        const ch = channel.get(connection.data.channel);
+        ch.remove(connection.id);
+
         if(connection.data.valid) {
             // handle user leave
-            const ch = channel.get(connection.data.channel);
-            ch.remove(connection.id);
             if(!ch.countUser(connection.data.username)) {
-                ch.broadcast(helpers.createAction(
+                ch.broadcast(helper.createAction(
                     SEND.LEAVE,
                     {
                         username: connection.data.username
@@ -38,6 +39,7 @@ echo.on('connection', connection => {
                 ));
             }
         }
+        
         disconnect(connection);
     });
 });
