@@ -8,7 +8,7 @@ import * as form from 'actions/form';
 import * as channel from 'actions/channel';
 import autobind from 'autobind-decorator';
 
-import socket, { initConnection } from 'helpers/socket';
+import * as socket from 'socket';
 
 
 class ChannelRoute extends Component {
@@ -47,7 +47,7 @@ class ChannelRoute extends Component {
     @autobind
     handleEnterChannel() {
         this.handleCloseBox();
-        initConnection();
+        socket.init();
     }
 
     @autobind

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ChannelRoute from './ChannelRoute';
 import { connect } from 'react-redux';
-import { checkValidity } from 'actions/channel';
+import * as channel from 'actions/channel';
 import { setFooterVisibility, initialize } from 'actions/ui';
 import { bindActionCreators } from 'redux';
 import { Spinner } from 'components';
@@ -23,6 +23,7 @@ class ChannelCheck extends Component {
 
         UIActions.setFooterVisibility(false);
         UIActions.initialize('channel');
+        ChannelActions.initialize(params.username);
         
         await ChannelActions.checkValidity(params.username);
 
@@ -69,9 +70,7 @@ ChannelCheck = connect(
         }
     }),
     dispatch => ({
-        ChannelActions: bindActionCreators({
-            checkValidity
-        }, dispatch),
+        ChannelActions: bindActionCreators(channel, dispatch),
         UIActions: bindActionCreators({
             initialize,
             setFooterVisibility

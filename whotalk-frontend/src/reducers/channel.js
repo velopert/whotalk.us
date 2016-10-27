@@ -24,6 +24,7 @@ const rejected = {
 const initialState = {
     valid: false,
     info: {
+        username: null,
         familyName: null,
         givenName: null,
         thumbnail: "none"
@@ -42,6 +43,15 @@ function channel(state = initialState, action) {
     const payload = action.payload;
 
     switch (action.type) {
+
+        case CHANNEL.INITIALIZE:
+            return {
+                ...initialState,
+                info: {
+                    ...initialState.info,
+                    username: payload,
+                }
+            };
 
         case CHANNEL.SET_IDENTITY: 
             return {
@@ -69,7 +79,7 @@ function channel(state = initialState, action) {
             return {
                 ...state,
                 valid: true,
-                info: payload.data.info,
+                info: { ... state.info, ...payload.data.info },
                 requests: {
                     ...state.requests,
                     checkValidity: {
