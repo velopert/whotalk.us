@@ -7,6 +7,9 @@ import * as ui from 'actions/ui';
 import * as form from 'actions/form';
 import * as channel from 'actions/channel';
 import autobind from 'autobind-decorator';
+import sender from 'socket/packetSender';
+
+
 
 import * as socket from 'socket';
 
@@ -64,10 +67,11 @@ class ChannelRoute extends Component {
 
     @autobind
     handleSelect(identity){
-        const {ChannelActions, UIActions} = this.props;
+        const {status, ChannelActions, UIActions} = this.props;
         ChannelActions.setIdentity(identity);
         UIActions.setChannelChatState({started: true});
 
+        sender.auth(status.session.sessionID, identity==='anonymous');
         this.handleCloseSelect();
     }
 

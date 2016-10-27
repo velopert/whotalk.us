@@ -6,54 +6,86 @@ import Account from './../models/account.js';
 const session = {};
 
 // get username by sessionId
-session.get = (sessionID, cb) => {
-    // check cache whether it has one
-    if (cache.session.has(sessionID)) {
-        return cb(cache.session.get(sessionID));
+session.get = async (sessionID) => {
+
+    // check the session cache
+    if(cache.session.has(sessionID)) {
+        return cache.session.get(sessionID);
     }
 
-    let accountId = null;
-    // if not, do some mongo works
-    Session
-        .findOne({_id: sessionID})
-        .exec()
-        .then((sess => {
-            console.log(sess);
-            // does not have session
-            if (!sess) {
-                cb(null);
-            }
+    const sess = await Session.findOne({_id: sessionID}).exec();
 
-            const s = JSON.parse(sess.session);
-            // not logged in
-            if (!s.passport) {
-                cb(null);
-            }
+    // invalid session
+    if(!sess) return null;
 
-            accountId = s.passport.user;
+    const s = JSON.parse(sess.session);
 
-            // check whether it exists in passport cache
-            if (cache.passport.has(accountId)) {
-                cb(cache.passport.get(accountId));
-            }
+    // not logged in
+    if(!s.passport) return null;
 
-            return Account
-                .findById(accountId)
-                .exec();
-        }))
-        .then(account => {
-            cache
-                .passport
-                .set(accountId, account);
-            cache
-                .session
-                .set(sessionID, account.common_profile.username);
-            cb(account.common_profile.username);
-        })
-        .catch((err) => {
-            console.log(err);
-            cb(null);
-        });
+    let account;
+
+    // check the account cache
+    if (cache.passport.has(s.passport.user)) {
+        account = cache.passport.get(s.passport.user);
+    } else {
+        account = await Account.findById(s.passport.user);
+    }
+    
+    // couldn't find account'
+    if(!account) return null;
+
+    // store the username in cache
+    cache.session.set(sessionID, account.common_profile.username);
+
+    return account.common_profile.username;
+    // check cache whether it has one
+    // if (cache.session.has(sessionID)) {
+    //     return cb(cache.session.get(sessionID));
+    // }
+
+    // let accountId = null;
+    // // if not, do some mongo works
+    // Session
+    //     .findOne({_id: sessionID})
+    //     .exec()
+    //     .then((sess => {
+    //         console.log(sess);
+    //         // does not have session
+    //         if (!sess) {
+    //             cb(null);
+    //         }
+
+    //         const s = JSON.parse(sess.session);
+    //         // not logged in
+    //         if (!s.passport) {
+    //             cb(null);
+    //         }
+
+    //         accountId = s.passport.user;
+
+    //         // check whether it exists in passport cache
+    //         if (cache.passport.has(accountId)) {
+    //             cb(cache.passport.get(accountId));
+    //         }
+
+    //         return Account
+    //             .findById(accountId)
+    //             .exec();
+    //     }))
+    //     .then(account => {
+    //         cache
+    //             .passport
+    //             .set(accountId, account);
+    //         cache
+    //             .session
+    //             .set(sessionID, account.common_profile.username);
+    //         cb(account.common_profile.username);
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //         cb(null);
+    //     });
 }
 
 // gets anonymous username

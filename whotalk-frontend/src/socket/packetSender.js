@@ -9,6 +9,14 @@ const packetSender = {
         });
         
         send(packet);
+    },
+
+    auth: (sessionID, anonymous) => {
+        const packet = createAction(SEND.AUTH, {
+            sessionID, anonymous
+        });
+
+        send(packet);
     }
 }
 
