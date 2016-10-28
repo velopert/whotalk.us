@@ -16,7 +16,7 @@ const service = {
         helper.emit(connection, helper.createAction(SEND.SUCCESS.ENTER));
     },
 
-    auth: async(connection, payload) => {
+    auth: async (connection, payload) => {
         const ch = channel.get(connection.data.channel);
 
         // anonymous identity
