@@ -11,7 +11,7 @@ import sender from 'socket/packetSender';
 
 
 
-import socket, { init, close } from 'socket';
+import * as socket from 'socket';
 import * as s from 'socket';
 
 class ChannelRoute extends Component {
@@ -50,7 +50,7 @@ class ChannelRoute extends Component {
     @autobind
     handleEnterChannel() {
         this.handleCloseBox();
-        init();
+        socket.init();
     }
 
     @autobind
@@ -87,8 +87,9 @@ class ChannelRoute extends Component {
     componentWillUnmount() {
         const {UIActions} = this.props;
         //UIActions.setFooterVisibility(true);
-        if(socket) {
-            close();
+        console.log(socket);
+        if(socket.getSocket()) {
+            socket.close();
         }
     }
 

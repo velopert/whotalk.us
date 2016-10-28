@@ -5,10 +5,8 @@ import * as helper from './helper';
 
 
 let intervalId = null;
-let socket = 'null';
+let socket = null;
 let closing = false;
-
-let counter = 0;
 
 export const init = () => {
     socket = new SockJS("/echo");
@@ -48,4 +46,6 @@ export const close = () => {
     socket.close();
 }
 
-export default socket;
+export const getSocket = () => {
+    return socket;
+}
