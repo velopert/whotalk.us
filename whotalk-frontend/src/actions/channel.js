@@ -13,3 +13,5 @@ export const checkValidity = (username) => ({
 });
 
 export const setSocketState = createAction(CHANNEL.SET_SOCKET_STATE);
+
+export const receiveRealtimeData = createAction(CHANNEL.RECEIVE_REALTIME_DATA);

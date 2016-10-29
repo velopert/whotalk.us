@@ -34,7 +34,8 @@ const initialState = {
         socket: {
             enter: null,
             auth: null
-        }
+        },
+        data: []
     },
     requests: {
         checkValidity: {
@@ -117,6 +118,17 @@ function channel(state = initialState, action) {
                 }
             }
 
+        case CHANNEL.RECEIVE_REALTIME_DATA:
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    data: [
+                        ...state.chat.data,
+                        payload
+                    ]
+                }
+            }
         default:
             return state;
     }
