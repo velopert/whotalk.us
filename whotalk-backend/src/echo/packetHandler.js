@@ -27,7 +27,7 @@ const service = {
             const username = await session.get(payload.sessionID)
             if (!username) {
                 // username not found
-                return helper.emit(connection, error(2));
+                return helper.emit(connection, error(2, RECEIVE.AUTH));
             }
 
             connection.data.username = username;
@@ -49,20 +49,23 @@ const service = {
         ch.broadcast(helper.createAction(SEND.JOIN, {
             anonymous: connection.data.anonymous,
             username: connection.data.username,
-            date: (new Date()).getTime()
+            date: (new Date()).getTime(),
+            suID: helper.generateUID()
         }));
     },
 
     message: (connection, payload) => {
         // check session validity
         if (!connection.data.valid) {
-            return helper.emit(connection, error(1));
+            return helper.emit(connection, error(1, RECEIVE.MSG));
         }
 
         const ch = channel.get(connection.data.channel);
         ch.broadcast(helper.createAction(SEND.MSG, {
+            anonymous: connection.data.anonymous,
             username: connection.data.username,
             message: payload.message,
+            date: (new Date()).getTime(),
             uID: payload.uID,
             suID: helper.generateUID()
         }));

@@ -1,12 +1,15 @@
 import SockJS from 'sockjs-client';
 import store from 'store';
 import sender from './packetSender';
+import handler from './packetHandler';
 import * as helper from './helper';
+import notify from 'helpers/notify';
 
 
 let intervalId = null;
 let socket = null;
 let closing = false;
+let reconnected = false;
 
 export const init = () => {
     socket = new SockJS("/echo");
@@ -14,20 +17,31 @@ export const init = () => {
     socket.onopen = function () {
         closing = false;
         console.log('connected');
-
         sender.enter(store.getState().channel.info.username);
+        if(reconnected) {
+            notify({type: 'success', message: 'Reconnected successfully'})
+            if(store.getState().channel.chat.socket.auth) {
+                sender.reauth();
+            }
+        }
+        reconnected = false;
+
     };
     socket.onmessage = function (e) {
         if(process.env.NODE_ENV === 'development') {
             helper.log(e.data);
         }
+        handler(e.data);
     };
     socket.onclose = function () {
         socket = null;
 
         if (!closing) {
             console.log("[SOCKET] disconnected, reconnecting..")
-           
+            if(!reconnected) {
+                notify({type: 'error', message:'Disconnected from server. Reconnecting...'});
+            }
+            reconnected = true;
             intervalId = setInterval(function () {
                 init();
             }, 2000);

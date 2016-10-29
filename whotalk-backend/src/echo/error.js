@@ -1,7 +1,7 @@
 import { server as SEND } from './packetTypes';
 
 // creates error object
-export default function error(code) {
+export default function error(code, type = 'DEFAULT') {
     let message;
     switch (code) {
         case 0:
@@ -13,8 +13,6 @@ export default function error(code) {
         case 2:
             message = "INVALID SESSION";
             break;
-        case 3:
-            message = "SESSION NOT VALIDATED"
         default:
             message = "WHAT ARE YOU DOING?";
             break;
@@ -24,7 +22,8 @@ export default function error(code) {
         type: SEND.ERROR,
         payload: {
             code,
-            message
+            message,
+            errType: type
         }
     };
 }

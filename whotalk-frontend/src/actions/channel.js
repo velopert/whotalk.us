@@ -11,3 +11,5 @@ export const checkValidity = (username) => ({
         promise: service.checkValidity(username)
     }
 });
+
+export const setSocketState = createAction(CHANNEL.SET_SOCKET_STATE);

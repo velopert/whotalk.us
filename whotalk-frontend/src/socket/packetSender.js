@@ -2,6 +2,8 @@ import { client as SEND } from './packetTypes';
 import { createAction } from './helper';
 import { send } from './index';
 
+let _sessionID = null, _anonymous = null;
+
 const packetSender = {
     enter: (channel) => {
         const packet = createAction(SEND.ENTER, {
@@ -16,7 +18,18 @@ const packetSender = {
             sessionID, anonymous
         });
 
+        _sessionID = sessionID;
+        _anonymous = anonymous;
+
         send(packet);
+    },
+
+    reauth: () => {
+        const packet = createAction(SEND.AUTH, {
+            sessionID: _sessionID, anonymous: _anonymous
+        });
+
+        send(packet); 
     }
 }
 

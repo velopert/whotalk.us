@@ -1,0 +1,41 @@
+.message {
+    @import 'DateSeparator';
+    @import 'Thumbnail';
+    position: relative;
+    .info {
+        margin-top: 15px;
+        .info-text {
+            margin-left: 60px;
+            font-size: 15px;
+            padding-top: 5px;
+            line-height: 15px;
+            .username {
+                color: #212529;
+                font-weight: 600;
+            }
+            .anonymous {
+                color: #868e96;
+                margin-left: 5px;
+            }
+            .date {
+                margin-left: 10px;
+                color: #adb5bd;
+                font-size: 13px;
+            }
+        }
+    }
+    .event {
+        margin-left: 60px;
+        font-style: italic;
+        color: #495057;
+        margin-top: 5px;
+        font-size: 15px;
+        line-height: 15px;
+    }
+    .text {
+        margin-top: 5px;
+        margin-left: 60px;
+        color: #343a40;
+        font-size: 15px;
+    }
+}

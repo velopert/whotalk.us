@@ -9,7 +9,7 @@ import * as channel from 'actions/channel';
 import autobind from 'autobind-decorator';
 import sender from 'socket/packetSender';
 
-
+import {Scrollbars} from 'react-custom-scrollbars';
 
 import * as socket from 'socket';
 import * as s from 'socket';
@@ -18,20 +18,36 @@ class ChannelRoute extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            unmounting: false
+            unmounting: false,
+            clientHeight: 0
         };
     }
+
+    @autobind
+    updateClientHeight() {
+        this.setState({clientHeight: document.body.clientHeight});
+    }
+
+    componentWillMount() {
+        this.updateClientHeight();
+    }
+
     componentDidMount() {
         const {UIActions} = this.props;
         UIActions.setHeaderTransparency(false);
         UIActions.setFooterSpace(false);
-        
+
         // disable overflow for 0.7 seconds
         document.body.style.overflow = "hidden";
         setTimeout(() => {
             document.body.style.overflow = ""
-            UIActions.setFooterVisibility(true);
         }, 700);
+
+        setTimeout(() => {
+            UIActions.setFooterVisibility(true);
+        }, 1000);
+
+        window.addEventListener("resize", this.updateClientHeight);
     }
 
     @autobind
@@ -66,12 +82,12 @@ class ChannelRoute extends Component {
     }
 
     @autobind
-    handleSelect(identity){
+    handleSelect(identity) {
         const {status, ChannelActions, UIActions} = this.props;
         ChannelActions.setIdentity(identity);
         UIActions.setChannelChatState({started: true});
 
-        sender.auth(status.session.sessionID, identity==='anonymous');
+        sender.auth(status.session.sessionID, identity === 'anonymous');
         this.handleCloseSelect();
     }
 
@@ -79,22 +95,21 @@ class ChannelRoute extends Component {
     handleCloseSelect() {
         const {UIActions} = this.props;
         UIActions.setChannelChatState({closing: true});
-        setTimeout(
-            ()=> { UIActions.setChannelChatState({closing: false, selecting: false})}, 700
-        );
+        setTimeout(() => {
+            UIActions.setChannelChatState({closing: false, selecting: false})
+        }, 700);
     }
 
     componentWillUnmount() {
         const {UIActions} = this.props;
         //UIActions.setFooterVisibility(true);
         console.log(socket);
-        if(socket.getSocket()) {
+        if (socket.getSocket()) {
             socket.close();
         }
-    }
 
-    
-    
+        window.removeEventListener("resize", this.updateClientHeight);
+    }
 
     render() {
         const {params, pathname, status} = this.props;
@@ -113,23 +128,34 @@ class ChannelRoute extends Component {
                             <Channel.Circle/>
                             <Channel.Profile username={params.username} channelInfo={status.channelInfo}/>
                             <Channel.Info/>
-                            <Channel.Buttons onEnter={handleEnterChannel}
-                            disableFollow={status.session.user.common_profile.username === params.username}/>
+                            <Channel.Buttons
+                                onEnter={handleEnterChannel}
+                                disableFollow={status.session.user.common_profile.username === params.username}/>
                         </Channel.Box>
                     )
                     : (
                         <Chat.Screen>
-                            { showStartButton ? <Chat.Start onClick={handleOpenSelect}/> : <Chat.Input onChange={handleChange}/> }
-                            { showSelect ? <Chat.Select 
-                                                username={params.username}
-                                                onClose={handleCloseSelect}
-                                                onSelect={handleSelect}
-                                                closing={selectClosing}/> : undefined }
-                        </Chat.Screen> 
+                            <Scrollbars
+                                style={{
+                                width: '100%',
+                                height: this.state.clientHeight - 120 + 'px',
+                                borderBottom: '1px solid rgba(0,0,0,0.10)'
+                            }}>
+                                <Chat.MessageList/>
+                            </Scrollbars>
+                            {showStartButton
+                                ? <Chat.Start onClick={handleOpenSelect} disabled={(!status.socket.enter)}/>
+                                : <Chat.Input onChange={handleChange}/>}
+                            {showSelect
+                                ? <Chat.Select
+                                        username={params.username}
+                                        onClose={handleCloseSelect}
+                                        onSelect={handleSelect}
+                                        closing={selectClosing}/>
+                                : undefined}
+                        </Chat.Screen>
                     )
-                }
-
-               
+}
 
             </div>
         );
@@ -148,7 +174,8 @@ ChannelRoute = connect(state => ({
         session: state.auth.session,
         form: {
             message: state.form.message
-        }
+        },
+        socket: state.channel.chat.socket
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

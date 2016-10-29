@@ -1,16 +1,18 @@
 import React from 'react';
+import userThumbnail from 'assets/user.png';
 
 const Circle = ({image}) => (
     <div className="circle">
         <div className="image"
         style={{
-            background: `url(${image}) no-repeat`
+            background: `url(${image}) no-repeat`,
+            backgroundSize: 'cover'
         }}></div>
     </div>
 );
 
 Circle.defaultProps = {
-    image: 'http://imgh.us/1472483328_user.svg'
+    image: userThumbnail
 };
 
 

@@ -30,7 +30,11 @@ const initialState = {
         thumbnail: "none"
     },
     chat: {
-        identity: null
+        identity: null,
+        socket: {
+            enter: null,
+            auth: null
+        }
     },
     requests: {
         checkValidity: {
@@ -100,6 +104,18 @@ function channel(state = initialState, action) {
                     }
                 }
             };
+
+        case CHANNEL.SET_SOCKET_STATE:
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    socket: {
+                        ...state.chat.socket,
+                        ...payload
+                    }
+                }
+            }
 
         default:
             return state;
