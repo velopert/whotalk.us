@@ -33,9 +33,11 @@ const initialState = {
         identity: null,
         socket: {
             enter: null,
-            auth: null
+            auth: null,
+            username: null
         },
-        data: []
+        data: [],
+        tempData: []
     },
     requests: {
         checkValidity: {
@@ -128,7 +130,70 @@ function channel(state = initialState, action) {
                         payload
                     ]
                 }
-            }
+            };
+            
+            if(payload.type !== 'MSG' ||
+                state.chat.tempData.length === 0 ||
+                payload.payload.username !== state.chat.socket.username) {
+                    
+                    return {
+                        ...state,
+                        chat: {
+                            ...state.chat,
+                            data: [
+                                ...state.chat.data,
+                                payload
+                            ]
+                        }
+                    };
+                } else {
+                    const index = state.chat.tempData.findIndex(
+                        packet => packet.payload.uID === payload.payload.uID
+                    );
+
+                    if(index===-1) {
+                        // not found
+                        return {
+                            ...state,
+                            chat: {
+                                ...state.chat,
+                                data: [
+                                    ...state.chat.data,
+                                    payload
+                                ]
+                            }
+                        };
+                    }
+                    
+                    // found
+                    return {
+                        ...state,
+                        chat: {
+                            ...state.chat,
+                            data: [
+                                ...state.chat.data,
+                                payload
+                            ],
+                            tempData: [
+                                ...state.chat.tempData.slice(0, index),
+                                ...state.chat.tempData.slice(index+1, state.chat.tempData.length-1)
+                            ]
+                        }
+                    };
+                }
+
+
+        case CHANNEL.WRITE_MESSAGE: 
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    tempData: [
+                        ...state.chat.tempData,
+                        payload
+                    ]
+                }
+            };
         default:
             return state;
     }

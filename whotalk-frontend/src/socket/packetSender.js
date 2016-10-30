@@ -30,6 +30,11 @@ const packetSender = {
         });
 
         send(packet); 
+    },
+    
+    message: (payload) => {
+        const packet = createAction(SEND.MSG, payload);
+        send(packet);
     }
 }
 

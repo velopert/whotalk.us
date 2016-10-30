@@ -12,7 +12,8 @@ import sender from 'socket/packetSender';
 import {Scrollbars} from 'react-custom-scrollbars';
 
 import * as socket from 'socket';
-import * as s from 'socket';
+import * as socketHelper from 'socket/helper';
+import { client as SEND } from 'socket/packetTypes';
 
 class ChannelRoute extends Component {
     constructor(props) {
@@ -76,6 +77,27 @@ class ChannelRoute extends Component {
     }
 
     @autobind
+    handleSend(message) {
+        const {status, ChannelActions, FormActions} = this.props;
+        const uID = socketHelper.generateUID();
+        const data = {
+            message,
+            uID
+        };
+        sender.message(data);
+        ChannelActions.writeMessage({
+            type: SEND.MSG,
+            payload: {
+                anonymous: status.identity === 'anonymous',
+                date: (new Date()).getTime(),
+                message,
+                uID,
+                username: status.socket.username
+            }
+        });
+    }
+
+    @autobind
     handleOpenSelect() {
         const {UIActions} = this.props;
         UIActions.setChannelChatState({selecting: true});
@@ -100,6 +122,21 @@ class ChannelRoute extends Component {
         }, 700);
     }
 
+
+    @autobind
+    scrollToBottom() {
+        // SCROLL TO BOTTOM
+        this.scrollBox.scrollTop(this.scrollBox.getScrollHeight());
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(JSON.stringify(prevProps.status.chatData) !== JSON.stringify(this.props.status.chatData) ||
+            JSON.stringify(prevProps.status.chatTempData) !== JSON.stringify(this.props.status.chatTempData)){
+            this.scrollToBottom();
+        }
+    }
+    
+
     componentWillUnmount() {
         const {UIActions} = this.props;
         //UIActions.setFooterVisibility(true);
@@ -110,10 +147,12 @@ class ChannelRoute extends Component {
 
         window.removeEventListener("resize", this.updateClientHeight);
     }
+    
+    
 
     render() {
         const {params, pathname, status} = this.props;
-        const {handleEnterChannel, handleChange, handleOpenSelect, handleSelect, handleCloseSelect} = this;
+        const {handleEnterChannel, handleChange, handleKeyPress, handleOpenSelect, handleSelect, handleCloseSelect, handleSend} = this;
 
         const showStartButton = !status.chatState.started;
         const showSelect = status.chatState.selecting;
@@ -140,12 +179,14 @@ class ChannelRoute extends Component {
                                 width: '100%',
                                 height: this.state.clientHeight - 120 + 'px',
                                 borderBottom: '1px solid rgba(0,0,0,0.10)'
-                            }}>
-                                <Chat.MessageList/>
+                                }}
+                                ref={(ref)=>{this.scrollBox = ref}}    
+                            >
+                                <Chat.MessageList data={status.chatData} temp={status.chatTempData}/>
                             </Scrollbars>
                             {showStartButton
                                 ? <Chat.Start onClick={handleOpenSelect} disabled={(!status.socket.enter)}/>
-                                : <Chat.Input onChange={handleChange}/>}
+                                : <Chat.Input onSend={handleSend}/>}
                             {showSelect
                                 ? <Chat.Select
                                         username={params.username}
@@ -173,9 +214,12 @@ ChannelRoute = connect(state => ({
         chatState: state.ui.channel.chat,
         session: state.auth.session,
         form: {
-            message: state.form.message
+            message: state.form.chat.message
         },
-        socket: state.channel.chat.socket
+        socket: state.channel.chat.socket,
+        identity: state.channel.chat.identity,
+        chatData: state.channel.chat.data,
+        chatTempData: state.channel.chat.tempData
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

@@ -17,16 +17,16 @@ const service = {
         enter: () => {
             setSocketState({enter: true});
         },
-        auth: (payload) => {
-            setSocketState({auth: true, username: payload.username});
+        auth: (packet) => {
+            setSocketState({auth: true, username: packet.payload.username});
             if (store.getState().channel.chat.identity === 'anonymous') {
-                notify({type: 'success', message: `Your ID is <b>${payload.username}</b>`})
+                notify({type: 'success', message: `Your ID is <b>${packet.payload.username}</b>`})
             }
         }
     },
 
-    error: (payload) => {
-        switch (payload.code) {
+    error: (packet) => {
+        switch (packet.payload.code) {
             case 0:
                 notify({type: 'error', message: 'Invalid request'});
                 break;
@@ -41,12 +41,16 @@ const service = {
         }
     },
 
-    join: (payload) => {
-        receiveRealtimeData(payload);
+    join: (packet) => {
+        receiveRealtimeData(packet);
     },
 
-    message: (payload) => {
-        receiveRealtimeData(payload);
+    message: (packet) => {
+        receiveRealtimeData(packet);
+    },
+
+    leave: (packet) => {
+        receiveRealtimeData(packet);
     }
 }
 
@@ -65,13 +69,19 @@ export default function packetHandler(packet) {
         case RECEIVE.SUCCESS.AUTH:
             service
                 .success
-                .auth(o.payload);
+                .auth(o);
+            break;
+        case RECEIVE.ERROR:
+            service.error(o);
             break;
         case RECEIVE.JOIN:
-            service.join(o.payload);
+            service.join(o);
             break;
         case RECEIVE.MSG:
-            service.message(o.payload);
+            service.message(o);
+            break;
+        case RECEIVE.LEAVE:
+            service.leave(o);
             break;
 
         default:

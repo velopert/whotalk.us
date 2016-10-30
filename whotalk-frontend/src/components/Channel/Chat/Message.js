@@ -1,9 +1,9 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import DateSeparator from './DateSeparator';
 import Thumbnail from './Thumbnail';
 import anonymousThumbnail from 'assets/anonymous.png';
 
-class Message extends PureComponent {
+class Message extends Component {
     static propTypes = {
         suID: PropTypes.string,
         type: PropTypes.oneOf(['JOIN', 'MSG', 'LEAVE']),
@@ -14,8 +14,16 @@ class Message extends PureComponent {
         thumbnail: PropTypes.string,
         previous: PropTypes.object
     }
-    render() {
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if(JSON.stringify(this.props.suID)!==JSON.stringify(nextProps.suID)){
+            return true;
+        } else { 
+            return false;
+        }
+    }
+    
+    render() {
         const {
             suID,
             type,
@@ -26,6 +34,8 @@ class Message extends PureComponent {
             thumbnail,
             previous
         } = this.props;
+
+        console.log(message);
 
         const parsedDate = new Date(date);
 

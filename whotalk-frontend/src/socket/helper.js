@@ -26,3 +26,7 @@ export function tryParseJSON(jsonString) {
 export const log = (packet) => {
     console.log("[SOCKET]", tryParseJSON(packet));
 }
+
+export function generateUID() {
+    return (new Date().valueOf()).toString(36) + ("000" + (Math.random() * Math.pow(36, 3) << 0).toString(36)).slice(-3);
+}
