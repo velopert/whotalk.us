@@ -121,17 +121,6 @@ function channel(state = initialState, action) {
             }
 
         case CHANNEL.RECEIVE_REALTIME_DATA:
-            return {
-                ...state,
-                chat: {
-                    ...state.chat,
-                    data: [
-                        ...state.chat.data,
-                        payload
-                    ]
-                }
-            };
-            
             if(payload.type !== 'MSG' ||
                 state.chat.tempData.length === 0 ||
                 payload.payload.username !== state.chat.socket.username) {

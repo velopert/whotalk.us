@@ -40,7 +40,7 @@ class MessageList extends PureComponent {
             }
 
             current = {
-                key: packet.payload.uID || packet.payload.suID,
+                key: isTemp ? packet.payload.uID : packet.payload.suID,
                 suID: isTemp ? packet.payload.uID : packet.payload.suID,
                 type: packet.type,
                 message: packet.payload.message,
@@ -76,7 +76,7 @@ class MessageList extends PureComponent {
         return (
             <div className="message-list">
                 {mapDataToMessage(data)}
-                {/*mapDataToMessage(temp, true)*/}
+                {mapDataToMessage(temp, true)}
             </div>
         );
     }
