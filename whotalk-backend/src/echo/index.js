@@ -34,9 +34,13 @@ echo.on('connection', connection => {
                 ch.broadcast(helper.createAction(
                     SEND.LEAVE,
                     {
+                        date: (new Date()).getTime(),
+                        suID: helper.generateUID(),
                         username: connection.data.username
                     }
                 ));
+            } else {
+                console.log(ch.countUser(connection.data.username));
             }
         }
         
