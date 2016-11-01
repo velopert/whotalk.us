@@ -30,6 +30,8 @@ class Input extends Component {
     @autobind
     handleSend() {
         const { onSend } = this.props;
+        if (this.state.message==='') return;
+
         onSend(this.state.message);
         this.setState({
             message: ''

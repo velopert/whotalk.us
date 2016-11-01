@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 let sockets = null;
 const channels = {};
-
+import { log } from './helper';
 
 function emit(connection, data) {
     connection.write(JSON.stringify(data));
@@ -48,6 +48,10 @@ function Channel(name) {
         _.remove(this.users, n => {
             return n === userId;
         });
+
+        if(this.users.length === 0) {
+            channel.remove(this.name);
+        }
     };
 
     //broadcast the data to this Channel
@@ -68,10 +72,14 @@ function channel(_sockets) {
 
 channel.create = (name) => {
     channels[name] = new Channel(name);
+    log(name + ' channel is created');
+    log(Object.keys(channels).length + ' channels alive');
 }
 
 channel.remove = (name) => {
     delete channels[name];
+    log(name + ' channel is dying..');
+    log(Object.keys(channels).length + ' channels alive');
 }
 
 channel.get = (name) => {

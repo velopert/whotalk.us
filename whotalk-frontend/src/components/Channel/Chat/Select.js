@@ -9,9 +9,9 @@ const Select = ({username, closing, onClose, onSelect}) => {
             <div className="wrapper">
                 <div className="title">SELECT YOUR IDENTITY</div>
                 <div className="options">
-                    <button className="inverted basic pink ui icon button" onClick={()=>{onSelect('user')}}>
+                    <button className="inverted basic pink ui icon button" onClick={()=>{onSelect('user')}} disabled={username===null}>
                         <i className="icon user"></i>
-                        {username}
+                        {username === null ? 'user' : username}
                     </button>
 
                     <button className="inverted basic pink ui icon button" onClick={()=>{onSelect('anonymous')}}>

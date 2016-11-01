@@ -189,7 +189,7 @@ class ChannelRoute extends Component {
                                 : <Chat.Input onSend={handleSend}/>}
                             {showSelect
                                 ? <Chat.Select
-                                        username={params.username}
+                                        username={status.session.user.common_profile.username}
                                         onClose={handleCloseSelect}
                                         onSelect={handleSelect}
                                         closing={selectClosing}/>
