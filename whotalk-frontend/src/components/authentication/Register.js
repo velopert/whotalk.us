@@ -201,7 +201,7 @@ class Register extends Component {
                             error={formError}
                             onKeyPress={handleKeyPress}/>
                         <div className="side-message">Already have an account?&nbsp;
-                            <a onClick={() => this.leaveTo({pathname: "/auth"})}>Log In</a>
+                            <a onClick={() => this.leaveTo({path: "/auth"})}>Log In</a>
                         </div>
                     </div>
                 </div>

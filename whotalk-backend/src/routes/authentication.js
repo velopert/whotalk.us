@@ -39,9 +39,9 @@ router.get('/success', (req, res) => {
         }
 
         if (req.user.common_profile.username !== null) {
-            res.redirect(url + 'http://localhost:3000/auth/oauth-success');
+            res.redirect(url + '/auth/oauth-success');
         } else {
-            res.redirect(url + 'http://localhost:3000/auth/register/additional-o');
+            res.redirect(url + '/auth/register/additional-o');
         }
     }
 });
