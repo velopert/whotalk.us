@@ -25,10 +25,12 @@ class ChannelCheck extends Component {
         UIActions.initialize('channel');
         ChannelActions.initialize(params.username);
         
-        await ChannelActions.checkValidity(params.username);
-
-        if(!this.props.status.valid) {
-            this.context.router.transitionTo('/404');
+        try {
+            await ChannelActions.checkValidity(params.username);
+        } catch(e) {
+            if(!this.props.status.valid) {
+                this.context.router.transitionTo('/404');
+            }
         }
 
        

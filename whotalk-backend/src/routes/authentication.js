@@ -16,6 +16,9 @@ router.get('/', (req, res) => {
 router.get('/success', (req, res) => {
     //res.json({user: req.user});
     if (process.env.NODE_ENV === 'development') {
+        let url = req.protocol + '://' + req.get('host');
+        url = url.replace(process.env.PORT, process.env.DEVPORT);
+
         if(!req.user) {
             // check whether this is the first error
             if(!tempFix[req.sessionID]) {
@@ -26,7 +29,7 @@ router.get('/success', (req, res) => {
             } else {
                 // second time receiving this error
                  delete tempFix[req.sessionID];
-                 res.redirect('http://localhost:3000/auth/oauth-failure');
+                 res.redirect(url + '/auth/oauth-failure');
             }
             return;
         }
@@ -36,9 +39,9 @@ router.get('/success', (req, res) => {
         }
 
         if (req.user.common_profile.username !== null) {
-            res.redirect('http://localhost:3000/auth/oauth-success');
+            res.redirect(url + 'http://localhost:3000/auth/oauth-success');
         } else {
-            res.redirect('http://localhost:3000/auth/register/additional-o');
+            res.redirect(url + 'http://localhost:3000/auth/register/additional-o');
         }
     }
 });
@@ -60,8 +63,12 @@ router.get('/check', (req, res) => {
 });
 
 router.get('/failure', (req, res) => {
+
+    let url = req.protocol + '://' + req.get('host');
+    url = url.replace(process.env.PORT, process.env.DEVPORT);
+
     if (process.env.NODE_ENV === 'development') {
-        res.redirect('http://localhost:3000/auth/oauth-failure');
+        res.redirect(url + '/auth/oauth-failure');
     }
 });
 
