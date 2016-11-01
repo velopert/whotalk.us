@@ -31,7 +31,8 @@ export function connect(connection) {
         username: null,
         channel: null,
         sessionID: null,
-        valid: false
+        valid: false,
+        counter: 0
     };
 
     // const test = () => {     connection.write('you alive');     setTimeout(test,

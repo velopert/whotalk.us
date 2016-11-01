@@ -186,7 +186,7 @@ class ChannelRoute extends Component {
                             </Scrollbars>
                             {showStartButton
                                 ? <Chat.Start onClick={handleOpenSelect} disabled={(!status.socket.enter)}/>
-                                : <Chat.Input onSend={handleSend}/>}
+                                : <Chat.Input onSend={handleSend} controlled={status.socket.controlled}/>}
                             {showSelect
                                 ? <Chat.Select
                                         username={status.session.user.common_profile.username}

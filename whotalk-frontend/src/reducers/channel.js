@@ -34,10 +34,11 @@ const initialState = {
         socket: {
             enter: null,
             auth: null,
-            username: null
+            username: null,
+            controlled: false
         },
         data: [],
-        tempData: []
+        tempDataIndex: []
     },
     requests: {
         checkValidity: {
@@ -121,8 +122,90 @@ function channel(state = initialState, action) {
             }
 
         case CHANNEL.RECEIVE_REALTIME_DATA:
+
+            if(payload.type === 'MSG' && 
+               state.chat.tempDataIndex.length > 0 &&
+               payload.payload.username === state.chat.socket.username) {
+
+                   // find the realtime data in current data, by checking tempDataIndex
+
+                   let dataIndex = -1;
+                   for(let i = 0; i < state.chat.tempDataIndex.length; i++) {
+                       // for every temp data index
+                       dataIndex = state.chat.tempDataIndex[i];
+                       if(state.chat.data[dataIndex].payload.uID === payload.payload.uID) {
+                           // if uID matches, replace the message
+                           // and remove the index from tempDataIndex
+                           return {
+                               ...state,
+                               chat : {
+                                   ...state.chat,
+                                   data: [
+                                       ...state.chat.data.slice(0, dataIndex),
+                                       payload,
+                                       ...state.chat.data.slice(dataIndex + 1, state.chat.data.length-1)
+                                   ],
+                                   tempDataIndex: [
+                                       ...state.chat.tempDataIndex.slice(0, i),
+                                       ...state.chat.tempDataIndex.slice(i+1, state.chat.tempDataIndex.length-1)
+                                   ]
+                               }
+                           };
+                       }
+                   }
+            }
+
+            return {
+                ...state,
+                chat : {
+                    ...state.chat,
+                    data: [
+                        ...state.chat.data,
+                        payload
+                    ]
+                }
+            };
             // if(payload.type !== 'MSG' ||
-            //     state.chat.tempData.length === 0 ||
+            //     state.chat.tempDataIndex.length === 0 ||
+            //     payload.payload.username !== state.chat.socket.username) {
+            //         // not MSG, no tempDataIndex, not own packet
+            //         return {
+            //             ...state,
+            //             chat: {
+            //                 ...state.chat,
+            //                 data: [
+            //                     ...state.chat.data,
+            //                     payload
+            //                 ]
+            //             }
+            //         };
+            // } else {
+            //     return state;
+                // there is tempDataIndex, and this packet is own MSG
+                // const copy = [ ...state.chat.data ];
+
+                // state.chat.tempDataIndex.forEach(
+                //     i => {
+                //         if(copy[i].payload.uID === payload.payload.uID) {
+                //             copy[i].temp = false;
+                //             copy[i].suID = payload.payload.suID;
+                //             console.log('found"payload);
+                //         }
+                //     }
+                // );
+
+                // return {
+                //     ...state,
+                //     chat: {
+                //         ...state.chat ,
+                //         data: copy
+                //     }
+                // }
+            //}
+
+
+            // if(payload.type !== 'MSG' ||
+            //     state.chat.tempDataIndex.length === 0 ||
             //     payload.payload.username !== state.chat.socket.username) {
                     
             //         return {
@@ -136,7 +219,7 @@ function channel(state = initialState, action) {
             //             }
             //         };
             //     } else {
-            //         const index = state.chat.tempData.findIndex(
+            //         const index = state.chat.tempDataIndex.findIndex(
             //             packet => packet.payload.uID === payload.payload.uID
             //         );
 
@@ -163,36 +246,32 @@ function channel(state = initialState, action) {
             //                     ...state.chat.data,
             //                     payload
             //                 ],
-            //                 tempData: [
-            //                     ...state.chat.tempData.slice(0, index),
-            //                     ...state.chat.tempData.slice(index+1, state.chat.tempData.length-1)
+            //                 tempDataIndex: [
+            //                     ...state.chat.tempDataIndex.slice(0, index),
+            //                     ...state.chat.tempDataIndex.slice(index+1, state.chat.tempDataIndex.length-1)
             //                 ]
             //             }
             //         };
             //     }
+
+        case CHANNEL.WRITE_MESSAGE: 
             return {
                 ...state,
                 chat: {
                     ...state.chat,
                     data: [
                         ...state.chat.data,
-                        payload
+                        {
+                            ...payload,
+                            temp: true
+                        }
+                    ],
+                    tempDataIndex: [
+                        ...state.chat.tempDataIndex,
+                        state.chat.data.length
                     ]
                 }
             };
-
-
-        case CHANNEL.WRITE_MESSAGE: 
-            // return {
-            //     ...state,
-            //     chat: {
-            //         ...state.chat,
-            //         tempData: [
-            //             ...state.chat.tempData,
-            //             payload
-            //         ]
-            //     }
-            // };
         default:
             return state;
     }

@@ -32,10 +32,11 @@ class Message extends Component {
             anonymous,
             date,
             thumbnail,
-            previous
+            previous,
+            temp
         } = this.props;
 
-        console.log(message);
+        const isEvent = type !== 'MSG';
 
         const parsedDate = new Date(date);
 
@@ -49,14 +50,14 @@ class Message extends Component {
 
         const showMessageInfo = !previous || showDate ||
             previousDate.getHours() !== parsedDate.getHours() ||
-            username !== previous.username;
+            username !== previous.username || isEvent;
         
         const timeString = parsedDate.toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit'
         })
 
-        const isEvent = type !== 'MSG';
+        
 
         let eventText = null;
 
@@ -92,7 +93,7 @@ class Message extends Component {
                         </div>
                     )
                     : (
-                        <div className="text">
+                        <div className={`text ${temp?'temp':''}`}>
                             {message}
                         </div>
                     )}

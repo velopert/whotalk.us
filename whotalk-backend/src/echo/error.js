@@ -13,6 +13,9 @@ export default function error(code, type = 'DEFAULT') {
         case 2:
             message = "INVALID SESSION";
             break;
+        case 3:
+            message = "TOO MANY MESSAGES";
+            break;
         default:
             message = "WHAT ARE YOU DOING?";
             break;

@@ -30,7 +30,7 @@ class Input extends Component {
     @autobind
     handleSend() {
         const { onSend } = this.props;
-        if (this.state.message==='') return;
+        if (this.state.message==='' || this.props.controlled) return;
 
         onSend(this.state.message);
         this.setState({
@@ -54,11 +54,12 @@ class Input extends Component {
 
     render() {
         const { message } = this.state;
+        const { controlled } = this.props;
 
         const {handleSend, handleChange, handleKeyPress} = this;
 
         return (
-            <div className="input">
+            <div className={`input ${controlled?'controlled':''}`}>
                 <div className="message">
                     <input type="text" value={message} name="message" placeholder="Write a message" onChange={handleChange} onKeyPress={handleKeyPress}/>
                 </div>

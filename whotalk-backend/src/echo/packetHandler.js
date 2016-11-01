@@ -60,6 +60,17 @@ const service = {
             return helper.emit(connection, error(1, RECEIVE.MSG));
         }
 
+        
+
+        if(connection.data.counter > 10) {
+            connection.data.counter = 20;
+            setTimeout(()=>{
+                connection.data.counter = 0;
+            }, 5000);
+            return helper.emit(connection, error(3));
+        }
+
+        chatCount(connection);
         const ch = channel.get(connection.data.channel);
         ch.broadcast(helper.createAction(SEND.MSG, {
             anonymous: connection.data.anonymous,
@@ -106,4 +117,16 @@ export default function packetHandler(connection, packet) {
             helper.emit(connection, error(0));
     }
 
+}
+
+
+function chatCount(connection) {
+    connection.data.counter++;
+    console.log(connection.data.counter);
+    setTimeout(() => {
+        connection.data.counter--;
+        if(connection.data.counter < 0) {
+            connection.data.counter = 0;
+        }
+    }, 5000)
 }

@@ -37,6 +37,15 @@ const service = {
                 notify({type: 'error', message: 'Your session is invalid, try refreshing the page.'});
                 setSocketState({auth: false});
                 break;
+            case 3:
+                notify({type: 'warning', message: 'Too many messages! Please slow down...'});
+                setSocketState({controlled: true});
+                setTimeout(
+                    () => {
+                        setSocketState({controlled: false});
+                    }, 5000
+                );
+                break;
             default:
         }
     },
