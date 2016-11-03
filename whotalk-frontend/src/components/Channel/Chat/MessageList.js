@@ -1,71 +1,31 @@
-import React, {PureComponent} from 'react';
-import Message from './Message';
+import React, {Component} from 'react';
+import MessageChunk from './MessageChunk';
 import autobind from 'autobind-decorator';
+import chunk from 'helpers/chunk';
 
-
-class MessageList extends PureComponent {
+class MessageList extends Component {
 
     @autobind
-    mapDataToMessage(data) {
+    mapToChunks(data) {
+        console.time("mapToChunks");
 
-        console.time("mapDataToMessage");
+        const dataChunks = chunk(data, 20);
+        const chunks =  dataChunks.map(
+            (chunk, i) => (<MessageChunk data={chunk} key={chunk.length?chunk[0].payload.suID:0} previous={i===0?null:data[i*19].payload}/>)
+        );
 
-        const messages = [];
+        console.timeEnd("mapToChunks");
 
-        let packet = null, 
-            current = null, 
-            previous =null,
-            message = null;
-
-        for (let i = 0; i < data.length; i++) {
-            packet = data[i];
-            
-            previous = i === 0 ? null : {
-                ...current
-            };
-
-            current = {
-                key: packet.temp ? packet.payload.uID : packet.payload.suID,
-                suID: packet.temp ? packet.payload.uID : packet.payload.suID,
-                type: packet.type,
-                message: packet.payload.message,
-                username: packet.payload.username,
-                anonymous: packet.payload.anonymous,
-                date: packet.payload.date,
-                thumbnail: undefined, // later
-                temp: packet.temp ? true : false,
-                previous,
-            };
-
-            
-            
-
-            message = (
-                <Message
-                    {...current}
-                />
-            );
-
-            messages.push(message);
-        }
-
-        console.timeEnd("mapDataToMessage");
-
-        return messages;
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-         return nextProps.data.length !== this.props.data.length || JSON.stringify(nextProps) !== JSON.stringify(this.props);
+        return chunks;
     }
 
     render() {
         const { data } = this.props;
-        const { mapDataToMessage } = this;
-
+        const { mapToChunks } = this;
 
         return (
             <div className="message-list">
-                {mapDataToMessage(data)}
+               {mapToChunks(data)}
             </div>
         );
     }

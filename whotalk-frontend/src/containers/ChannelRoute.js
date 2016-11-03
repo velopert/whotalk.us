@@ -15,19 +15,6 @@ import * as socket from 'socket';
 import * as socketHelper from 'socket/helper';
 import { client as SEND } from 'socket/packetTypes';
 
-function chunk (arr, len) {
-
-  var chunks = [],
-      i = 0,
-      n = arr.length;
-
-  while (i < n) {
-    chunks.push(arr.slice(i, i += len));
-  }
-
-  return chunks;
-}
-
 class ChannelRoute extends Component {
     constructor(props) {
         super(props);
@@ -105,6 +92,7 @@ class ChannelRoute extends Component {
                 date: (new Date()).getTime(),
                 message,
                 uID,
+                suID: uID,
                 username: status.socket.username
             }
         });
@@ -166,18 +154,6 @@ class ChannelRoute extends Component {
         window.removeEventListener("resize", this.updateClientHeight);
     }
     
-    @autobind
-    mapToMessageList(data) {
-        console.time("mapToMessageList");
-
-        const lists = chunk(data, 20);
-        const components =  lists.map(
-            (list, i) => (<Chat.MessageList data={list} key={i}/>)
-        );
-
-        console.timeEnd("mapToMessageList");
-        return components;
-    }
     
 
     render() {
@@ -212,7 +188,7 @@ class ChannelRoute extends Component {
                                 }}
                                 ref={(ref)=>{this.scrollBox = ref}}    
                             >
-                                {mapToMessageList(status.chatData)}
+                            <Chat.MessageList data={status.chatData}/>
                             </Scrollbars>
                             {showStartButton
                                 ? <Chat.Start onClick={handleOpenSelect} disabled={(!status.socket.enter)}/>
