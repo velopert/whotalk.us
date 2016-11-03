@@ -38,6 +38,7 @@
         color: #343a40;
         font-size: 15px;
         &.temp {
+            color: red;
             opacity: 0.6;
         }
         transition: all 0.5s;

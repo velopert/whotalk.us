@@ -18,24 +18,81 @@
 import React, {Component} from 'react';
 import autobind from 'autobind-decorator';
 
+function sleep(ms) {
+    const p = new Promise((resolve, reject) => {
+        setTimeout(()=>{resolve();}, ms);
+    });
+
+    return p;
+}
+
 class Input extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            message: ''
+            message: '',
+            cooling: false,
+            blocked: false
         };
     }
 
     @autobind
-    handleSend() {
-        const { onSend } = this.props;
-        if (this.state.message==='' || this.props.controlled) return;
+    sleep() {
 
-        onSend(this.state.message);
+        const p = new Promise((resolve, reject) => {
+            if(!this.state.cooling) {
+                resolve();
+            } else {
+                let check = () => {
+                    if(this.state.cooling) {
+                        // check every 25ms
+                        setTimeout(check, 25);
+                    } else {
+                        resolve();
+                    }
+                };
+
+                check();
+            }
+        });
+
+        return p;
+    }
+
+
+    @autobind
+    async handleSend() {
+        const { onSend } = this.props;
+        if (this.state.message==='' || this.props.controlled || this.state.blocked) return;
+
+        const msg = this.state.message;
+
         this.setState({
             message: ''
-        })
+        });
+
+        if(this.state.cooling) {
+            this.setState({
+                blocked: true
+            });
+            await this.sleep();
+            this.setState({
+                blocked: false
+            });
+        };
+        
+        onSend(msg);
+
+        this.setState({
+            cooling: true
+        });
+
+        setTimeout(() => {
+            this.setState({
+                cooling: false
+            });
+        }, 100);
     }
 
     @autobind
