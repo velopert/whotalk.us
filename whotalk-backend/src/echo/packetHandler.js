@@ -62,13 +62,13 @@ const service = {
 
         
 
-        if(connection.data.counter > 10) {
-            connection.data.counter = 20;
-            setTimeout(()=>{
-                connection.data.counter = 0;
-            }, 5000);
-            return helper.emit(connection, error(3));
-        }
+        // if(connection.data.counter > 10) {
+        //     connection.data.counter = 20;
+        //     setTimeout(()=>{
+        //         connection.data.counter = 0;
+        //     }, 5000);
+        //     return helper.emit(connection, error(3));
+        // }
 
         chatCount(connection);
         const ch = channel.get(connection.data.channel);
