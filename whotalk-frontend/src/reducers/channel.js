@@ -38,7 +38,8 @@ const initialState = {
             controlled: false
         },
         data: [],
-        tempDataIndex: []
+        tempDataIndex: [],
+        tempDataCount: 0
     },
     requests: {
         checkValidity: {
@@ -136,19 +137,19 @@ function channel(state = initialState, action) {
                        if(state.chat.data[dataIndex].payload.uID === payload.payload.uID) {
                            // if uID matches, replace the message
                            // and remove the index from tempDataIndex
+                           const tempData = [...state.chat.data];
+                           tempData[dataIndex] = payload;
+                           
+                           // clear the tempDataIndex when tempDataCount is 0
+                           const clear = state.chat.tempDataCount === 1 ? [] : state.chat.tempDataIndex;
+
                            return {
                                ...state,
                                chat : {
                                    ...state.chat,
-                                   data: [
-                                       ...state.chat.data.slice(0, dataIndex),
-                                       payload,
-                                       ...state.chat.data.slice(dataIndex + 1, state.chat.data.length-1)
-                                   ],
-                                   tempDataIndex: [
-                                       ...state.chat.tempDataIndex.slice(0, i),
-                                       ...state.chat.tempDataIndex.slice(i+1, state.chat.tempDataIndex.length-1)
-                                   ]
+                                   data: tempData,
+                                   tempDataIndex: clear,
+                                   tempDataCount: state.chat.tempDataCount - 1
                                }
                            };
                        }
@@ -269,7 +270,8 @@ function channel(state = initialState, action) {
                     tempDataIndex: [
                         ...state.chat.tempDataIndex,
                         state.chat.data.length
-                    ]
+                    ],
+                    tempDataCount: state.chat.tempDataCount + 1
                 }
             };
         default:

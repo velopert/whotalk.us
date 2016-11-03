@@ -72,14 +72,39 @@ const service = {
 
         chatCount(connection);
         const ch = channel.get(connection.data.channel);
-        ch.broadcast(helper.createAction(SEND.MSG, {
-            anonymous: connection.data.anonymous,
-            username: connection.data.username,
-            message: payload.message,
-            date: (new Date()).getTime(),
-            uID: payload.uID,
-            suID: helper.generateUID()
-        }));
+        
+        setTimeout(
+            () => {
+                ch.broadcast(helper.createAction(SEND.MSG, {
+                    anonymous: connection.data.anonymous,
+                    username: connection.data.username,
+                    message: payload.message,
+                    date: (new Date()).getTime(),
+                    uID: payload.uID,
+                    suID: helper.generateUID()
+                }));
+            },  Math.floor(Math.random()*1500)
+        );
+
+        if(payload.message === '/test') {
+            let i = 0;
+            const spam = () => {
+                if(i>100) {
+                    return;
+                }
+                ch.broadcast(helper.createAction(SEND.MSG, {
+                    anonymous: connection.data.anonymous,
+                    username: "tester",
+                    message: i + "",
+                    date: (new Date()).getTime(),
+                    uID: payload.uID,
+                    suID: helper.generateUID()
+                }));
+                i++;
+                setTimeout(spam, Math.floor(Math.random()*500));
+            }
+            spam();
+        }
 
     }
 }

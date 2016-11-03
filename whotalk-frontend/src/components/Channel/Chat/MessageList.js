@@ -54,6 +54,10 @@ class MessageList extends PureComponent {
         return messages;
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+         return nextProps.data.length !== this.props.data.length || JSON.stringify(nextProps) !== JSON.stringify(this.props);
+    }
+
     render() {
         const { data } = this.props;
         const { mapDataToMessage } = this;

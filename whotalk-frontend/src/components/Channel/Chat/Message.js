@@ -16,7 +16,7 @@ class Message extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if(JSON.stringify(this.props.suID)!==JSON.stringify(nextProps.suID)){
+        if(this.props.suID !== nextProps.suID){
             return true;
         } else { 
             return false;

@@ -15,6 +15,19 @@ import * as socket from 'socket';
 import * as socketHelper from 'socket/helper';
 import { client as SEND } from 'socket/packetTypes';
 
+function chunk (arr, len) {
+
+  var chunks = [],
+      i = 0,
+      n = arr.length;
+
+  while (i < n) {
+    chunks.push(arr.slice(i, i += len));
+  }
+
+  return chunks;
+}
+
 class ChannelRoute extends Component {
     constructor(props) {
         super(props);
@@ -129,6 +142,11 @@ class ChannelRoute extends Component {
         this.scrollBox.scrollTop(this.scrollBox.getScrollHeight());
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+         return JSON.stringify(nextProps) !== JSON.stringify(this.props);
+    }
+    
+
     componentDidUpdate(prevProps, prevState) {
         if(JSON.stringify(prevProps.status.chatData) !== JSON.stringify(this.props.status.chatData) ||
             JSON.stringify(prevProps.status.chatTempData) !== JSON.stringify(this.props.status.chatTempData)){
@@ -148,11 +166,23 @@ class ChannelRoute extends Component {
         window.removeEventListener("resize", this.updateClientHeight);
     }
     
+    @autobind
+    mapToMessageList(data) {
+        console.time("mapToMessageList");
+
+        const lists = chunk(data, 20);
+        const components =  lists.map(
+            (list, i) => (<Chat.MessageList data={list} key={i}/>)
+        );
+
+        console.timeEnd("mapToMessageList");
+        return components;
+    }
     
 
     render() {
         const {params, pathname, status} = this.props;
-        const {handleEnterChannel, handleChange, handleKeyPress, handleOpenSelect, handleSelect, handleCloseSelect, handleSend} = this;
+        const {handleEnterChannel, handleChange, handleKeyPress, handleOpenSelect, handleSelect, handleCloseSelect, handleSend, mapToMessageList} = this;
 
         const showStartButton = !status.chatState.started;
         const showSelect = status.chatState.selecting;
@@ -182,7 +212,7 @@ class ChannelRoute extends Component {
                                 }}
                                 ref={(ref)=>{this.scrollBox = ref}}    
                             >
-                                <Chat.MessageList data={status.chatData} temp={status.chatTempData}/>
+                                {mapToMessageList(status.chatData)}
                             </Scrollbars>
                             {showStartButton
                                 ? <Chat.Start onClick={handleOpenSelect} disabled={(!status.socket.enter)}/>
