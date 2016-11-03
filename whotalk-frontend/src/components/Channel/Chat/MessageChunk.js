@@ -63,7 +63,8 @@ class MessageChunk extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-         return nextProps.data.length !== this.props.data.length || JSON.stringify(nextProps) !== JSON.stringify(this.props);
+        const result = this.props.last ? nextProps.data.length !== this.props.data.length || JSON.stringify(nextProps) !== JSON.stringify(this.props) : false;
+        return result;
     }
 
     render() {

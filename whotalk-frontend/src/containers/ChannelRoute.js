@@ -131,7 +131,41 @@ class ChannelRoute extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-         return JSON.stringify(nextProps) !== JSON.stringify(this.props);
+
+        console.time('scu');
+
+        const checkDiff = () => {
+             if(nextProps.status.chatData.length > 0) {
+                 if(nextProps.status.chatData.length !== this.props.status.chatData.length) {
+                     return true;
+                 }
+
+
+                 // check last 20
+                 const len = nextProps.status.chatData.length;
+                 for(let i = len - 1; i > len - 21 || i > -1 ; i--) {
+                     if(nextProps.status.chatData[i].payload.suID !== this.props.status.chatData[i].payload.suID) {
+                         return true;
+                     }
+                 }
+                 return false;
+             } else {
+                 return false;
+             }
+         }
+
+         const compareObject = JSON.stringify({
+             ...this.props.status,
+             chatData: null
+         }) !== JSON.stringify({
+             ...nextProps.status,
+             chatData: null
+         });
+         console.timeEnd('scu');
+
+         // if compareObject is false, it will do checkDiff
+         return compareObject || checkDiff();
+
     }
     
 
@@ -224,8 +258,7 @@ ChannelRoute = connect(state => ({
         },
         socket: state.channel.chat.socket,
         identity: state.channel.chat.identity,
-        chatData: state.channel.chat.data,
-        chatTempData: state.channel.chat.tempData
+        chatData: state.channel.chat.data
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),
