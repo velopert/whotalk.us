@@ -13,7 +13,7 @@ import {Scrollbars} from 'react-custom-scrollbars';
 
 import * as socket from 'socket';
 import * as socketHelper from 'socket/helper';
-import { client as SEND } from 'socket/packetTypes';
+import {client as SEND} from 'socket/packetTypes';
 
 class ChannelRoute extends Component {
     constructor(props) {
@@ -71,12 +71,6 @@ class ChannelRoute extends Component {
     }
 
     @autobind
-    handleChange(e) {
-        const {FormActions} = this.props;
-        FormActions.changeInput({form: 'chat', name: e.target.name, value: e.target.value})
-    }
-
-    @autobind
     handleSend(message) {
         const {status, ChannelActions, FormActions} = this.props;
         const uID = socketHelper.generateUID();
@@ -96,6 +90,18 @@ class ChannelRoute extends Component {
                 username: status.socket.username
             }
         });
+    }
+
+    @autobind
+    handleFailure(index) {
+        const { ChannelActions } = this.props;
+        ChannelActions.messageFailure(index);
+    }
+
+    @autobind
+    handleRemove(index) {
+        const {ChannelActions} = this.props;
+        ChannelActions.removeMessage(index);
     }
 
     @autobind
@@ -123,64 +129,62 @@ class ChannelRoute extends Component {
         }, 700);
     }
 
-
     @autobind
     scrollToBottom() {
         // SCROLL TO BOTTOM
-        this.scrollBox.scrollTop(this.scrollBox.getScrollHeight());
+        this
+            .scrollBox
+            .scrollTop(this.scrollBox.getScrollHeight());
     }
 
     shouldComponentUpdate(nextProps, nextState) {
 
-        console.time('scu');
+        if (JSON.stringify(nextState) !== JSON.stringify(this.props)) {
+            return true;
+        }
 
         const checkDiff = () => {
-             if(nextProps.status.chatData.length > 0) {
-                 if(nextProps.status.chatData.length !== this.props.status.chatData.length) {
-                     return true;
-                 }
+            if (nextProps.status.chatData.length > 0) {
+                if (nextProps.status.chatData.length !== this.props.status.chatData.length) {
+                    return true;
+                }
 
-                 // check tempIndexes
-                 for(let index of this.props.status.tempDataIndex) {
-                     if(nextProps.status.chatData[index].payload.suID !== this.props.status.chatData[index].payload.suID) {
-                         return true;
-                     }
-                 }
-                 return false;
-             } else {
-                 return false;
-             }
-         }
+                // check tempIndexes
+                for (let index of this.props.status.tempDataIndex) {
+                    if (nextProps.status.chatData[index].payload.suID !== this.props.status.chatData[index].payload.suID) {
+                        return true;
+                    }
+                }
+                return false;
+            } else {
+                return false;
+            }
+        }
 
-         const compareObject = JSON.stringify({
-             ...this.props.status,
-             chatData: null
-         }) !== JSON.stringify({
-             ...nextProps.status,
-             chatData: null
-         });
-         console.timeEnd('scu');
+        const compareObject = JSON.stringify({
+            ...this.props.status,
+            chatData: null
+        }) !== JSON.stringify({
+            ...nextProps.status,
+            chatData: null
+        });
 
-         // if compareObject is false, it will do checkDiff
-         return compareObject || checkDiff();
+        // if compareObject is false, it will do checkDiff
+        return compareObject || checkDiff();
 
     }
 
     componentWillUpdate(nextProps, nextState) {
-       console.time('ChannelRoute render');
+        console.time('ChannelRoute render');
     }
-    
-    
-    
 
     componentDidUpdate(prevProps, prevState) {
         console.timeEnd('ChannelRoute render');
-        if(prevProps.status.chatData.length !== this.props.status.chatData.length) {
+        if (prevProps.status.chatData.length !== this.props.status.chatData.length) {
             this.scrollToBottom();
         }
-        
+
     }
-    
 
     componentWillUnmount() {
         const {UIActions} = this.props;
@@ -192,12 +196,18 @@ class ChannelRoute extends Component {
 
         window.removeEventListener("resize", this.updateClientHeight);
     }
-    
-    
 
     render() {
         const {params, pathname, status} = this.props;
-        const {handleEnterChannel, handleChange, handleKeyPress, handleOpenSelect, handleSelect, handleCloseSelect, handleSend, mapToMessageList} = this;
+        const {
+            handleEnterChannel,
+            handleOpenSelect,
+            handleSelect,
+            handleCloseSelect,
+            handleSend,
+            handleFailure,
+            handleRemove
+        } = this;
 
         const showStartButton = !status.chatState.started;
         const showSelect = status.chatState.selecting;
@@ -224,10 +234,11 @@ class ChannelRoute extends Component {
                                 width: '100%',
                                 height: this.state.clientHeight - 120 + 'px',
                                 borderBottom: '1px solid rgba(0,0,0,0.10)'
-                                }}
-                                ref={(ref)=>{this.scrollBox = ref}}    
-                            >
-                            <Chat.MessageList data={status.chatData}/>
+                            }}
+                                ref={(ref) => {
+                                this.scrollBox = ref
+                            }}>
+                                <Chat.MessageList data={status.chatData} onFailure={handleFailure} onRemove={handleRemove} onSend={handleSend}/>
                             </Scrollbars>
                             {showStartButton
                                 ? <Chat.Start onClick={handleOpenSelect} disabled={(!status.socket.enter)}/>

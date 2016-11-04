@@ -42,6 +42,8 @@ class MessageChunk extends PureComponent {
                 date: packet.payload.date,
                 thumbnail: undefined, // later
                 temp: packet.temp ? true : false,
+                failed: packet.failed ? true : false,
+                index: this.props.index * 20 + i,
                 previous,
             };
 
@@ -51,6 +53,9 @@ class MessageChunk extends PureComponent {
             message = (
                 <Message
                     {...current}
+                    onFailure={this.props.onFailure}
+                    onRemove={this.props.onRemove}
+                    onSend={this.props.onSend}
                 />
             );
 

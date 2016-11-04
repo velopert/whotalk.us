@@ -23,15 +23,13 @@ class Message extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            failed: false
-        };
-
         this.timeoutId = null;
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.suID !== nextProps.suID || this.state.failed !== nextState.failed) {
+        if (this.props.suID !== nextProps.suID || 
+            this.props.index !== nextProps.index || 
+            this.props.failed !== nextProps.failed) {
             return true;
         } else {
             return false;
@@ -40,9 +38,8 @@ class Message extends Component {
 
     componentDidMount() {
         if (this.props.temp) {
-            console.log(this.props.suID);
             this.timeoutId = setTimeout(() => {
-                this.setState({failed: true})
+                this.props.onFailure(this.props.index);
             }, 3000);
         }
     }
@@ -61,9 +58,12 @@ class Message extends Component {
             date,
             thumbnail,
             previous,
-            temp
+            temp,
+            failed,
+            index,
+            onRemove,
+            onSend
         } = this.props;
-        const {failed} = this.state;
 
         const isEvent = type !== 'MSG';
 
@@ -138,9 +138,12 @@ class Message extends Component {
                     {failed
                         ? (
                             <div className="failed">Failed to send this message,
-                                <span className="action">retry</span>
+                                <span className="action" onClick={() => {
+                                    onRemove(index);
+                                    onSend(message);
+                                }}>retry</span>
                                 or
-                                <span className="action">remove</span>
+                                <span className="action" onClick={()=>{onRemove(index)}}>remove</span>
                             </div>
                         )
                         : undefined}

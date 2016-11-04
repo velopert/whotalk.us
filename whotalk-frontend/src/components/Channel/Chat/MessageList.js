@@ -14,7 +14,12 @@ class MessageList extends Component {
             data={chunk}
             key={chunk.length ? chunk[0].payload.suID : 0}
             previous={i === 0 ? null : data[i * 20 - 1].payload}
-            last={i >= Math.floor(data.length / 20) - 4}/>));
+            index={i}
+            last={i >= Math.floor(data.length / 20) - 4}
+            onFailure={this.props.onFailure}
+            onRemove={this.props.onRemove}
+            onSend={this.props.onSend}
+        />));
 
         console.timeEnd("mapToChunks");
 
