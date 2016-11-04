@@ -146,7 +146,7 @@ function channel(state = initialState, action) {
                     if(!indexes) indexes = [...state.chat.tempDataIndex];
 
                     for(let i = 0; i < indexes.length; i++) {
-                        let index = state.chat.tempDataIndex[i];
+                        let index = indexes[i];
                         if(tempData[index].payload.uID === packet.payload.uID) {
                             tempData[index] = packet;
                             indexes = [...indexes.slice(0, i), ...indexes.slice(i+1,indexes.length)];
