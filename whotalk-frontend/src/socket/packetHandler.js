@@ -3,13 +3,15 @@ import store from 'store';
 import * as channel from 'actions/channel';
 import notify from 'helpers/notify';
 import * as helper from './helper';
+import worker from './worker';
 
 const setSocketState = (payload) => {
     store.dispatch(channel.setSocketState(payload));
 };
 
 const receiveRealtimeData = (payload) => {
-    store.dispatch(channel.receiveRealtimeData(payload));
+    // store.dispatch(channel.receiveRealtimeData(payload));
+    worker.assign(payload);
 };
 
 const service = {

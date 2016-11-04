@@ -3,6 +3,12 @@ import DateSeparator from './DateSeparator';
 import Thumbnail from './Thumbnail';
 import anonymousThumbnail from 'assets/anonymous.png';
 
+function printTime(d) {
+   var hh = ("0" + d.getHours() % 12).slice(0,2);
+   var mm = ("0" + d.getMinutes()).slice(0,2);
+   return hh + ":" + mm;
+}
+
 class Message extends Component {
     static propTypes = {
         suID: PropTypes.string,
@@ -16,13 +22,13 @@ class Message extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if(this.props.suID !== nextProps.suID){
+        if (this.props.suID !== nextProps.suID) {
             return true;
-        } else { 
+        } else {
             return false;
         }
     }
-    
+
     render() {
         const {
             suID,
@@ -41,23 +47,20 @@ class Message extends Component {
         const parsedDate = new Date(date);
 
         let previousDate = null;
-        if(previous) {
+        if (previous) {
             previousDate = new Date(previous.date);
         }
 
-        const showDate = !previous ||
-            previousDate.getDate() !== parsedDate.getDate(); 
+        const showDate = !previous || previousDate.getDate() !== parsedDate.getDate();
 
-        const showMessageInfo = !previous || showDate ||
-            previousDate.getHours() !== parsedDate.getHours() ||
-            username !== previous.username || isEvent;
-        
+        const showMessageInfo = !previous || showDate || previousDate.getHours() !== parsedDate.getHours() || username !== previous.username || isEvent;
+
         const timeString = parsedDate.toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit'
-        })
+        });
 
-        
+        let altTimeString = printTime(parsedDate);
 
         let eventText = null;
 
@@ -68,36 +71,49 @@ class Message extends Component {
         }
 
         return (
-            <div className="message">
+            <div>
                 {showDate
                     ? <DateSeparator date={parsedDate}/>
                     : ''}
-                {showMessageInfo
-                    ? (
-                        <div className="info">
-                            <Thumbnail image={anonymous ? anonymousThumbnail : thumbnail}/>
-                            <div className="info-text">
-                                <span className="username">{username}</span>
-                                {anonymous? (
-                                    <span className="anonymous">(anonymous)</span>
-                                ):''}
-                                <span className="date">{timeString}</span>
+                <div className="message">
+                    {showMessageInfo
+                        ? (
+                            <div className="info">
+                                <Thumbnail
+                                    image={anonymous
+                                    ? anonymousThumbnail
+                                    : thumbnail}/>
+                                <div className="info-text">
+                                    <span className="username">{username}</span>
+                                    {anonymous
+                                        ? (
+                                            <span className="anonymous">(anonymous)</span>
+                                        )
+                                        : ''}
+                                    <span className="date">{timeString}</span>
+                                </div>
                             </div>
+                        )
+                        : ''}
+                        <div className="alt-time">
+                            {altTimeString}
                         </div>
-                    )
-                    : ''}
-                {isEvent
-                    ? (
-                        <div className="event">
-                            {eventText}
-                        </div>
-                    )
-                    : (
-                        <div className={`text ${temp?'temp':''}`}>
-                            {message}
-                        </div>
-                    )}
+                    {isEvent
+                        ? (
+                            <div className="event">
+                                {eventText}
+                            </div>
+                        )
+                        : (
+                            <div
+                                className={`text ${temp
+                                ? 'temp'
+                                : ''}`}>
+                                {message}
+                            </div>
+                        )}
 
+                </div>
             </div>
         );
     }

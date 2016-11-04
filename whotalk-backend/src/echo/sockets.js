@@ -52,7 +52,8 @@ export function disconnect(connection) {
                 ch.broadcast(helper.createAction(SEND.LEAVE, {
                     date: (new Date()).getTime(),
                     suID: helper.generateUID(),
-                    username: connection.data.username
+                    username: connection.data.username,
+                    anonymous: connection.data.anonymous
                 }));
             }
         }

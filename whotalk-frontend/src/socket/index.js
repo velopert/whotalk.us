@@ -4,6 +4,7 @@ import sender from './packetSender';
 import handler from './packetHandler';
 import * as helper from './helper';
 import notify from 'helpers/notify';
+import worker from './worker';
 
 
 let intervalId = null;
@@ -17,6 +18,7 @@ export const init = () => {
     socket.onopen = function () {
         closing = false;
         console.log('connected');
+        worker.start();
         sender.enter(store.getState().channel.info.username);
         if(reconnected) {
             notify({type: 'success', message: 'Reconnected successfully'})
@@ -46,7 +48,8 @@ export const init = () => {
                 init();
             }, 2000);
         } else {
-            console.log("[SOCKET] disconnected")
+            console.log("[SOCKET] disconnected");
+            worker.stop();
         }
     };
 }

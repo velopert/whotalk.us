@@ -13,8 +13,8 @@ class MessageList extends Component {
         const chunks = dataChunks.map((chunk, i) => (<MessageChunk
             data={chunk}
             key={chunk.length ? chunk[0].payload.suID : 0}
-            previous={i === 0 ? null : data[i * 19].payload}
-            last={i === Math.floor(data.length / 20)}/>));
+            previous={i === 0 ? null : data[i * 20 - 1].payload}
+            last={i >= Math.floor(data.length / 20) - 4}/>));
 
         console.timeEnd("mapToChunks");
 

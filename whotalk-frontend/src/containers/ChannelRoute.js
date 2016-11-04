@@ -140,11 +140,9 @@ class ChannelRoute extends Component {
                      return true;
                  }
 
-
-                 // check last 20
-                 const len = nextProps.status.chatData.length;
-                 for(let i = len - 1; i > len - 21 || i > -1 ; i--) {
-                     if(nextProps.status.chatData[i].payload.suID !== this.props.status.chatData[i].payload.suID) {
+                 // check tempIndexes
+                 for(let index of this.props.status.tempDataIndex) {
+                     if(nextProps.status.chatData[index].payload.suID !== this.props.status.chatData[index].payload.suID) {
                          return true;
                      }
                  }
@@ -167,13 +165,20 @@ class ChannelRoute extends Component {
          return compareObject || checkDiff();
 
     }
+
+    componentWillUpdate(nextProps, nextState) {
+       console.time('ChannelRoute render');
+    }
+    
+    
     
 
     componentDidUpdate(prevProps, prevState) {
-        if(JSON.stringify(prevProps.status.chatData) !== JSON.stringify(this.props.status.chatData) ||
-            JSON.stringify(prevProps.status.chatTempData) !== JSON.stringify(this.props.status.chatTempData)){
+        console.timeEnd('ChannelRoute render');
+        if(prevProps.status.chatData.length !== this.props.status.chatData.length) {
             this.scrollToBottom();
         }
+        
     }
     
 
@@ -258,7 +263,8 @@ ChannelRoute = connect(state => ({
         },
         socket: state.channel.chat.socket,
         identity: state.channel.chat.identity,
-        chatData: state.channel.chat.data
+        chatData: state.channel.chat.data,
+        tempDataIndex: state.channel.chat.tempDataIndex
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

@@ -1,8 +1,15 @@
 .message-list {
-    padding: 20px;
+    // padding: 20px;
+    
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
     // overflow-y: scroll;
     @include media("<tablet") { 
-        padding: 5px;
+        // padding: 5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
+    @import 'DateSeparator';
     @import 'Message';
 }

@@ -123,38 +123,97 @@ function channel(state = initialState, action) {
             }
 
         case CHANNEL.RECEIVE_REALTIME_DATA:
-
-            if(payload.type === 'MSG' && 
-               state.chat.tempDataIndex.length > 0 &&
-               payload.payload.username === state.chat.socket.username) {
-
-                   // find the realtime data in current data, by checking tempDataIndex
-
-                   let dataIndex = -1;
-                   for(let i = 0; i < state.chat.tempDataIndex.length; i++) {
-                       // for every temp data index
-                       dataIndex = state.chat.tempDataIndex[i];
-                       if(state.chat.data[dataIndex].payload.uID === payload.payload.uID) {
-                           // if uID matches, replace the message
-                           // and remove the index from tempDataIndex
-                           const tempData = [...state.chat.data];
-                           tempData[dataIndex] = payload;
-                           
-                           // clear the tempDataIndex when tempDataCount is 0
-                           const clear = state.chat.tempDataCount === 1 ? [] : state.chat.tempDataIndex;
-
-                           return {
-                               ...state,
-                               chat : {
-                                   ...state.chat,
-                                   data: tempData,
-                                   tempDataIndex: clear,
-                                   tempDataCount: state.chat.tempDataCount - 1
-                               }
-                           };
-                       }
-                   }
+            // if there is no tempDataIndex, just return the data + payload array
+            if(state.chat.tempDataIndex.length < 1) {
+                return {
+                    ...state,
+                    chat: {
+                        ...state.chat,
+                        data: [
+                            ...state.chat.data,
+                            ...payload
+                        ]
+                    }
+                };
             }
+
+            let tempData = null;
+            let found = 0;
+            for(let packet of payload) {
+                if(packet.type === 'MSG' && packet.payload.username === state.chat.socket.username) {
+                    // store tempData if null
+                    if(!tempData) tempData = [...state.chat.data];
+
+                    for(let index of state.chat.tempDataIndex) {
+                        // if uID matches
+                        if(tempData[index].payload.uID === packet.payload.uID) {
+                            // replace the message
+                            tempData[index] = packet;
+                            found++;
+                        }
+                    }
+                }
+            }
+
+            if(tempData) {
+                // there was some modification
+                return {
+                    ...state,
+                    chat: {
+                        ...state.chat,
+                        data: tempData,
+                        tempDataIndex: (state.chat.tempDataCount - found === 0) ? [] :state.chat.tempDataIndex,
+                        tempDataCount: state.chat.tempDataCount - found
+                    }
+                }
+            } else {
+                return {
+                    ...state,
+                    chat: {
+                        ...state.chat,
+                        data: [
+                            ...state.chat.data,
+                            ...payload
+                        ]
+                    }
+                };
+            }
+
+
+
+
+
+            // if(payload.type === 'MSG' && 
+            //    state.chat.tempDataIndex.length > 0 &&
+            //    payload.payload.username === state.chat.socket.username) {
+
+            //        // find the realtime data in current data, by checking tempDataIndex
+
+            //        let dataIndex = -1;
+            //        for(let i = 0; i < state.chat.tempDataIndex.length; i++) {
+            //            // for every temp data index
+            //            dataIndex = state.chat.tempDataIndex[i];
+            //            if(state.chat.data[dataIndex].payload.uID === payload.payload.uID) {
+            //                // if uID matches, replace the message
+            //                // and remove the index from tempDataIndex
+            //                const tempData = [...state.chat.data];
+            //                tempData[dataIndex] = payload;
+                           
+            //                // clear the tempDataIndex when tempDataCount is 0
+            //                const clear = state.chat.tempDataCount === 1 ? [] : state.chat.tempDataIndex;
+
+            //                return {
+            //                    ...state,
+            //                    chat : {
+            //                        ...state.chat,
+            //                        data: tempData,
+            //                        tempDataIndex: clear,
+            //                        tempDataCount: state.chat.tempDataCount - 1
+            //                    }
+            //                };
+            //            }
+            //        }
+            // }
 
             return {
                 ...state,
@@ -162,7 +221,7 @@ function channel(state = initialState, action) {
                     ...state.chat,
                     data: [
                         ...state.chat.data,
-                        payload
+                        ...payload
                     ]
                 }
             };

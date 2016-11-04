@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import Message from './Message';
 import autobind from 'autobind-decorator';
 
 
-class MessageChunk extends Component {
+class MessageChunk extends PureComponent {
 
     static defaultProps = {
         data: []
