@@ -40,7 +40,7 @@ class Message extends Component {
         if (this.props.temp) {
             this.timeoutId = setTimeout(() => {
                 this.props.onFailure(this.props.index);
-            }, 3000);
+            }, 5000);
         }
     }
 

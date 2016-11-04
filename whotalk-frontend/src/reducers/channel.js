@@ -38,8 +38,7 @@ const initialState = {
             controlled: false
         },
         data: [],
-        tempDataIndex: [],
-        tempDataCount: 0
+        tempDataIndex: []
     },
     requests: {
         checkValidity: {
@@ -138,26 +137,23 @@ function channel(state = initialState, action) {
             }
 
             let tempData = null;
-            let found = 0;
+            let indexes = null;
+
             for(let packet of payload) {
                 if(packet.type === 'MSG' && packet.payload.username === state.chat.socket.username) {
                     // store tempData if null
                     if(!tempData) tempData = [...state.chat.data];
+                    if(!indexes) indexes = [...state.chat.tempDataIndex];
 
-                    for(let index of state.chat.tempDataIndex) {
-                        if(!tempData[index]) continue;
-                        // if uID matches
+                    for(let i = 0; i < indexes.length; i++) {
+                        let index = state.chat.tempDataIndex[i];
                         if(tempData[index].payload.uID === packet.payload.uID) {
-                            // replace the message
                             tempData[index] = packet;
-                            found++;
-                            console.log(tempData[index].payload);
+                            indexes = [...indexes.slice(0, i), ...indexes.slice(i+1,indexes.length)];
                         }
                     }
                 }
             }
-
-            console.log(state.chat.tempDataCount, found);
 
             if(tempData) {
                 // there was some modification
@@ -166,10 +162,9 @@ function channel(state = initialState, action) {
                     chat: {
                         ...state.chat,
                         data: tempData,
-                        tempDataIndex: (state.chat.tempDataCount - found === 0) ? [] :state.chat.tempDataIndex,
-                        tempDataCount: state.chat.tempDataCount - found
+                        tempDataIndex: indexes
                     }
-                }
+                };
             } else {
                 return {
                     ...state,
@@ -198,27 +193,13 @@ function channel(state = initialState, action) {
                     tempDataIndex: [
                         ...state.chat.tempDataIndex,
                         state.chat.data.length
-                    ],
-                    tempDataCount: state.chat.tempDataCount + 1
+                    ]
                 }
             };
 
         case CHANNEL.MESSAGE_FAILURE:
             // payload: index
-            return {
-                ...state,
-                chat: {
-                    ...state.chat,
-                    data: [
-                        ...state.chat.data.slice(0, payload),
-                        {...state.chat.data[payload], failed: true },
-                        ...state.chat.data.slice(payload+1, state.chat.data.length)
-                    ]
-                }
-            }
 
-        case CHANNEL.REMOVE_MESSAGE:
-            // payload : index
 
             let index = null;
             for(let i = 0 ; i < state.chat.tempDataIndex.length; i++) {
@@ -233,13 +214,26 @@ function channel(state = initialState, action) {
                     ...state.chat,
                     data: [
                         ...state.chat.data.slice(0, payload),
+                        {...state.chat.data[payload], failed: true },
                         ...state.chat.data.slice(payload+1, state.chat.data.length)
                     ],
                     tempDataIndex: [
                         ...state.chat.tempDataIndex.slice(0, index),
                         ...state.chat.tempDataIndex.slice(index+1, state.chat.tempDataIndex.length)
-                    ],
-                    tempDataCount: state.chat.tempDataCount -1
+                    ]
+                }
+            }
+
+        case CHANNEL.REMOVE_MESSAGE:
+            // payload : index
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    data: [
+                        ...state.chat.data.slice(0, payload),
+                        ...state.chat.data.slice(payload+1, state.chat.data.length)
+                    ]
                 }
             };
             

@@ -41,6 +41,7 @@ const service = {
                 break;
             case 3:
                 notify({type: 'warning', message: 'Too many messages! Please slow down...'});
+                if(store.getState().channel.chat.socket.controlled) break;
                 setSocketState({controlled: true});
                 setTimeout(
                     () => {
