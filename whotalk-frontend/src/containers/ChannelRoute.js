@@ -27,6 +27,7 @@ class ChannelRoute extends Component {
     @autobind
     updateClientHeight() {
         this.setState({clientHeight: document.body.clientHeight});
+
     }
 
     componentWillMount() {
@@ -180,7 +181,7 @@ class ChannelRoute extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         console.timeEnd('ChannelRoute render');
-        if (prevProps.status.chatData.length !== this.props.status.chatData.length) {
+        if (prevProps.status.chatData.length !== this.props.status.chatData.length || prevState.clientHeight !== this.state.clientHeight) {
             this.scrollToBottom();
         }
 
