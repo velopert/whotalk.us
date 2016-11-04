@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Start = ({onClick}) => {
+const Start = ({onClick, disabled}) => {
     return (
         <div className="start" onClick={onClick}>
-            <button className="ui pink button">START TALKING</button>
+            <button className={`ui pink button ${disabled?'loading':''}`} disabled={disabled}>START TALKING</button>
         </div>
     );
 };
