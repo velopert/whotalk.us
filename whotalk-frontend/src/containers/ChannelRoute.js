@@ -234,8 +234,8 @@ class ChannelRoute extends Component {
                                 width: '100%',
                                 height: this.state.clientHeight - 120 + 'px',
                                 borderBottom: '1px solid rgba(0,0,0,0.10)',
-                                overflowX: 'hidden'
                             }}
+                                className="scrollbox"
                                 ref={(ref) => {
                                 this.scrollBox = ref
                             }}>

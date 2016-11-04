@@ -4,6 +4,10 @@
     background-color: #f1f3f5;
     padding-top: 50px;
 
+    .scrollbox > div {
+        overflow: auto !important;
+    }
+
     @import 'Input';
     @import 'Start';
     @import 'Select';
