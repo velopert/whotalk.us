@@ -67,8 +67,24 @@
         color: #343a40;
         font-size: 15px;
         &.temp {
-            opacity: 0.5;
+            color: #868e96;
         }
         transition: all 0.5s;
+    }
+    .failed {
+        margin-left: 45px;
+        color: #adb5bd;
+        font-size: 12px;
+        margin-top: 5px;
+        span.action {
+            margin-left: 3px;
+            margin-right: 3px;
+            color: #f08c00;
+            cursor: pointer;
+            &:hover {
+                color: #fab005;
+                text-decoration: underline;
+            }
+        }
     }
 }

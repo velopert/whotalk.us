@@ -4,9 +4,9 @@ import Thumbnail from './Thumbnail';
 import anonymousThumbnail from 'assets/anonymous.png';
 
 function printTime(d) {
-   var hh = ("0" + d.getHours() % 12).slice(0,2);
-   var mm = ("0" + d.getMinutes()).slice(0,2);
-   return hh + ":" + mm;
+    var hh = ("0" + d.getHours() % 12).slice(0, 2);
+    var mm = ("0" + d.getMinutes()).slice(0, 2);
+    return hh + ":" + mm;
 }
 
 class Message extends Component {
@@ -21,12 +21,34 @@ class Message extends Component {
         previous: PropTypes.object
     }
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            failed: false
+        };
+
+        this.timeoutId = null;
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.suID !== nextProps.suID) {
+        if (this.props.suID !== nextProps.suID || this.state.failed !== nextState.failed) {
             return true;
         } else {
             return false;
         }
+    }
+
+    componentDidMount() {
+        if (this.props.temp) {
+            console.log(this.props.suID);
+            this.timeoutId = setTimeout(() => {
+                this.setState({failed: true})
+            }, 3000);
+        }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timeoutId);
     }
 
     render() {
@@ -41,6 +63,7 @@ class Message extends Component {
             previous,
             temp
         } = this.props;
+        const {failed} = this.state;
 
         const isEvent = type !== 'MSG';
 
@@ -95,9 +118,9 @@ class Message extends Component {
                             </div>
                         )
                         : ''}
-                        <div className="alt-time">
-                            {altTimeString}
-                        </div>
+                    <div className="alt-time">
+                        {altTimeString}
+                    </div>
                     {isEvent
                         ? (
                             <div className="event">
@@ -112,6 +135,15 @@ class Message extends Component {
                                 {message}
                             </div>
                         )}
+                    {failed
+                        ? (
+                            <div className="failed">Failed to send this message,
+                                <span className="action">retry</span>
+                                or
+                                <span className="action">remove</span>
+                            </div>
+                        )
+                        : undefined}
 
                 </div>
             </div>
