@@ -150,6 +150,7 @@ function channel(state = initialState, action) {
                         if(tempData[index].payload.uID === packet.payload.uID) {
                             tempData[index] = packet;
                             indexes = [...indexes.slice(0, i), ...indexes.slice(i+1,indexes.length)];
+                            console.log(packet, i, index);
                         }
                     }
                 }

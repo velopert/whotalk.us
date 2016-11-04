@@ -33,6 +33,8 @@ class Input extends Component {
         this.state = {
             message: ''
         };
+
+        this.input = null
     }
 
     @autobind
@@ -45,6 +47,8 @@ class Input extends Component {
         this.setState({
             message: ''
         });
+
+        this.input.focus();
     }
 
     @autobind
@@ -70,7 +74,7 @@ class Input extends Component {
         return (
             <div className={`input ${controlled?'controlled':''}`}>
                 <div className="message">
-                    <input type="text" value={message} name="message" placeholder="Write a message" onChange={handleChange} onKeyPress={handleKeyPress}/>
+                    <input type="text" value={message} name="message" placeholder="Write a message" onChange={handleChange} onKeyPress={handleKeyPress} ref={(ref)=>{this.input = ref}}/>
                 </div>
                 <div className="send-button">
                     <button className="circular ui icon button pink" onClick={handleSend}>
