@@ -133,9 +133,11 @@ class ChannelRoute extends Component {
     @autobind
     scrollToBottom() {
         // SCROLL TO BOTTOM
-        this
-            .scrollBox
-            .scrollTop(this.scrollBox.getScrollHeight());
+        if(this.scrollBox) {
+            this
+                .scrollBox
+                .scrollTop(this.scrollBox.getScrollHeight());
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
