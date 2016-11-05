@@ -5,3 +5,9 @@ export const checkValidity = (username) => {
         url: '/api/channel/valid/' + username
     });
 }
+
+export const getRecentMsg = (username) => {
+    return request({
+        url: '/api/channel/get-recent-msg/' + username
+    });
+}

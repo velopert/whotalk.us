@@ -43,6 +43,9 @@ const initialState = {
     requests: {
         checkValidity: {
             ...request
+        },
+        getRecentMsg: {
+            ...request
         }
     }
 };
@@ -235,6 +238,61 @@ function channel(state = initialState, action) {
                         ...state.chat.data.slice(0, payload),
                         ...state.chat.data.slice(payload+1, state.chat.data.length)
                     ]
+                }
+            };
+            
+
+        /* GET_RECENT_MSG */
+        case CHANNEL.GET_RECENT_MSG + '_PENDING':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getRecentMsg: {
+                        ...pending
+                    }
+                }
+            };
+
+        case CHANNEL.GET_RECENT_MSG + '_FULFILLED':
+            const data = payload.data.messages;
+            const messages = data.map(
+                (message) => {
+                    return {
+                        type: message.type,
+                        payload: {
+                            anonymous: message.anonymous,
+                            date: Date.parse(message.date),
+                            suID: message.suID,
+                            username: message.username,
+                            message: message.message
+                        }
+                    }
+                }
+            );
+
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    data: [...messages]
+                },
+                requests: {
+                    ...state.requests,
+                    getRecentMsg: {
+                        ...fulfilled
+                    }
+                }
+            };
+        
+        case CHANNEL.GET_RECENT_MSG + '_REJECTED':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getRecentMsg: {
+                        ...rejected, error: payload 
+                    }
                 }
             };
             

@@ -45,6 +45,20 @@ class ChatRoute extends Component {
         }, 700);
 
         window.addEventListener("resize", this.updateClientHeight);
+
+        this.connectToChannel();
+    }
+
+    @autobind
+    async connectToChannel() {
+        const {params, ChannelActions} = this.props;
+
+        try {
+            await ChannelActions.getRecentMsg(params.username);
+        } catch(e) {
+            console.log(e);
+        }
+
         socket.init();
     }
 

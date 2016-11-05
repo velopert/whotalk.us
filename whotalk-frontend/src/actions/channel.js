@@ -18,3 +18,10 @@ export const receiveRealtimeData = createAction(CHANNEL.RECEIVE_REALTIME_DATA);
 export const writeMessage = createAction(CHANNEL.WRITE_MESSAGE);
 export const messageFailure = createAction(CHANNEL.MESSAGE_FAILURE);
 export const removeMessage = createAction(CHANNEL.REMOVE_MESSAGE);
+
+export const getRecentMsg = (username) => ({
+    type: CHANNEL.GET_RECENT_MSG,
+    payload: {
+        promise: service.getRecentMsg(username)
+    }
+});

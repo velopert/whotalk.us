@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/valid/:username', controller.valid);
 
-router.get('/get-recent/:username', controller.getRecent);
+router.get('/get-recent-msg/:username', controller.getRecentMsg);
 
 
 router.get('/thumbtest', (req, res) => {
@@ -15,8 +15,7 @@ router.get('/thumbtest', (req, res) => {
 
 
 router.get('/errtest', (req, res) => {
-    var e = new Error();
-    throw e;
+    res.json({test: 1})
 })
 
 export default router;

@@ -23,11 +23,11 @@ export const valid = (req, res) => {
 }
 
 
-export const getRecent = async (req, res) => {
+export const getRecentMsg = async (req, res) => {
     const username = req.params.username;
 
     try {
-        const messages = await Message.getRecent({username});
+        const messages = await Message.getRecent({channel: username});
 
         res.json({
             messages: messages.reverse()
