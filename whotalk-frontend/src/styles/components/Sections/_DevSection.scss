@@ -1,0 +1,69 @@
+.dev-section {
+
+        -moz-box-shadow:    inset  0  15px 15px -15px rgba(0,0,0,0.9);
+       -webkit-box-shadow: inset  0  15px 15px -15px rgba(0,0,0,0.9);
+        box-shadow:        inset  0  15px 15px -15px rgba(0,0,0,0.9);
+
+
+        border-top: 1px solid black;
+
+        color: white;
+        height: 300px;
+        position: relative;
+
+        .text-side {
+
+        }
+
+        .button-side {
+
+            .button {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        }
+
+        @include media("<=desktop") {
+
+           height: auto;
+           padding-bottom: 20px;
+
+            text-align: center;
+
+            .text-side {
+                padding-top: 30px;
+            }
+
+            .button-side {
+                display: inline-block;
+                .button {
+                    display: block;
+                    width: 260px;
+                }
+            }
+        }
+
+        @include media(">desktop") {
+            .text-side {
+                position: absolute;
+                top: 50%;
+                position: absolute;
+                left: 10vw;
+                transform: translateY(-50%);
+            }
+
+            .button-side {
+                position: absolute;
+                position: absolute;
+                top: 50%;
+                right: 10vw;
+                transform: translateY(-50%);
+
+                .button {
+                    display: block;
+                    width: 360px;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
