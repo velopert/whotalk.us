@@ -1,12 +1,12 @@
-import HomeScreen from './sections/HomeScreen';
-import InfoSection from './sections/InfoSection';
-import MainSection from './sections/MainSection';
-import DevSection from './sections/DevSection';
+import HomeScreen from './Sections/HomeScreen';
+import InfoSection from './Sections/InfoSection';
+import MainSection from './Sections/MainSection';
+import DevSection from './Sections/DevSection';
 
-import Background from './base/Background';
-import Header from './base/Header';
-import Footer from './base/Footer';
-import Dimmed from './base/Dimmed';
+import Background from './Base/Background';
+import Header from './Base/Header';
+import Footer from './Base/Footer';
+import Dimmed from './Base/Dimmed';
 
 import Login from './authentication/Login';
 import Register from './authentication/Register';
@@ -15,7 +15,7 @@ import AdditionalO from './authentication/AdditionalO';
 import OAuthFailure from './authentication/OAuthFailure';
 import OAuthSuccess from './authentication/OAuthSuccess';
 
-import Sidebar from './sidebar/Sidebar';
+import Sidebar from './Sidebar/Sidebar';
 
 import * as Channel from './Channel/';
 import * as Chat from './Chat/';
