@@ -25,3 +25,10 @@ export const getRecentMsg = (username) => ({
         promise: service.getRecentMsg(username)
     }
 });
+
+export const getMsgBefore = ({username, cursorId}) => ({
+    type: CHANNEL.GET_MSG_BEFORE,
+    payload: {
+        promise: service.getMsgBefore(username, cursorId)
+    }
+});

@@ -19,7 +19,6 @@ class ChannelCheck extends Component {
     async getChannelData() {
         const { params, pathname, ChannelActions, UIActions } = this.props;
 
-
         if(this.routes[pathname]) {
             return;
         }
@@ -27,6 +26,14 @@ class ChannelCheck extends Component {
         UIActions.setFooterVisibility(false);
         UIActions.initialize('channel');
         ChannelActions.initialize(params.username);
+    
+        try {
+            await ChannelActions.checkValidity(params.username);
+        } catch(e) {
+            if(!this.props.status.valid) {
+                this.context.router.transitionTo('/404');
+            }
+        }
     }
 
     componentDidMount() {

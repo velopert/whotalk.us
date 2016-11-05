@@ -36,3 +36,20 @@ export const getRecentMsg = async (req, res) => {
         throw error;
     }
 }
+
+
+export const getMsgBefore = async (req, res) => {
+    const username = req.params.username;
+    const cursorId = req.params.cursorId;
+
+    try {
+        const messages = await Message.getBefore({channel: username, cursorId});
+
+        res.json({
+            messages: messages.reverse()
+        });
+        
+    } catch (error) {
+        throw error;
+    }
+}

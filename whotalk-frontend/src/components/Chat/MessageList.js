@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import MessageChunk from './MessageChunk';
+import Loader from'./Loader';
 import autobind from 'autobind-decorator';
 import chunk from 'helpers/chunk';
 
@@ -27,11 +28,12 @@ class MessageList extends Component {
     }
 
     render() {
-        const {data} = this.props;
+        const {data, showLoader} = this.props;
         const {mapToChunks} = this;
 
         return (
             <div className="message-list">
+                { showLoader ? <Loader/> : undefined }
                 {mapToChunks(data)}
             </div>
         );

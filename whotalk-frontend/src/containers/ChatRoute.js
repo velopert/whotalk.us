@@ -55,6 +55,12 @@ class ChatRoute extends Component {
 
         try {
             await ChannelActions.getRecentMsg(params.username);
+            if(this.props.status.chatData.length > 0) {
+                await ChannelActions.getMsgBefore({
+                    username: params.username, 
+                    cursorId:  this.props.status.chatData[0].payload.suID
+                });
+            }
         } catch(e) {
             console.log(e);
         }
@@ -135,6 +141,11 @@ class ChatRoute extends Component {
         ChannelActions.removeMessage(index);
     }
 
+    @autobind
+    handleScroll(e) {
+        console.log(this.scrollBox.getScrollTop(), this.scrollBox.getScrollHeight());
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
 
         if (JSON.stringify(nextState.clientHeight) !== JSON.stringify(this.state.clientHeight)) {
@@ -175,8 +186,8 @@ class ChatRoute extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.status.chatData.length !== this.props.status.chatData.length || prevState.clientHeight !== this.state.clientHeight) {
             this.scrollToBottom();
+            console.log(this.scrollBox.getScrollTop(), this.scrollBox.getScrollHeight());
         }
-
     }
 
     render() {
@@ -189,7 +200,8 @@ class ChatRoute extends Component {
             handleCloseSelect,
             handleSend,
             handleFailure,
-            handleRemove
+            handleRemove,
+            handleScroll
         } = this;
 
         const showStartButton = !status.chatState.started;
@@ -205,11 +217,13 @@ class ChatRoute extends Component {
                     borderBottom: '1px solid rgba(0,0,0,0.10)'
                 }}
                     className="scrollbox"
+                    onScroll={handleScroll}
                     ref={(ref) => {
                     this.scrollBox = ref
                 }}>
                     <Chat.MessageList
                         data={status.chatData}
+                        showLoader={!status.top}
                         onFailure={handleFailure}
                         onRemove={handleRemove}
                         onSend={handleSend}/>
@@ -246,7 +260,8 @@ ChatRoute = connect(state => ({
         socket: state.channel.chat.socket,
         identity: state.channel.chat.identity,
         chatData: state.channel.chat.data,
-        tempDataIndex: state.channel.chat.tempDataIndex
+        tempDataIndex: state.channel.chat.tempDataIndex,
+        top: state.channel.chat.top
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

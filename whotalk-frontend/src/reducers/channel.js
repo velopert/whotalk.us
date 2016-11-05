@@ -38,7 +38,8 @@ const initialState = {
             controlled: false
         },
         data: [],
-        tempDataIndex: []
+        tempDataIndex: [],
+        top: true
     },
     requests: {
         checkValidity: {
@@ -50,8 +51,26 @@ const initialState = {
     }
 };
 
+function mapDataToMessages(data) {
+    return data.map(
+        (message) => {
+            return {
+                type: message.type,
+                payload: {
+                    anonymous: message.anonymous,
+                    date: Date.parse(message.date),
+                    suID: message.suID,
+                    username: message.username,
+                    message: message.message
+                }
+            }
+        }
+    );
+}
+
 function channel(state = initialState, action) {
     const payload = action.payload;
+    let messages = null;
 
     switch (action.type) {
 
@@ -255,27 +274,13 @@ function channel(state = initialState, action) {
             };
 
         case CHANNEL.GET_RECENT_MSG + '_FULFILLED':
-            const data = payload.data.messages;
-            const messages = data.map(
-                (message) => {
-                    return {
-                        type: message.type,
-                        payload: {
-                            anonymous: message.anonymous,
-                            date: Date.parse(message.date),
-                            suID: message.suID,
-                            username: message.username,
-                            message: message.message
-                        }
-                    }
-                }
-            );
-
+            messages = mapDataToMessages(payload.data.messages);
             return {
                 ...state,
                 chat: {
                     ...state.chat,
-                    data: [...messages]
+                    data: [...messages],
+                    top: messages.length < 40
                 },
                 requests: {
                     ...state.requests,
@@ -296,6 +301,43 @@ function channel(state = initialState, action) {
                 }
             };
             
+        /* GET_RECENT_MSG */
+        case CHANNEL.GET_MSG_BEFORE + '_PENDING':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getRecentMsg: {
+                        ...pending
+                    }
+                }
+            };
+
+        case CHANNEL.GET_MSG_BEFORE + '_FULFILLED':
+            messages = mapDataToMessages(payload.data.messages);
+            console.log(messages);
+
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getRecentMsg: {
+                        ...fulfilled
+                    }
+                }
+            };
+        
+        case CHANNEL.GET_MSG_BEFORE + '_REJECTED':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getRecentMsg: {
+                        ...rejected, error: payload 
+                    }
+                }
+            };
+
         default:
             return state;
     }

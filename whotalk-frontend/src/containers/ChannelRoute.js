@@ -54,10 +54,6 @@ class ChannelRoute extends Component {
                 .router
                 .transitionTo('/chat/' + this.props.params.username);
         }, 700);
-
-        // document.body.style.overflow = "hidden"; setTimeout(() => {
-        // UIActions.setChannelBoxState('closed');     document.body.style.overflow =
-        // "";     UIActions.setFooterVisibility(false); }, 300);
     }
 
     
