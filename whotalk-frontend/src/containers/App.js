@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Match} from 'react-router';
 import {Background, Dimmed, Header, Sidebar, Footer} from 'components';
-import {Home, Auth, ChannelCheck, NotFound} from 'containers';
+import {Home, Auth, ChannelCheck, ChatRoute, NotFound} from 'containers';
 import {connect} from 'react-redux';
 import {storage} from 'helpers';
 import {bindActionCreators} from 'redux';
@@ -154,6 +154,7 @@ class App extends Component {
                         <Match exactly pattern="/" component={Home}/>
                         <Match pattern="/auth" component={Auth}/>
                         <Match pattern="/:username" component={ChannelCheck}/>
+                        <Match pattern="/chat/:username" component={ChatRoute}/>
                         <Match pattern="/404" component={NotFound}/>
                     </div>
                     {ui.footer.show ? <Footer {...ui.footer}/> : undefined}

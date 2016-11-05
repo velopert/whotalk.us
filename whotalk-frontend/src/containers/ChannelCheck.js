@@ -5,17 +5,20 @@ import * as channel from 'actions/channel';
 import { setFooterVisibility, initialize } from 'actions/ui';
 import { bindActionCreators } from 'redux';
 import { Spinner } from 'components';
+import autobind from 'autobind-decorator';
 
 class ChannelCheck extends Component {
 
     routes = {
         '/auth': true,
-        '/404': true
+        '/404': true,
+        '/chat': true
     }
 
-    async componentDidMount() {
-
+    @autobind
+    async getChannelData() {
         const { params, pathname, ChannelActions, UIActions } = this.props;
+
 
         if(this.routes[pathname]) {
             return;
@@ -32,9 +35,21 @@ class ChannelCheck extends Component {
                 this.context.router.transitionTo('/404');
             }
         }
-
-       
     }
+
+    componentDidMount() {
+        this.getChannelData();
+    }
+
+
+
+    componentDidUpdate(prevProps, prevState) {
+        // handle goBack
+        if(this.props.pathname !== prevProps.pathname) {
+            this.getChannelData();
+        }
+    }
+    
     
     
     render() {
@@ -43,6 +58,7 @@ class ChannelCheck extends Component {
 
         // if params is one of the routes, show nothing.
         if(this.routes[pathname]) {
+            console.log('a');
             return <div/>
         } 
 
@@ -51,6 +67,7 @@ class ChannelCheck extends Component {
         }
 
         if (!status.valid) {
+            console.log('b');
             return <div/>
         }
 

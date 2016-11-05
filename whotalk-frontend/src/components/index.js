@@ -18,11 +18,13 @@ import OAuthSuccess from './authentication/OAuthSuccess';
 import Sidebar from './sidebar/Sidebar';
 
 import * as Channel from './Channel/';
+import * as Chat from './Chat/';
 
 import Spinner from './Spinner';
 
 
 import * as Common from './Common';
+
 
 export { 
     Background, 
@@ -42,5 +44,6 @@ export {
     Dimmed,
     Spinner,
     Channel,
+    Chat,
     Common
 }
