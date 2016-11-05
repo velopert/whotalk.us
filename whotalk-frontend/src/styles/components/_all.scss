@@ -1,11 +1,13 @@
-@import 'sections/all';
+@import 'Auth/all';
+@import 'Base/all';
+@import 'Channel/all';
+@import 'Chat/all';
+@import 'Sections/all';
+
 @import 'App';
-@import 'Background';
-@import 'Header';
 @import 'Home';
-@import 'Footer';
-@import 'authentication/all';
-@import 'Dimmed';
 @import 'Sidebar';
 @import 'NotFound';
-@import 'Channel/all';
+
+
+

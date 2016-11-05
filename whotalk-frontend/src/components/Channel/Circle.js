@@ -1,3 +1,3 @@
-import Circle from '../sidebar/Circle';
+import Circle from '../Sidebar/Circle';
 
 export default Circle;

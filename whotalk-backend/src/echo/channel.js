@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import Message from './../models/message.js';
 
 let sockets = null;
 const channels = {};
@@ -55,10 +56,20 @@ function Channel(name) {
     };
 
     //broadcast the data to this Channel
-    this.broadcast = (data) => {
+    this.broadcast = async (data) => {
         for(let i = 0; i < this.users.length; i++) {
             emit(sockets[this.users[i]], data);
         }
+        
+        //({suID, type, channel, anonymous, username, message}
+        await Message.write({
+            suID: data.payload.suID,
+            type: data.type,
+            channel: this.name,
+            anonymous: data.payload.anonymous,
+            username: data.payload.username,
+            message: data.payload.message
+        });
     }
 
     this.countUser = (username) => {
