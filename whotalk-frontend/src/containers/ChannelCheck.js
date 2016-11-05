@@ -58,7 +58,6 @@ class ChannelCheck extends Component {
 
         // if params is one of the routes, show nothing.
         if(this.routes[pathname]) {
-            console.log('a');
             return <div/>
         } 
 
@@ -67,7 +66,6 @@ class ChannelCheck extends Component {
         }
 
         if (!status.valid) {
-            console.log('b');
             return <div/>
         }
 

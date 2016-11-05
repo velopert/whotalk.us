@@ -32,9 +32,9 @@ class ChatRoute extends Component {
     }
 
     componentDidMount() {
-        const {UIActions, ChannelActions} = this.props;
+        const {params, UIActions, ChannelActions} = this.props;
         UIActions.initialize('channel');
-        ChannelActions.initialize();
+        ChannelActions.initialize(params.username);
         UIActions.setHeaderTransparency(false);
         UIActions.setFooterVisibility(false);
 

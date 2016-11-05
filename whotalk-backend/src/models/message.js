@@ -15,7 +15,7 @@ const Message = new Schema({
 Message.statics.getRecent = function({channel}) {
     return this.find({channel})
     .sort({"suID": -1})
-    .limit(20)
+    .limit(40)
     .exec();
 }
 
