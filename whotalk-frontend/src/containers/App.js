@@ -14,6 +14,10 @@ import notify from 'helpers/notify';
 
 class App extends Component {
 
+    static contextTypes = {
+        router: React.PropTypes.object
+    }
+
     constructor(props) {
         super(props);
         let session = storage.get('session');
@@ -168,6 +172,7 @@ class App extends Component {
     }
     
 }
+
 
 App = connect(state => ({
     status: {

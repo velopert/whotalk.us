@@ -65,7 +65,13 @@ class Login extends Component {
              return;
         }
 
-        this.leaveTo({path: '/'});
+        if(this.props.location.state) {
+            this.leaveTo({path: this.props.location.state.prevPath})
+        } else {
+            this.leaveTo({path: '/'});
+        }
+
+        
         //toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
         notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`});
         storage.set('session', this.props.status.session);

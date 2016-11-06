@@ -151,15 +151,15 @@ class Auth extends Component {
         return (
             <div>
                 <div className="fullscreen-container">
-                <Match exactly pattern={pathname} component={LoginRoute}/>
-                <Match pattern={`${pathname}/login`} component={LoginRoute}/>
-                <Match exactly pattern={`${pathname}/register`} component={RegisterRoute}/>
-                <Match pattern={`${pathname}/register/additional`} component={AdditionalRoute}/>
+                <Match exactly pattern={pathname} component={LoginRoute} location={this.props.location}/>
+                <Match pattern={`${pathname}/login`} component={LoginRoute} location={this.props.location}/>
+                <Match exactly pattern={`${pathname}/register`} component={RegisterRoute} location={this.props.location}/>
+                <Match pattern={`${pathname}/register/additional`} component={AdditionalRoute} location={this.props.location}/>
                 <Match
                     pattern={`${pathname}/register/additional-o`}
                     component={AdditionalORoute}/>
-                <Match pattern={`${pathname}/oauth-failure`} component={OAuthFailure}/>
-                <Match pattern={`${pathname}/oauth-success`} component={OAuthSuccessRoute}/>
+                <Match pattern={`${pathname}/oauth-failure`} component={OAuthFailure} location={this.props.location}/>
+                <Match pattern={`${pathname}/oauth-success`} component={OAuthSuccessRoute} location={this.props.location}/>
                 </div>
             </div>
         );
