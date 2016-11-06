@@ -168,6 +168,7 @@ function auth(state=initialState, action) {
                     localLogin: { ...fulfilled }
                 },
                 session: {
+                    ...state.session,
                     user: payload.data.user,
                     logged: true
                 }
