@@ -2,8 +2,8 @@ import React from 'react';
 
 const Start = ({onClick, disabled}) => {
     return (
-        <div className="start" onClick={onClick}>
-            <button className={`ui pink button ${disabled?'loading':''}`} disabled={disabled}>START TALKING</button>
+        <div className="start">
+            <button className={`ui pink button ${disabled?'loading':''}`} disabled={disabled} onClick={onClick}>START TALKING</button>
         </div>
     );
 };

@@ -23,7 +23,9 @@ class ChatRoute extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            clientHeight: 0
+            clientHeight: 0,
+            prevScrollHeight: 0,
+            loading: false
         };
     }
 
@@ -55,17 +57,28 @@ class ChatRoute extends Component {
 
         try {
             await ChannelActions.getRecentMsg(params.username);
-            if(this.props.status.chatData.length > 0) {
-                await ChannelActions.getMsgBefore({
-                    username: params.username, 
-                    cursorId:  this.props.status.chatData[0].payload.suID
-                });
-            }
         } catch(e) {
             console.log(e);
         }
 
         socket.init();
+    }
+
+    @autobind
+    async loadPrevious() {
+        const {ChannelActions, params} = this.props;
+        const prevScrollHeight = this.state.prevScrollHeight;
+        await ChannelActions.getMsgBefore({
+            username: params.username,
+            cursorId: this.props.status.chatData[0].payload.suID
+        });
+
+        const scrollHeight = this.scrollBox.getScrollHeight();
+        
+        this.scrollBox.scrollTop(scrollHeight - prevScrollHeight);
+        this.setState({
+            loading: false
+        });
     }
 
     @autobind
@@ -79,7 +92,6 @@ class ChatRoute extends Component {
     @autobind
     updateClientHeight() {
         this.setState({clientHeight: document.body.clientHeight});
-
     }
 
     @autobind
@@ -143,13 +155,34 @@ class ChatRoute extends Component {
 
     @autobind
     handleScroll(e) {
-        console.log(this.scrollBox.getScrollTop(), this.scrollBox.getScrollHeight());
+
+        const scrollTop = this.scrollBox.getScrollTop();
+        const scrollHeight = this.scrollBox.getScrollHeight();
+        const clientHeight = this.scrollBox.getClientHeight();
+
+        if(scrollTop < 60 && !this.state.loading && !this.props.status.top) {
+            console.log('loading!');
+            this.setState({
+                loading: true,
+                prevScrollHeight: scrollHeight
+            });
+            this.loadPrevious();
+        }
+
+        console.log(scrollTop, scrollHeight, clientHeight)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
 
-        if (JSON.stringify(nextState.clientHeight) !== JSON.stringify(this.state.clientHeight)) {
+        // update when client resize
+        if (nextState.clientHeight !== this.state.clientHeight) {
             return true;
+        }
+
+        // loading status won't affect rendering
+        // prevScrollHeight won't affect rendering'
+        if (nextState.loading !== this.state.loading) {
+            return false;
         }
 
         const checkDiff = () => {
@@ -184,10 +217,20 @@ class ChatRoute extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+
+        const scrollHeight = this.scrollBox.getScrollHeight();
+
         if (prevProps.status.chatData.length !== this.props.status.chatData.length || prevState.clientHeight !== this.state.clientHeight) {
-            this.scrollToBottom();
-            console.log(this.scrollBox.getScrollTop(), this.scrollBox.getScrollHeight());
+            const scrollTop = this.scrollBox.getScrollTop();
+            const clientHeight = this.scrollBox.getClientHeight();
+            if(scrollHeight - scrollTop - clientHeight < 100 || this.state.prevScrollHeight - clientHeight < 100) {
+                this.scrollToBottom();
+            }
         }
+
+        this.setState({
+            prevScrollHeight: scrollHeight
+        });
     }
 
     render() {

@@ -315,10 +315,14 @@ function channel(state = initialState, action) {
 
         case CHANNEL.GET_MSG_BEFORE + '_FULFILLED':
             messages = mapDataToMessages(payload.data.messages);
-            console.log(messages);
 
             return {
                 ...state,
+                chat: {
+                    ...state.chat,
+                    data: [...messages, ...state.chat.data],
+                    top: messages.length < 40
+                },
                 requests: {
                     ...state.requests,
                     getRecentMsg: {
