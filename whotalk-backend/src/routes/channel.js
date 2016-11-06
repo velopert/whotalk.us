@@ -6,6 +6,10 @@ const router = express.Router();
 
 router.get('/valid/:username', controller.valid);
 
+router.get('/follow/:followee', controller.follow);
+router.get('/get-followers/:followee', controller.getFollowers);
+router.get('/get-followers-after/:followee/:cursorId', controller.getFollowersAfter);
+
 router.get('/get-recent-msg/:username', controller.getRecentMsg);
 router.get('/get-msg-before/:username/:cursorId', controller.getMsgBefore);
 router.get('/get-msg-between/:username/:startId/:endId', controller.getMsgBetween);

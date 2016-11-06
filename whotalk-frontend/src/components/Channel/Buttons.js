@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Buttons = ({onEnter, disableFollow}) => {
+const Buttons = ({onEnter, onFollow, disableFollow}) => {
     return (
         <div className="ui grid stackable buttons">
             <div className="ten wide column">
@@ -10,7 +10,7 @@ const Buttons = ({onEnter, disableFollow}) => {
                 </button>
             </div>
             <div className="six wide column">
-                <button className="ui inverted button grey" disabled={disableFollow}>
+                <button className="ui inverted button grey" disabled={disableFollow} onClick={onFollow}>
                      <i className="add user icon"></i>
                     FOLLOW
                 </button>

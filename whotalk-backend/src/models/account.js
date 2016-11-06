@@ -45,4 +45,4 @@ Account.statics.findUserByGoogleId = function(id) {
     return this.findOne({ 'o_auth.google.id' : id });
 }
 
-export default mongoose.model('account', Account);
+export default mongoose.model('Account', Account);

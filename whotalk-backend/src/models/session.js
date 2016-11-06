@@ -6,4 +6,4 @@ const Session = new Schema({
     expires: Schema.Types.Mixed
 });
 
-export default mongoose.model('session', Session);
+export default mongoose.model('Session', Session);

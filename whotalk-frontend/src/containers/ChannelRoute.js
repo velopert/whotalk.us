@@ -2,16 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Channel} from 'components';
-const Chat = Channel.Chat;
 import * as ui from 'actions/ui';
 import * as form from 'actions/form';
 import * as channel from 'actions/channel';
 import autobind from 'autobind-decorator';
-import sender from 'socket/packetSender';
 
-import * as socket from 'socket';
-import * as socketHelper from 'socket/helper';
-import {client as SEND} from 'socket/packetTypes';
+import notify from 'helpers/notify';
 
 class ChannelRoute extends Component {
 
@@ -38,6 +34,19 @@ class ChannelRoute extends Component {
     }
 
     @autobind
+    handleFollow() {
+        const { status } = this.props;
+        if(!status.session.logged) {
+            this.context.router.transitionTo({
+                pathname: '/auth',
+                state: { prevPath: location.pathname }
+            });
+            notify({type: 'warning', message: 'You are not logged in'});
+            return;
+        }
+    }
+
+    @autobind
     handleCloseBox() {
         const {UIActions} = this.props;
 
@@ -56,14 +65,10 @@ class ChannelRoute extends Component {
         }, 700);
     }
 
-    
-
-
-
-
     render() {
         const {params, pathname, status} = this.props;
         const {
+            handleFollow,
             handleCloseBox
         } = this;
 
@@ -77,7 +82,8 @@ class ChannelRoute extends Component {
                     <Channel.Info/>
                     <Channel.Buttons
                         onEnter={handleCloseBox}
-                        disableFollow={status.session.user.common_profile.username === params.username}/>
+                        onFollow={handleFollow}
+                        disableFollow={status.session.user.common_profile.username === params.username }/>
                 </Channel.Box>
             </div>
         );

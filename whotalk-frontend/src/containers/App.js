@@ -96,7 +96,7 @@ class App extends Component {
         if (session) {
             if (session.expired) {
                 //toastr.error('Your session is expired');
-                notify({type: 'error', messsage: 'Your session is expired'});
+                notify({type: 'error', message: 'Your session is expired'});
                 storage.set('session', {
                     ...session,
                     expired: false
