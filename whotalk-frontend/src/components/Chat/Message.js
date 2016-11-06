@@ -2,11 +2,18 @@ import React, {Component, PropTypes} from 'react';
 import DateSeparator from './DateSeparator';
 import Thumbnail from './Thumbnail';
 import anonymousThumbnail from 'assets/anonymous.png';
+import autobind from 'autobind-decorator';
 
 function printTime(d) {
     var hh = ("0" + d.getHours() % 12).slice(0, 2);
     var mm = ("0" + d.getMinutes()).slice(0, 2);
     return hh + ":" + mm;
+}
+
+function charSum(str) {
+    let sum = 0;
+    str.split('').forEach(char=>{sum+=char.charCodeAt(0)});
+    return sum;
 }
 
 class Message extends Component {
@@ -21,9 +28,19 @@ class Message extends Component {
         previous: PropTypes.object
     }
 
+    
+
     constructor(props) {
         super(props);
         this.timeoutId = null;
+    }
+
+    @autobind
+    generateColor(username) {
+        let alteredCharSum = Math.pow(charSum(this.props.channel) + 31 * charSum(username), 3) + '';
+        alteredCharSum = alteredCharSum.slice(-6);
+        let rgb = alteredCharSum.match(/.{1,2}/g).map(s=>90 + parseInt(s));
+        return {color: `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`};
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -64,6 +81,8 @@ class Message extends Component {
             onRemove,
             onSend
         } = this.props;
+
+        const { generateColor } = this;
 
         const isEvent = type !== 'MSG';
 
@@ -107,7 +126,7 @@ class Message extends Component {
                                     ? anonymousThumbnail
                                     : thumbnail}/>
                                 <div className="info-text">
-                                    <span className="username">{username}</span>
+                                    <span className="username" style={generateColor(username)}>{username}</span>
                                     {anonymous
                                         ? (
                                             <span className="anonymous">(anonymous)</span>

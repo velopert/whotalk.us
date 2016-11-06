@@ -20,6 +20,7 @@ class MessageList extends Component {
             onFailure={this.props.onFailure}
             onRemove={this.props.onRemove}
             onSend={this.props.onSend}
+            channel={this.props.channel}
         />));
 
         console.timeEnd("mapToChunks");

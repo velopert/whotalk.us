@@ -235,7 +235,7 @@ class ChatRoute extends Component {
 
     render() {
 
-        const {status} = this.props;
+        const {status, params} = this.props;
 
         const {
             handleOpenSelect,
@@ -266,6 +266,7 @@ class ChatRoute extends Component {
                 }}>
                     <Chat.MessageList
                         data={status.chatData}
+                        channel={params.username}
                         showLoader={!status.top}
                         onFailure={handleFailure}
                         onRemove={handleRemove}
