@@ -17,3 +17,9 @@ export const getMsgBefore = (username, cursorId) => {
         url: `/api/channel/get-msg-before/${username}/${cursorId}`
     });
 }
+
+export const getMsgBetween = (username, startId, endId) => {
+    return request({
+        url: `/api/channel/get-msg-between/${username}/${startId}/${endId}`
+    });
+}

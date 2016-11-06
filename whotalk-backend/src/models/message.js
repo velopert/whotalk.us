@@ -26,6 +26,14 @@ Message.statics.getBefore = function({channel, cursorId}) {
     .exec();
 }
 
+Message.statics.getBetween = function({channel, startId, endId}) {
+    return this.find({channel, suID: {$gt: startId, $lt: endId}})
+    .sort({_id: -1})
+    .limit(20)
+    .exec();
+}
+
+
 Message.statics.getAfter = function({channel, cursorId}) {
     return this.find({channel, suID: {$gt: cursorId}})
     .sort({_id: -1})

@@ -12,8 +12,23 @@ let workDelay = 50;
 let timeoutId = null;
 let avgTimeoutId = null;
 
-function work() {
+async function work() {
     if(packets.length > 0) {
+        const chat = store.getState().channel.chat;
+        const username = store.getState().channel.info.username;
+        
+        if(chat.lastInitId && !chat.loadedBetween) {
+            try {
+                await store.dispatch(channel.getMsgBetween({
+                    username,
+                    startId: chat.lastInitId,
+                    endId: packets[0].payload.suID
+                }));
+            } catch (error) {
+                
+            }
+        }
+
         store.dispatch(channel.receiveRealtimeData(packets));
         packets = [];
     }

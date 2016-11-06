@@ -39,13 +39,21 @@ const initialState = {
         },
         data: [],
         tempDataIndex: [],
-        top: true
+        top: true,
+        lastInitId: null,
+        loadedBetween: false
     },
     requests: {
         checkValidity: {
             ...request
         },
         getRecentMsg: {
+            ...request
+        },
+        getMsgBefore: {
+            ...request
+        },
+        getMsgBetween: {
             ...request
         }
     }
@@ -275,12 +283,16 @@ function channel(state = initialState, action) {
 
         case CHANNEL.GET_RECENT_MSG + '_FULFILLED':
             messages = mapDataToMessages(payload.data.messages);
+            if(payload.data.messages.length === 0) {
+                return state;
+            }
             return {
                 ...state,
                 chat: {
                     ...state.chat,
                     data: [...messages],
-                    top: messages.length < 40
+                    top: messages.length < 40,
+                    lastInitId: messages[messages.length-1].payload.suID
                 },
                 requests: {
                     ...state.requests,
@@ -301,13 +313,13 @@ function channel(state = initialState, action) {
                 }
             };
             
-        /* GET_RECENT_MSG */
+        /* GET_MSG_BEFORE */
         case CHANNEL.GET_MSG_BEFORE + '_PENDING':
             return {
                 ...state,
                 requests: {
                     ...state.requests,
-                    getRecentMsg: {
+                    getMsgBefore: {
                         ...pending
                     }
                 }
@@ -325,7 +337,7 @@ function channel(state = initialState, action) {
                 },
                 requests: {
                     ...state.requests,
-                    getRecentMsg: {
+                    getMsgBefore: {
                         ...fulfilled
                     }
                 }
@@ -336,12 +348,58 @@ function channel(state = initialState, action) {
                 ...state,
                 requests: {
                     ...state.requests,
-                    getRecentMsg: {
+                    getMsgBefore: {
                         ...rejected, error: payload 
                     }
                 }
             };
 
+        /* GET_RECENT_MSG */
+        case CHANNEL.GET_MSG_BETWEEN + '_PENDING':
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    loadedBetween: true
+                },
+                requests: {
+                    ...state.requests,
+                    getMsgBetween: {
+                        ...pending
+                    }
+                }
+            };
+
+        case CHANNEL.GET_MSG_BETWEEN + '_FULFILLED':
+            messages = mapDataToMessages(payload.data.messages);
+            if(payload.data.messages.length === 0) {
+                return state;
+            }
+
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    data: [...state.chat.data, ...messages]
+                },
+                requests: {
+                    ...state.requests,
+                    getMsgBetween: {
+                        ...fulfilled
+                    }
+                }
+            };
+        
+        case CHANNEL.GET_MSG_BETWEEN + '_REJECTED':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getMsgBetween: {
+                        ...rejected, error: payload 
+                    }
+                }
+            };
         default:
             return state;
     }

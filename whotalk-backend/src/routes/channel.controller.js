@@ -53,3 +53,22 @@ export const getMsgBefore = async (req, res) => {
         throw error;
     }
 }
+
+export const getMsgBetween = async (req, res) => {
+    const username = req.params.username;
+    const startId = req.params.startId;
+    const endId = req.params.endId;
+
+    try {
+        const messages = await Message.getBetween({
+            channel: username,
+            startId,
+            endId
+        });
+        res.json({
+            messages: messages.reverse()
+        });
+    } catch (error) {
+        throw error;
+    }
+}

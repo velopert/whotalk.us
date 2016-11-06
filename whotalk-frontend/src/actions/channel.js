@@ -32,3 +32,10 @@ export const getMsgBefore = ({username, cursorId}) => ({
         promise: service.getMsgBefore(username, cursorId)
     }
 });
+
+export const getMsgBetween = ({username, startId, endId}) => ({
+    type: CHANNEL.GET_MSG_BETWEEN,
+    payload: {
+        promise: service.getMsgBetween(username, startId, endId)
+    }
+});
