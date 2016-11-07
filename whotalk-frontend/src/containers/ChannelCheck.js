@@ -28,7 +28,7 @@ class ChannelCheck extends Component {
         ChannelActions.initialize(params.username);
     
         try {
-            await ChannelActions.checkValidity(params.username);
+            await ChannelActions.checkInfo(params.username);
         } catch(e) {
             if(!this.props.status.valid) {
                 this.context.router.transitionTo('/404');
@@ -82,7 +82,7 @@ ChannelCheck = connect(
     state => ({
         status: {
             valid: state.channel.valid,
-            checking: state.channel.requests.checkValidity.fetching
+            checking: state.channel.requests.checkInfo.fetching
         }
     }),
     dispatch => ({
