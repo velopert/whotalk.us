@@ -25,6 +25,13 @@ Follow.statics.follow = function({followee, follower}) {
     return follow.save();
 }
 
+Follow.statics.unfollow = async function(followId) {
+    const follow = await this.findById(followId).exec();
+    follow.end = new Date();
+
+    return follow.save();
+}
+
 Follow.statics.checkFollow = function({followee, follower}) {
     return this.findOne({
         follower,
