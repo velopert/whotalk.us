@@ -1,8 +1,8 @@
 import request from 'helpers/request';
 
-export const checkValidity = (username) => {
+export const checkInfo = (username) => {
     return request({
-        url: '/api/channel/valid/' + username
+        url: '/api/channel/info/' + username
     });
 }
 

@@ -44,7 +44,7 @@ const initialState = {
         loadedBetween: false
     },
     requests: {
-        checkValidity: {
+        checkInfo: {
             ...request
         },
         getRecentMsg: {
@@ -100,40 +100,40 @@ function channel(state = initialState, action) {
                 }
             };
 
-        /* CHECK_VALIDITY */
-        case CHANNEL.CHECK_VALIDITY + '_PENDING':
+        /* CHECK_INFO */
+        case CHANNEL.CHECK_INFO + '_PENDING':
             return {
                 ...state,
                 valid: false,
                 requests: {
                     ...state.requests,
-                    checkValidity: {
+                    checkInfo: {
                         ...pending
                     }
                 }
             };
 
-        case CHANNEL.CHECK_VALIDITY + '_FULFILLED':
+        case CHANNEL.CHECK_INFO + '_FULFILLED':
             return {
                 ...state,
                 valid: true,
                 info: { ... state.info, ...payload.data.info },
                 requests: {
                     ...state.requests,
-                    checkValidity: {
+                    checkInfo: {
                         ...fulfilled
                     }
                 }
             };
         
-        case CHANNEL.CHECK_VALIDITY + '_REJECTED':
+        case CHANNEL.CHECK_INFO + '_REJECTED':
             return {
                 ...state,
                 valid: false,
                 info: {...initialState.info},
                 requests: {
                     ...state.requests,
-                    checkValidity: {
+                    checkInfo: {
                         ...rejected, error: payload 
                     }
                 }

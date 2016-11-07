@@ -5,10 +5,10 @@ import * as service from 'services/channel';
 
 export const initialize = createAction(CHANNEL.INITIALIZE);
 export const setIdentity = createAction(CHANNEL.SET_IDENTITY);
-export const checkValidity = (username) => ({
-    type: CHANNEL.CHECK_VALIDITY,
+export const checkInfo = (username) => ({
+    type: CHANNEL.CHECK_INFO,
     payload: {
-        promise: service.checkValidity(username)
+        promise: service.checkInfo(username)
     }
 });
 
