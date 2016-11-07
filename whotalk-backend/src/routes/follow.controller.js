@@ -118,6 +118,7 @@ export const unfollow = async (req, res) => {
         }
     } catch (error) {
         throw error;
+        return;
     }
 
     // unfollow
@@ -126,7 +127,12 @@ export const unfollow = async (req, res) => {
         res.json({success: true});
     } catch (error) {
         throw error;
+        return;
     }
+}
+
+export const checkFollowing = async (req, res) => {
+    
 }
 
 export const getFollowers = async (req, res) => {
@@ -163,38 +169,35 @@ export const getFollowersAfter = async (req, res) => {
     const cursorId = req.params.cursorId;
 
     // CHECK MEMO ID VALIDITY
-    if(!mongoose.Types.ObjectId.isValid(cursorId)) {
+    if (!mongoose.Types.ObjectId.isValid(cursorId)) {
         return res.status(400).json({
             error: "INVALID ID",
             code: 0
         });
     }
-    
+
     // query the account
     let account = null;
 
     try {
         account = await Account.findUser(followee);
-    } catch (error) {
-        throw error;
-    }
 
-    if (!account) {
-        return res
-            .status(404)
-            .json({code: 1, message: 'USER NOT FOUND'});
-    }
+        if (!account) {
+            return res
+                .status(404)
+                .json({ code: 1, message: 'USER NOT FOUND' });
+        }
 
-    try {
+
         const followers = await Follow.getFollowersAfter({
             followee: account._id,
             cursorId: mongoose
                 .Types
                 .ObjectId(cursorId)
         });
-        res.json({followers})
+
+        res.json({ followers })
     } catch (error) {
         throw error;
     }
-
 }
