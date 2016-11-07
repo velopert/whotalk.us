@@ -8,18 +8,18 @@ export const checkValidity = (username) => {
 
 export const getRecentMsg = (username) => {
     return request({
-        url: '/api/channel/get-recent-msg/' + username
+        url: '/api/message/recent/' + username
     });
 }
 
 export const getMsgBefore = (username, cursorId) => {
     return request({
-        url: `/api/channel/get-msg-before/${username}/${cursorId}`
+        url: `/api/message/before/${username}/${cursorId}`
     });
 }
 
 export const getMsgBetween = (username, startId, endId) => {
     return request({
-        url: `/api/channel/get-msg-between/${username}/${startId}/${endId}`
+        url: `/api/message/between/${username}/${startId}/${endId}`
     });
 }
