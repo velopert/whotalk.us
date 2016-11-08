@@ -144,7 +144,7 @@ class App extends Component {
 
         return (
             <Router>
-                <div className={`root ${ui.sidebar.show ? 'open-sidebar' : ''}`}>
+                <div className="root">
                     <Background/>
                     <Sidebar 
                         open={ui.sidebar.show}

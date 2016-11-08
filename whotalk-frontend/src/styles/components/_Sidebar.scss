@@ -9,8 +9,12 @@ div.sidebar {
     //transform: translateX(-300px);
     transition: all .5s ease;
     overflow-x: hidden;
+    z-index: 100;
+    opacity: 0;
+
     &.open {
         //transform: translateX(0px);
+        opacity: 1;
         width: 280px;
     }
     .sidebar-top {
