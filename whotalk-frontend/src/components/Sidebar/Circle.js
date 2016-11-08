@@ -1,5 +1,5 @@
 import React from 'react';
-import userThumbnail from 'assets/user.png';
+import userThumbnail from 'assets/user.svg';
 
 const Circle = ({image}) => (
     <div className="circle">
