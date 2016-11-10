@@ -27,6 +27,13 @@ class App extends Component {
                 logged: false
             });
         }
+    }    
+
+    @autobind
+    updateClientHeight() {
+        const { UIActions } = this.props;
+
+        UIActions.updateClientHeight(document.body.clientHeight);
     }
 
     @autobind
@@ -55,24 +62,25 @@ class App extends Component {
 
 
         if(window.location.pathname === "/") {
+            console.log((window.innerHeight - window.scrollY)/ window.innerHeight)
             /* HIDE & SHOW HEADER BAR */
-            if(window.innerHeight - window.scrollY <= 50 && ui.header.transparent) {
+            if(window.innerHeight - window.scrollY <= window.innerHeight*0.90 && ui.header.transparent) {
                 UIActions.setHeaderTransparency(false);
             }
 
             /* HIDE & SHOW HEADER BAR */
-            if(window.innerHeight - window.scrollY > 50 && !ui.header.transparent) {
+            if(window.innerHeight - window.scrollY > window.innerHeight*0.90 && !ui.header.transparent) {
                 UIActions.setHeaderTransparency(true);
             }
 
-            if(window.innerHeight - window.scrollY <= 100 && ui.like) {
-                UIActions.setLikeTransparency(false);
-            }
+            // if(window.innerHeight - window.scrollY <= 100 && ui.like) {
+            //     UIActions.setLikeTransparency(false);
+            // }
 
-            /* HIDE & SHOW HEADER BAR */
-            if(window.innerHeight - window.scrollY > 100 && !ui.like) {
-                UIActions.setLikeTransparency(true);
-            }
+            // /* HIDE & SHOW HEADER BAR */
+            // if(window.innerHeight - window.scrollY > 100 && !ui.like) {
+            //     UIActions.setLikeTransparency(true);
+            // }
         }
     }
 
@@ -90,6 +98,9 @@ class App extends Component {
         scrollSpy.update();
 
         window.addEventListener('scroll', this.handleScroll);
+        
+        window.addEventListener("resize", this.updateClientHeight);
+        this.updateClientHeight();
 
         let session = storage.get('session');
 
@@ -138,6 +149,10 @@ class App extends Component {
     }
     
 
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateClientHeight);
+    }
+    
     render() {
         const { ui, status } = this.props;
         const { handleSidebarToggle, handleLogout } = this;
@@ -194,7 +209,8 @@ App = connect(state => ({
         setHeaderTransparency: ui.setHeaderTransparency,
         setLikeTransparency: ui.setLikeTransparency,
         setFooterSpace: ui.setFooterSpace,
-        setFooterVisibility: ui.setFooterVisibility
+        setFooterVisibility: ui.setFooterVisibility,
+        updateClientHeight: ui.updateClientHeight
     }, dispatch)
 }))(App);
 

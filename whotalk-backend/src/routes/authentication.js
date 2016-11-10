@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
 router.get('/success', (req, res) => {
     //res.json({user: req.user});
     if (process.env.NODE_ENV === 'development') {
+        console.log('doing sth');
         let url = req.protocol + '://' + req.get('host');
         url = url.replace(process.env.PORT, process.env.DEVPORT);
 

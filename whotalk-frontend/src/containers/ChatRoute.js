@@ -29,10 +29,6 @@ class ChatRoute extends Component {
         };
     }
 
-    componentWillMount() {
-        this.updateClientHeight();
-    }
-
     componentDidMount() {
         const {params, UIActions, ChannelActions} = this.props;
         UIActions.initialize('channel');
@@ -46,7 +42,6 @@ class ChatRoute extends Component {
             document.body.style.overflow = ""
         }, 700);
 
-        window.addEventListener("resize", this.updateClientHeight);
 
         this.connectToChannel();
     }
@@ -88,11 +83,7 @@ class ChatRoute extends Component {
             .scrollBox
             .scrollTop(this.scrollBox.getScrollHeight());
     }
-
-    @autobind
-    updateClientHeight() {
-        this.setState({clientHeight: document.body.clientHeight});
-    }
+    
 
     @autobind
     handleOpenSelect() {
@@ -175,7 +166,7 @@ class ChatRoute extends Component {
     shouldComponentUpdate(nextProps, nextState) {
 
         // update when client resize
-        if (nextState.clientHeight !== this.state.clientHeight) {
+        if (nextProps.status.clientHeight !== this.props.status.clientHeight) {
             return true;
         }
 
@@ -220,7 +211,7 @@ class ChatRoute extends Component {
 
         const scrollHeight = this.scrollBox.getScrollHeight();
 
-        if (prevProps.status.chatData.length !== this.props.status.chatData.length || prevState.clientHeight !== this.state.clientHeight) {
+        if (prevProps.status.chatData.length !== this.props.status.chatData.length) {
             const scrollTop = this.scrollBox.getScrollTop();
             const clientHeight = this.scrollBox.getClientHeight();
             if(scrollHeight - scrollTop - clientHeight < 100 || this.state.prevScrollHeight - clientHeight < 100) {
@@ -256,7 +247,7 @@ class ChatRoute extends Component {
                 <Scrollbars
                     style={{
                     width: '100%',
-                    height: this.state.clientHeight - 120 + 'px',
+                    height: status.clientHeight - 120 + 'px',
                     borderBottom: '1px solid rgba(0,0,0,0.10)'
                 }}
                     className="scrollbox"
@@ -291,8 +282,6 @@ class ChatRoute extends Component {
         if (socket.getSocket()) {
             socket.close();
         }
-
-        window.removeEventListener("resize", this.updateClientHeight);
     }
 
 }
@@ -305,7 +294,8 @@ ChatRoute = connect(state => ({
         identity: state.channel.chat.identity,
         chatData: state.channel.chat.data,
         tempDataIndex: state.channel.chat.tempDataIndex,
-        top: state.channel.chat.top
+        top: state.channel.chat.top,
+        clientHeight: state.ui.clientHeight
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

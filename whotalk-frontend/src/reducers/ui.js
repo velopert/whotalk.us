@@ -23,7 +23,8 @@ const initialState = {
             selecting: false,
             closing: false
         }
-    }
+    },
+    clientHeight: null
 };
 
 function ui(state=initialState, action) {
@@ -97,9 +98,13 @@ function ui(state=initialState, action) {
                     }
                 }
             }
+        case UI.UPDATE_CLIENT_HEIGHT:
+            return {
+                ...state,
+                clientHeight: payload
+            };
         default: 
             return state;
-            
     }
 }
 

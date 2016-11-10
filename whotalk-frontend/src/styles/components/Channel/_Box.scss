@@ -2,16 +2,11 @@
     box-shadow: 0px -15px 15px -15px rgba(0, 0, 0, .85);
     -webkit-box-shadow: 0px -15px 15px -15px rgba(0, 0, 0, .85);
     -moz-box-shadow: 0px -15px 15px -15px rgba(0, 0, 0, .85);
-    margin-top: 30vh;
-    height: 70vh;
+    margin-top: 300px;
+    //height: 70vh;
     position: relative;
     background-color: #212529;
-    @include media(">tablet") {
-        min-height: 480px;
-    }
-    @include media("<=tablet") {
-        min-height: 380px;
-    }
+    min-height: 360px;
     .circle {
         border-radius: 50%;
         width: 150px;
@@ -37,7 +32,7 @@
         }
     }
     .profile {
-        margin-top: 20px;
+        margin-top: 10px;
         text-align: center;
         .username {
             font-size: 32px;
@@ -63,13 +58,14 @@
     .info {
         text-align: center;
         margin: 0px;
-        position: absolute;
         width: 100%;
-        top: 50%;
+        position: absolute;
+        top: 45%;
         transform: translateY(-50%);
+
         .column {
-            padding-top: 10px;
-            padding-bottom: 50px;
+            padding-top: 30px;
+            padding-bottom: 30px;
         }
         .column:nth-child(2) {
             border-left: 1px solid #495057;
@@ -83,14 +79,11 @@
         }
         .value {
             color: #adb5bd;
-            margin-top: 50px;
+            margin-top: 20px;
             font-weight: 200;
             font-size: 48px;
         }
         @include media("<tablet") {
-            .column {
-                padding-bottom: 20px;
-            }
             .title {
                 font-size: 14px;
                 font-weight: 600;
@@ -103,10 +96,11 @@
         }
     }
     .buttons {
-        margin: 0px;
         position: absolute;
+        bottom: 20px;
         width: 100%;
-        bottom: 60px;
+
+
         padding-left: 20px;
         padding-right: 20px;
         padding-bottom: 15px;
@@ -117,7 +111,6 @@
             }
         }
         @include media("<tablet") {
-            bottom: 0px;
             padding-left: 10px;
             padding-right: 10px;
             padding-bottom: 10px;

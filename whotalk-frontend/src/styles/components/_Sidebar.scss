@@ -11,6 +11,7 @@ div.sidebar {
     overflow-x: hidden;
     z-index: 100;
     opacity: 0;
+    overflow: hidden;
 
     &.open {
         //transform: translateX(0px);
@@ -19,7 +20,9 @@ div.sidebar {
     }
     .sidebar-top {
         background-color: #495057;
-        padding: 20px;
+        padding: 10px;
+        padding-top: 20px;
+        padding-bottom: 20px;
         width: 280px;
         .button-container {
             text-align: right;

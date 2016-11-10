@@ -11,3 +11,5 @@ export const setFooterVisibility = createAction(UI.SET_FOOTER_VISIBILITY);
 
 export const setChannelBoxState = createAction(UI.SET_CHANNELBOX_STATE);
 export const setChannelChatState = createAction(UI.SET_CHANNELCHAT_STATE);
+
+export const updateClientHeight = createAction(UI.UPDATE_CLIENT_HEIGHT);

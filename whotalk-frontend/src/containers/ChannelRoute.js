@@ -27,7 +27,7 @@ class ChannelRoute extends Component {
         }, 700);
 
         setTimeout(() => {
-            UIActions.setFooterVisibility(true);
+            //UIActions.setFooterVisibility(true);
         }, 1000);
 
         window.addEventListener("resize", this.updateClientHeight);
@@ -76,7 +76,7 @@ class ChannelRoute extends Component {
 
         return (
             <div className="channel">
-                <Channel.Box isClosing={status.boxState === 'closing'}>
+                <Channel.Box isClosing={status.boxState === 'closing'} height={status.clientHeight-300 + 'px'}>
                     <Channel.Circle/>
                     <Channel.Profile username={params.username} channelInfo={status.channelInfo}/>
                     <Channel.Info/>
@@ -99,6 +99,7 @@ ChannelRoute = connect(state => ({
         channelInfo: state.channel.info,
         boxState: state.ui.channel.box.state,
         session: state.auth.session,
+        clientHeight: state.ui.clientHeight
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

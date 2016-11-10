@@ -21,6 +21,7 @@ class Home extends Component {
     componentDidMount() {
         const { UIActions } = this.props;
         UIActions.setFooterSpace(true);
+        UIActions.setFooterVisibility(true);
         UIActions.setHeaderTransparency(true);
     }
     
