@@ -67,6 +67,21 @@ Follow.statics.getFollowersAfter = function({followee, cursorId}) {
     }).exec();
 }
 
+Follow.statics.getFollowerCount = function(followee) {
+    return this.count({
+        followee,
+        end: null
+    }).exec();
+}
+
+Follow.statics.getFollowingCount = function(follower) {
+    return this.count({
+        follower,
+        end: null
+    }).exec();
+}
+
+
 // Message.statics.write = function({suID, type, channel, anonymous, username, message = ''}) {
 //     const msg = new this({
 //         suID,

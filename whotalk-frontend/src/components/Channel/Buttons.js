@@ -1,6 +1,13 @@
 import React from 'react';
 
-const Buttons = ({onEnter, onFollow, disableFollow}) => {
+const Buttons = ({
+    followed,
+    pending,
+    onEnter,
+    onFollow,
+    onUnfollow,
+    disableFollow
+}) => {
     return (
         <div className="ui grid stackable buttons">
             <div className="ten wide column">
@@ -10,9 +17,13 @@ const Buttons = ({onEnter, onFollow, disableFollow}) => {
                 </button>
             </div>
             <div className="six wide column">
-                <button className="ui inverted button grey" disabled={disableFollow} onClick={onFollow}>
-                     <i className="add user icon"></i>
-                    FOLLOW
+                <button
+                    className={`ui inverted button grey ${pending ? 'loading' : ''}`}
+                    disabled={disableFollow || pending}
+                    onClick={followed ? onUnfollow : onFollow}>
+                    <i
+                        className={`${followed ? 'remove' : 'add'} user icon`}></i>
+                    {followed ? 'UNFOLLOWED' : 'FOLLOW'}
                 </button>
             </div>
         </div>

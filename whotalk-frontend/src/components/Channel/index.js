@@ -3,7 +3,7 @@ import Circle from './Circle';
 import Profile from './Profile';
 import Info from './Info';
 import Buttons from './Buttons';
-
+import * as UserList from './UserList';
 
 export {
     Box,
@@ -11,4 +11,5 @@ export {
     Profile,
     Info,
     Buttons,
+    UserList
 };

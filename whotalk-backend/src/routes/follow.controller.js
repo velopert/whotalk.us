@@ -39,6 +39,12 @@ export const follow = async (req, res) => {
             .json({code: 2, message: 'USER NOT FOUND'});
     }
 
+
+    // get follow count
+    const count = await Follow.getFollowerCount(account._id);
+
+
+
     // check whether the user is following already
 
     try {
@@ -51,7 +57,7 @@ export const follow = async (req, res) => {
 
         if(follow) {
             // is following already
-            return res.json({success: true});
+            return res.json({success: true, count});
         }
     } catch (error) {
         
@@ -68,7 +74,8 @@ export const follow = async (req, res) => {
         throw error;
     }
 
-    res.json({success: true});
+
+    res.json({success: true, count: count + 1});
 }
 
 export const unfollow = async (req, res) => {
@@ -121,10 +128,16 @@ export const unfollow = async (req, res) => {
         return;
     }
 
+    const count = await Follow.getFollowerCount(account._id);
+
+
     // unfollow
     try {
         await Follow.unfollow(follow._id);
-        res.json({success: true});
+        res.json({
+            success: true,
+            count: count-1
+        });
     } catch (error) {
         throw error;
         return;

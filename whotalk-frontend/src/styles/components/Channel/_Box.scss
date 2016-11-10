@@ -2,11 +2,11 @@
     box-shadow: 0px -15px 15px -15px rgba(0, 0, 0, .85);
     -webkit-box-shadow: 0px -15px 15px -15px rgba(0, 0, 0, .85);
     -moz-box-shadow: 0px -15px 15px -15px rgba(0, 0, 0, .85);
-    margin-top: 300px;
+    margin-top: 270px;
     //height: 70vh;
     position: relative;
     background-color: #212529;
-    min-height: 360px;
+    min-height: 330px;
     .circle {
         border-radius: 50%;
         width: 150px;
@@ -82,6 +82,7 @@
             margin-top: 20px;
             font-weight: 200;
             font-size: 48px;
+            cursor: pointer;
         }
         @include media("<tablet") {
             .title {

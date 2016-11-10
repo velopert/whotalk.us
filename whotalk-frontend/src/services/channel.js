@@ -23,3 +23,18 @@ export const getMsgBetween = (username, startId, endId) => {
         url: `/api/message/between/${username}/${startId}/${endId}`
     });
 }
+
+export const follow = (username) => {
+    return request({
+        url:  '/api/follow/' + username,
+        method: 'post'
+    });
+}
+
+
+export const unfollow = (username) => {
+    return request({
+        url:  '/api/follow/' + username,
+        method: 'delete'
+    });
+}

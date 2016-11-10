@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Channel} from 'components';
+import {Channel, Dimmed} from 'components';
+
+const UserList = Channel.UserList;
+
 import * as ui from 'actions/ui';
 import * as form from 'actions/form';
 import * as channel from 'actions/channel';
@@ -35,16 +38,35 @@ class ChannelRoute extends Component {
 
     @autobind
     handleFollow() {
-        const { status } = this.props;
+        const { params, status, ChannelActions } = this.props;
+
         if(!status.session.logged) {
             this.context.router.transitionTo({
                 pathname: '/auth',
                 state: { prevPath: location.pathname }
             });
+
             notify({type: 'warning', message: 'You are not logged in'});
             return;
         }
+
+        ChannelActions.follow(params.username);
     }
+
+    @autobind
+    handleUnfollow() {
+        const { params, status, ChannelActions } = this.props;
+
+        ChannelActions.unfollow(params.username);
+    }
+
+    @autobind
+    openFocusBox(type) {
+        const { UIActions } = this.props;
+        UIActions.toggleFocusBox();
+        UIActions.showFocusBox(type);
+    }
+
 
     @autobind
     handleCloseBox() {
@@ -69,20 +91,26 @@ class ChannelRoute extends Component {
         const {params, pathname, status} = this.props;
         const {
             handleFollow,
-            handleCloseBox
+            handleUnfollow,
+            handleCloseBox,
+            openFocusBox
         } = this;
 
 
 
         return (
             <div className="channel">
-                <Channel.Box isClosing={status.boxState === 'closing'} height={status.clientHeight-300 + 'px'}>
+                { (status.focusBox.type === 'followers') ? <UserList.Container/> : null }
+                <Channel.Box isClosing={status.boxState === 'closing'} height={status.clientHeight-270 + 'px'}>
                     <Channel.Circle/>
                     <Channel.Profile username={params.username} channelInfo={status.channelInfo}/>
-                    <Channel.Info/>
+                    <Channel.Info channelInfo={status.channelInfo} onOpen={openFocusBox}/>
                     <Channel.Buttons
+                        followed={status.channelInfo.followed}
+                        pending={status.followPending || status.unfollowPending}
                         onEnter={handleCloseBox}
                         onFollow={handleFollow}
+                        onUnfollow={handleUnfollow}
                         disableFollow={status.session.user.common_profile.username === params.username }/>
                 </Channel.Box>
             </div>
@@ -99,7 +127,10 @@ ChannelRoute = connect(state => ({
         channelInfo: state.channel.info,
         boxState: state.ui.channel.box.state,
         session: state.auth.session,
-        clientHeight: state.ui.clientHeight
+        clientHeight: state.ui.clientHeight,
+        followPending: state.channel.requests.follow.fetching,
+        unfollowPending: state.channel.requests.unfollow.fetching,
+        focusBox: state.ui.focusBox
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),
@@ -109,7 +140,9 @@ ChannelRoute = connect(state => ({
         setHeaderTransparency: ui.setHeaderTransparency,
         setFooterSpace: ui.setFooterSpace,
         setFooterVisibility: ui.setFooterVisibility,
-        setChannelBoxState: ui.setChannelBoxState
+        setChannelBoxState: ui.setChannelBoxState,
+        toggleFocusBox: ui.toggleFocusBox,
+        showFocusBox: ui.showFocusBox
     }, dispatch)
 }))(ChannelRoute);
 

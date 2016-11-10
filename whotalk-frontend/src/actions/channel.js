@@ -2,7 +2,6 @@ import CHANNEL from './ActionTypes/channel';
 import { createAction } from 'redux-actions';
 import * as service from 'services/channel';
 
-
 export const initialize = createAction(CHANNEL.INITIALIZE);
 export const setIdentity = createAction(CHANNEL.SET_IDENTITY);
 export const checkInfo = (username) => ({
@@ -37,5 +36,20 @@ export const getMsgBetween = ({username, startId, endId}) => ({
     type: CHANNEL.GET_MSG_BETWEEN,
     payload: {
         promise: service.getMsgBetween(username, startId, endId)
+    }
+});
+
+
+export const follow = (username) => ({
+    type: CHANNEL.FOLLOW,
+    payload: {
+        promise: service.follow(username)
+    }
+});
+
+export const unfollow = (username) => ({
+    type: CHANNEL.UNFOLLOW,
+    payload: {
+        promise: service.unfollow(username)
     }
 });

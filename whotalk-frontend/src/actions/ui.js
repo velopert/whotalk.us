@@ -13,3 +13,9 @@ export const setChannelBoxState = createAction(UI.SET_CHANNELBOX_STATE);
 export const setChannelChatState = createAction(UI.SET_CHANNELCHAT_STATE);
 
 export const updateClientHeight = createAction(UI.UPDATE_CLIENT_HEIGHT);
+
+// manages the Dimmed component
+export const toggleFocusBox = createAction(UI.TOGGLE_FOCUS_BOX);
+
+// actually opens the focusbox
+export const showFocusBox = createAction(UI.SHOW_FOCUS_BOX);

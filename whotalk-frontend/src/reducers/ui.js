@@ -22,7 +22,11 @@ const initialState = {
             started: false,
             selecting: false,
             closing: false
-        }
+        },
+    },
+    focusBox: {
+        show: false,
+        type: null
     },
     clientHeight: null
 };
@@ -103,6 +107,26 @@ function ui(state=initialState, action) {
                 ...state,
                 clientHeight: payload
             };
+
+        case UI.TOGGLE_FOCUS_BOX: 
+            return {
+                ...state,
+                focusBox: {
+                    ...state.focusBox,
+                    show: !state.focusBox.show,
+                    type: state.focusBox.show ? null : state.focusBox.type
+                }
+            }
+
+        case UI.SHOW_FOCUS_BOX:
+            return {
+                ...state,
+                focusBox: {
+                    ...state.focusBox,
+                    type: payload
+                }
+            };
+
         default: 
             return state;
     }

@@ -55,6 +55,12 @@ class App extends Component {
     }
 
     @autobind
+    closeFocusBox() {
+        const { UIActions } = this.props;
+        UIActions.toggleFocusBox();
+    }
+
+    @autobind
     handleScroll(e) {
         console.log(window.innerHeight - window.scrollY);
 
@@ -155,7 +161,7 @@ class App extends Component {
     
     render() {
         const { ui, status } = this.props;
-        const { handleSidebarToggle, handleLogout } = this;
+        const { handleSidebarToggle, handleLogout, closeFocusBox } = this;
 
         return (
             <Router>
@@ -168,6 +174,7 @@ class App extends Component {
                         onLogout={handleLogout}
                     />
                     <Dimmed enable={ui.sidebar.show} onClick={handleSidebarToggle}/>
+                    <Dimmed enable={ui.focusBox.show} onClick={closeFocusBox}/>
                     <Header transparency={ui.header.transparent} onSidebarToggle={handleSidebarToggle}/>
                     <div>
                         <Match exactly pattern="/" component={Home}/>
@@ -197,7 +204,8 @@ App = connect(state => ({
         sidebar: state.ui.sidebar,
         header: state.ui.header,
         like: state.ui.home.like,
-        footer: state.ui.footer
+        footer: state.ui.footer,
+        focusBox: state.ui.focusBox
     }
 }), dispatch => ({
     AuthActions: bindActionCreators({
@@ -210,7 +218,8 @@ App = connect(state => ({
         setLikeTransparency: ui.setLikeTransparency,
         setFooterSpace: ui.setFooterSpace,
         setFooterVisibility: ui.setFooterVisibility,
-        updateClientHeight: ui.updateClientHeight
+        updateClientHeight: ui.updateClientHeight,
+        toggleFocusBox: ui.toggleFocusBox
     }, dispatch)
 }))(App);
 

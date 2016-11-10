@@ -168,7 +168,7 @@ router.post('/oauth/register', (req, res) => {
 router.post('/logout', (req, res) => {
     req.logout();
     if(cache.session.has(req.sessionID)) {
-        cache.sessiondel(req.sessionID);
+        cache.session.del(req.sessionID);
     }
     res.json({success: true});
 });

@@ -11,11 +11,13 @@ const pending = {
     fetched: false,
     error: null
 };
+
 const fulfilled = {
     fetching: false,
     fetched: true,
     error: null
 };
+
 const rejected = {
     fetching: false,
     fetched: false
@@ -27,7 +29,10 @@ const initialState = {
         username: null,
         familyName: null,
         givenName: null,
-        thumbnail: "none"
+        thumbnail: "none",
+        talkers: 0,
+        following: 0,
+        followers: 0
     },
     chat: {
         identity: null,
@@ -54,6 +59,12 @@ const initialState = {
             ...request
         },
         getMsgBetween: {
+            ...request
+        },
+        follow: {
+            ...request
+        },
+        unfollow: {
             ...request
         }
     }
@@ -400,6 +411,85 @@ function channel(state = initialState, action) {
                     }
                 }
             };
+        
+        case CHANNEL.FOLLOW + '_PENDING':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    follow: {
+                        ...pending
+                    }
+                }
+            };
+
+        case CHANNEL.FOLLOW + '_FULFILLED':
+            return {
+                ...state,
+                info: {
+                    ...state.info,
+                    followers: payload.data.count,
+                    followed: true
+                },
+                requests: {
+                    ...state.requests,
+                    follow: {
+                        ...fulfilled
+                    }
+                }
+            }
+
+        case CHANNEL.FOLLOW + '_REJECTED':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    follow: {
+                        ...rejected, error: payload 
+                    }
+                }
+            };
+
+        
+        case CHANNEL.UNFOLLOW + '_PENDING': 
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    unfollow: {
+                        ...pending
+                    }
+                }
+            };
+
+        case CHANNEL.UNFOLLOW + '_FULFILLED': 
+            return {
+                ...state,
+                info: {
+                    ...state.info,
+                    followers: payload.data.count,
+                    followed: false
+                },
+                requests: {
+                    ...state.requests,
+                    unfollow: {
+                        ...fulfilled
+                    }
+                }
+            };
+
+        case CHANNEL.UNFOLLOW + '_REJECTED': 
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    unfollow: {
+                        ...rejected, error: payload 
+                    }
+                }
+            };
+        
+
         default:
             return state;
     }
