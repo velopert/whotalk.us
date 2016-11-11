@@ -1,16 +1,8 @@
 {
   "presets": [
-    "es2015-node6"
+    "es2015-node6", "stage-3"
   ],
   "plugins": [
-    "syntax-async-functions",
-    "transform-regenerator",
-    [
-      "transform-runtime",
-      {
-        "polyfill": false,
-        "regenerator": true
-      }
-    ]
+    
   ]
 }

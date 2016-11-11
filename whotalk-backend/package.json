@@ -28,6 +28,7 @@
     "babel-plugin-transform-regenerator": "^6.16.1",
     "babel-preset-es2015-node6": "^0.3.0",
     "babel-preset-es2016": "^6.11.3",
+    "babel-preset-stage-3": "^6.17.0",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
     "colors": "^1.1.2",
