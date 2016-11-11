@@ -3,8 +3,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Channel, Dimmed} from 'components';
 
-const UserList = Channel.UserList;
-
 import * as ui from 'actions/ui';
 import * as form from 'actions/form';
 import * as channel from 'actions/channel';
@@ -100,7 +98,7 @@ class ChannelRoute extends Component {
 
         return (
             <div className="channel">
-                { (status.focusBox.type === 'followers') ? <UserList.Container/> : null }
+                { (status.focusBox.type === 'followers') ? <Channel.UserList closing={status.focusBox.closing}/> : null }
                 <Channel.Box isClosing={status.boxState === 'closing'} height={status.clientHeight-270 + 'px'}>
                     <Channel.Circle/>
                     <Channel.Profile username={params.username} channelInfo={status.channelInfo}/>

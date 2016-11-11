@@ -57,7 +57,10 @@ class App extends Component {
     @autobind
     closeFocusBox() {
         const { UIActions } = this.props;
-        UIActions.toggleFocusBox();
+        UIActions.closingFocusBox();
+        setTimeout(
+            UIActions.toggleFocusBox, 700
+        );
     }
 
     @autobind
@@ -219,7 +222,8 @@ App = connect(state => ({
         setFooterSpace: ui.setFooterSpace,
         setFooterVisibility: ui.setFooterVisibility,
         updateClientHeight: ui.updateClientHeight,
-        toggleFocusBox: ui.toggleFocusBox
+        toggleFocusBox: ui.toggleFocusBox,
+        closingFocusBox: ui.closingFocusBox
     }, dispatch)
 }))(App);
 

@@ -130,9 +130,15 @@
         }
 
     }
+
+    .button-container {
+        text-align: center;
+        min-width: 500px;
+    }
     @include media("<=tablet") {
         .button-container {
             text-align: center;
+            min-width: 320px;
         }
         .button {
             font-size: 15px;

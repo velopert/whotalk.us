@@ -19,3 +19,5 @@ export const toggleFocusBox = createAction(UI.TOGGLE_FOCUS_BOX);
 
 // actually opens the focusbox
 export const showFocusBox = createAction(UI.SHOW_FOCUS_BOX);
+
+export const closingFocusBox = createAction(UI.CLOSING_FOCUS_BOX);

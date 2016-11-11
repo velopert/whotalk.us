@@ -26,6 +26,7 @@ const initialState = {
     },
     focusBox: {
         show: false,
+        closing: false,
         type: null
     },
     clientHeight: null
@@ -114,7 +115,8 @@ function ui(state=initialState, action) {
                 focusBox: {
                     ...state.focusBox,
                     show: !state.focusBox.show,
-                    type: state.focusBox.show ? null : state.focusBox.type
+                    type: state.focusBox.show ? null : state.focusBox.type,
+                    closing: false
                 }
             }
 
@@ -126,6 +128,15 @@ function ui(state=initialState, action) {
                     type: payload
                 }
             };
+
+        case UI.CLOSING_FOCUS_BOX:
+            return {
+                ...state,
+                focusBox: {
+                    ...state.focusBox,
+                    closing: true
+                }
+            }
 
         default: 
             return state;

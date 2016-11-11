@@ -142,7 +142,7 @@ class Auth extends Component {
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch(ui.setHeaderTransparency(true));
-
+        dispatch(ui.setFooterVisibility(false));
         dispatch(ui.setFooterSpace(false));
     }
     
