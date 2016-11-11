@@ -36,7 +36,8 @@ const initialState = {
     },
     focusBox: {
         userList: [],
-        isLast: false
+        isLast: false,
+        listIndex: -1
     },
     chat: {
         identity: null,
@@ -66,6 +67,9 @@ const initialState = {
             ...request
         },
         follow: {
+            ...request
+        },
+        followFromUserList: {
             ...request
         },
         unfollow: {
@@ -630,6 +634,61 @@ function channel(state = initialState, action) {
                     userList: []
                 }
             };
+
+        case CHANNEL.SET_USER_LIST_INDEX:
+            return {
+                ...state,
+                focusBox: {
+                    ...state.focusBox,
+                    listIndex: payload
+                }
+            };
+
+
+        case CHANNEL.FOLLOW_FROM_USER_LIST + "_PENDING":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    followFromUserList: {
+                        ...pending
+                    }
+                }
+            }
+
+        case CHANNEL.FOLLOW_FROM_USER_LIST + "_FULFILLED":
+            var userList = state.focusBox.userList; // only for ref
+            
+            return {
+                ...state,
+                focusBox: {
+                    ...state.focusBox,
+                    userList: [
+                        ...userList.slice(0, state.focusBox.listIndex),
+                        { ...userList[state.focusBox.listIndex], following: true },
+                        ...userList.slice(state.focusBox.listIndex + 1, userList.length)
+                    ]
+                },
+                requests: {
+                    ...state.requests,
+                    followFromUserList: {
+                        ...fulfilled
+                    }
+                }
+            }
+
+        case CHANNEL.FOLLOW_FROM_USER_LIST + "_REJECTED":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    followFromUserList: {
+                        ...rejected,
+                        error: payload
+                    }
+                }
+            }
+        
 
         default:
             return state;

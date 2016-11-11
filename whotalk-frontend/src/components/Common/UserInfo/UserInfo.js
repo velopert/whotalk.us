@@ -4,7 +4,7 @@ import BasicInfo from './BasicInfo';
 import Button from './Button';
 
 
-const UserInfo = ({username, givenName, familyName, thumbnail}) => {
+const UserInfo = ({onFollow, username, givenName, familyName, thumbnail, following, logged, waiting}) => {
     return (
         <div className="user-info">
             <Thumbnail/>
@@ -12,7 +12,8 @@ const UserInfo = ({username, givenName, familyName, thumbnail}) => {
                 username={username}
                 name={`${givenName} ${familyName}`}
             />
-            <Button/>
+            {logged ? <Button following={following} onFollow={onFollow} waiting={waiting}/> : undefined}
+            
         </div>
     );
 };

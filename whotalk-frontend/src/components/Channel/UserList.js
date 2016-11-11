@@ -21,7 +21,7 @@ class UserList extends Component {
     @autobind
     renderUsers() {
 
-        const {userList, type} = this.props;
+        const {userList, type, onFollow, listIndex, waiting, logged} = this.props;
 
         if (userList.length === 0) 
             return null;
@@ -29,15 +29,26 @@ class UserList extends Component {
         const f = (type === 'followers') ? 'follower' : 'followee';
 
 
-        return userList.map(follow => {
+        return userList.map((follow,i) => {
             const {username, givenName, familyName, thumbnail} = follow[f].common_profile;
 
             return <UserInfo
                 key={follow._id}
+                waiting={waiting && i === listIndex}
                 username={username}
                 givenName={givenName}
                 familyName={familyName}
-                thumbnail={thumbnail}/>
+                thumbnail={thumbnail}
+                following={(follow.following) ? true : false}
+                logged={logged}
+                onFollow={
+                    () => {
+                        onFollow({
+                            index: i,
+                            username
+                        })
+                    }
+                }/>
         });
     }
 

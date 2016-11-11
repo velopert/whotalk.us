@@ -46,10 +46,25 @@
         transform: translateY(-50%);
         right: 10px;
         border-radius: 5px;
+
+        transition: all 0.2s ease;
+
+        &.active {
+            background-color: #dee2e6;
+            color: #868e96;
+        }
+
         &:hover {
             background-color: #e9ecef;
             color: #495057;
         }
+
+        &.disabled {
+            background-color: #eaeaea;
+            color: #d6d6d6;
+            cursor: default;
+        }
+
     }
 
     &:hover {

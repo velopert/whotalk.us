@@ -39,6 +39,7 @@ export const getMsgBetween = ({username, startId, endId}) => ({
     }
 });
 
+export const setUserListIndex = createAction(CHANNEL.SET_USER_LIST_INDEX);
 
 export const follow = (username) => ({
     type: CHANNEL.FOLLOW,
@@ -47,6 +48,15 @@ export const follow = (username) => ({
     }
 });
 
+export const followFromUserList = (username) => ({
+    type: CHANNEL.FOLLOW_FROM_USER_LIST,
+    payload: {
+        promise: service.follow(username),
+        another: 'thing'
+    }
+});
+
+
 export const unfollow = (username) => ({
     type: CHANNEL.UNFOLLOW,
     payload: {
@@ -54,6 +64,12 @@ export const unfollow = (username) => ({
     }
 });
 
+export const unfollowFromUserList = (username) => ({
+    type: CHANNEL.UNFOLLOW_FROM_USER_LIST,
+    payload: {
+        promise: service.unfollow(username)
+    }
+});
 
 export const getFollowers = ({username, followId}) => ({
     type: CHANNEL.GET_FOLLOWERS,

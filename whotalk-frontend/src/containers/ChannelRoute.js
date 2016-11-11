@@ -57,6 +57,16 @@ class ChannelRoute extends Component {
     }
 
     @autobind
+    handleFollowFromUserList({index, username}) {
+        const { ChannelActions } = this.props;
+        ChannelActions.setUserListIndex(index);
+        ChannelActions.followFromUserList(username);
+    }
+    
+
+
+
+    @autobind
     handleUnfollow() {
         const {params, status, ChannelActions} = this.props;
 
@@ -122,7 +132,7 @@ class ChannelRoute extends Component {
 
     render() {
         const {params, pathname, status} = this.props;
-        const {handleFollow, handleUnfollow, handleCloseBox, handleLoadMore, openFocusBox} = this;
+        const {handleFollow, handleUnfollow, handleCloseBox, handleLoadMore, openFocusBox, handleFollowFromUserList} = this;
 
         return (
             <div className="channel">
@@ -130,10 +140,15 @@ class ChannelRoute extends Component {
                     ? <Channel.UserList
                             type={status.focusBox.type}
                             onLoadMore={handleLoadMore}
+                            onFollow={handleFollowFromUserList}
                             closing={status.focusBox.closing}
                             userList={status.userList}
                             loading={status.getFollowersPending || status.getFollowingPending}
-                            isLast={status.userListIsLast}/>
+                            isLast={status.userListIsLast}
+                            waiting={status.followFULPending}
+                            listIndex={status.userListIndex}
+                            logged={status.session.logged}
+                        />
                     : null}
                 <Channel.Box
                     isClosing={status.boxState === 'closing'}
@@ -165,10 +180,12 @@ ChannelRoute = connect(state => ({
         session: state.auth.session,
         clientHeight: state.ui.clientHeight,
         followPending: state.channel.requests.follow.fetching,
+        followFULPending: state.channel.requests.followFromUserList.fetching,
         unfollowPending: state.channel.requests.unfollow.fetching,
         focusBox: state.ui.focusBox,
         userList: state.channel.focusBox.userList,
         userListIsLast: state.channel.focusBox.isLast,
+        userListIndex: state.channel.focusBox.listIndex,
         getFollowersPending: state.channel.requests.getFollowers.fetching,
         getFollowingPending: state.channel.requests.getFollowing.fetching
     }
