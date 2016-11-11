@@ -28,7 +28,20 @@ class UserList extends Component {
         return (
                 <div className={`user-list popOut ${closing?'popIn':''}`}>
                     {closing || round ? null : (
-                        <UserInfo/> 
+                        <div>
+                            <div className="title">FOLLOWERS</div>
+                            <UserInfo/>
+                            <UserInfo/> 
+                            <UserInfo/> 
+                            <UserInfo/> 
+                            <UserInfo/> 
+                            <UserInfo/> 
+                            <UserInfo/> 
+                            <UserInfo/> 
+                            <UserInfo/> 
+                            <UserInfo/> 
+                            <UserInfo/> 
+                        </div>
                     )}
                 </div>
         );

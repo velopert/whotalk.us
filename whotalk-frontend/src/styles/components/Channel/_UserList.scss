@@ -9,7 +9,19 @@
     z-index: 4;
     border: 1px solid #ced4da;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+    padding: 10px;
+    overflow-y: auto;
+
+    .title {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
 }
+
 
 .popOut {
     -webkit-animation-duration: .7s;
