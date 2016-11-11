@@ -65,7 +65,7 @@ class Login extends Component {
              return;
         }
 
-        if(this.props.location.state) {
+        if(this.props.location.state.prevPath) {
             this.leaveTo({path: this.props.location.state.prevPath})
         } else {
             this.leaveTo({path: '/'});
@@ -91,7 +91,6 @@ class Login extends Component {
 
         const redirect = (<Redirect
             to={this.state.path}/>);
-
         
         const {handleChange, handleSubmit, handleKeyPress, leaveTo} = this;
         const { form, status } = this.props;
