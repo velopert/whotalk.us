@@ -73,6 +73,9 @@ const initialState = {
         },
         getFollowers: {
             ...request
+        },
+        getFollowing: {
+            ...request
         }
     }
 };
@@ -575,7 +578,51 @@ function channel(state = initialState, action) {
                 }
             }
 
-        case CHANNEL.CLEAER_USER_LIST: 
+        case CHANNEL.GET_FOLLOWING + '_PENDING':
+            return {
+                ...state,
+                focusBox: {
+                    ...state.focusBox,
+                    isLast: false
+                },
+                requests: {
+                    ...state.requests,
+                    getFollowing: {
+                        ...pending
+                    }
+                }
+            }
+
+        case CHANNEL.GET_FOLLOWING + '_FULFILLED':
+            return {
+                ...state,
+                focusBox: {
+                    isLast: payload.data.following.length < 10, // 20 으로 나중에 바꾸자
+                    userList: state.focusBox.userList.length === 0 ? payload.data.following :
+                    [ ...state.focusBox.userList, ...payload.data.following]
+                },
+                requests: {
+                    ...state.requests,
+                    getFollowing: {
+                        ...fulfilled
+                    }
+                }
+            }
+
+        case CHANNEL.GET_FOLLOWING + '_REJECTED':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getFollowing: {
+                        ...rejected,
+                        error: payload
+                    }
+                }
+            }
+
+
+        case CHANNEL.CLEAR_USER_LIST: 
             return {
                 ...state,
                 focusBox: {

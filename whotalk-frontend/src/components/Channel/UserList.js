@@ -21,13 +21,16 @@ class UserList extends Component {
     @autobind
     renderUsers() {
 
-        const {userList} = this.props;
+        const {userList, type} = this.props;
 
         if (userList.length === 0) 
             return null;
-        
+             
+        const f = (type === 'followers') ? 'follower' : 'followee';
+
+
         return userList.map(follow => {
-            const {username, givenName, familyName, thumbnail} = follow.follower.common_profile;
+            const {username, givenName, familyName, thumbnail} = follow[f].common_profile;
 
             return <UserInfo
                 key={follow._id}
@@ -58,7 +61,7 @@ class UserList extends Component {
     }
 
     render() {
-        const {closing, loading, userList, isLast} = this.props;
+        const {closing, loading, userList, isLast, type} = this.props;
         const {round} = this.state;
         const {renderUsers, handleScroll} = this;
 
@@ -71,7 +74,7 @@ class UserList extends Component {
                     ? null
                     : (
                         <div>
-                            <div className="title">FOLLOWERS</div>
+                            <div className="title">{type.toUpperCase()}</div>
                             
                             {loading ? <div className="ui active centered loader"/> : null }
                             {(!loading && userList.length === 0) ? <div className="empty">THERE IS NO FOLLOWERS</div> : ''}

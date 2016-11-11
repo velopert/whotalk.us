@@ -36,13 +36,18 @@ class ChannelRoute extends Component {
 
     @autobind
     handleFollow() {
-        const { params, status, ChannelActions } = this.props;
+        const {params, status, ChannelActions} = this.props;
 
-        if(!status.session.logged) {
-            this.context.router.transitionTo({
-                pathname: '/auth',
-                state: { prevPath: location.pathname }
-            });
+        if (!status.session.logged) {
+            this
+                .context
+                .router
+                .transitionTo({
+                    pathname: '/auth',
+                    state: {
+                        prevPath: location.pathname
+                    }
+                });
 
             notify({type: 'warning', message: 'You are not logged in'});
             return;
@@ -53,27 +58,29 @@ class ChannelRoute extends Component {
 
     @autobind
     handleUnfollow() {
-        const { params, status, ChannelActions } = this.props;
+        const {params, status, ChannelActions} = this.props;
 
         ChannelActions.unfollow(params.username);
     }
 
     @autobind
     openFocusBox(type) {
-        const { UIActions, ChannelActions, params } = this.props;
+        const {UIActions, ChannelActions, params} = this.props;
         UIActions.toggleFocusBox();
         ChannelActions.clearUserList();
         UIActions.showFocusBox(type);
 
-        switch(type) {
+        switch (type) {
             case 'followers':
                 ChannelActions.getFollowers({username: params.username});
+                break;
+            case 'following':
+                ChannelActions.getFollowing({username: params.username});
                 break;
             default:
                 console.error('what?');
         }
     }
-
 
     @autobind
     handleCloseBox() {
@@ -96,27 +103,41 @@ class ChannelRoute extends Component {
 
     @autobind
     handleLoadMore() {
-        const { ChannelActions, status, params } = this.props;
-        const followId = status.userList[status.userList.length-1]._id;
-        ChannelActions.getFollowers({username: params.username, followId});
+        const {ChannelActions, status, params} = this.props;
+        const type = status.focusBox.type;
+
+        const followId = status.userList[status.userList.length - 1]._id;
+
+        switch (type) {
+            case 'followers':
+                ChannelActions.getFollowers({username: params.username, followId});
+                break;
+            case 'following':
+                ChannelActions.getFollowing({username: params.username, followId});
+                break;
+            default:
+                console.error('what?');
+        }
     }
 
     render() {
         const {params, pathname, status} = this.props;
-        const {
-            handleFollow,
-            handleUnfollow,
-            handleCloseBox,
-            handleLoadMore,
-            openFocusBox
-        } = this;
-
-
+        const {handleFollow, handleUnfollow, handleCloseBox, handleLoadMore, openFocusBox} = this;
 
         return (
             <div className="channel">
-                { (status.focusBox.type === 'followers') ? <Channel.UserList onLoadMore={handleLoadMore} closing={status.focusBox.closing} userList={status.userList} loading={status.getFollowersPending} isLast={status.userListIsLast}/> : null }
-                <Channel.Box isClosing={status.boxState === 'closing'} height={status.clientHeight-270 + 'px'}>
+                {(status.focusBox.type !== null)
+                    ? <Channel.UserList
+                            type={status.focusBox.type}
+                            onLoadMore={handleLoadMore}
+                            closing={status.focusBox.closing}
+                            userList={status.userList}
+                            loading={status.getFollowersPending || status.getFollowingPending}
+                            isLast={status.userListIsLast}/>
+                    : null}
+                <Channel.Box
+                    isClosing={status.boxState === 'closing'}
+                    height={status.clientHeight - 270 + 'px'}>
                     <Channel.Circle/>
                     <Channel.Profile username={params.username} channelInfo={status.channelInfo}/>
                     <Channel.Info channelInfo={status.channelInfo} onOpen={openFocusBox}/>
@@ -126,7 +147,7 @@ class ChannelRoute extends Component {
                         onEnter={handleCloseBox}
                         onFollow={handleFollow}
                         onUnfollow={handleUnfollow}
-                        disableFollow={status.session.user.common_profile.username === params.username }/>
+                        disableFollow={status.session.user.common_profile.username === params.username}/>
                 </Channel.Box>
             </div>
         );
@@ -148,7 +169,8 @@ ChannelRoute = connect(state => ({
         focusBox: state.ui.focusBox,
         userList: state.channel.focusBox.userList,
         userListIsLast: state.channel.focusBox.isLast,
-        getFollowersPending: state.channel.requests.getFollowers.fetching
+        getFollowersPending: state.channel.requests.getFollowers.fetching,
+        getFollowingPending: state.channel.requests.getFollowing.fetching
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

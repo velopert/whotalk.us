@@ -2,12 +2,12 @@ import Account from './../models/account.js';
 import Follow from './../models/follow.js';
 import mongoose from 'mongoose';
 
-/* 
-    FOLLOW 
+/*
+    FOLLOW
 */
 
 export const follow = async (req, res) => {
-    
+
     if (!req.user) {
         return res
             .status(401)
@@ -23,7 +23,7 @@ export const follow = async (req, res) => {
             .json({code: 1, message: 'YOU CANNOT FOLLOW YOURSELF'});
     }
 
-    // check account 
+    // check account
 
     let account = null;
 
@@ -39,11 +39,8 @@ export const follow = async (req, res) => {
             .json({code: 2, message: 'USER NOT FOUND'});
     }
 
-
     // get follow count
     const count = await Follow.getFollowerCount(account._id);
-
-
 
     // check whether the user is following already
 
@@ -55,13 +52,11 @@ export const follow = async (req, res) => {
                 .ObjectId(follower)
         });
 
-        if(follow) {
+        if (follow) {
             // is following already
             return res.json({success: true, count});
         }
-    } catch (error) {
-        
-    }
+    } catch (error) {}
 
     try {
         await Follow.follow({
@@ -74,14 +69,16 @@ export const follow = async (req, res) => {
         throw error;
     }
 
-
-    res.json({success: true, count: count + 1});
+    res.json({
+        success: true,
+        count: count + 1
+    });
 }
 
 export const unfollow = async (req, res) => {
 
     // check login
-    
+
     if (!req.user) {
         return res
             .status(401)
@@ -91,7 +88,7 @@ export const unfollow = async (req, res) => {
     const followee = req.params.followee;
     const follower = req.user._id;
 
-    // check account 
+    // check account
 
     let account = null;
 
@@ -117,7 +114,7 @@ export const unfollow = async (req, res) => {
                 .ObjectId(follower)
         });
 
-        if(!follow) {
+        if (!follow) {
             // is not following already
             return res
                 .status(404)
@@ -130,13 +127,12 @@ export const unfollow = async (req, res) => {
 
     const count = await Follow.getFollowerCount(account._id);
 
-
     // unfollow
     try {
         await Follow.unfollow(follow._id);
         res.json({
             success: true,
-            count: count-1
+            count: count - 1
         });
     } catch (error) {
         throw error;
@@ -144,9 +140,7 @@ export const unfollow = async (req, res) => {
     }
 }
 
-export const checkFollowing = async (req, res) => {
-    
-}
+export const checkFollowing = async (req, res) => {}
 
 export const getFollowers = async (req, res) => {
 
@@ -167,15 +161,49 @@ export const getFollowers = async (req, res) => {
             .json({code: 0, message: 'USER NOT FOUND'});
     }
 
-    try {
-        const followers = await Follow.getFollowers(account._id);
-        res.json({followers})
-    } catch (error) {
-        throw error;
+    let followers = await Follow.getFollowers(account._id);
+
+    if(followers.length === 0) {
+        return res.json({
+            followers: []
+        });
     }
 
-}
+    let common;
 
+    if(req.user) {
+        const followerIds = followers.map(
+            (follower) => {
+                return follower.follower._id
+            }
+        );
+
+        common = await Follow.find({
+            follower: mongoose.Types.ObjectId(req.user._id),
+            followee: { $in: followerIds}
+        }, 'followee').exec();
+
+        
+
+        if(common.length !== 0) {
+            for (let i = 0 ; i < common.length; i++) {
+                for(let j = 0 ; j < followers.length; j++) {
+                    
+                    if(common[i].followee.equals(followers[j].follower._id)) {
+                        followers[j].following = true;
+                    }
+                }
+            }
+        }
+        
+
+
+    }
+
+    res.json({followers});
+
+
+}
 
 export const getFollowersAfter = async (req, res) => {
     const followee = req.params.followee;
@@ -183,10 +211,9 @@ export const getFollowersAfter = async (req, res) => {
 
     // CHECK MEMO ID VALIDITY
     if (!mongoose.Types.ObjectId.isValid(cursorId)) {
-        return res.status(400).json({
-            error: "INVALID ID",
-            code: 0
-        });
+        return res
+            .status(400)
+            .json({error: "INVALID ID", code: 0});
     }
 
     // query the account
@@ -198,9 +225,8 @@ export const getFollowersAfter = async (req, res) => {
         if (!account) {
             return res
                 .status(404)
-                .json({ code: 1, message: 'USER NOT FOUND' });
+                .json({code: 1, message: 'USER NOT FOUND'});
         }
-
 
         const followers = await Follow.getFollowersAfter({
             followee: account._id,
@@ -209,8 +235,60 @@ export const getFollowersAfter = async (req, res) => {
                 .ObjectId(cursorId)
         });
 
-        res.json({ followers })
+        res.json({followers})
     } catch (error) {
         throw error;
     }
+}
+
+/* get following */
+
+export const getFollowing = async (req, res) => {
+
+    const username = req.params.username;
+
+    // query the account
+    let account = null;
+
+    account = await Account.findUser(username);
+
+    if (!account) {
+        return res
+            .status(404)
+            .json({code: 0, message: 'USER NOT FOUND'});
+    }
+
+    const following = await Follow.getFollowing(account._id);
+    res.json({following});
+
+}
+
+export const getFollowingAfter = async (req, res) => {
+    const username = req.params.username;
+    const cursorId = req.params.cursorId;
+
+    // CHECK MongoDB ID VALIDITY
+    if (!mongoose.Types.ObjectId.isValid(cursorId)) {
+        return res
+            .status(400)
+            .json({error: "INVALID ID", code: 0});
+    }
+
+    // query the account
+    const account = await Account.findUser(username);
+
+    if (!account) {
+        return res
+            .status(404)
+            .json({code: 1, message: 'USER NOT FOUND'});
+    }
+
+    const following = await Follow.getFollowingAfter({
+        follower: account._id,
+        cursorId: mongoose
+            .Types
+            .ObjectId(cursorId)
+    });
+
+    res.json({following});
 }

@@ -9,7 +9,7 @@ const Info = ({channelInfo, onOpen}) => {
                     <div className="title">TALKERS</div>
                     <div className="value"><Common.Odometered value={channelInfo.talkers}/></div>
                 </div>
-                <div className="column">
+                <div className="column" onClick={() => {onOpen('following')}}>
                     <div className="title">FOLLOWING</div>
                     <div className="value"><Common.Odometered value={channelInfo.following}/></div>
                 </div>

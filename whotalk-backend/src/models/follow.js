@@ -50,7 +50,9 @@ Follow.statics.getFollowers = function(followee) {
     .select({ 
         follower: 1,
         since: 1
-    }).exec();
+    })
+    .lean()
+    .exec();
 }
 
 Follow.statics.getFollowing = function(follower) {
@@ -58,7 +60,7 @@ Follow.statics.getFollowing = function(follower) {
         follower,
         end: null
     })
-    .limit(10)
+    .limit(20)
     .populate('followee', 'common_profile.username common_profile.familyName common_profile.givenName common_profile.thumbnail')
     .select({ 
         followee: 1,

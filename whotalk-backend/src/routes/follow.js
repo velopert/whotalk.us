@@ -12,6 +12,9 @@ const router = express.Router();
 router.post('/:followee', controller.follow);
 router.delete('/:followee', controller.unfollow);
 
+router.get('/following/:username', controller.getFollowing);
+router.get('/following/:username/:cursorId', controller.getFollowingAfter);
+
 router.get('/:followee', controller.getFollowers);
 router.get('/:followee/:cursorId', asyncRequest.bind(null, controller.getFollowersAfter));
 

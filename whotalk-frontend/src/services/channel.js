@@ -44,3 +44,10 @@ export const getFollowers = ({username, followId = ''}) => {
         url: '/api/follow/' + username + '/' + followId
     })
 }
+
+
+export const getFollowing = ({username, followId = ''}) => {
+    return request ({
+        url: '/api/follow/following/' + username + '/' + followId
+    })
+}
