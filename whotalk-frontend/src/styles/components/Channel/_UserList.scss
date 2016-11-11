@@ -3,21 +3,36 @@
     top: 50%;
     left: 50%;
     width: 300px;
-    height: 60vh;
+    height: 309px;
     transform: translate(-50%, -50%);
-    background-color: #f8f9fa;
     z-index: 4;
     border: 1px solid #ced4da;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-
-    padding: 10px;
-    overflow-y: auto;
+    /*box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);*/
+    background-color: #dee2e6;
+    /*padding: 10px;*/
+    overflow-y: hidden;
 
     .title {
+        background-color: #f8f9fa;
         text-align: center;
         font-weight: 700;
-        margin-bottom: 10px;
+        padding: 10px;
         font-size: 12px;
+        letter-spacing: 2px;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .loader {
+        margin-top: 10px;
+    }
+
+    .empty {
+        color: #adb5bd;
+        text-align: center;
+        margin-top: 45%;
+        transform: translateY(-100%);
+        font-size: 13px;
+        font-weight: 600;
         letter-spacing: 2px;
     }
 }
@@ -49,7 +64,7 @@
     }
     100% {
         width: 300px;
-        height: 60vh;
+        height: 309px;;
         border-radius: 0px;
         box-shadow: none;
     }
@@ -66,7 +81,7 @@
 @keyframes popIn {
     0% {
         width: 300px;
-        height: 60vh;
+        height: 309px;;
         border-radius: 0px;
         box-shadow: none;
     }

@@ -23,7 +23,7 @@ const Buttons = ({
                     onClick={followed ? onUnfollow : onFollow}>
                     <i
                         className={`${followed ? 'remove' : 'add'} user icon`}></i>
-                    {followed ? 'UNFOLLOWED' : 'FOLLOW'}
+                    {followed ? 'UNFOLLOW' : 'FOLLOW'}
                 </button>
             </div>
         </div>

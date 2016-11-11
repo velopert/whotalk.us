@@ -34,6 +34,9 @@ const initialState = {
         following: 0,
         followers: 0
     },
+    focusBox: {
+        userList: []
+    },
     chat: {
         identity: null,
         socket: {
@@ -66,25 +69,26 @@ const initialState = {
         },
         unfollow: {
             ...request
+        },
+        getFollowers: {
+            ...request
         }
     }
 };
 
 function mapDataToMessages(data) {
-    return data.map(
-        (message) => {
-            return {
-                type: message.type,
-                payload: {
-                    anonymous: message.anonymous,
-                    date: Date.parse(message.date),
-                    suID: message.suID,
-                    username: message.username,
-                    message: message.message
-                }
+    return data.map((message) => {
+        return {
+            type: message.type,
+            payload: {
+                anonymous: message.anonymous,
+                date: Date.parse(message.date),
+                suID: message.suID,
+                username: message.username,
+                message: message.message
             }
         }
-    );
+    });
 }
 
 function channel(state = initialState, action) {
@@ -98,11 +102,11 @@ function channel(state = initialState, action) {
                 ...initialState,
                 info: {
                     ...initialState.info,
-                    username: payload,
+                    username: payload
                 }
             };
 
-        case CHANNEL.SET_IDENTITY: 
+        case CHANNEL.SET_IDENTITY:
             return {
                 ...state,
                 chat: {
@@ -111,7 +115,7 @@ function channel(state = initialState, action) {
                 }
             };
 
-        /* CHECK_INFO */
+            /* CHECK_INFO */
         case CHANNEL.CHECK_INFO + '_PENDING':
             return {
                 ...state,
@@ -128,7 +132,10 @@ function channel(state = initialState, action) {
             return {
                 ...state,
                 valid: true,
-                info: { ... state.info, ...payload.data.info },
+                info: {
+                    ...state.info,
+                    ...payload.data.info
+                },
                 requests: {
                     ...state.requests,
                     checkInfo: {
@@ -136,16 +143,19 @@ function channel(state = initialState, action) {
                     }
                 }
             };
-        
+
         case CHANNEL.CHECK_INFO + '_REJECTED':
             return {
                 ...state,
                 valid: false,
-                info: {...initialState.info},
+                info: {
+                    ...initialState.info
+                },
                 requests: {
                     ...state.requests,
                     checkInfo: {
-                        ...rejected, error: payload 
+                        ...rejected,
+                        error: payload
                     }
                 }
             };
@@ -164,7 +174,7 @@ function channel(state = initialState, action) {
 
         case CHANNEL.RECEIVE_REALTIME_DATA:
             // if there is no tempDataIndex, just return the data + payload array
-            if(state.chat.tempDataIndex.length < 1) {
+            if (state.chat.tempDataIndex.length < 1) {
                 return {
                     ...state,
                     chat: {
@@ -180,24 +190,29 @@ function channel(state = initialState, action) {
             let tempData = null;
             let indexes = null;
 
-            for(let packet of payload) {
-                if(packet.type === 'MSG' && packet.payload.username === state.chat.socket.username) {
+            for (let packet of payload) {
+                if (packet.type === 'MSG' && packet.payload.username === state.chat.socket.username) {
                     // store tempData if null
-                    if(!tempData) tempData = [...state.chat.data];
-                    if(!indexes) indexes = [...state.chat.tempDataIndex];
-
-                    for(let i = 0; i < indexes.length; i++) {
+                    if (!tempData) 
+                        tempData = [...state.chat.data];
+                    if (!indexes) 
+                        indexes = [...state.chat.tempDataIndex];
+                    
+                    for (let i = 0; i < indexes.length; i++) {
                         let index = indexes[i];
-                        if(tempData[index].payload.uID === packet.payload.uID) {
+                        if (tempData[index].payload.uID === packet.payload.uID) {
                             tempData[index] = packet;
-                            indexes = [...indexes.slice(0, i), ...indexes.slice(i+1,indexes.length)];
+                            indexes = [
+                                ...indexes.slice(0, i),
+                                ...indexes.slice(i + 1, indexes.length)
+                            ];
                             console.log(packet, i, index);
                         }
                     }
                 }
             }
 
-            if(tempData) {
+            if (tempData) {
                 // there was some modification
                 return {
                     ...state,
@@ -220,14 +235,13 @@ function channel(state = initialState, action) {
                 };
             }
 
-        case CHANNEL.WRITE_MESSAGE: 
+        case CHANNEL.WRITE_MESSAGE:
             return {
                 ...state,
                 chat: {
                     ...state.chat,
                     data: [
-                        ...state.chat.data,
-                        {
+                        ...state.chat.data, {
                             ...payload,
                             temp: true
                         }
@@ -242,10 +256,9 @@ function channel(state = initialState, action) {
         case CHANNEL.MESSAGE_FAILURE:
             // payload: index
 
-
             let index = null;
-            for(let i = 0 ; i < state.chat.tempDataIndex.length; i++) {
-                if(state.chat.tempDataIndex[i] === payload) {
+            for (let i = 0; i < state.chat.tempDataIndex.length; i++) {
+                if (state.chat.tempDataIndex[i] === payload) {
                     index = i;
                 }
             }
@@ -255,13 +268,27 @@ function channel(state = initialState, action) {
                 chat: {
                     ...state.chat,
                     data: [
-                        ...state.chat.data.slice(0, payload),
-                        {...state.chat.data[payload], failed: true },
-                        ...state.chat.data.slice(payload+1, state.chat.data.length)
+                        ...state
+                            .chat
+                            .data
+                            .slice(0, payload), {
+                            ...state.chat.data[payload],
+                            failed: true
+                        },
+                        ...state
+                            .chat
+                            .data
+                            .slice(payload + 1, state.chat.data.length)
                     ],
                     tempDataIndex: [
-                        ...state.chat.tempDataIndex.slice(0, index),
-                        ...state.chat.tempDataIndex.slice(index+1, state.chat.tempDataIndex.length)
+                        ...state
+                            .chat
+                            .tempDataIndex
+                            .slice(0, index),
+                        ...state
+                            .chat
+                            .tempDataIndex
+                            .slice(index + 1, state.chat.tempDataIndex.length)
                     ]
                 }
             }
@@ -273,14 +300,19 @@ function channel(state = initialState, action) {
                 chat: {
                     ...state.chat,
                     data: [
-                        ...state.chat.data.slice(0, payload),
-                        ...state.chat.data.slice(payload+1, state.chat.data.length)
+                        ...state
+                            .chat
+                            .data
+                            .slice(0, payload),
+                        ...state
+                            .chat
+                            .data
+                            .slice(payload + 1, state.chat.data.length)
                     ]
                 }
             };
-            
 
-        /* GET_RECENT_MSG */
+            /* GET_RECENT_MSG */
         case CHANNEL.GET_RECENT_MSG + '_PENDING':
             return {
                 ...state,
@@ -294,7 +326,7 @@ function channel(state = initialState, action) {
 
         case CHANNEL.GET_RECENT_MSG + '_FULFILLED':
             messages = mapDataToMessages(payload.data.messages);
-            if(payload.data.messages.length === 0) {
+            if (payload.data.messages.length === 0) {
                 return state;
             }
             return {
@@ -303,7 +335,7 @@ function channel(state = initialState, action) {
                     ...state.chat,
                     data: [...messages],
                     top: messages.length < 40,
-                    lastInitId: messages[messages.length-1].payload.suID
+                    lastInitId: messages[messages.length - 1].payload.suID
                 },
                 requests: {
                     ...state.requests,
@@ -312,19 +344,20 @@ function channel(state = initialState, action) {
                     }
                 }
             };
-        
+
         case CHANNEL.GET_RECENT_MSG + '_REJECTED':
             return {
                 ...state,
                 requests: {
                     ...state.requests,
                     getRecentMsg: {
-                        ...rejected, error: payload 
+                        ...rejected,
+                        error: payload
                     }
                 }
             };
-            
-        /* GET_MSG_BEFORE */
+
+            /* GET_MSG_BEFORE */
         case CHANNEL.GET_MSG_BEFORE + '_PENDING':
             return {
                 ...state,
@@ -343,7 +376,10 @@ function channel(state = initialState, action) {
                 ...state,
                 chat: {
                     ...state.chat,
-                    data: [...messages, ...state.chat.data],
+                    data: [
+                        ...messages,
+                        ...state.chat.data
+                    ],
                     top: messages.length < 40
                 },
                 requests: {
@@ -353,19 +389,20 @@ function channel(state = initialState, action) {
                     }
                 }
             };
-        
+
         case CHANNEL.GET_MSG_BEFORE + '_REJECTED':
             return {
                 ...state,
                 requests: {
                     ...state.requests,
                     getMsgBefore: {
-                        ...rejected, error: payload 
+                        ...rejected,
+                        error: payload
                     }
                 }
             };
 
-        /* GET_RECENT_MSG */
+            /* GET_RECENT_MSG */
         case CHANNEL.GET_MSG_BETWEEN + '_PENDING':
             return {
                 ...state,
@@ -383,7 +420,7 @@ function channel(state = initialState, action) {
 
         case CHANNEL.GET_MSG_BETWEEN + '_FULFILLED':
             messages = mapDataToMessages(payload.data.messages);
-            if(payload.data.messages.length === 0) {
+            if (payload.data.messages.length === 0) {
                 return state;
             }
 
@@ -391,7 +428,10 @@ function channel(state = initialState, action) {
                 ...state,
                 chat: {
                     ...state.chat,
-                    data: [...state.chat.data, ...messages]
+                    data: [
+                        ...state.chat.data,
+                        ...messages
+                    ]
                 },
                 requests: {
                     ...state.requests,
@@ -400,18 +440,19 @@ function channel(state = initialState, action) {
                     }
                 }
             };
-        
+
         case CHANNEL.GET_MSG_BETWEEN + '_REJECTED':
             return {
                 ...state,
                 requests: {
                     ...state.requests,
                     getMsgBetween: {
-                        ...rejected, error: payload 
+                        ...rejected,
+                        error: payload
                     }
                 }
             };
-        
+
         case CHANNEL.FOLLOW + '_PENDING':
             return {
                 ...state,
@@ -445,13 +486,13 @@ function channel(state = initialState, action) {
                 requests: {
                     ...state.requests,
                     follow: {
-                        ...rejected, error: payload 
+                        ...rejected,
+                        error: payload
                     }
                 }
             };
 
-        
-        case CHANNEL.UNFOLLOW + '_PENDING': 
+        case CHANNEL.UNFOLLOW + '_PENDING':
             return {
                 ...state,
                 requests: {
@@ -462,7 +503,7 @@ function channel(state = initialState, action) {
                 }
             };
 
-        case CHANNEL.UNFOLLOW + '_FULFILLED': 
+        case CHANNEL.UNFOLLOW + '_FULFILLED':
             return {
                 ...state,
                 info: {
@@ -478,17 +519,54 @@ function channel(state = initialState, action) {
                 }
             };
 
-        case CHANNEL.UNFOLLOW + '_REJECTED': 
+        case CHANNEL.UNFOLLOW + '_REJECTED':
             return {
                 ...state,
                 requests: {
                     ...state.requests,
                     unfollow: {
-                        ...rejected, error: payload 
+                        ...rejected,
+                        error: payload
                     }
                 }
             };
-        
+
+        case CHANNEL.GET_FOLLOWERS + '_PENDING':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getFollowers: {
+                        ...pending
+                    }
+                }
+            }
+
+        case CHANNEL.GET_FOLLOWERS + '_FULFILLED':
+            return {
+                ...state,
+                focusBox: {
+                    userList: payload.data.followers
+                },
+                requests: {
+                    ...state.requests,
+                    getFollowers: {
+                        ...fulfilled
+                    }
+                }
+            }
+
+        case CHANNEL.GET_FOLLOWERS + '_REJECTED':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getFollowers: {
+                        ...rejected,
+                        error: payload
+                    }
+                }
+            }
 
         default:
             return state;

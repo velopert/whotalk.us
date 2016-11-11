@@ -1,5 +1,5 @@
 import Odometered from './Odometered';
-import UserInfo from './UserInfo';
+import UserInfo from './UserInfo/UserInfo';
 
 
 export { 

@@ -38,3 +38,9 @@ export const unfollow = (username) => {
         method: 'delete'
     });
 }
+
+export const getFollowers = (username) => {
+    return request ({
+        url: '/api/follow/' + username
+    })
+}

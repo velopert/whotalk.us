@@ -60,9 +60,17 @@ class ChannelRoute extends Component {
 
     @autobind
     openFocusBox(type) {
-        const { UIActions } = this.props;
+        const { UIActions, ChannelActions, params } = this.props;
         UIActions.toggleFocusBox();
         UIActions.showFocusBox(type);
+
+        switch(type) {
+            case 'followers':
+                ChannelActions.getFollowers(params.username);
+                break;
+            default:
+                console.error('what?');
+        }
     }
 
 
@@ -98,7 +106,7 @@ class ChannelRoute extends Component {
 
         return (
             <div className="channel">
-                { (status.focusBox.type === 'followers') ? <Channel.UserList closing={status.focusBox.closing}/> : null }
+                { (status.focusBox.type === 'followers') ? <Channel.UserList closing={status.focusBox.closing} userList={status.userList} loading={status.getFollowersPending}/> : null }
                 <Channel.Box isClosing={status.boxState === 'closing'} height={status.clientHeight-270 + 'px'}>
                     <Channel.Circle/>
                     <Channel.Profile username={params.username} channelInfo={status.channelInfo}/>
@@ -128,7 +136,9 @@ ChannelRoute = connect(state => ({
         clientHeight: state.ui.clientHeight,
         followPending: state.channel.requests.follow.fetching,
         unfollowPending: state.channel.requests.unfollow.fetching,
-        focusBox: state.ui.focusBox
+        focusBox: state.ui.focusBox,
+        userList: state.channel.focusBox.userList,
+        getFollowersPending: state.channel.requests.getFollowers.fetching
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),
