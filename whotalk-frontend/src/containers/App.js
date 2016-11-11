@@ -176,7 +176,7 @@ class App extends Component {
                         onToggle={handleSidebarToggle}
                         onLogout={handleLogout}
                     />
-                    <Dimmed enable={ui.sidebar.show} onClick={handleSidebarToggle}/>
+                    <Dimmed enable={ui.sidebar.show} onClick={handleSidebarToggle} isSidebar={true}/>
                     <Dimmed enable={ui.focusBox.show} onClick={closeFocusBox}/>
                     <Header transparency={ui.header.transparent} onSidebarToggle={handleSidebarToggle}/>
                     <div>
