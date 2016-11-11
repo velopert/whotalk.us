@@ -45,10 +45,23 @@ Follow.statics.getFollowers = function(followee) {
         followee,
         end: null
     })
-    .limit(10)
+    .limit(20)
     .populate('follower', 'common_profile.username common_profile.familyName common_profile.givenName common_profile.thumbnail')
     .select({ 
         follower: 1,
+        since: 1
+    }).exec();
+}
+
+Follow.statics.getFollowing = function(follower) {
+    return this.find({
+        follower,
+        end: null
+    })
+    .limit(10)
+    .populate('followee', 'common_profile.username common_profile.familyName common_profile.givenName common_profile.thumbnail')
+    .select({ 
+        followee: 1,
         since: 1
     }).exec();
 }
@@ -59,10 +72,24 @@ Follow.statics.getFollowersAfter = function({followee, cursorId}) {
         followee,
         end: null
     })
-    .limit(5)
+    .limit(20)
     .populate('follower', 'common_profile')
     .select({ 
         follower: 1,
+        since: 1
+    }).exec();
+}
+
+Follow.statics.getFollowingAfter = function({follower, cursorId}) {
+    return this.find({
+        _id: { $gt: cursorId},
+        follower,
+        end: null
+    })
+    .limit(20)
+    .populate('followee', 'common_profile')
+    .select({ 
+        followee: 1,
         since: 1
     }).exec();
 }
