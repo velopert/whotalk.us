@@ -92,11 +92,7 @@ export const unfollow = async (req, res) => {
 
     let account = null;
 
-    try {
-        account = await Account.findUser(followee);
-    } catch (error) {
-        throw error;
-    }
+    account = await Account.findUser(followee);
 
     if (!account) {
         return res
@@ -106,38 +102,27 @@ export const unfollow = async (req, res) => {
 
     // check whether the user is following already
 
-    try {
-        const follow = await Follow.checkFollow({
-            followee: account._id,
-            follower: mongoose
-                .Types
-                .ObjectId(follower)
-        });
+    const follow = await Follow.checkFollow({
+        followee: account._id,
+        follower: mongoose
+            .Types
+            .ObjectId(follower)
+    });
 
-        if (!follow) {
-            // is not following already
-            return res
-                .status(404)
-                .json({code: 1, message: 'YOU ARE NOT FOLLOWING THIS USER'});
-        }
-    } catch (error) {
-        throw error;
-        return;
+    if (!follow) {
+        // is not following already
+        return res
+            .status(404)
+            .json({code: 1, message: 'YOU ARE NOT FOLLOWING THIS USER'});
     }
 
     const count = await Follow.getFollowerCount(account._id);
 
-    // unfollow
-    try {
-        await Follow.unfollow(follow._id);
-        res.json({
-            success: true,
-            count: count - 1
-        });
-    } catch (error) {
-        throw error;
-        return;
-    }
+    await Follow.unfollow(follow._id);
+    res.json({
+        success: true,
+        count: count - 1
+    });
 }
 
 export const checkFollowing = async (req, res) => {}
@@ -149,11 +134,7 @@ export const getFollowers = async (req, res) => {
     // query the account
     let account = null;
 
-    try {
-        account = await Account.findUser(followee);
-    } catch (error) {
-        throw error;
-    }
+    account = await Account.findUser(followee);
 
     if (!account) {
         return res
@@ -169,8 +150,7 @@ export const getFollowers = async (req, res) => {
         });
     }
 
-    let common;
-
+    // let common;
     if(req.user) {
         const followerIds = followers.map(
             (follower) => {
@@ -178,10 +158,15 @@ export const getFollowers = async (req, res) => {
             }
         );
 
-        common = await Follow.find({
-            follower: mongoose.Types.ObjectId(req.user._id),
-            followee: { $in: followerIds}
-        }, 'followee').exec();
+        // common = await Follow.find({
+        //     follower: mongoose.Types.ObjectId(req.user._id),
+        //     followee: { $in: followerIds}
+        // }, 'followee').exec();
+
+        const common = await Follow.getCommonFollowers({
+            userId: mongoose.Types.ObjectId(req.user._id),
+            userIdArray: followerIds
+        });
 
         
 
@@ -195,9 +180,6 @@ export const getFollowers = async (req, res) => {
                 }
             }
         }
-        
-
-
     }
 
     res.json({followers});
@@ -219,26 +201,60 @@ export const getFollowersAfter = async (req, res) => {
     // query the account
     let account = null;
 
-    try {
-        account = await Account.findUser(followee);
+    account = await Account.findUser(followee);
 
-        if (!account) {
-            return res
-                .status(404)
-                .json({code: 1, message: 'USER NOT FOUND'});
-        }
+    if (!account) {
+        return res
+            .status(404)
+            .json({code: 1, message: 'USER NOT FOUND'});
+    }
 
-        const followers = await Follow.getFollowersAfter({
-            followee: account._id,
-            cursorId: mongoose
-                .Types
-                .ObjectId(cursorId)
+    const followers = await Follow.getFollowersAfter({
+        followee: account._id,
+        cursorId: mongoose
+            .Types
+            .ObjectId(cursorId)
+    });
+
+
+    if(followers.length === 0) {
+        return res.json({
+            followers: []
+        });
+    }
+
+    // if logged in
+    if(req.user) {
+        const followerIds = followers.map(
+            (follower) => {
+                return follower.follower._id
+            }
+        );
+
+        // common = await Follow.find({
+        //     follower: mongoose.Types.ObjectId(req.user._id),
+        //     followee: { $in: followerIds}
+        // }, 'followee').exec();
+
+        const common = await Follow.getCommonFollowers({
+            userId: mongoose.Types.ObjectId(req.user._id),
+            userIdArray: followerIds
         });
 
-        res.json({followers})
-    } catch (error) {
-        throw error;
+        
+
+        if(common.length !== 0) {
+            for (let i = 0 ; i < common.length; i++) {
+                for(let j = 0 ; j < followers.length; j++) {
+                    if(common[i].followee.equals(followers[j].follower._id)) {
+                        followers[j].following = true;
+                    }
+                }
+            }
+        }
     }
+
+    res.json({followers})
 }
 
 /* get following */
@@ -259,6 +275,39 @@ export const getFollowing = async (req, res) => {
     }
 
     const following = await Follow.getFollowing(account._id);
+
+    if(following.length === 0) {
+        return {
+            following: []
+        };
+    }
+
+    // if logged in
+    if(req.user) {
+        const followingIds = following.map(
+            (following) => {
+                return following.followee._id
+            }
+        );
+
+
+        const common = await Follow.getCommonFollowers({
+            userId: mongoose.Types.ObjectId(req.user._id),
+            userIdArray: followingIds
+        });
+
+
+        if(common.length !== 0) {
+            for (let i = 0 ; i < common.length; i++) {
+                for(let j = 0 ; j < following.length; j++) {
+                    if(common[i].followee.equals(following[j].followee._id)) {
+                        following[j].following = true;
+                    }
+                }
+            }
+        }
+    }
+
     res.json({following});
 
 }
@@ -290,5 +339,31 @@ export const getFollowingAfter = async (req, res) => {
             .ObjectId(cursorId)
     });
 
+    // if logged in
+    if(req.user) {
+        const followingIds = following.map(
+            (following) => {
+                return following.followee._id
+            }
+        );
+
+
+        const common = await Follow.getCommonFollowers({
+            userId: mongoose.Types.ObjectId(req.user._id),
+            userIdArray: followingIds
+        });
+
+
+        if(common.length !== 0) {
+            for (let i = 0 ; i < common.length; i++) {
+                for(let j = 0 ; j < following.length; j++) {
+                    if(common[i].followee.equals(following[j].followee._id)) {
+                        following[j].following = true;
+                    }
+                }
+            }
+        }
+    }
+    
     res.json({following});
 }

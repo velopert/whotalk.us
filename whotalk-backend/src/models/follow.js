@@ -27,6 +27,7 @@ Follow.statics.follow = function({followee, follower}) {
 
 Follow.statics.unfollow = async function(followId) {
     const follow = await this.findById(followId).exec();
+    console.log(follow);
     follow.end = new Date();
 
     return follow.save();
@@ -65,7 +66,7 @@ Follow.statics.getFollowing = function(follower) {
     .select({ 
         followee: 1,
         since: 1
-    }).exec();
+    }).lean().exec();
 }
 
 Follow.statics.getFollowersAfter = function({followee, cursorId}) {
@@ -79,7 +80,7 @@ Follow.statics.getFollowersAfter = function({followee, cursorId}) {
     .select({ 
         follower: 1,
         since: 1
-    }).exec();
+    }).lean().exec();
 }
 
 Follow.statics.getFollowingAfter = function({follower, cursorId}) {
@@ -93,7 +94,7 @@ Follow.statics.getFollowingAfter = function({follower, cursorId}) {
     .select({ 
         followee: 1,
         since: 1
-    }).exec();
+    }).lean().exec();
 }
 
 Follow.statics.getFollowerCount = function(followee) {
@@ -108,6 +109,13 @@ Follow.statics.getFollowingCount = function(follower) {
         follower,
         end: null
     }).exec();
+}
+
+Follow.statics.getCommonFollowers = function({userId, userIdArray}) {
+    return this.find({
+        follower: userId,
+        followee: { $in: userIdArray}
+    }, 'followee').exec();
 }
 
 
