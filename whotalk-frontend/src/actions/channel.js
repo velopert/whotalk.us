@@ -55,9 +55,11 @@ export const unfollow = (username) => ({
 });
 
 
-export const getFollowers = (username) => ({
+export const getFollowers = ({username, followId}) => ({
     type: CHANNEL.GET_FOLLOWERS,
     payload: {
-        promise: service.getFollowers(username)
+        promise: service.getFollowers({username, followId})
     }
 });
+
+export const clearUserList = createAction(CHANNEL.CLEAR_USER_LIST);

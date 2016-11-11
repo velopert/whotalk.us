@@ -62,11 +62,12 @@ class ChannelRoute extends Component {
     openFocusBox(type) {
         const { UIActions, ChannelActions, params } = this.props;
         UIActions.toggleFocusBox();
+        ChannelActions.clearUserList();
         UIActions.showFocusBox(type);
 
         switch(type) {
             case 'followers':
-                ChannelActions.getFollowers(params.username);
+                ChannelActions.getFollowers({username: params.username});
                 break;
             default:
                 console.error('what?');
@@ -93,12 +94,20 @@ class ChannelRoute extends Component {
         }, 700);
     }
 
+    @autobind
+    handleLoadMore() {
+        const { ChannelActions, status, params } = this.props;
+        const followId = status.userList[status.userList.length-1]._id;
+        ChannelActions.getFollowers({username: params.username, followId});
+    }
+
     render() {
         const {params, pathname, status} = this.props;
         const {
             handleFollow,
             handleUnfollow,
             handleCloseBox,
+            handleLoadMore,
             openFocusBox
         } = this;
 
@@ -106,7 +115,7 @@ class ChannelRoute extends Component {
 
         return (
             <div className="channel">
-                { (status.focusBox.type === 'followers') ? <Channel.UserList closing={status.focusBox.closing} userList={status.userList} loading={status.getFollowersPending}/> : null }
+                { (status.focusBox.type === 'followers') ? <Channel.UserList onLoadMore={handleLoadMore} closing={status.focusBox.closing} userList={status.userList} loading={status.getFollowersPending} isLast={status.userListIsLast}/> : null }
                 <Channel.Box isClosing={status.boxState === 'closing'} height={status.clientHeight-270 + 'px'}>
                     <Channel.Circle/>
                     <Channel.Profile username={params.username} channelInfo={status.channelInfo}/>
@@ -138,6 +147,7 @@ ChannelRoute = connect(state => ({
         unfollowPending: state.channel.requests.unfollow.fetching,
         focusBox: state.ui.focusBox,
         userList: state.channel.focusBox.userList,
+        userListIsLast: state.channel.focusBox.isLast,
         getFollowersPending: state.channel.requests.getFollowers.fetching
     }
 }), dispatch => ({

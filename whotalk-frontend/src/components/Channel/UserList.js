@@ -38,10 +38,29 @@ class UserList extends Component {
         });
     }
 
+    @autobind
+    handleScroll() {
+
+        
+        if(!this.scrollbar || this.props.isLast) {
+            return;
+        }
+
+        const { onLoadMore, loading } = this.props;
+
+
+        const sc = this.scrollbar;
+        const diff = sc.getScrollHeight() - sc.getScrollTop() - sc.getClientHeight();
+
+        if(diff<25 && !loading) {
+            onLoadMore();
+        }
+    }
+
     render() {
-        const {closing, loading, userList} = this.props;
+        const {closing, loading, userList, isLast} = this.props;
         const {round} = this.state;
-        const {renderUsers} = this;
+        const {renderUsers, handleScroll} = this;
 
         return (
             <div
@@ -59,9 +78,13 @@ class UserList extends Component {
                             <Scrollbars
                                 style={{
                                 height: 267
-                            }}>
+                            }}
+                                ref={(ref) => {this.scrollbar = ref}}
+                                onScroll={handleScroll}
+                            >
                             {renderUsers()}
                             </Scrollbars>
+                            
                         </div>
                     )}
             </div>

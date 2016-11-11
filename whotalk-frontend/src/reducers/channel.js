@@ -35,7 +35,8 @@ const initialState = {
         followers: 0
     },
     focusBox: {
-        userList: []
+        userList: [],
+        isLast: false
     },
     chat: {
         identity: null,
@@ -534,6 +535,10 @@ function channel(state = initialState, action) {
         case CHANNEL.GET_FOLLOWERS + '_PENDING':
             return {
                 ...state,
+                focusBox: {
+                    ...state.focusBox,
+                    isLast: false
+                },
                 requests: {
                     ...state.requests,
                     getFollowers: {
@@ -546,7 +551,9 @@ function channel(state = initialState, action) {
             return {
                 ...state,
                 focusBox: {
-                    userList: payload.data.followers
+                    isLast: payload.data.followers.length < 10, // 20 으로 나중에 바꾸자
+                    userList: state.focusBox.userList.length === 0 ? payload.data.followers :
+                    [ ...state.focusBox.userList, ...payload.data.followers]
                 },
                 requests: {
                     ...state.requests,
@@ -567,6 +574,15 @@ function channel(state = initialState, action) {
                     }
                 }
             }
+
+        case CHANNEL.CLEAER_USER_LIST: 
+            return {
+                ...state,
+                focusBox: {
+                    ...state.focusBox,
+                    userList: []
+                }
+            };
 
         default:
             return state;

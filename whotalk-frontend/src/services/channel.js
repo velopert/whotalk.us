@@ -39,8 +39,8 @@ export const unfollow = (username) => {
     });
 }
 
-export const getFollowers = (username) => {
+export const getFollowers = ({username, followId = ''}) => {
     return request ({
-        url: '/api/follow/' + username
+        url: '/api/follow/' + username + '/' + followId
     })
 }
