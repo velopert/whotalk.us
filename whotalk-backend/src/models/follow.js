@@ -114,6 +114,7 @@ Follow.statics.getFollowingCount = function(follower) {
 Follow.statics.getCommonFollowers = function({userId, userIdArray}) {
     return this.find({
         follower: userId,
+        end: null,
         followee: { $in: userIdArray}
     }, 'followee').exec();
 }
