@@ -3,7 +3,8 @@ import {
     HomeScreen,
     InfoSection,
     MainSection,
-    DevSection
+    DevSection,
+    PopOutEffect
 } from 'components';
 import { connect } from 'react-redux';
 
@@ -15,6 +16,8 @@ import hands from 'assets/hands.jpg';
 import * as ui from 'actions/ui';
 import {bindActionCreators} from 'redux';
 
+import autobind from 'autobind-decorator';
+
 
 class Home extends Component {
 
@@ -24,16 +27,32 @@ class Home extends Component {
         UIActions.setFooterVisibility(true);
         UIActions.setHeaderTransparency(true);
     }
+
+    @autobind
+    handleOpenExplore() {
+        const { UIActions } = this.props;
+        UIActions.setHeaderTransparency(false);
+        UIActions.openExplore();
+        setTimeout(
+            () => {
+                this.context.router.transitionTo('/explore');
+            }, 700
+        )
+    }
     
     render() {
 
         const { status } = this.props;
+        const { handleOpenExplore } = this;
+
         return (
             <div className="home">
+                { status.preAnimate ? <PopOutEffect/> : null }
                 <HomeScreen 
                     like={status.likeVisibility}
                     logged={status.session.logged}
                     username={status.session.user.common_profile.username}
+                    onOpenExplore={handleOpenExplore}
                 />
 
                 <MainSection/>
@@ -67,18 +86,25 @@ class Home extends Component {
     }
 }
 
+Home.contextTypes = {
+    router: React.PropTypes.object
+};
+
+
 Home = connect(
     state => ({
         status: {
             session: state.auth.session,
-            likeVisibility: state.ui.home.like
+            likeVisibility: state.ui.home.like,
+            preAnimate: state.ui.explore.preAnimate
         }
     }),
     dispatch => ({
         UIActions: bindActionCreators({
             setHeaderTransparency: ui.setHeaderTransparency,
             setFooterSpace: ui.setFooterSpace,
-            setFooterVisibility: ui.setFooterVisibility
+            setFooterVisibility: ui.setFooterVisibility,
+            openExplore: ui.openExplore
         }, dispatch)
     })
 )(Home)

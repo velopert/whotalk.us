@@ -7,6 +7,7 @@ import Background from './Base/Background';
 import Header from './Base/Header';
 import Footer from './Base/Footer';
 import Dimmed from './Base/Dimmed';
+import PopOutEffect from './Base/PopOutEffect';
 
 import Login from './authentication/Login';
 import Register from './authentication/Register';
@@ -42,6 +43,7 @@ export {
     OAuthSuccess,
     Sidebar,
     Dimmed,
+    PopOutEffect,
     Spinner,
     Channel,
     Chat,

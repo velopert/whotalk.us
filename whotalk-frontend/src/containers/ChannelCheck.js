@@ -10,9 +10,10 @@ import autobind from 'autobind-decorator';
 class ChannelCheck extends Component {
 
     routes = {
+        '/explore': true,
         '/auth': true,
         '/404': true,
-        '/chat': true
+        '/chat': true,
     }
 
     @autobind

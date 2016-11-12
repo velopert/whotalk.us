@@ -46,7 +46,7 @@ class HomeScreen extends Component {
 
     render() {
 
-        const { logged, username } = this.props;
+        const { logged, username, onOpenExplore } = this.props;
 
         const loaded = this.state.isLoaded ? 'loaded' : '';
         const animate = this.state.showLearnMore ? 'slide-up-and-down' : '';
@@ -60,7 +60,7 @@ class HomeScreen extends Component {
 
         const isLogged = (
             <div>
-                <Link to={"/" + username } className={`ui inverted basic orange button ${username===null?'disabled':''}`}>MY CHANNEL</Link><Link to="/" className="ui inverted basic green button">EXPLORE</Link>
+                <Link to={"/" + username } className={`ui inverted basic orange button ${username===null?'disabled':''}`}>MY CHANNEL</Link><button onClick={onOpenExplore} className="ui inverted basic green button">EXPLORE</button>
             </div>
         );
 

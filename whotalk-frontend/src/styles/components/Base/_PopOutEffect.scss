@@ -1,0 +1,53 @@
+.pop-out-effect {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    background-color: #F5F8FA;
+    border-radius: 10px;
+    z-index: 5;
+}
+
+.popOutAnimation {
+    -webkit-animation-duration: 0.7s;
+    animation-duration: 0.7s;
+    -webkit-animation-name: popOutAnimation;
+    animation-name: popOutAnimation;
+    animation-timing-function: ease-out;
+}
+
+@-webkit-keyframes popOutAnimation {}
+
+@keyframes popOutAnimation {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 350px);
+        width: 10px;
+        height: 10px;
+        border-radius: 10px;
+        /*opacity: 1;
+        transform: translateY(0px);*/
+    }
+    20% {
+        /*transform: translateY(-30px);*/
+    }
+    
+    50% {
+        opacity: 1;
+        width: 100px;
+        height: 100px;
+        border-radius: 100px;
+    }
+    80% {
+         
+    }
+    100% {
+
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0px;
+        transform: translate(-50%, -50%);
+    }
+}

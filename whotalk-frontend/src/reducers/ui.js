@@ -10,6 +10,9 @@ const initialState = {
     home: {
         like: true
     },
+    explore: {
+        preAnimate: false
+    },
     footer: {
         space: false,
         show: true
@@ -137,6 +140,16 @@ function ui(state=initialState, action) {
                     closing: true
                 }
             }
+
+        case UI.OPEN_EXPLORE:
+            return {
+                ...state,
+                explore: {
+                    ...state.explore,
+                    preAnimate: true
+                }
+            }
+            
 
         default: 
             return state;
