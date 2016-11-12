@@ -26,6 +26,8 @@ import Spinner from './Spinner';
 
 import * as Common from './Common';
 
+import * as Explore from './Explore';
+
 
 export { 
     Background, 
@@ -47,5 +49,6 @@ export {
     Spinner,
     Channel,
     Chat,
-    Common
+    Common,
+    Explore
 }
