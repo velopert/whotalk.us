@@ -4,7 +4,7 @@ import BasicInfo from './BasicInfo';
 import Button from './Button';
 
 
-const UserInfo = ({onFollow, username, givenName, familyName, thumbnail, following, hideButton, disabled}) => {
+const UserInfo = ({onFollow, onUnfollow, username, givenName, familyName, thumbnail, following, hideButton, disabled}) => {
     return (
         <div className="user-info">
             <Thumbnail/>
@@ -12,7 +12,7 @@ const UserInfo = ({onFollow, username, givenName, familyName, thumbnail, followi
                 username={username}
                 name={`${givenName} ${familyName}`}
             />
-            {!hideButton ? <Button following={following} onFollow={onFollow} disabled={disabled}/> : undefined}
+            {!hideButton ? <Button following={following} onClick={following ? onUnfollow : onFollow} disabled={disabled}/> : undefined}
             
         </div>
     );

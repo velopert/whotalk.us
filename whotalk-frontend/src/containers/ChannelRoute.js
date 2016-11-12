@@ -59,23 +59,29 @@ class ChannelRoute extends Component {
     @autobind
     async handleFollowFromUserList({index, username}) {
 
-
-        const { ChannelActions } = this.props;
-
+        const {ChannelActions} = this.props;
 
         //ChannelActions.setUserListIndex(index);
         ChannelActions.toggleUserInfoFollowButton(index);
         try {
             await ChannelActions.followFromUserList(username);
-        } catch (error) {
-            
-        }
+        } catch (error) {}
         ChannelActions.toggleUserInfoFollowButton(index);
-        
+
     }
-    
 
+    @autobind
+    async handleUnfollowFromUserList({index, username}) {
+        const {ChannelActions} = this.props;
 
+        //ChannelActions.setUserListIndex(index);
+        ChannelActions.toggleUserInfoFollowButton(index);
+        try {
+            await ChannelActions.unfollowFromUserList(username);
+        } catch (error) {}
+
+        ChannelActions.toggleUserInfoFollowButton(index);
+    }
 
     @autobind
     handleUnfollow() {
@@ -143,8 +149,16 @@ class ChannelRoute extends Component {
 
     render() {
         const {params, pathname, status} = this.props;
-        const {handleFollow, handleUnfollow, handleCloseBox, handleLoadMore, openFocusBox, handleFollowFromUserList} = this;
-
+        const {
+            handleFollow,
+            handleUnfollow,
+            handleCloseBox,
+            handleLoadMore,
+            openFocusBox,
+            handleFollowFromUserList,
+            handleUnfollowFromUserList
+        } = this;
+        
         return (
             <div className="channel">
                 {(status.focusBox.type !== null)
@@ -152,14 +166,14 @@ class ChannelRoute extends Component {
                             type={status.focusBox.type}
                             onLoadMore={handleLoadMore}
                             onFollow={handleFollowFromUserList}
+                            onUnfollow={handleUnfollowFromUserList}
                             closing={status.focusBox.closing}
                             userList={status.userList}
                             loading={status.getFollowersPending || status.getFollowingPending}
                             isLast={status.userListIsLast}
                             listIndex={status.userListIndex}
                             logged={status.session.logged}
-                            myUsername={status.session.user.common_profile.username}
-                        />
+                            myUsername={status.session.user.common_profile.username}/>
                     : null}
                 <Channel.Box
                     isClosing={status.boxState === 'closing'}

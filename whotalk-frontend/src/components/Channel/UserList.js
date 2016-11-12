@@ -21,15 +21,23 @@ class UserList extends Component {
     @autobind
     renderUsers() {
 
-        const {userList, type, onFollow, listIndex, logged, myUsername} = this.props;
+        const {
+            userList,
+            type,
+            onFollow,
+            onUnfollow,
+            logged,
+            myUsername
+        } = this.props;
 
         if (userList.length === 0) 
             return null;
-             
-        const f = (type === 'followers') ? 'follower' : 'followee';
+        
+        const f = (type === 'followers')
+            ? 'follower'
+            : 'followee';
 
-
-        return userList.map((follow,i) => {
+        return userList.map((follow, i) => {
             const {username, givenName, familyName, thumbnail} = follow[f].common_profile;
 
             return <UserInfo
@@ -38,35 +46,33 @@ class UserList extends Component {
                 givenName={givenName}
                 familyName={familyName}
                 thumbnail={thumbnail}
-                following={(follow.following) ? true : false}
+                following={(follow.following)
+                            ? true
+                            : false}
                 hideButton={!logged || username === myUsername}
                 disabled={follow.disabled}
                 onFollow={
-                    () => {
-                        onFollow({
-                            index: i,
-                            username
-                        })
-                    }
-                }/>
+                    () => {onFollow({index: i, username})
+                }}
+                onUnfollow={
+                    () => {onUnfollow({index: i, username})
+                }}/>
         });
     }
 
     @autobind
     handleScroll() {
 
-        
-        if(!this.scrollbar || this.props.isLast) {
+        if (!this.scrollbar || this.props.isLast) {
             return;
         }
 
-        const { onLoadMore, loading } = this.props;
-
+        const {onLoadMore, loading} = this.props;
 
         const sc = this.scrollbar;
         const diff = sc.getScrollHeight() - sc.getScrollTop() - sc.getClientHeight();
 
-        if(diff<25 && !loading) {
+        if (diff < 25 && !loading) {
             onLoadMore();
         }
     }
@@ -86,19 +92,24 @@ class UserList extends Component {
                     : (
                         <div>
                             <div className="title">{type.toUpperCase()}</div>
-                            
-                            {loading ? <div className="ui active centered loader"/> : null }
-                            {(!loading && userList.length === 0) ? <div className="empty">THERE IS NO FOLLOWERS</div> : ''}
+
+                            {loading
+                                ? <div className="ui active centered loader"/>
+                                : null}
+                            {(!loading && userList.length === 0)
+                                ? <div className="empty">THERE IS NO FOLLOWERS</div>
+                                : ''}
                             <Scrollbars
                                 style={{
                                 height: 267
                             }}
-                                ref={(ref) => {this.scrollbar = ref}}
-                                onScroll={handleScroll}
-                            >
-                            {renderUsers()}
+                                ref={(ref) => {
+                                this.scrollbar = ref
+                            }}
+                                onScroll={handleScroll}>
+                                {renderUsers()}
                             </Scrollbars>
-                            
+
                         </div>
                     )}
             </div>

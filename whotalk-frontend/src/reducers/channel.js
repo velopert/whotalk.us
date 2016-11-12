@@ -75,6 +75,9 @@ const initialState = {
         unfollow: {
             ...request
         },
+        unfollowFromUserList: {
+            ...request
+        },
         getFollowers: {
             ...request
         },
@@ -678,7 +681,41 @@ function channel(state = initialState, action) {
                     }
                 }
             }
-        
+
+        case CHANNEL.UNFOLLOW_FROM_USER_LIST + "_PENDING":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    unfollowFromUserList: {
+                        ...pending
+                    }
+                }
+            }
+
+        case CHANNEL.UNFOLLOW_FROM_USER_LIST + "_FULFILLED":            
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    unfollowFromUserList: {
+                        ...fulfilled
+                    }
+                }
+            }
+
+        case CHANNEL.UNFOLLOW_FROM_USER_LIST + "_REJECTED":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    unfollowFromUserList: {
+                        ...rejected,
+                        error: payload
+                    }
+                }
+            }
+
         case CHANNEL.TOGGLE_USER_INFO_FOLLOW_BUTTON:
 
             var userList = state.focusBox.userList;

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Button = ({ following, onFollow, disabled }) => {
+const Button = ({ following, onClick, disabled }) => {
     return (
-        <div className={`button ${following?'active':''} ${disabled ? 'disabled': ''}`} onClick={onFollow}>
+        <div className={`button ${following?'active':''} ${disabled ? 'disabled': ''}`} onClick={onClick}>
             <i className={`${following?'remove':'add'} user icon large`}></i>
         </div>
     );
