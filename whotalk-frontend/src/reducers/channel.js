@@ -656,19 +656,9 @@ function channel(state = initialState, action) {
                 }
             }
 
-        case CHANNEL.FOLLOW_FROM_USER_LIST + "_FULFILLED":
-            var userList = state.focusBox.userList; // only for ref
-            
+        case CHANNEL.FOLLOW_FROM_USER_LIST + "_FULFILLED":            
             return {
                 ...state,
-                focusBox: {
-                    ...state.focusBox,
-                    userList: [
-                        ...userList.slice(0, state.focusBox.listIndex),
-                        { ...userList[state.focusBox.listIndex], following: true },
-                        ...userList.slice(state.focusBox.listIndex + 1, userList.length)
-                    ]
-                },
                 requests: {
                     ...state.requests,
                     followFromUserList: {
@@ -687,6 +677,23 @@ function channel(state = initialState, action) {
                         error: payload
                     }
                 }
+            }
+        
+        case CHANNEL.TOGGLE_USER_INFO_FOLLOW_BUTTON:
+
+            var userList = state.focusBox.userList;
+
+            return {
+                ...state,
+                focusBox: {
+                    ...state.focusBox,
+                    userList: [
+                        ...userList.slice(0, payload),
+                        { ...userList[payload], disabled: !(userList[payload].disabled), following: userList[payload].disabled ? !(userList[payload].following) : userList[payload].following},
+                        ...userList.slice(payload + 1, userList.length)
+                    ]
+                }
+
             }
         
 

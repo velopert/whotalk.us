@@ -57,10 +57,21 @@ class ChannelRoute extends Component {
     }
 
     @autobind
-    handleFollowFromUserList({index, username}) {
+    async handleFollowFromUserList({index, username}) {
+
+
         const { ChannelActions } = this.props;
-        ChannelActions.setUserListIndex(index);
-        ChannelActions.followFromUserList(username);
+
+
+        //ChannelActions.setUserListIndex(index);
+        ChannelActions.toggleUserInfoFollowButton(index);
+        try {
+            await ChannelActions.followFromUserList(username);
+        } catch (error) {
+            
+        }
+        ChannelActions.toggleUserInfoFollowButton(index);
+        
     }
     
 
@@ -145,9 +156,9 @@ class ChannelRoute extends Component {
                             userList={status.userList}
                             loading={status.getFollowersPending || status.getFollowingPending}
                             isLast={status.userListIsLast}
-                            waiting={status.followFULPending}
                             listIndex={status.userListIndex}
                             logged={status.session.logged}
+                            myUsername={status.session.user.common_profile.username}
                         />
                     : null}
                 <Channel.Box
@@ -180,7 +191,6 @@ ChannelRoute = connect(state => ({
         session: state.auth.session,
         clientHeight: state.ui.clientHeight,
         followPending: state.channel.requests.follow.fetching,
-        followFULPending: state.channel.requests.followFromUserList.fetching,
         unfollowPending: state.channel.requests.unfollow.fetching,
         focusBox: state.ui.focusBox,
         userList: state.channel.focusBox.userList,

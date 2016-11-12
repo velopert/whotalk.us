@@ -21,7 +21,7 @@ class UserList extends Component {
     @autobind
     renderUsers() {
 
-        const {userList, type, onFollow, listIndex, waiting, logged} = this.props;
+        const {userList, type, onFollow, listIndex, logged, myUsername} = this.props;
 
         if (userList.length === 0) 
             return null;
@@ -34,13 +34,13 @@ class UserList extends Component {
 
             return <UserInfo
                 key={follow._id}
-                waiting={waiting && i === listIndex}
                 username={username}
                 givenName={givenName}
                 familyName={familyName}
                 thumbnail={thumbnail}
                 following={(follow.following) ? true : false}
-                logged={logged}
+                hideButton={!logged || username === myUsername}
+                disabled={follow.disabled}
                 onFollow={
                     () => {
                         onFollow({

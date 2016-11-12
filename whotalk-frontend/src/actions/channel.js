@@ -85,5 +85,7 @@ export const getFollowing = ({username, followId}) => ({
     }
 });
 
+export const toggleUserInfoFollowButton = createAction(CHANNEL.TOGGLE_USER_INFO_FOLLOW_BUTTON);
+
 
 export const clearUserList = createAction(CHANNEL.CLEAR_USER_LIST);
