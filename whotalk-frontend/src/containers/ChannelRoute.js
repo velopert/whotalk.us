@@ -203,7 +203,7 @@ ChannelRoute = connect(state => ({
         channelInfo: state.channel.info,
         boxState: state.ui.channel.box.state,
         session: state.auth.session,
-        clientHeight: state.ui.clientHeight,
+        clientHeight: state.ui.clientSize.height,
         followPending: state.channel.requests.follow.fetching,
         unfollowPending: state.channel.requests.unfollow.fetching,
         focusBox: state.ui.focusBox,

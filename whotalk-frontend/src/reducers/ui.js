@@ -32,7 +32,10 @@ const initialState = {
         closing: false,
         type: null
     },
-    clientHeight: null
+    clientSize: {
+        height: null,
+        width: null
+    }
 };
 
 function ui(state=initialState, action) {
@@ -106,10 +109,13 @@ function ui(state=initialState, action) {
                     }
                 }
             }
-        case UI.UPDATE_CLIENT_HEIGHT:
+        case UI.UPDATE_CLIENT_SIZE:
             return {
                 ...state,
-                clientHeight: payload
+                clientSize: {
+                    height: payload.height,
+                    width: payload.width
+                }
             };
 
         case UI.TOGGLE_FOCUS_BOX: 
