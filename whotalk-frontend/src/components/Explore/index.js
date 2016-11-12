@@ -1,6 +1,10 @@
 import Container from './Container';
+import LeftBox from './LeftBox';
+import Feeds from './Feeds';
 
 export {
-    Container
+    Container,
+    LeftBox,
+    Feeds
 };
 

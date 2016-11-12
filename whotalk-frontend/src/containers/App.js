@@ -30,10 +30,13 @@ class App extends Component {
     }    
 
     @autobind
-    updateClientHeight() {
+    updateClientSize() {
         const { UIActions } = this.props;
 
-        UIActions.updateClientHeight(document.body.clientHeight);
+        UIActions.updateClientSize({
+            height: document.body.clientHeight,
+            width: document.body.clientWidth
+        });
     }
 
     @autobind
@@ -108,8 +111,8 @@ class App extends Component {
 
         window.addEventListener('scroll', this.handleScroll);
         
-        window.addEventListener("resize", this.updateClientHeight);
-        this.updateClientHeight();
+        window.addEventListener("resize", this.updateClientSize);
+        this.updateClientSize();
 
         let session = storage.get('session');
 
@@ -159,7 +162,7 @@ class App extends Component {
     
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.updateClientHeight);
+        window.removeEventListener("resize", this.updateClientSize);
     }
     
     render() {
@@ -222,7 +225,7 @@ App = connect(state => ({
         setLikeTransparency: ui.setLikeTransparency,
         setFooterSpace: ui.setFooterSpace,
         setFooterVisibility: ui.setFooterVisibility,
-        updateClientHeight: ui.updateClientHeight,
+        updateClientSize: ui.updateClientSize,
         toggleFocusBox: ui.toggleFocusBox,
         closingFocusBox: ui.closingFocusBox
     }, dispatch)

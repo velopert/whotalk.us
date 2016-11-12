@@ -1,6 +1,14 @@
 .explore {
-    padding-top: 50px;
+    padding-top: 70px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
     width: 100%;
     min-height: 100vh;
+    height: 100%;
     background-color: #dee2e6;
+
+    @import 'LeftBox';
+    @import 'Feeds';
+    
 }

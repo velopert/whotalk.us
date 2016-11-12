@@ -17,7 +17,8 @@ class ExploreRoute extends Component {
     render() {
         return (
             <Explore.Container>
-                
+                <Explore.LeftBox/>
+                <Explore.Feeds/>
             </Explore.Container>
         );
     }

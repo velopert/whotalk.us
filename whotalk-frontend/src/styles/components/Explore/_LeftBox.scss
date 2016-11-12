@@ -1,0 +1,14 @@
+.left-box {
+
+    background-color: #f1f3f5;
+    width: 200px;
+    height: 500px;
+    float: left;
+    
+    border-radius: 5px;
+
+     @include media("<tablet") {
+         display: none;
+     }
+}
+
