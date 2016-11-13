@@ -1,6 +1,31 @@
 .feeds {
-    float: right;
-    background-color: red;
-    width: 100px;
-    height: 100px;
+    transition: all .4s ease;
+    background-color: #f1f3f5;
+    //padding: 20px;
+    margin-left: 220px;
+    @include media("<tablet") {
+        margin-left: 0px;
+        width: 100% !important;
+    }
+    .masonry {
+        margin: 0 auto;
+    }
+    .feed {
+        width: 320px;
+        height: 200px;
+        background-color: black;
+
+        &.one {
+            height: 300px;
+            background-color: blue;
+        }
+
+        &.two {
+            height: 400px;
+            background-color: red;
+        }
+        @include media("<=tablet") {
+            width: 100%;
+        }
+    }
 }

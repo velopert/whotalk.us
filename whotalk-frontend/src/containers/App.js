@@ -182,7 +182,7 @@ class App extends Component {
                     <Dimmed enable={ui.sidebar.show} onClick={handleSidebarToggle} isSidebar={true}/>
                     <Dimmed enable={ui.focusBox.show} onClick={closeFocusBox}/>
                     <Header transparency={ui.header.transparent} onSidebarToggle={handleSidebarToggle}/>
-                    <div>
+                    <div style={{height: '100%'}}>
                         <Match exactly pattern="/" component={Home}/>
                         <Match pattern="/auth" component={Auth}/>
                         <Match pattern="/explore" component={ExploreRoute}/>

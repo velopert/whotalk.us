@@ -102,6 +102,11 @@ module.exports = {
         loader: 'babel',
         query: require('./babel.dev')
       },
+      // For masonry
+      // {
+      //     test: /masonry|imagesloaded|fizzy\-ui\-utils|desandro\-|outlayer|get\-size|doc\-ready|eventie|eventemitter/,
+      //     loader: 'imports?define=>false&this=>window'
+      // },
       // "postcss" loader applies autoprefixer to our CSS.
       // "css" loader resolves paths in CSS and adds assets as dependencies.
       // "style" loader turns CSS into JS modules that inject <style> tags.

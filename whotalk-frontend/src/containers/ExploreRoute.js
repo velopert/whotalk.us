@@ -15,10 +15,13 @@ class ExploreRoute extends Component {
     }
     
     render() {
+
+        const { status } = this.props;
+        
         return (
             <Explore.Container>
                 <Explore.LeftBox/>
-                <Explore.Feeds/>
+                <Explore.Feeds width={ status.clientSize.width - 260  + 'px'}/>
             </Explore.Container>
         );
     }
@@ -28,7 +31,7 @@ class ExploreRoute extends Component {
 ExploreRoute = connect(
     state => ({
         status: {
-            
+            clientSize: state.ui.clientSize
         }
     }),
     dispatch => ({
