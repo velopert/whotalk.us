@@ -97,7 +97,7 @@ class UserList extends Component {
                                 ? <div className="ui active centered loader"/>
                                 : null}
                             {(!loading && userList.length === 0)
-                                ? <div className="empty">THERE IS NO FOLLOWERS</div>
+                                ? <div className="empty">LIST IS EMPTY</div>
                                 : ''}
                             <Scrollbars
                                 style={{
