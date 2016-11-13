@@ -277,9 +277,9 @@ export const getFollowing = async (req, res) => {
     const following = await Follow.getFollowing(account._id);
 
     if(following.length === 0) {
-        return {
+        return res.json({
             following: []
-        };
+        });
     }
 
     // if logged in
