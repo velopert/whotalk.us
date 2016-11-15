@@ -147,6 +147,14 @@ class ChannelRoute extends Component {
         }
     }
 
+    componentWillUnmount() {
+        const { UIActions, status } = this.props;
+        if(status.focusBox.show) {
+            UIActions.toggleFocusBox();
+        }
+    }
+    
+
     render() {
         const {params, pathname, status} = this.props;
         const {

@@ -59,7 +59,8 @@ class App extends Component {
 
     @autobind
     closeFocusBox() {
-        const { UIActions } = this.props;
+        const { UIActions, ui } = this.props;
+        if(ui.focusBox.closing) return;
         UIActions.closingFocusBox();
         setTimeout(
             UIActions.toggleFocusBox, 700
