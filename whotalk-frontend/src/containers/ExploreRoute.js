@@ -4,8 +4,11 @@ import {bindActionCreators} from 'redux';
 import * as ui from 'actions/ui';
 import {Explore} from 'components';
 
-
 class ExploreRoute extends Component {
+
+    constructor(props) {
+        super(props);
+    }
 
     componentDidMount() {
         const { UIActions } = this.props;
@@ -21,7 +24,7 @@ class ExploreRoute extends Component {
         return (
             <Explore.Container>
                 <Explore.LeftBox/>
-                <Explore.Feeds width={ status.clientSize.width - 260  + 'px'}/>
+                <Explore.Feeds width={ status.clientSize.width - 245  + 'px'}/>
             </Explore.Container>
         );
     }
