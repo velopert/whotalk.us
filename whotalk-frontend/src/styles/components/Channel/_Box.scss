@@ -7,7 +7,7 @@
     position: relative;
     background-color: #212529;
     min-height: 330px;
-    .circle {
+    > .circle {
         border-radius: 50%;
         width: 150px;
         height: 150px;
