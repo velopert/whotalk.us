@@ -10,7 +10,9 @@
 
     }
     padding-top: 50px;
-
+    @include media("<tablet") {
+        padding-right: 30px;
+    }  
     
 
     @import 'LeftBox';

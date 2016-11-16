@@ -1,36 +1,13 @@
 // import React from 'react'; const masonryOptions = {     transitionDuration: 0
 // };
 import React, {Component} from 'react';
-
+import Feed from './Feed';
 const Masonry = window.Masonry;
-
-function randomHeight() {
-    return Math.random() * 500 + 200 + 'px'
-}
-
-const Feed = ({height}) => {
-    return (
-        <div className="feed fadeIn7">
-            <div className="feed-content" style={{height}}>
-                
-            </div>
-        </div>
-    );
-};
 
 class Feeds extends Component {
     constructor(props) {
         super(props);
         this.msnry = null;
-        this.state = {
-            // data: [300,400,500,300,400,500,500,500,500,400,500,400,500,400,300,400,500,300,400,500,500,500,500,400,500,400,500,400]
-            data: [300, 400, 500]
-        };
-        this.renderTesting = this
-            .renderTesting
-            .bind(this);
-
-        this.do = this.do.bind(this);
     }
 
     componentDidMount() {
@@ -56,16 +33,6 @@ class Feeds extends Component {
         });
     }
 
-    renderTesting() {
-        var c = this
-            .state
-            .data
-            .map((height, i) => (<Feed height={height} key={i}/>))
-
-        console.log(c);
-        return c;
-    }
-
     render() {
 
         const {width} = this.props;
@@ -75,7 +42,7 @@ class Feeds extends Component {
                 width
             }}>
                 <div className="masonry">
-                    {this.renderTesting()}
+                    <Feed/> <Feed/> <Feed/> <Feed/> <Feed/> <Feed/> <Feed/> <Feed/> <Feed/>
                 </div>
 
             </div>
