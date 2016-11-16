@@ -10,7 +10,7 @@ function randomHeight() {
 
 const Feed = ({height}) => {
     return (
-        <div className="feed">
+        <div className="feed fadeIn7">
             <div className="feed-content" style={{height}}>
                 
             </div>
@@ -23,7 +23,8 @@ class Feeds extends Component {
         super(props);
         this.msnry = null;
         this.state = {
-            data: []
+            // data: [300,400,500,300,400,500,500,500,500,400,500,400,500,400,300,400,500,300,400,500,500,500,500,400,500,400,500,400]
+            data: [300, 400, 500]
         };
         this.renderTesting = this
             .renderTesting

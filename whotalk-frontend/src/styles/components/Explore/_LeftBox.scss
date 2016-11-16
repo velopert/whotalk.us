@@ -1,11 +1,16 @@
 .left-box {
     transition: all .4s ease;
-    background-color: #f1f3f5;
+    background-color: #445055;
+    position: fixed;
     width: 200px;
-    height: 500px;
+    height: 100vh;
     float: left;
+    top: 0px;
+    padding-top: 50px;
+
+    box-shadow: inset -7px 0 9px -7px rgba(0,0,0,0.7);
     
-    border-radius: 5px;
+    border-radius: 2px;
     margin-bottom: 20px;
      @include media("<tablet") {
          width: 0px;

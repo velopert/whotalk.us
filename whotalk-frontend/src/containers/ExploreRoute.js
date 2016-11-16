@@ -10,7 +10,7 @@ class ExploreRoute extends Component {
         super(props);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const { UIActions } = this.props;
         UIActions.initialize('explore');
         UIActions.setHeaderTransparency(false);
@@ -24,7 +24,7 @@ class ExploreRoute extends Component {
         return (
             <Explore.Container>
                 <Explore.LeftBox/>
-                <Explore.Feeds width={ status.clientSize.width - 245  + 'px'}/>
+                <Explore.Feeds width={ status.clientSize.width - 230  + 'px'}/>
             </Explore.Container>
         );
     }

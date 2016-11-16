@@ -8,6 +8,23 @@
     background-color: #dee2e6;
     border-radius: 10px;
     z-index: 5;
+    overflow: hidden;
+
+    .left-box {
+        width: 208px;
+        height: 100%;
+        background-color: #445055;
+        box-shadow: inset -7px 0 9px -7px rgba(0,0,0,0.7);
+         
+    }
+}
+
+.leftBoxAnimation {
+        -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-name: leftBoxAnimation;
+    animation-name: leftBoxAnimation;
+    animation-timing-function: ease-out;
 }
 
 .popOutAnimation {
@@ -23,7 +40,7 @@
 @keyframes popOutAnimation {
     0% {
         opacity: 0;
-        transform: translate(-50%, 350px);
+        transform: translate(-50%, 550px);
         width: 10px;
         height: 10px;
         border-radius: 10px;
@@ -44,10 +61,36 @@
          
     }
     100% {
-
+        
         width: 100vw;
         height: 100vh;
         border-radius: 0px;
         transform: translate(-50%, -50%);
+    }
+}
+
+
+
+@-webkit-keyframes leftBoxAnimation {}
+
+@keyframes leftBoxAnimation {
+    0% {
+        width: 2px;
+        /*opacity: 1;
+        transform: translateY(0px);*/
+    }
+    20% {
+        /*transform: translateY(-30px);*/
+    }
+    
+    50% {
+         width: 20px;
+    }
+    80% {
+         
+    }
+    100% {
+        width: 208px;
+        height: 100%;
     }
 }
