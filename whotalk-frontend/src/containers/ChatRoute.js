@@ -295,7 +295,7 @@ ChatRoute = connect(state => ({
         chatData: state.channel.chat.data,
         tempDataIndex: state.channel.chat.tempDataIndex,
         top: state.channel.chat.top,
-        clientHeight: state.ui.clienSize.height
+        clientHeight: state.ui.clientSize.height
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

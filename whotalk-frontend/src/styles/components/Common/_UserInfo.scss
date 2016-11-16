@@ -22,15 +22,17 @@
     .basic-info {
         margin-left: 46px;
         .username {
+            margin-top: 2px;
             color: #212529;
             font-weight: 600;
             font-size: 14px;
+            line-height: 14px;
         }
 
         .name {
-            margin-top: -5px;
-            color: #868e96;
-            font-size:  12px;
+            color: #212529;
+            font-size:  14px;
+            
         }
     }
 
