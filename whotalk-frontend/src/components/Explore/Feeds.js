@@ -1,8 +1,23 @@
 // import React from 'react'; const masonryOptions = {     transitionDuration: 0
 // };
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Feed from './Feed';
 const Masonry = window.Masonry;
+
+const follow = {
+    followee: {
+        username: 'user1',
+        thumbnail: 'none',
+        givenName: 'Test',
+        familyName: 'User',
+    },
+    follower: {
+        username: 'user2',
+        thumbnail: 'none'
+    },
+    following: false,
+    date: new Date(),
+}
 
 class Feeds extends Component {
     constructor(props) {
@@ -23,7 +38,7 @@ class Feeds extends Component {
             columnWidth: '.feed'
         });
     }
-    
+
     do() {
         this.setState({
             data: [
@@ -42,7 +57,8 @@ class Feeds extends Component {
                 width
             }}>
                 <div className="masonry">
-                    <Feed/> <Feed/> <Feed/> <Feed/> <Feed/> <Feed/> <Feed/> <Feed/> <Feed/>
+                    <Feed type="FOLLOW" payload={follow} />
+                    <Feed type="FOLLOW" payload={follow} />
                 </div>
 
             </div>

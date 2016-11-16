@@ -5,7 +5,7 @@ const Circle = ({image}) => (
     <div className="circle">
         <div className="image"
         style={{
-            background: `url(${image}) no-repeat`,
+            background: `url(${image==='none' ? userThumbnail : image}) no-repeat`,
             backgroundSize: 'cover'
         }}></div>
     </div>
