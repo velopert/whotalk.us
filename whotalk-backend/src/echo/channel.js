@@ -18,11 +18,17 @@ function Channel(name) {
     this.usernames = {}; // stores username
     this.sleep = true;
     this.timeout = null;
+    this.killChannelTimeout = null;
+
 
 
     // adds userId
     this.push = (userId) => {
         this.users.push(userId);
+        if(this.killChannelTimeout) {
+            clearTimeout(this.killChannelTimeout);
+            this.killChannelTimeout = null; // revive
+        }
 
         // // handles multiple window
         // if(!this.usernames[sockets[userId].data.username]){
@@ -78,6 +84,9 @@ function Channel(name) {
         });
 
         if(data.type === "MSG" && this.sleep === true) {
+
+            
+
             log('Channel ' + this.name + ' is awake');
             this.sleep = false;
             clearTimeout(this.timeout);
@@ -114,17 +123,21 @@ channel.create = (name) => {
 }
 
 channel.remove = (name) => {
-    
-    clearTimeout(channels[name].timeout);
-    Message.write({
-        suID: generateUID(),
-        type: "SLEEP",
-        channel: name
-    });
+    // kill channel when there is no new user within 1 minutes.
+    channels[name].killChannelTimeout = setTimeout(
+        () => {
+            clearTimeout(channels[name].timeout);
+            Message.write({
+                suID: generateUID(),
+                type: "SLEEP",
+                channel: name
+            });
 
-    delete channels[name];
-    log(name + ' channel is dying..');
-    log(Object.keys(channels).length + ' channels alive');
+            delete channels[name];
+            log(name + ' channel is dying..');
+            log(Object.keys(channels).length + ' channels alive');
+        }, 1000 * 60 
+    );
 }
 
 channel.get = (name) => {
