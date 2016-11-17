@@ -1,9 +1,12 @@
 import _ from 'lodash';
 import Message from './../models/message.js';
+import { server as SEND } from './packetTypes';
+import {log, generateUID} from './helper';
+
 
 let sockets = null;
 const channels = {};
-import { log } from './helper';
+
 
 function emit(connection, data) {
     connection.write(JSON.stringify(data));
@@ -12,7 +15,10 @@ function emit(connection, data) {
 function Channel(name) {
     this.name = name;
     this.users = []; // stores userId
-    this.usernames = {} // stores username
+    this.usernames = {}; // stores username
+    this.sleep = true;
+    this.timeout = null;
+
 
     // adds userId
     this.push = (userId) => {
@@ -70,6 +76,26 @@ function Channel(name) {
             username: data.payload.username,
             message: data.payload.message
         });
+
+        if(data.type === "MSG" && this.sleep === true) {
+            log('Channel ' + this.name + ' is awake');
+            this.sleep = false;
+            clearTimeout(this.timeout);
+
+            this.timeout = setTimeout(
+                () => {
+                    log('Channel ' + this.name + ' is sleeping');
+                    this.sleep = true;
+                    Message.write({
+                        suID: generateUID(),
+                        type: "SLEEP",
+                        channel: this.name
+                    });
+                }, 1000 * 60// 1 hour
+            )
+
+
+        }
     }
 
     this.countUser = (username) => {
@@ -88,6 +114,14 @@ channel.create = (name) => {
 }
 
 channel.remove = (name) => {
+    
+    clearTimeout(channels[name].timeout);
+    Message.write({
+        suID: generateUID(),
+        type: "SLEEP",
+        channel: name
+    });
+
     delete channels[name];
     log(name + ' channel is dying..');
     log(Object.keys(channels).length + ' channels alive');

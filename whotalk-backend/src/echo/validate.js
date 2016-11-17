@@ -20,7 +20,7 @@ const schema = {
     },
     message: {
         message: { type: 'string', minLength: 1 },
-        uID: { type: 'string', exactLength: 11 }
+        uID: { type: 'string' }
     }
 }
 

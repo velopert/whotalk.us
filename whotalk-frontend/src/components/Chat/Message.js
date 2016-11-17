@@ -19,7 +19,7 @@ function charSum(str) {
 class Message extends Component {
     static propTypes = {
         suID: PropTypes.string,
-        type: PropTypes.oneOf(['JOIN', 'MSG', 'LEAVE']),
+        type: PropTypes.oneOf(['JOIN', 'MSG', 'LEAVE', 'SLEEP']),
         message: PropTypes.string,
         username: PropTypes.string,
         anonymous: PropTypes.bool,
@@ -106,6 +106,10 @@ class Message extends Component {
 
         let eventText = null;
 
+        if(type === 'SLEEP'){
+            return null;
+        }
+        
         if (isEvent) {
             eventText = (type === 'JOIN')
                 ? 'Joined the channel'

@@ -37,7 +37,21 @@ export function tryParseJSON(jsonString) {
     return false;
 };
 
+let counter = 0;
+let reset = false;
+
 
 export function generateUID() {
-    return (new Date().valueOf()).toString(36) + ("000" + (Math.random() * Math.pow(36, 3) << 0).toString(36)).slice(-3);
+
+    if(!reset) {
+        reset = true;
+        process.nextTick(
+            () => {
+                counter = 0;
+                reset = false;
+            }, 100
+        )
+    }
+    
+    return (new Date().valueOf()).toString(36) + (counter++).toString(36);
 }
