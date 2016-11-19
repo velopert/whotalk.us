@@ -4,6 +4,7 @@ import { server as SEND } from './packetTypes';
 import {log, generateUID} from './helper';
 import Activity from '../models/activity';
 import Account from '../models/account';
+import Follow from '../models/follow';
 
 let sockets = null;
 const channels = {};
@@ -69,7 +70,7 @@ function Channel(name) {
     };
 
     //broadcast the data to this Channel
-    this.broadcast = async (data) => {
+    this.broadcast = async (data, userId = null) => {
         for(let i = 0; i < this.users.length; i++) {
             emit(sockets[this.users[i]], data);
         }
@@ -90,12 +91,22 @@ function Channel(name) {
             this.sleep = false;
             clearTimeout(this.timeout);
 
+            const userFollowers = await Follow.getAllFollowers(userId);
+            console.log(userFollowers);
+
+            const channelFollowers = await Follow.getAllFollowers(this.channelId);
+
+            const subscribers = _.union(userFollowers, channelFollowers);
+            console.log('subscribers: ', subscribers);
+            console.log('channelId', this.channelId);
+
             // create Activity
             await Activity.createChatActivity({
                 username: data.payload.username,
                 anonymous: data.payload.anonymous,
                 initId: result._id,
-                channel: this.name
+                channel: this.name,
+                subscribers
             });
 
             this.timeout = setTimeout(
@@ -109,8 +120,6 @@ function Channel(name) {
                     });
                 }, 1000 * 60// 1 hour
             )
-
-
         }
     }
 
@@ -133,7 +142,7 @@ channel.create = async (name) => {
         return false;
     } 
     
-    channels[name]._id = account._id;
+    channels[name].channelId = account._id;
     
     return true;
 }

@@ -79,7 +79,7 @@ const service = {
             date: (new Date()).getTime(),
             uID: payload.uID,
             suID: helper.generateUID()
-        }));
+        }), connection.data.userId);
 
         // ch.broadcast(helper.createAction(SEND.MSG, {
         //     anonymous: connection.data.anonymous,

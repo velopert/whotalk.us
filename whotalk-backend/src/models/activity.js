@@ -29,7 +29,7 @@ const Activity = new Schema({
 });
 
 
-Activity.statics.createChatActivity = function({ username, anonymous, initId, channel }) {
+Activity.statics.createChatActivity = function({ username, anonymous, initId, channel, subscribers }) {
     const activity = new this({
         type: "CHAT",
         payload: {
@@ -37,8 +37,9 @@ Activity.statics.createChatActivity = function({ username, anonymous, initId, ch
                 username,
                 anonymous,
                 initId,
-                channel
-            }
+                channel,
+            },
+            subscribers            
         }
     });
 

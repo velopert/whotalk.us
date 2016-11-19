@@ -254,6 +254,8 @@ export const getFollowersAfter = async (req, res) => {
         }
     }
 
+    res.json({followers});
+
 
 }
 
@@ -310,8 +312,6 @@ export const getFollowing = async (req, res) => {
             }
         }
     }
-
-
 
     res.json({following});
 
