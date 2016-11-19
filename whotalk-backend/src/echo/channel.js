@@ -91,8 +91,11 @@ function Channel(name) {
             this.sleep = false;
             clearTimeout(this.timeout);
 
-            const userFollowers = await Follow.getAllFollowers(userId);
-            console.log(userFollowers);
+            let userFollowers = [];
+            if(userId) {
+                userFollowers = await Follow.getAllFollowers(userId);
+            }
+            
 
             const channelFollowers = await Follow.getAllFollowers(this.channelId);
 
