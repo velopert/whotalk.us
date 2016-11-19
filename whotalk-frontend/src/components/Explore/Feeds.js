@@ -59,6 +59,7 @@ class Feeds extends Component {
                 <div className="masonry">
                     <Feed type="FOLLOW" payload={follow} />
                     <Feed type="FOLLOW" payload={follow} />
+                    <Feed type="CHAT" payload={follow} />
                 </div>
 
             </div>

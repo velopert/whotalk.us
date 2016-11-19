@@ -9,20 +9,20 @@ import { UserInfo } from 'components/Common';
     - CHAT
 */
 
-                        // {
-                        //     followee: {
-                        //         username: 'user1',
-                        //         thumbnail: 'none',
-                        //         givenName: 'Test',
-                        //         familyName: 'User',
-                        //     },
-                        //     follower: {
-                        //         username: 'user2',
-                        //         thumbnail: 'none'
-                        //     },
-                        //     following: false,
-                        //     date: new Date(),
-                        // }
+// {
+//     followee: {
+//         username: 'user1',
+//         thumbnail: 'none',
+//         givenName: 'Test',
+//         familyName: 'User',
+//     },
+//     follower: {
+//         username: 'user2',
+//         thumbnail: 'none'
+//     },
+//     following: false,
+//     date: new Date(),
+// }
 
 class Feed extends Component {
 
@@ -36,6 +36,8 @@ class Feed extends Component {
                     <UserInfo username={payload.followee.username} givenName={payload.followee.givenName} familyName={payload.followee.familyName}/>
                 </div>
             )
+        } else {
+            
         }
     }
 
@@ -50,7 +52,6 @@ class Feed extends Component {
                     </div>
                     <div className="body">
                         {renderFeed()}
-                    
                     </div>
                 </div>
             </div>
