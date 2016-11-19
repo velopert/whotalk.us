@@ -97,8 +97,6 @@ function Channel(name) {
             const channelFollowers = await Follow.getAllFollowers(this.channelId);
 
             const subscribers = _.union(userFollowers, channelFollowers);
-            console.log('subscribers: ', subscribers);
-            console.log('channelId', this.channelId);
 
             // create Activity
             await Activity.createChatActivity({
