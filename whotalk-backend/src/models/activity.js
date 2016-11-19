@@ -46,6 +46,32 @@ Activity.statics.createChatActivity = function({ username, anonymous, initId, ch
     return activity.save();
 }
 
+Activity.statics.checkDuplicates = function({followee, follower}) {
+    return this.findOne({
+        type: 'FOLLOW',
+        'payload.follow.followee.username': followee,
+        'payload.follow.follower.username': follower,
+        date: { $gt: new Date((new Date()).getTime() - 1000 * 60 * 30) }
+    }).exec();
+
+}
+
+Activity.statics.createFollowActivity = function({followee, follower, subscribers}) {
+
+    const activity = new this({
+        type: "FOLLOW",
+        payload: {
+            follow: {
+                followee,
+                follower
+            },
+            subscribers
+        }
+    });
+
+    return activity.save();
+}
+
 
 
 export default mongoose.model('Activity', Activity);
