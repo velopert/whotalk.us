@@ -38,7 +38,10 @@ session.get = async (sessionID) => {
     // store the username in cache
     cache.session.set(sessionID, account.common_profile.username);
 
-    return account.common_profile.username;
+    return {
+        _id: account._id,
+        username: account.common_profile.username
+    };
     // check cache whether it has one
     // if (cache.session.has(sessionID)) {
     //     return cb(cache.session.get(sessionID));

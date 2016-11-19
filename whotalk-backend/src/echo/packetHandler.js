@@ -24,13 +24,14 @@ const service = {
             connection.data.username = session.getAnonymousName(payload.sessionID, connection.data.channel);
             connection.data.anonymous = true;
         } else {
-            const username = await session.get(payload.sessionID)
-            if (!username) {
+            const account = await session.get(payload.sessionID)
+            if (!account) {
                 // username not found
                 return helper.emit(connection, error(2, RECEIVE.AUTH));
             }
 
-            connection.data.username = username;
+            connection.data.username = account.username;
+            connection.data.userId = account._id;
             connection.data.anonymous = false;
         }
 
