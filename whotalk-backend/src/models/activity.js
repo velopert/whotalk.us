@@ -22,10 +22,10 @@ const Activity = new Schema({
                 givenName: String,
                 familyName: String
             }
-        },
-        subscribers: [{type: Schema.Types.ObjectId}]
+        }
     },
     date: { type: Date, default: Date.now },
+    subscribers: [{type: Schema.Types.ObjectId}]
 });
 
 
@@ -38,9 +38,9 @@ Activity.statics.createChatActivity = function({ username, anonymous, initId, ch
                 anonymous,
                 initId,
                 channel,
-            },
-            subscribers            
-        }
+            }        
+        },
+        subscribers    
     });
 
     return activity.save();
@@ -65,8 +65,8 @@ Activity.statics.createFollowActivity = function({followee, follower, subscriber
                 followee,
                 follower
             },
-            subscribers
-        }
+        },
+        subscribers
     });
 
     return activity.save();
