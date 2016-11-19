@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Message from './../models/message.js';
 import { server as SEND } from './packetTypes';
 import {log, generateUID} from './helper';
-
+import Activity from '../models/activity';
 
 let sockets = null;
 const channels = {};
@@ -74,7 +74,7 @@ function Channel(name) {
         }
         
         //({suID, type, channel, anonymous, username, message}
-        await Message.write({
+        const result = await Message.write({
             suID: data.payload.suID,
             type: data.type,
             channel: this.name,
@@ -83,13 +83,19 @@ function Channel(name) {
             message: data.payload.message
         });
 
+
         if(data.type === "MSG" && this.sleep === true) {
-
-            
-
             log('Channel ' + this.name + ' is awake');
             this.sleep = false;
             clearTimeout(this.timeout);
+
+            // create Activity
+            await Activity.createChatActivity({
+                username: data.payload.username,
+                anonymous: data.payload.anonymous,
+                initId: result._id,
+                channel: this.name
+            });
 
             this.timeout = setTimeout(
                 () => {

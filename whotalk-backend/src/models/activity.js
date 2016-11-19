@@ -7,8 +7,11 @@ const Activity = new Schema({
     type: { type: String, enum: type },
     payload: {
         chat: {
+            username: String,
+            anonymous: Boolean,
             initId:  { type: Schema.Types.ObjectId },
-            channel: String
+            channel: String,
+            lastId: { type: Schema.Types.ObjectId }
         },
         follow: {
             followee: {
@@ -24,6 +27,23 @@ const Activity = new Schema({
     },
     date: { type: Date, default: Date.now },
 });
+
+
+Activity.statics.createChatActivity = function({ username, anonymous, initId, channel }) {
+    const activity = new this({
+        type: "CHAT",
+        payload: {
+            chat: {
+                username,
+                anonymous,
+                initId,
+                channel
+            }
+        }
+    });
+
+    return activity.save();
+}
 
 
 
