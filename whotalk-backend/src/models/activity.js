@@ -19,7 +19,8 @@ const Activity = new Schema({
                 givenName: String,
                 familyName: String
             }
-        }
+        },
+        subscribers: [{type: Schema.Types.ObjectId}]
     },
     date: { type: Date, default: Date.now },
 });
