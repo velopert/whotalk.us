@@ -81,8 +81,8 @@ export const follow = async (req, res) => {
     const subscribers = await Follow.getAllFollowers(req.user._id);
 
     const duplicate = await Activity.checkDuplicates({
-        followee: req.user.common_profile.username,
-        follower: account.common_profile.username
+        follower: req.user.common_profile.username,
+        followee: account.common_profile.username
     });
 
     if(duplicate) {
@@ -90,10 +90,10 @@ export const follow = async (req, res) => {
     }
 
     await Activity.createFollowActivity({
-        followee: {
+        follower: {
             username: req.user.common_profile.username
         },
-        follower: {
+        followee: {
             username: account.common_profile.username,
             familyName: account.common_profile.familyName,
             givenName: account.common_profile.givenName
