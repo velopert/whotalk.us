@@ -3,6 +3,7 @@ import Message from './../models/message.js';
 import { server as SEND } from './packetTypes';
 import {log, generateUID} from './helper';
 import Activity from '../models/activity';
+import Account from '../models/account';
 
 let sockets = null;
 const channels = {};
@@ -122,10 +123,19 @@ function channel(_sockets) {
     sockets = _sockets;
 }
 
-channel.create = (name) => {
+channel.create = async (name) => {
     channels[name] = new Channel(name);
     log(name + ' channel is created');
     log(Object.keys(channels).length + ' channels alive');
+
+    const account = await Account.findUser(name);
+    if(!account) {
+        return false;
+    } 
+    
+    channels[name]._id = account._id;
+    
+    return true;
 }
 
 channel.remove = (name) => {
