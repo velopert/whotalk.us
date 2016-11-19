@@ -119,6 +119,21 @@ Follow.statics.getCommonFollowers = function({userId, userIdArray}) {
     }, 'followee').exec();
 }
 
+Follow.statics.getAllFollowers = async function(followee) {
+    const followers = await this.find({
+        followee,
+        end: null
+    }).select('follower')
+    .exec();
+
+    const array = followers.map(
+        (data) => {
+            return data.follower
+        }
+    );
+
+    return array;
+}
 
 // Message.statics.write = function({suID, type, channel, anonymous, username, message = ''}) {
 //     const msg = new this({

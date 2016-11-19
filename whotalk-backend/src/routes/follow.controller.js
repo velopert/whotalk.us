@@ -181,7 +181,7 @@ export const getFollowers = async (req, res) => {
             }
         }
     }
-
+    
     res.json({followers});
 
 
@@ -254,7 +254,7 @@ export const getFollowersAfter = async (req, res) => {
         }
     }
 
-    res.json({followers})
+
 }
 
 /* get following */
@@ -283,6 +283,8 @@ export const getFollowing = async (req, res) => {
     }
 
     // if logged in
+    // get common followers
+
     if(req.user) {
         const followingIds = following.map(
             (following) => {
@@ -290,6 +292,7 @@ export const getFollowing = async (req, res) => {
             }
         );
 
+       
 
         const common = await Follow.getCommonFollowers({
             userId: mongoose.Types.ObjectId(req.user._id),
@@ -307,6 +310,8 @@ export const getFollowing = async (req, res) => {
             }
         }
     }
+
+
 
     res.json({following});
 

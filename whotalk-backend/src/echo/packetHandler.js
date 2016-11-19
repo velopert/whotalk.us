@@ -60,8 +60,6 @@ const service = {
             return helper.emit(connection, error(1, RECEIVE.MSG));
         }
 
-        
-
         if(connection.data.counter > 10) {
             connection.data.counter = 20;
             setTimeout(()=>{
@@ -72,19 +70,15 @@ const service = {
 
         chatCount(connection);
         const ch = channel.get(connection.data.channel);
-        
-        setTimeout(
-            () => {
-                ch.broadcast(helper.createAction(SEND.MSG, {
-                    anonymous: connection.data.anonymous,
-                    username: connection.data.username,
-                    message: payload.message,
-                    date: (new Date()).getTime(),
-                    uID: payload.uID,
-                    suID: helper.generateUID()
-                }));
-            },  Math.floor(Math.random()*300)
-        );
+
+        ch.broadcast(helper.createAction(SEND.MSG, {
+            anonymous: connection.data.anonymous,
+            username: connection.data.username,
+            message: payload.message,
+            date: (new Date()).getTime(),
+            uID: payload.uID,
+            suID: helper.generateUID()
+        }));
 
         // ch.broadcast(helper.createAction(SEND.MSG, {
         //     anonymous: connection.data.anonymous,
