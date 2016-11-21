@@ -65,11 +65,21 @@ class Login extends Component {
              return;
         }
 
-        if(this.props.location.state.prevPath) {
-            this.leaveTo({path: this.props.location.state.prevPath})
+        // if(this.props.location.state.prevPath) {
+        //     this.leaveTo({path: this.props.location.state.prevPath})
+        // } else {
+        //     this.leaveTo({path: '/'});
+        // }
+        const redirect = storage.get('redirect');
+        if(redirect) {
+                // redirect and clear it
+                this.leaveTo({path: redirect.prevPath});
+                storage.remove('redirect');
         } else {
             this.leaveTo({path: '/'});
         }
+
+
 
         
         //toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);

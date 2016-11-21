@@ -1,21 +1,19 @@
 import React from 'react';
-import {Link} from 'react-router';
+
 
 const SignInButton = ({onClick}) => {
     return (
-        <div className="login-button" onClick={onClick}>
-            <Link
+        <div className="login-button">
+            <button
                 className="huge ui button grey"
-                to={{
-                pathname: '/auth',
-                state: {
-                    prevPath: location.pathname
-                }
-            }}>
+                onClick={onClick}
+            >
                 Sign In
-            </Link>
+            </button>
         </div>
     );
 };
+
+
 
 export default SignInButton;

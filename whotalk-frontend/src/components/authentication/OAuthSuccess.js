@@ -41,12 +41,20 @@ class OAuthSuccess extends Component {
         }
 
         if (this.props.status.session.logged) {
-            // already has a username
-            this.leave();
-            // toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
             notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`})
             storage.set('session', this.props.status.session);
-            return;
+
+            // get redirect
+            const redirect = storage.get('redirect');
+            if(redirect) {
+                 // redirect and clear it
+                 this.context.router.transitionTo(redirect.prevPath);
+                 storage.remove('redirect');
+                  return;
+            }
+            
+            this.leave();
+
         }
     }
 
@@ -63,5 +71,10 @@ class OAuthSuccess extends Component {
         )
     }
 }
+
+OAuthSuccess.contextTypes = {
+    router: React.PropTypes.object
+};
+
 
 export default OAuthSuccess;

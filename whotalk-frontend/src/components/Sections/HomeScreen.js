@@ -33,6 +33,8 @@ class HomeScreen extends Component {
             }, 1000)
         }, 1000);
 
+        storage.remove('redirect');
+
 
         // (function (d, s, id) {
         //     var js, fjs = d.getElementsByTagName(s)[0];
@@ -53,7 +55,8 @@ class HomeScreen extends Component {
 
         const notLogged = (
             <div>
-                <Link to="/auth/register" className="ui inverted basic orange button">CREATE YOUR CHANNEL</Link><Link to="/auth" className="ui inverted basic green button">SIGN IN</Link>
+                <Link to="/auth/register" className="ui inverted basic orange button">CREATE YOUR CHANNEL</Link>
+                <Link to="/auth" className="ui inverted basic green button">SIGN IN</Link>
             </div>
         );
 

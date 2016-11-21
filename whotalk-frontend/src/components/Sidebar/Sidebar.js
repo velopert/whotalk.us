@@ -9,19 +9,28 @@ import Info from './Info';
 import Bottom from './Bottom';
 import Followship from './Followship';
 import LoginButton from './LoginButton';
-
+import autobind from 'autobind-decorator';
+import storage from 'helpers/storage';
 
 class Sidebar extends Component {
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.session.logged !== this.props.session.logged && this.props.session.logged) {
+        if (prevProps.session.logged !== this.props.session.logged && this.props.session.logged) {
             $('.circular-button').popup({position: 'bottom center'});
         }
-         
+
     }
-    
+
+    @autobind
+    redirect(path) {
+        this
+            .context
+            .router
+            .transitionTo(path);
+    }
 
     render() {
         const {open, session, onToggle, onLogout} = this.props;
+        const {redirect} = this;
 
         let username,
             name;
@@ -42,20 +51,31 @@ class Sidebar extends Component {
                                 <SettingsButton/>
                                 <LogoutButton onClick={onLogout}/>
                             </ButtonContainer>
-                        ): '' }
+                        )
+                        : ''}
                     <Profile>
                         <Circle/>
                         <Info name="Minjun Kim" username={username} name={name}/>
                     </Profile>
                 </Top>
 
-
                 <Bottom>
-                    { session.logged ? (<Followship/>) : <LoginButton onClick={onToggle}/> }
+                    {session.logged
+                        ? (<Followship/>)
+                        : <LoginButton
+                            onClick={() => {
+                            onToggle();
+                            storage.set('redirect', {prevPath: location.pathname});
+                            redirect('/auth');
+                        }}/>}
                 </Bottom>
             </div>
         );
     }
 }
+
+Sidebar.contextTypes = {
+    router: React.PropTypes.object
+};
 
 export default Sidebar;

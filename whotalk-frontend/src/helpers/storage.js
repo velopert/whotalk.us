@@ -11,4 +11,10 @@ storage.get = (key) => {
     return JSON.parse(localStorage[key]);
 }
 
+storage.remove = (key) => {
+    if(localStorage[key]) {
+        localStorage.removeItem(key);
+    }
+}
+
 export default storage;
