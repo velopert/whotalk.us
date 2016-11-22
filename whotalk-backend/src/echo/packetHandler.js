@@ -4,6 +4,8 @@ import error from './error';
 import validate from './validate';
 import channel from './channel';
 import session from './session';
+import Message from '../models/message';
+
 
 const service = {
     enter: (connection, payload) => {
@@ -23,11 +25,24 @@ const service = {
         if (payload.anonymous) {
             connection.data.username = session.getAnonymousName(payload.sessionID, connection.data.channel);
             connection.data.anonymous = true;
+            connection.data.lastMessageDate = null;
         } else {
             const account = await session.get(payload.sessionID)
             if (!account) {
                 // username not found
                 return helper.emit(connection, error(2, RECEIVE.AUTH));
+            }
+
+            // account is valid
+
+            // find the lastMessage
+
+            const msg = await Message.getLastMessage({channel: connection.data.channel, username: account.username});
+            
+            if(!msg) {
+                connection.data.lastMessageDate = null;
+            } else {
+                connection.data.lastMessageDate = msg.date;
             }
 
             connection.data.username = account.username;
@@ -79,7 +94,17 @@ const service = {
             date: (new Date()).getTime(),
             uID: payload.uID,
             suID: helper.generateUID()
-        }), connection.data.userId);
+        }), connection);
+
+
+        const current = new Date();
+        
+        if(!connection.data.lastMessageDate) {
+            // it is a first message
+
+            /* create an activity */
+        }
+        
 
         // ch.broadcast(helper.createAction(SEND.MSG, {
         //     anonymous: connection.data.anonymous,

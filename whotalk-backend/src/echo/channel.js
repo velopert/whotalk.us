@@ -70,7 +70,7 @@ function Channel(name) {
     };
 
     //broadcast the data to this Channel
-    this.broadcast = async (data, userId = null) => {
+    this.broadcast = async (data, connection) => {
         for(let i = 0; i < this.users.length; i++) {
             emit(sockets[this.users[i]], data);
         }
@@ -86,14 +86,20 @@ function Channel(name) {
         });
 
 
-        if(data.type === "MSG" && this.sleep === true) {
+        // only handle MSGs
+        if(data.type !== "MSG") {
+            return;
+        }
+
+        // when the channel is sleeping, wake it up
+        if(this.sleep === true) {
             log('Channel ' + this.name + ' is awake');
             this.sleep = false;
             clearTimeout(this.timeout);
 
             let userFollowers = [];
-            if(userId) {
-                userFollowers = await Follow.getAllFollowers(userId);
+            if(!connection.data.anonymous) {
+                userFollowers = await Follow.getAllFollowers(connection.data.userId);
             }
             
 
@@ -110,6 +116,8 @@ function Channel(name) {
                 subscribers
             });
 
+
+            // channel sleep after 1 hour
             this.timeout = setTimeout(
                 () => {
                     log('Channel ' + this.name + ' is sleeping');
@@ -119,9 +127,32 @@ function Channel(name) {
                         type: "SLEEP",
                         channel: this.name
                     });
-                }, 1000 * 60// 1 hour
+                }, 1000 * 60 * 60// 1 hour
             )
+        } else {
+            // channel was not sleeping, but the time diff of this user's message is greater than an hour'
+            if(connection.data.anonymous) return;
+            
+            
+            const diff = (new Date() - connection.data.lastMessageDate);
+            
+             // if greater than 60, create an activity
+            if(diff > 1000 * 60 * 60) {
+                // subscribers are this user's followers only
+                let subscribers = await Follow.getAllFollowers(connection.data.userId);
+
+                // create Activity
+                await Activity.createChatActivity({
+                    username: data.payload.username,
+                    anonymous: data.payload.anonymous,
+                    initId: result._id,
+                    channel: this.name,
+                    subscribers
+                });
+            }
         }
+
+        connection.data.lastMessageDate = new Date();
     }
 
     this.countUser = (username) => {

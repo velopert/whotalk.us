@@ -54,4 +54,11 @@ Message.statics.write = function({suID, type, channel, anonymous, username, mess
     return msg.save();
 }
 
+Message.statics.getLastMessage = function({channel, username}) {
+    return this.findOne({
+        channel,
+        username
+    }).sort({_id: -1}).exec();    
+}
+
 export default mongoose.model('Message', Message);
