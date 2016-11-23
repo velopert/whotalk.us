@@ -4,31 +4,28 @@ import Message from '../models/message';
 
 // GET /api/activity/
 export const getInitialActivity = async (req, res) => {
+
+    // if not logged in, return error
+
     if (!req.user) {
         return res
             .status(401)
             .json({code: 0, message: 'NOT LOGGED IN'});
     }
 
+    // get the 20 recent activities
     const accountId = req.user._id;
     let activities = await Activity.getInitialActivity(accountId);
 
+
+    /* handle chat */
+
+    // process chatActivities where lastId is undefined
+
+    // get indexes of chatActivites where alstId is undefined
+    // and put it in indexesToProcess
+
     const indexesToProcess = [];
-
-    // activities = activities.map(
-    //     (activity, i) => {
-    //         if(activity.type === 'CHAT') {
-    //             activity.chatData = [];
-    //             if(!activity.payload.chat.lastId) {
-    //                 indexesToProcess.push(i);
-    //             }
-    //         }
-    //         return activity;
-    //     }
-    // );
-
-    // get chatActivities where lastId is undefined
-    // add the indexes to indexesToProcess
     activities.forEach(
         (activity, i) => {
             if(activity.type === 'CHAT') {
@@ -40,6 +37,8 @@ export const getInitialActivity = async (req, res) => {
         }
     );
 
+
+    // create an array of promises
     const promises = indexesToProcess.map(
         (index) => {
             return Message.getSleepMessageAfter({
@@ -49,7 +48,15 @@ export const getInitialActivity = async (req, res) => {
         }
     );
 
+    // wait until all the promises resolve
     const lastIds = await Promise.all(promises);
+
+    // store lastIds in result (before it saves)
+    indexesToProcess.forEach(
+        (index, i) => {
+            activities[index].payload.chat.lastId = lastIds[i]._id;
+        }
+    );
 
     res.json({
         activities: activities
@@ -69,7 +76,7 @@ export const getInitialActivity = async (req, res) => {
             if(lastId) {
                 return Activity.setLastId({
                     activityId: activities[indexesToProcess[i]]._id,
-                    messageId: lastId
+                    messageId: lastId._id
                 });
             } else {
                 return Promise.resolve();

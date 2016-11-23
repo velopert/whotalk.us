@@ -8,7 +8,8 @@ const options = {
 
 const cache = {
     passport: LRU(options),
-    session: LRU(options)
+    session: LRU(options),
+    chatActivities: LRU(options)
 };
 
 console.log("Cache is initialized");
