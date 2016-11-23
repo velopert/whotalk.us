@@ -26,9 +26,12 @@ export const getInitialActivity = async (req, res) => {
     // and put it in indexesToProcess
 
     const indexesToProcess = [];
+    const chatActivityIndexes = [];
+
     activities.forEach(
         (activity, i) => {
             if(activity.type === 'CHAT') {
+                chatActivityIndexes.push(i);
                 if(!activity.payload.chat.lastId) {
                     indexesToProcess.push(i);
                 }
@@ -63,13 +66,28 @@ export const getInitialActivity = async (req, res) => {
         }
     );
 
+    
+
     // get the chatData 
-    activities.map(
-        (activity, i) => {
-
+    const chatPromises = chatActivityIndexes.map(
+        (index) => {
+            const activity = activities[index];
+            // check for cache... (to be implemented)
+            return Message.getMessagesForActivity({
+                channel: activity.payload.chat.channel,
+                initId: activity.payload.chat.initId,
+                lastId: activity.payload.chat.lastId
+            });
         }
-    )
+    );
 
+    const chatStorage = await Promise.all(chatPromises);
+
+    chatStorage.forEach(
+        (chatData, index) => {
+            activities[index].payload.chatData = chatData;
+        }
+    );
 
     // return data to the user
     res.json({
