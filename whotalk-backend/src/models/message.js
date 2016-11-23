@@ -26,8 +26,11 @@ Message.statics.getBefore = function({channel, cursorId}) {
     .exec();
 }
 
-Message.statics.getBetween = function({channel, startId, endId}) {
-    return this.find({channel, suID: {$gt: startId, $lt: endId}})
+Message.statics.getBetween = function({channel, startId, endId, onlyMessage = false}) {
+    
+    const option = onlyMessage ? { type: 'MSG' } : {};
+
+    return this.find({...option, channel, suID: {$gt: startId, $lt: endId}})
     .sort({_id: -1})
     .limit(20)
     .exec();

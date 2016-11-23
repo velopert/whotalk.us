@@ -29,7 +29,6 @@ export const getInitialActivity = async (req, res) => {
     activities.forEach(
         (activity, i) => {
             if(activity.type === 'CHAT') {
-                activity.chatData = [];
                 if(!activity.payload.chat.lastId) {
                     indexesToProcess.push(i);
                 }
@@ -54,23 +53,31 @@ export const getInitialActivity = async (req, res) => {
     // store lastIds in result (before it saves)
     indexesToProcess.forEach(
         (index, i) => {
-            activities[index].payload.chat.lastId = lastIds[i]._id;
+            const lastId = lastIds[i];
+            if(lastId) {
+                activities[index].payload.chat.lastId = lastId._id;
+            } else {
+                activities[index].payload.chat.lastId = null;
+            }
+            
         }
     );
 
+    // get the chatData 
+    activities.map(
+        (activity, i) => {
+
+        }
+    )
+
+
+    // return data to the user
     res.json({
         activities: activities
     });
 
-    // const updates = indexesToProcess.map(
-    //     (index, i) => {
-    //         if(activities[])
-    //         return Activity.setLastId({
-    //             activityId: activities[index]._id,
-    //         })
-    //     }
-    // )
-    
+
+    // update the database    
     const updates = lastIds.map(
         (lastId, i) => {
             if(lastId) {
