@@ -65,9 +65,10 @@ Message.statics.getSleepMessageAfter = function({channel, messageId}) {
 
 Message.statics.getMessagesForActivity = function({channel, initId, lastId = null}) {
     return this.find({
+        type: 'MSG',
         channel, 
         _id: (lastId) ? { $gte: initId, $lte: lastId } : { $gte: initId }
-    })
+    }, 'username message date')
     .limit(20)
     .exec();
 }
