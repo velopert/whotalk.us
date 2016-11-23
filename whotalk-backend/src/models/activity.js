@@ -57,7 +57,6 @@ Activity.statics.checkDuplicates = function({followee, follower}) {
 }
 
 Activity.statics.createFollowActivity = function({followee, follower, subscribers}) {
-
     const activity = new this({
         type: "FOLLOW",
         payload: {
@@ -71,6 +70,30 @@ Activity.statics.createFollowActivity = function({followee, follower, subscriber
 
     return activity.save();
 }
+
+Activity.statics.setLastId = async function({activityId, messageId}) { 
+    const activity = await this.findById(activityId).exec();
+
+    if(activity) {
+        activity.payload.chat.lastId = messageId;
+        return activity.save();
+    } else {
+        return Promise.resolve('throw');
+    }
+}
+
+
+Activity.statics.getInitialActivity = function(subscriberId) {
+    return this.find({
+        subscribers: subscriberId
+    }, '-subscribers')
+    .sort({_id: -1})
+    .limit(20)
+    .lean()
+    .exec();
+}
+
+
 
 
 

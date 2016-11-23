@@ -58,7 +58,14 @@ Message.statics.getLastMessage = function({channel, username}) {
     return this.findOne({
         channel,
         username
-    }).sort({_id: -1}).exec();    
+    }).sort({_id: -1}).exec();
+}
+
+Message.statics.getSleepMessageAfter = function({channel, messageId}) {
+    return this.findOne({
+        channel,
+        _id: { $gt: messageId }
+    }, '_id').exec();
 }
 
 export default mongoose.model('Message', Message);

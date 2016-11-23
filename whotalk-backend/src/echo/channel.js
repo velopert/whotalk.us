@@ -127,7 +127,7 @@ function Channel(name) {
                         type: "SLEEP",
                         channel: this.name
                     });
-                }, 1000 * 60 * 60// 1 hour
+                }, 1000 * 10// 1 hour
             )
         } else {
             // channel was not sleeping, but the time diff of this user's message is greater than an hour'

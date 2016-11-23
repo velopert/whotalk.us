@@ -4,7 +4,7 @@ import * as controller from './activity.controller.js';
 
 const router = express.Router();
 
-router.get('/', controller.getActivity);
+router.get('/', controller.getInitialActivity);
 
 
 export default router;
