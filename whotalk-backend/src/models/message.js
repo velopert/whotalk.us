@@ -68,7 +68,7 @@ Message.statics.getMessagesForActivity = function({channel, initId, lastId = nul
         type: 'MSG',
         channel, 
         _id: (lastId) ? { $gte: initId, $lte: lastId } : { $gte: initId }
-    }, 'username message date')
+    }, 'username message date anonymous')
     .limit(20)
     .exec();
 }
