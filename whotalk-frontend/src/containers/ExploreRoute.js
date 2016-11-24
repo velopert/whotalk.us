@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as ui from 'actions/ui';
 import * as explore from 'actions/explore';
 import {Explore} from 'components';
+import notify from 'helpers/notify'
 
 class ExploreRoute extends Component {
 
@@ -12,11 +13,33 @@ class ExploreRoute extends Component {
     }
 
     componentWillMount() {
-        const { UIActions } = this.props;
+        const { UIActions, ExploreActions } = this.props;
         UIActions.initialize('explore');
         UIActions.setHeaderTransparency(false);
         UIActions.setFooterVisibility(false);
+        ExploreActions.initialize();
     }
+
+    fetchInitialActivities = async () => {
+        const { ExploreActions } = this.props;
+        await ExploreActions.getInitialActivity();
+    }
+
+    componentDidMount () {
+        const { status } = this.props;
+
+        // // redirect to login when not logged in
+        // if(!status.session.logged) {
+        //     this.context.router.transitionTo('/auth');
+        //     notify({type: 'error', message: 'Please login before you explore'});
+        //     return;
+        // }
+
+        this.fetchInitialActivities();
+
+        // fetch initialActivities
+    }
+    
     
     render() {
 
@@ -31,10 +54,15 @@ class ExploreRoute extends Component {
     }
 }
 
+ExploreRoute.contextTypes = {
+  router: React.PropTypes.object
+};
+
 
 ExploreRoute = connect(
     state => ({
         status: {
+            session: state.auth.session,
             clientSize: state.ui.clientSize,
             activityData: state.explore.activityData
         }

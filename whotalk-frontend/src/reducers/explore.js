@@ -21,9 +21,47 @@ function explore(state = initialState, action) {
                 ...initialState
             }
 
+
+        case EXPLORE.GET_INITIAL_ACTIVITY + '_PENDING':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getInitialActivity: {
+                        ...rs.pending
+                    }
+                }
+            }
+        
+        case EXPLORE.GET_INITIAL_ACTIVITY + '_FULFILLED':
+            return {
+                ...state,
+                activityData: [...payload.data.activities],
+                requests: {
+                    ...state.requests,
+                    getInitialActivity: {
+                        ...rs.fulfilled
+                    }
+                }
+            }
+
+        case EXPLORE.GET_INITIAL_ACTIVITY + '_REJECTED':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getInitialActivity: {
+                        ...rs.rejected,
+                        error: payload
+                    }
+                }
+            }
+
         default:
             return state;
     }
 }
+
+
 
 export default explore;
