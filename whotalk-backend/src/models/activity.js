@@ -15,12 +15,13 @@ const Activity = new Schema({
         },
         follow: {
             followee: {
-                username: String
-            },
-            follower: {
                 username: String,
                 givenName: String,
                 familyName: String
+                
+            },
+            follower: {
+                username: String
             }
         }
     },
