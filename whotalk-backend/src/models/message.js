@@ -70,7 +70,7 @@ Message.statics.getMessagesForActivity = function({channel, initId, lastId = nul
         channel, 
         _id: (lastId) ? { $gte: initId, $lte: lastId } : { $gte: initId }
     }, 'username message date anonymous')
-    .limit(20)
+    .limit(10)
     .exec();
 }
 
