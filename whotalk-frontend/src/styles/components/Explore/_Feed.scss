@@ -51,13 +51,36 @@
             padding: 15px;
             padding-top: 30px;
             color: #868e96;
+            font-size: 12px;
             span.user {
                 font-weight: 600;
                 cursor: pointer;
                 color: #343a40;
                 &:hover {
-                    color: #868e96;
+                    color: #495057;
                 } 
+            }
+
+            .quote {
+                font-size: 28px;
+                padding: 3px;
+                font-family: 'Helvetica';
+            }
+            .first-message {
+                color: #343a40;
+                text-align: center;
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 23px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .message-container {
+                background-color: #f1f3f5;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.06);
+                color: #495057;
+                padding: 5px;
             }
 
             .user-info {
