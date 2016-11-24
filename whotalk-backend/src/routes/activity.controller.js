@@ -85,7 +85,7 @@ export const getInitialActivity = async (req, res) => {
 
     chatStorage.forEach(
         (chatData, index) => {
-            activities[index].payload.chatData = chatData;
+            activities[chatActivityIndexes[index]].payload.chatData = chatData;
         }
     );
 
