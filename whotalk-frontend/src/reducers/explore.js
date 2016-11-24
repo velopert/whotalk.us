@@ -1,5 +1,5 @@
 import EXPLORE from 'actions/ActionTypes/explore';
-import rs from 'helpers/requestStatus';
+import * as rs from 'helpers/requestStatus';
 
 const initialState = {
     activityData: [],
