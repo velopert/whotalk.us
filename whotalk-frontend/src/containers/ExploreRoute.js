@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as ui from 'actions/ui';
+import * as explore from 'actions/explore';
 import {Explore} from 'components';
 
 class ExploreRoute extends Component {
@@ -34,7 +35,8 @@ class ExploreRoute extends Component {
 ExploreRoute = connect(
     state => ({
         status: {
-            clientSize: state.ui.clientSize
+            clientSize: state.ui.clientSize,
+            activityData: state.explore.activityData
         }
     }),
     dispatch => ({
@@ -42,7 +44,8 @@ ExploreRoute = connect(
             initialize: ui.initialize,
             setHeaderTransparency: ui.setHeaderTransparency,
             setFooterVisibility: ui.setFooterVisibility
-        }, dispatch)
+        }, dispatch),
+        ExploreActions: bindActionCreators(explore, dispatch)
     })
 )(ExploreRoute)
 export default ExploreRoute;
