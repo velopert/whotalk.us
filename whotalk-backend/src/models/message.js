@@ -56,6 +56,7 @@ Message.statics.getLastMessage = function({channel, username}) {
 
 Message.statics.getSleepMessageAfter = function({channel, messageId}) {
     return this.findOne({
+        type: 'SLEEP',
         channel,
         _id: { $gt: messageId }
     }, '_id').exec();
