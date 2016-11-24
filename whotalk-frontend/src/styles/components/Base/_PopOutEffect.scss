@@ -13,9 +13,10 @@
     .left-box {
         width: 208px;
         height: 100%;
-        background-color: #445055;
-        box-shadow: inset -7px 0 9px -7px rgba(0,0,0,0.7);
-         
+        @include media(">tablet") {
+            background-color: #445055;
+            box-shadow: inset -7px 0 9px -7px rgba(0,0,0,0.7);
+        }
     }
 }
 
