@@ -1,9 +1,14 @@
 import Activity from '../models/activity';
 import Message from '../models/message';
+import Follow from '../models/follow';
+import Account from '../models/account';
 
 
-async function processActivities(activities) {
-    /* handle chat */
+async function processActivities({activities, accountId}) {
+    /* 
+        chat -> get the message lists
+        follow -> get whether the user follows the user(s)
+    */
 
     // process chatActivities where lastId is undefined
 
@@ -12,6 +17,7 @@ async function processActivities(activities) {
 
     const indexesToProcess = [];
     const chatActivityIndexes = [];
+    const followActivityIndexes = [];
 
     activities.forEach(
         (activity, i) => {
@@ -20,12 +26,14 @@ async function processActivities(activities) {
                 if(!activity.payload.chat.lastId) {
                     indexesToProcess.push(i);
                 }
+            } else if (activity.type === 'FOLLOW') {
+                followActivityIndexes.push(i);
             }
         }
     );
 
 
-    // create an array of promises
+    // create an array of promises... that finds the sleep message
     const promises = indexesToProcess.map(
         (index) => {
             return Message.getSleepMessageAfter({
@@ -74,6 +82,35 @@ async function processActivities(activities) {
         }
     );
 
+    /* handle follow activities */
+    for(let i = 0 ; i < followActivityIndexes.length; i++) {
+        // for every followActivities..
+        const index = followActivityIndexes[i];
+        const followees = activities[index].payload.follow.followee;
+        const accountIds = [];
+
+        // get AccountIds
+        for(let j = 0; j < followees.length; j++) {
+            const account = await Account.findUser(followees[j].username);
+            accountIds.push(account._id);
+        }
+
+        // find common followers
+        const common = await Follow.getCommonFollowers({userId: accountId, userIdArray: accountIds});
+
+        // compare and set 'following' to true
+        common.forEach(
+            (follow) => {
+                for(let j = 0; j < followees.length; j++) {
+                    if(follow.followee.equals(accountIds[j])) {
+                        activities[index].payload.follow.followee[j].following = true;
+                    }
+                }
+            }
+        );
+    }
+    
+
     return {
         activities,
         update: lastIds.map(
@@ -107,7 +144,7 @@ export const getInitialActivity = async (req, res) => {
     const accountId = req.user._id;
     let activities = await Activity.getInitialActivity(accountId);
 
-    const result = await processActivities(activities);
+    const result = await processActivities({activities, accountId});
 
     // return data to the user
     res.json({
