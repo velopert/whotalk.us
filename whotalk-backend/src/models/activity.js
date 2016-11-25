@@ -102,6 +102,16 @@ Activity.statics.getInitialActivity = function(subscriberId) {
     .exec();
 }
 
+Activity.statics.getActivityBefore = function({subscriberId, activityId}) {
+    return this.find({
+        subscribers: subscriberId,
+        _id: { $lt: activityId }
+    }, '-subscribers')
+    .sort({_id: -1})
+    .limit(20)
+    .lean()
+    .exec()
+}
 
 
 

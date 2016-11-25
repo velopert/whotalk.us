@@ -84,14 +84,13 @@ export const follow = async (req, res) => {
         // preExisting.payload.follow.followee.forEach(
         //     obj => console.log(obj)
         // )
-
         for(let i = 0; i < preExisting.payload.follow.followee.length; i++) {
             if(preExisting.payload.follow.followee[i].username 
                         === account.common_profile.username) {
                 return;
             }
         }
-        
+
         preExisting.payload.follow.followee.push({
             username: account.common_profile.username,
             familyName: account.common_profile.familyName,

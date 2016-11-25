@@ -2,22 +2,7 @@ import Activity from '../models/activity';
 import Message from '../models/message';
 
 
-// GET /api/activity/
-export const getInitialActivity = async (req, res) => {
-
-    // if not logged in, return error
-
-    if (!req.user) {
-        return res
-            .status(401)
-            .json({code: 0, message: 'NOT LOGGED IN'});
-    }
-
-    // get the 20 recent activities
-    const accountId = req.user._id;
-    let activities = await Activity.getInitialActivity(accountId);
-
-
+async function processActivities(activities) {
     /* handle chat */
 
     // process chatActivities where lastId is undefined
@@ -89,25 +74,72 @@ export const getInitialActivity = async (req, res) => {
         }
     );
 
+    return {
+        activities,
+        update: lastIds.map(
+            (lastId, i) => {
+                if(lastId) {
+                    return Activity.setLastId({
+                        activityId: activities[indexesToProcess[i]]._id,
+                        messageId: lastId._id
+                    });
+                } else {
+                    return Promise.resolve();
+                }
+            }
+        )
+    }
+}
+
+
+// GET /api/activity/
+export const getInitialActivity = async (req, res) => {
+
+    // if not logged in, return error
+
+    if (!req.user) {
+        return res
+            .status(401)
+            .json({code: 0, message: 'NOT LOGGED IN'});
+    }
+
+    // get the 20 recent activities
+    const accountId = req.user._id;
+    let activities = await Activity.getInitialActivity(accountId);
+
+    const result = await processActivities(activities);
+
     // return data to the user
     res.json({
-        activities: activities
+        activities: result.activities
     });
 
+    await result.updates;
+}
 
-    // update the database    
-    const updates = lastIds.map(
-        (lastId, i) => {
-            if(lastId) {
-                return Activity.setLastId({
-                    activityId: activities[indexesToProcess[i]]._id,
-                    messageId: lastId._id
-                });
-            } else {
-                return Promise.resolve();
-            }
-        }
-    );
+// GET /api/activity/before/:activityId
 
-    await updates;
+export const getActivityBefore = async (req, res) => {
+    // if not logged in, return error
+    if (!req.user) {
+        return res
+            .status(401)
+            .json({code: 0, message: 'NOT LOGGED IN'});
+    }
+
+    // get the 20 recent activities
+    const accountId = req.user._id;
+    let activities = await Activity.getActivityBefore({
+        subscriberId: accountId,
+        activityId: req.params.activityId
+    });
+
+    const result = await processActivities(activities);
+
+    // return data to the user
+    res.json({
+        activities: result.activities
+    });
+
+    await result.updates;
 }
