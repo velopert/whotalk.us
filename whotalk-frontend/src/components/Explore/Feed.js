@@ -70,6 +70,9 @@ class Feed extends Component {
                     username={followee.username} 
                     givenName={followee.givenName} 
                     familyName={followee.familyName}
+                    following={(followee.following)
+                            ? true
+                            : false}
                     key={i}
                 />
             )
