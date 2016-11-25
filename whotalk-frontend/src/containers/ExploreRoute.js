@@ -23,6 +23,29 @@ class ExploreRoute extends Component {
     fetchInitialActivities = async () => {
         const { ExploreActions } = this.props;
         await ExploreActions.getInitialActivity();
+
+    }
+
+    handleFollow = async ({activityIndex, userIndex, username}) => {
+        const { ExploreActions, status } = this.props;
+        ExploreActions.toggleFollowButtonInActivity({activityIndex, userIndex});
+        try {
+            await ExploreActions.followFromActivity(username);
+        } catch(e) {
+
+        }
+        ExploreActions.toggleFollowButtonInActivity({activityIndex, userIndex});
+    }
+
+    handleUnfollow = async ({activityIndex, userIndex, username}) => {
+        const { ExploreActions, status } = this.props;
+        ExploreActions.toggleFollowButtonInActivity({activityIndex, userIndex});
+        try {
+            await ExploreActions.unfollowFromActivity(username);
+        } catch(e) {
+            
+        }
+        ExploreActions.toggleFollowButtonInActivity({activityIndex, userIndex});
     }
 
     componentDidMount () {
@@ -44,6 +67,7 @@ class ExploreRoute extends Component {
     render() {
 
         const { status } = this.props;
+        const { handleFollow, handleUnfollow } = this;
         
         return (
             <Explore.Container>
@@ -52,6 +76,9 @@ class ExploreRoute extends Component {
                     width={ status.clientSize.width - 230  + 'px'} 
                     data={status.activityData}
                     isLast={status.isLast}
+                    onFollow={handleFollow}
+                    onUnfollow={handleUnfollow}
+                    myUsername={status.session.user.common_profile.username}
                 />
             </Explore.Container>
         );

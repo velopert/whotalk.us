@@ -74,6 +74,26 @@ class Feed extends Component {
                             ? true
                             : false}
                     key={i}
+                    disabled={followee.disabled}
+                    onFollow={
+                        () => { 
+                            this.props.onFollow({
+                                activityIndex: this.props.index,
+                                userIndex: i,
+                                username: followee.username
+                            })
+                        }
+                    }
+                    onUnfollow={
+                        () => { 
+                            this.props.onUnfollow({
+                                activityIndex: this.props.index,
+                                userIndex: i,
+                                username: followee.username
+                            })
+                        }
+                    }
+                    hideButton={ followee.username === this.props.myUsername}
                 />
             )
         )

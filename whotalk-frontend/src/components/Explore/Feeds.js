@@ -26,8 +26,16 @@ class Feeds extends Component {
 
     mapToFeeds = (feeds) => {
         return feeds.map(
-            feed => (
-                <Feed key={feed._id} type={feed.type} payload={feed.payload}/>
+            (feed, i) => (
+                <Feed 
+                    key={feed._id} 
+                    type={feed.type} 
+                    payload={feed.payload} 
+                    index={i}
+                    onFollow={this.props.onFollow}
+                    onUnfollow={this.props.onUnfollow}
+                    myUsername={this.props.myUsername}
+                />
             )
         )
     }
