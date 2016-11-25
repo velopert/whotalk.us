@@ -35,7 +35,7 @@ class Feeds extends Component {
 
     render() {
 
-        const {width, data} = this.props;
+        const {width, data, isLast} = this.props;
 
         return (
             <div className="feeds" style={{
@@ -44,7 +44,7 @@ class Feeds extends Component {
                 <div className="masonry">
                     {this.mapToFeeds(data)}
                 </div>
-
+                {isLast ? undefined : <div className="ui active large centered inline loader"></div> }
             </div>
         );
     }

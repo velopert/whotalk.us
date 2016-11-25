@@ -5,3 +5,9 @@ export const getInitialActivity = () => {
         url: '/api/activity'
     });
 }
+
+export const getActivityBefore= (activityId) => {
+    return request({
+        url: '/api/activity/before/' + activityId
+    });
+}

@@ -48,7 +48,11 @@ class ExploreRoute extends Component {
         return (
             <Explore.Container>
                 <Explore.LeftBox/>
-                <Explore.Feeds width={ status.clientSize.width - 230  + 'px'} data={status.activityData}/>
+                <Explore.Feeds 
+                    width={ status.clientSize.width - 230  + 'px'} 
+                    data={status.activityData}
+                    isLast={status.isLast}
+                />
             </Explore.Container>
         );
     }
@@ -64,7 +68,8 @@ ExploreRoute = connect(
         status: {
             session: state.auth.session,
             clientSize: state.ui.clientSize,
-            activityData: state.explore.activityData
+            activityData: state.explore.activityData,
+            isLast: state.explore.isLast
         }
     }),
     dispatch => ({

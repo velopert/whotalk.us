@@ -10,3 +10,10 @@ export const getInitialActivity = () => ({
         promise: service.getInitialActivity()
     }
 });
+
+export const getActivityBefore = (activityId) => ({
+    type: EXPLORE.GET_ACTIVITY_BEFORE,
+    payload: {
+        promise: service.getActivityBefore(activityId)
+    }
+});

@@ -2,6 +2,13 @@
     padding-top: 30px;
     padding-bottom: 0px;
     margin-left: 230px;
+    .masonry {
+        height: 100%;
+    }
+
+    .loader {
+        margin-bottom: 30px;
+    }
     @include media("<tablet") {
         margin-left: 30px;
         width: 100% !important;

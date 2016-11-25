@@ -7,6 +7,7 @@ import {storage} from 'helpers';
 import {bindActionCreators} from 'redux';
 import * as auth from 'actions/auth.js';
 import * as ui from 'actions/ui';
+import { getActivityBefore } from 'actions/explore';
 import autobind from 'autobind-decorator';
 import { Events, scrollSpy } from 'react-scroll';
 import { toggleScroll } from 'helpers/scroll';
@@ -69,10 +70,18 @@ class App extends Component {
 
     @autobind
     handleScroll(e) {
-        console.log(window.innerHeight - window.scrollY);
+        console.log(document.body.scrollHeight - document.body.scrollTop - document.body.clientHeight);
 
-        const { UIActions, ui } = this.props;
+        const { UIActions, ExploreActions, ui, status} = this.props;
 
+        if(window.location.pathname === "/explore") {
+            if(document.body.scrollHeight - document.body.scrollTop - document.body.clientHeight < 90) {
+                if(status.fetchingActivity) return;
+                if(status.isLastActivity) return;
+
+                ExploreActions.getActivityBefore(status.activityCursorId);
+            }
+        }
 
         if(window.location.pathname === "/") {
             console.log((window.innerHeight - window.scrollY)/ window.innerHeight)
@@ -206,7 +215,10 @@ class App extends Component {
 
 App = connect(state => ({
     status: {
-        session: state.auth.session
+        session: state.auth.session,
+        fetchingActivity: state.explore.requests.getActivityBefore.fetching,
+        activityCursorId: state.explore.activityData.length === 0 ? null : state.explore.activityData[state.explore.activityData.length-1]._id,
+        isLastActivity: state.explore.isLast
     },
     ui: {
         sidebar: state.ui.sidebar,
@@ -229,6 +241,9 @@ App = connect(state => ({
         updateClientSize: ui.updateClientSize,
         toggleFocusBox: ui.toggleFocusBox,
         closingFocusBox: ui.closingFocusBox
+    }, dispatch),
+    ExploreActions: bindActionCreators({
+        getActivityBefore
     }, dispatch)
 }))(App);
 

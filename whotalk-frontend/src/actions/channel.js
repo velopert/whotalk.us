@@ -51,8 +51,7 @@ export const follow = (username) => ({
 export const followFromUserList = (username) => ({
     type: CHANNEL.FOLLOW_FROM_USER_LIST,
     payload: {
-        promise: service.follow(username),
-        another: 'thing'
+        promise: service.follow(username)
     }
 });
 
