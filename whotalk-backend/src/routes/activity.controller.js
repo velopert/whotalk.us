@@ -87,13 +87,23 @@ async function processActivities({activities, accountId}) {
         // for every followActivities..
         const index = followActivityIndexes[i];
         const followees = activities[index].payload.follow.followee;
-        const accountIds = [];
 
         // get AccountIds
-        for(let j = 0; j < followees.length; j++) {
-            const account = await Account.findUser(followees[j].username);
-            accountIds.push(account._id);
-        }
+        const getAccountsPromises = followees.map(
+            (followee) => {
+                return Account.findUser(followee.username);
+            }
+        );
+
+        const accounts =  await Promise.all(getAccountsPromises);
+        const accountIds = accounts.map(
+            account => account._id
+        );
+
+        // for(let j = 0; j < followees.length; j++) {
+        //     const account = await Account.findUser(followees[j].username);
+        //     accountIds.push(account._id);
+        // }
 
         // find common followers
         const common = await Follow.getCommonFollowers({userId: accountId, userIdArray: accountIds});
