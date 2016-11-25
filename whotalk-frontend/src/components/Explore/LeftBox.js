@@ -1,9 +1,9 @@
 import React from 'react';
 
-const LeftBox = () => {
+const LeftBox = ({children}) => {
     return (
         <div className="left-box">
-            
+            {children}
         </div>
     );
 };

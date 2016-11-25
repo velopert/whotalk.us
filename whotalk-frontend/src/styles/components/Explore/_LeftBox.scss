@@ -8,10 +8,21 @@
     top: 0px;
     padding-top: 50px;
 
+
     box-shadow: inset -7px 0 9px -7px rgba(0,0,0,0.7);
     
     border-radius: 2px;
     margin-bottom: 20px;
+
+
+    .recent-visits {
+        padding: 10px;
+        .title {
+            color: #f1f3f5;
+            font-size: 14px;
+            font-weight: 600;  
+        }
+    }
      @include media("<tablet") {
          width: 0px;
      }

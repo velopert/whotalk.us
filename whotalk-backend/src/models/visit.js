@@ -15,4 +15,15 @@ Visit.statics.create = function({accountId, visitedChannel}) {
     return visit.save();
 }
 
+Visit.statics.get = function(accountId) {
+    return this.find({
+        accountId
+    }, 'visitedChannel')
+    .sort({_id: -1})
+    .limit(8)
+    .exec();
+}
+
+
+
 export default mongoose.model('Visit', Visit);

@@ -26,14 +26,6 @@ export const getInfo = async (req, res) => {
                 followee: account._id, 
                 follower: req.user._id 
             })) ? true : false;
-            
-            if(req.params.username !== req.user.common_profile.username) {
-                Visit.create({
-                    accountId: req.user._id,
-                    visitedChannel: req.params.username
-                });
-            }
-
         }
 
 
@@ -50,5 +42,27 @@ export const getInfo = async (req, res) => {
         });
     } else {
          res.status(404).json({code: 0, message: 'USER NOT FOUND'});
+    }
+
+    // process this after response
+
+    // logged
+    if (req.user) {
+        if(req.params.username !== req.user.common_profile.username) {               
+
+            // if the visit exists in recentVisits, remove it.            
+            const recentVisits = await Visit.get(req.user._id);
+            for(var visit of recentVisits) {
+                if(visit.visitedChannel === req.params.username ) {
+                    await Visit.findByIdAndRemove(visit._id).exec();
+                    break;
+                }
+            }
+
+            await Visit.create({
+                accountId: req.user._id,
+                visitedChannel: req.params.username
+            });
+        }
     }
 }
