@@ -47,31 +47,24 @@ export const follow = async (req, res) => {
     const count = await Follow.getFollowerCount(account._id);
 
     // check whether the user is following already
+    const follow = await Follow.checkFollow({
+        followee: account._id,
+        follower: mongoose
+            .Types
+            .ObjectId(follower)
+    });
 
-    try {
-        const follow = await Follow.checkFollow({
-            followee: account._id,
-            follower: mongoose
-                .Types
-                .ObjectId(follower)
-        });
-
-        if (follow) {
-            // is following already
-            return res.json({success: true, count});
-        }
-    } catch (error) {}
-
-    try {
-        await Follow.follow({
-            followee: account._id,
-            follower: mongoose
-                .Types
-                .ObjectId(follower)
-        });
-    } catch (error) {
-        throw error;
+    if (follow) {
+        // is following already
+        return res.json({success: true, count});
     }
+
+    await Follow.follow({
+        followee: account._id,
+        follower: mongoose
+            .Types
+            .ObjectId(follower)
+    });
 
     res.json({
         success: true,
@@ -80,12 +73,31 @@ export const follow = async (req, res) => {
 
     const subscribers = await Follow.getAllFollowers(req.user._id);
 
-    const duplicate = await Activity.checkDuplicates({
-        follower: req.user.common_profile.username,
-        followee: account.common_profile.username
-    });
+    // const duplicate = await Activity.checkDuplicates({
+    //     follower: req.user.common_profile.username,
+    //     followee: account.common_profile.username
+    // });
 
-    if(duplicate) {
+    const preExisting = await Activity.findRecentFollowActivity(req.user.common_profile.username);
+
+    if(preExisting) {
+        // preExisting.payload.follow.followee.forEach(
+        //     obj => console.log(obj)
+        // )
+
+        for(let i = 0; i < preExisting.payload.follow.followee.length; i++) {
+            if(preExisting.payload.follow.followee[i].username 
+                        === account.common_profile.username) {
+                return;
+            }
+        }
+        
+        preExisting.payload.follow.followee.push({
+            username: account.common_profile.username,
+            familyName: account.common_profile.familyName,
+            givenName: account.common_profile.givenName
+        });
+        await preExisting.save();
         return;
     }
 

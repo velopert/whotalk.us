@@ -11,7 +11,7 @@ const asyncRequest = (asyncFn, req, res) => asyncFn(req, res).catch(e => {
 
 const router = express.Router();
 
-router.post('/:followee', controller.follow);
+router.post('/:followee', asyncRequest.bind(null, controller.follow));
 router.delete('/:followee', asyncRequest.bind(null, controller.unfollow));
 
 router.get('/following/:username', controller.getFollowing);

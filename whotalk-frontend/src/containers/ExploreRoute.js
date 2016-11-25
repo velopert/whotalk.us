@@ -48,7 +48,7 @@ class ExploreRoute extends Component {
         return (
             <Explore.Container>
                 <Explore.LeftBox/>
-                <Explore.Feeds width={ status.clientSize.width - 230  + 'px'}/>
+                <Explore.Feeds width={ status.clientSize.width - 230  + 'px'} data={status.activityData}/>
             </Explore.Container>
         );
     }

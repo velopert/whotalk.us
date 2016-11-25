@@ -132,7 +132,7 @@ function Channel(name) {
         } else {
             // channel was not sleeping, but the time diff of this user's message is greater than an hour'
             if(connection.data.anonymous) return;
-            
+            connection.data.lastMessageDate = new Date();
             
             const diff = (new Date() - connection.data.lastMessageDate);
             
@@ -152,7 +152,7 @@ function Channel(name) {
             }
         }
 
-        connection.data.lastMessageDate = new Date();
+        
     }
 
     this.countUser = (username) => {

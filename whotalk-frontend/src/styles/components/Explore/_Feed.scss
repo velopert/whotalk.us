@@ -9,6 +9,7 @@
     }
     padding-right: 30px;
     padding-bottom: 30px;
+    
     .feed-content {
         background-color: #f8f9fa;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -41,7 +42,6 @@
                     border-radius: 50%;
                 }
             }
-
         }
 
 
@@ -61,11 +61,17 @@
                 } 
             }
 
+            span.number {
+                font-weight: 600;
+                color: #343a40;
+            }
+
             .quote {
                 font-size: 28px;
                 padding: 3px;
                 font-family: 'Helvetica';
             }
+
             .first-message {
                 color: #343a40;
                 text-align: center;
@@ -73,7 +79,7 @@
                 font-size: 18px;
                 line-height: 23px;
                 padding-top: 10px;
-                padding-bottom: 10px;
+                padding-bottom: 13px;
             }
 
             .message-container {

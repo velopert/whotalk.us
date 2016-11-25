@@ -63,13 +63,31 @@ class Feed extends Component {
         )
     }
 
+    mapToUserInfos(followees) {
+        return followees.map(
+            (followee, i) => (
+                <UserInfo 
+                    username={followee.username} 
+                    givenName={followee.givenName} 
+                    familyName={followee.familyName}
+                    key={i}
+                />
+            )
+        )
+    }
+
     renderFeed = () => {
         const { type, payload } = this.props;
+        
         if(type === 'FOLLOW') {
+            const length = payload.follow.followee.length;
             return (
                 <div>
-                    <span className="user">{payload.follower.username}</span> is following <span className="user">{payload.followee.username}</span>
-                    <UserInfo username={payload.followee.username} givenName={payload.followee.givenName} familyName={payload.followee.familyName}/>
+                    {/*<span className="user">{payload.follow.follower.username}</span> is following <span className="user">{payload.follow.followee.username}</span>
+                    <UserInfo username={payload.follow.followee.username} givenName={payload.follow.followee.givenName} familyName={payload.follow.followee.familyName}/>*/}
+                    <span className="user">{payload.follow.follower.username}</span> is following 
+                    {length === 1 ? <span className="user">{payload.follow.followee.username}</span> : <span><span className="number"> {length} </span>users</span>}
+                    {this.mapToUserInfos(payload.follow.followee)}
                 </div>
             )
         } else if (type === 'CHAT') {

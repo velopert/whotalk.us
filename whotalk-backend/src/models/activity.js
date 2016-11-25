@@ -14,12 +14,12 @@ const Activity = new Schema({
             lastId: { type: Schema.Types.ObjectId }
         },
         follow: {
-            followee: {
+            followee: [Schema.Types.Mixed],
+            /*{
                 username: String,
                 givenName: String,
                 familyName: String
-                
-            },
+            }*/
             follower: {
                 username: String
             }
@@ -47,6 +47,7 @@ Activity.statics.createChatActivity = function({ username, anonymous, initId, ch
     return activity.save();
 }
 
+// remove later
 Activity.statics.checkDuplicates = function({followee, follower}) {
     return this.findOne({
         type: 'FOLLOW',
@@ -54,7 +55,14 @@ Activity.statics.checkDuplicates = function({followee, follower}) {
         'payload.follow.follower.username': follower,
         date: { $gt: new Date((new Date()).getTime() - 1000 * 60 * 30) }
     }).exec();
+}
 
+Activity.statics.findRecentFollowActivity = function(follower) {
+    return this.findOne({
+        type: 'FOLLOW',
+        'payload.follow.follower.username': follower,
+        date: { $gt: new Date((new Date()).getTime() - 1000 * 60 * 30) }
+    });
 }
 
 Activity.statics.createFollowActivity = function({followee, follower, subscribers}) {
@@ -62,7 +70,7 @@ Activity.statics.createFollowActivity = function({followee, follower, subscriber
         type: "FOLLOW",
         payload: {
             follow: {
-                followee,
+                followee: [followee],
                 follower
             },
         },
@@ -93,7 +101,6 @@ Activity.statics.getInitialActivity = function(subscriberId) {
     .lean()
     .exec();
 }
-
 
 
 
