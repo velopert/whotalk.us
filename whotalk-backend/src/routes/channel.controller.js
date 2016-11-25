@@ -1,5 +1,7 @@
 import Account from './../models/account.js';
 import Follow from './../models/follow.js';
+import Visit from './../models/visit.js';
+
 import mongoose from 'mongoose';
 
 // GET /info/:username
@@ -17,11 +19,21 @@ export const getInfo = async (req, res) => {
 
         let followed = false;
 
+
+        // logged
         if (req.user) {
             followed = (await Follow.checkFollow({ 
                 followee: account._id, 
                 follower: req.user._id 
             })) ? true : false;
+            
+            if(req.params.username !== req.user.common_profile.username) {
+                Visit.create({
+                    accountId: req.user._id,
+                    visitedChannel: req.params.username
+                });
+            }
+
         }
 
 
