@@ -2,6 +2,7 @@ import Account from './../models/account.js';
 import Follow from './../models/follow.js';
 import Visit from './../models/visit.js';
 import Favorite from './../models/favorite.js';
+import Message from './../models/message.js';
 
 import mongoose from 'mongoose';
 
@@ -17,6 +18,8 @@ export const getInfo = async (req, res) => {
         const thumbnail = account.common_profile.thumbnail;
         const followers = await Follow.getFollowerCount(account._id);
         const following = await Follow.getFollowingCount(account._id);
+        const distinctUsers = await Message.find({channel: req.params.username}).distinct('username').exec();
+
 
         let followed = false;
         let isFavorite = false;
@@ -43,10 +46,12 @@ export const getInfo = async (req, res) => {
                 familyName,
                 givenName,
                 thumbnail,
+                talkers: distinctUsers.length,
                 following,
                 followers,
                 followed,
-                isFavorite
+                isFavorite,
+                
             }
         });
     } else {
