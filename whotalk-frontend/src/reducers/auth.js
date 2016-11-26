@@ -33,6 +33,10 @@ const session = {
         },
         type: null
     },
+    followInfo: {
+        followers: 0,
+        following: 0
+    },
     logged: false
 }
 
@@ -282,6 +286,9 @@ function auth(state=initialState, action) {
                     sessionID: payload.data.sessionID,
                     user: payload.data.user === null ? {...session.user} : payload.data.user,
                     logged: (payload.data.user !== null && payload.data.user.common_profile.username !== null)
+                },
+                followInfo: {
+                    ...payload.data.followInfo
                 }
             }
 

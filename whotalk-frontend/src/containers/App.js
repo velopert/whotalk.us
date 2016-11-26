@@ -53,9 +53,13 @@ class App extends Component {
 
     @autobind
     handleSidebarToggle() {
-        const { UIActions } = this.props;
+        const { UIActions, AuthActions, ui } = this.props;
+        if(!ui.sidebar.show) {
+            AuthActions.checkSession();
+        }
         UIActions.toggleSidebar();
         toggleScroll();
+        
     }
 
     @autobind
@@ -188,6 +192,7 @@ class App extends Component {
                         session={status.session}
                         onToggle={handleSidebarToggle}
                         onLogout={handleLogout}
+                        followInfo={status.followInfo}
                     />
                     <Dimmed enable={ui.sidebar.show} onClick={handleSidebarToggle} isSidebar={true}/>
                     <Dimmed enable={ui.focusBox.show} onClick={closeFocusBox}/>
@@ -218,7 +223,8 @@ App = connect(state => ({
         session: state.auth.session,
         fetchingActivity: state.explore.requests.getActivityBefore.fetching,
         activityCursorId: state.explore.activityData.length === 0 ? null : state.explore.activityData[state.explore.activityData.length-1]._id,
-        isLastActivity: state.explore.isLast
+        isLastActivity: state.explore.isLast,
+        followInfo: state.auth.followInfo
     },
     ui: {
         sidebar: state.ui.sidebar,

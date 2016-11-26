@@ -59,6 +59,9 @@ div.sidebar {
                     font-weight: 600;
                     color: #f8f9fa;
                     padding-bottom: 2px;
+                    &:hover {
+                       color: #faa2c1;
+                    }
                 }
                 .name {
                     padding-top: 2px;

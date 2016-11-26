@@ -29,7 +29,7 @@ class Sidebar extends Component {
     }
 
     render() {
-        const {open, session, onToggle, onLogout} = this.props;
+        const {open, session, onToggle, onLogout, followInfo} = this.props;
         const {redirect} = this;
 
         let username,
@@ -53,15 +53,16 @@ class Sidebar extends Component {
                             </ButtonContainer>
                         )
                         : ''}
+                    
                     <Profile>
                         <Circle/>
-                        <Info name="Minjun Kim" username={username} name={name}/>
+                        <Info username={username} name={name}/>
                     </Profile>
                 </Top>
 
                 <Bottom>
                     {session.logged
-                        ? (<Followship/>)
+                        ? (<Followship following={followInfo.following} followers={followInfo.followers}/>)
                         : <LoginButton
                             onClick={() => {
                             onToggle();
