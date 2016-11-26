@@ -1,7 +1,19 @@
 import React from 'react';
 import { Common } from 'components';
+import {Scrollbars} from 'react-custom-scrollbars';
 
 
+const renderThumb = ({style, ...props}) => {
+    const thumbStyle= {
+        backgroundColor: 'rgba(255,255,255,0.4)',
+        borderRadius: '2px'
+    };
+
+    return (
+        <div style={{...style, ...thumbStyle}}
+            {...props}/>
+    );
+};
 
 const LeftBox = ({children, fetching}) => {
     const mockData = (
@@ -62,7 +74,10 @@ const LeftBox = ({children, fetching}) => {
 
     return (
         <div className="left-box">
-            {fetching ? mockData : children}
+            <Scrollbars style={{height: '100%'}}
+                renderThumbVertical={renderThumb}>
+                {fetching ? mockData : children}
+            </Scrollbars>
         </div>
     );
 };

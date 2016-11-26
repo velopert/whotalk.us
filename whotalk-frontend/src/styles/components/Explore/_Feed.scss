@@ -61,6 +61,11 @@
                 } 
             }
 
+            span.anonymous {
+                font-weight: 600;
+                color: #868e96;
+            }
+
             span.number {
                 font-weight: 600;
                 color: #343a40;
@@ -89,7 +94,7 @@
                 padding: 5px;
             }
 
-            span + .user-info {
+            span + .user-info, a + .user-info {
                 margin-top: 15px;
             }
 

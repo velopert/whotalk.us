@@ -1,9 +1,10 @@
 import React from 'react'
+import User from './User';
 
 const Message = ({username, message, anonymous}) => {
     return (
         <div>
-            <span className="user">{username}</span> {message}
+            <User username={username} anonymous={anonymous}/> {message}
         </div>
     )
 }
