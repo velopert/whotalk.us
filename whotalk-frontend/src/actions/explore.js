@@ -38,3 +38,11 @@ export const unfollowFromActivity = (username) => ({
         promise: unfollow(username)
     }
 });
+
+
+export const getRecentVisits = () => ({
+    type: EXPLORE.GET_RECENT_VISITS,
+    payload: {
+        promise: service.getRecentVisits()
+    }
+});

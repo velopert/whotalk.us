@@ -23,7 +23,11 @@ class ExploreRoute extends Component {
     fetchInitialActivities = async () => {
         const { ExploreActions } = this.props;
         await ExploreActions.getInitialActivity();
+    }
 
+    fetchRecentVisits = async () => {
+        const { ExploreActions } = this.props;
+        await ExploreActions.getRecentVisits();
     }
 
     handleFollow = async ({activityIndex, userIndex, username}) => {
@@ -57,10 +61,11 @@ class ExploreRoute extends Component {
         //     notify({type: 'error', message: 'Please login before you explore'});
         //     return;
         // }
-
+        this.fetchRecentVisits();
         this.fetchInitialActivities();
-
+        
         // fetch initialActivities
+
     }
     
     
@@ -73,7 +78,7 @@ class ExploreRoute extends Component {
             <Explore.Container>
                 <Explore.LeftBox>
 
-                    <Explore.RecentVisits/>
+                    <Explore.RecentVisits data={status.recentVisits}/>
 
                 </Explore.LeftBox>
                 <Explore.Feeds 
@@ -100,6 +105,7 @@ ExploreRoute = connect(
             session: state.auth.session,
             clientSize: state.ui.clientSize,
             activityData: state.explore.activityData,
+            recentVisits: state.explore.recentVisits,
             isLast: state.explore.isLast
         }
     }),

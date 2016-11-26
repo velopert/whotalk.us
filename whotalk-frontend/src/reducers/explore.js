@@ -3,12 +3,16 @@ import * as rs from 'helpers/requestStatus';
 
 const initialState = {
     activityData: [],
+    recentVisits: [],
     isLast: false,
     requests: {
         getInitialActivity: {
             ...rs.request
         },
         getActivityBefore: {
+            ...rs.request
+        },
+        getRecentVisits: {
             ...rs.request
         }
     }
@@ -155,6 +159,42 @@ function explore(state = initialState, action) {
             //     }
 
             // }
+
+        case EXPLORE.GET_RECENT_VISITS + '_PENDING':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getRecentVisits: {
+                        ...rs.pending
+                    }
+                }
+            }
+        
+        case EXPLORE.GET_RECENT_VISITS + '_FULFILLED':
+            return {
+                ...state,
+                recentVisits: payload.data.recentVisits,
+                requests: {
+                    ...state.requests,
+                    getRecentVisits: {
+                        ...rs.fulfilled
+                    }
+                }
+            }
+
+        case EXPLORE.GET_RECENT_VISITS + '_REJECTED':
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getRecentVisits: {
+                        ...rs.rejected,
+                        error: payload
+                    }
+                }
+            }
+
         default:
             return state;
     }

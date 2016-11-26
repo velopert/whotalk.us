@@ -11,3 +11,9 @@ export const getActivityBefore= (activityId) => {
         url: '/api/activity/before/' + activityId
     });
 }
+
+export const getRecentVisits = () => {
+    return request({
+        url: '/api/common/recent-visits/'
+    });
+}

@@ -17,10 +17,26 @@
 
     .recent-visits {
         padding: 10px;
+        padding-top: 20px;
         .title {
             color: #f1f3f5;
             font-size: 14px;
             font-weight: 600;  
+        }
+        .links {
+            padding-top: 8px;
+
+            font-size: 16px;
+            .link + .link {
+                margin-top: 2px;
+            }
+            a {
+                color: #ced4da;
+
+                &:hover {
+                    color: #f783ac;
+                }
+            }
         }
     }
      @include media("<tablet") {
