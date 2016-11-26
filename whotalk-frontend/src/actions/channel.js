@@ -90,3 +90,16 @@ export const toggleUserInfoFollowButton = createAction(CHANNEL.TOGGLE_USER_INFO_
 export const clearUserList = createAction(CHANNEL.CLEAR_USER_LIST);
 
 
+export const addFavorite = (username) => ({
+    type: CHANNEL.ADD_FAVORITE,
+    payload: {
+        promise: service.addFavorite(username)
+    }
+});
+
+export const deleteFavorite = (username) => ({
+    type: CHANNEL.DELETE_FAVORITE,
+    payload: {
+        promise: service.deleteFavorite(username)
+    }
+});

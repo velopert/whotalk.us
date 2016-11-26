@@ -32,7 +32,8 @@ const initialState = {
         thumbnail: "none",
         talkers: 0,
         following: 0,
-        followers: 0
+        followers: 0,
+        isFavorite: false
     },
     focusBox: {
         userList: [],
@@ -82,6 +83,12 @@ const initialState = {
             ...request
         },
         getFollowing: {
+            ...request
+        },
+        addFavorite: {
+            ...request
+        },
+        deleteFavorite: {
             ...request
         }
     }
@@ -732,6 +739,84 @@ function channel(state = initialState, action) {
                 }
 
             }
+
+        case CHANNEL.ADD_FAVORITE + "_PENDING":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    addFavorite: {
+                        ...pending
+                    }
+                }
+            }
+
+        case CHANNEL.ADD_FAVORITE + "_FULFILLED":            
+            return {
+                ...state,
+                info: {
+                    ...state.info,
+                    isFavorite: !state.info.isFavorite
+                },
+                requests: {
+                    ...state.requests,
+                    addFavorite: {
+                        ...fulfilled
+                    }
+                }
+            }
+
+        case CHANNEL.ADD_FAVORITE + "_REJECTED":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    addFavorite: {
+                        ...rejected,
+                        error: payload
+                    }
+                }
+            }
+
+        case CHANNEL.DELETE_FAVORITE + "_PENDING":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    deleteFavorite: {
+                        ...pending
+                    }
+                }
+            }
+
+        case CHANNEL.DELETE_FAVORITE + "_FULFILLED":            
+            return {
+                ...state,
+                info: {
+                    ...state.info,
+                    isFavorite: !state.info.isFavorite
+                },
+                requests: {
+                    ...state.requests,
+                    deleteFavorite: {
+                        ...fulfilled
+                    }
+                }
+            }
+
+        case CHANNEL.DELETE_FAVORITE + "_REJECTED":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    deleteFavorite: {
+                        ...rejected,
+                        error: payload
+                    }
+                }
+            }
+
+
         
 
         default:

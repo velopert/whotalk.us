@@ -1,9 +1,10 @@
 import React from 'react'
 
-const FavoriteButton = ({isFavorite, onClick}) => {
+const FavoriteButton = ({isFavorite, onClick, pending}) => {
     return (
-        <div className="favorite-button">
-             <i className="star icon big"></i>
+        <div className={`favorite-button ${isFavorite?'is-favorite':''}`}
+            onClick={onClick}>
+             <i className={`star icon big ${pending?'pending':''}`}></i>
         </div>
     )
 }

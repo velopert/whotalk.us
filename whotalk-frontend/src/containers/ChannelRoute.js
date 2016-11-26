@@ -90,6 +90,19 @@ class ChannelRoute extends Component {
         ChannelActions.unfollow(params.username);
     }
 
+    handleFavoriteButtonClick = async () => {
+        const { status, params, ChannelActions } = this.props;
+
+
+        if(status.channelInfo.isFavorite) {
+            // deleteFavorite
+            await ChannelActions.deleteFavorite(params.username);
+        } else {
+            // addFavorite
+            await ChannelActions.addFavorite(params.username);
+        }
+    }
+
     @autobind
     openFocusBox(type) {
         const {UIActions, ChannelActions, params} = this.props;
@@ -114,7 +127,7 @@ class ChannelRoute extends Component {
         const {UIActions} = this.props;
 
         UIActions.setChannelBoxState('closing');
-
+status.channelInfo.isFavorite
         document.body.style.overflow = "hidden";
         setTimeout(() => {
             document.body.style.overflow = ""
@@ -164,12 +177,17 @@ class ChannelRoute extends Component {
             handleLoadMore,
             openFocusBox,
             handleFollowFromUserList,
-            handleUnfollowFromUserList
+            handleUnfollowFromUserList,
+            handleFavoriteButtonClick
         } = this;
         
         return (
             <div className="channel">
-                <Channel.FavoriteButton/>
+                <Channel.FavoriteButton 
+                    isFavorite={status.channelInfo.isFavorite}
+                    onClick={handleFavoriteButtonClick}  
+                    pending={status.favoritePending}  
+                />
                 {(status.focusBox.type !== null)
                     ? <Channel.UserList
                             type={status.focusBox.type}
@@ -215,12 +233,14 @@ ChannelRoute = connect(state => ({
         clientHeight: state.ui.clientSize.height,
         followPending: state.channel.requests.follow.fetching,
         unfollowPending: state.channel.requests.unfollow.fetching,
+        favoritePending: state.channel.requests.addFavorite.fetching ||state.channel.requests.deleteFavorite.fetching,
         focusBox: state.ui.focusBox,
         userList: state.channel.focusBox.userList,
         userListIsLast: state.channel.focusBox.isLast,
         userListIndex: state.channel.focusBox.listIndex,
         getFollowersPending: state.channel.requests.getFollowers.fetching,
-        getFollowingPending: state.channel.requests.getFollowing.fetching
+        getFollowingPending: state.channel.requests.getFollowing.fetching,
+        
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),
