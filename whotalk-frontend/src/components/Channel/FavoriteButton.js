@@ -1,9 +1,16 @@
 import React from 'react'
 
-const FavoriteButton = ({isFavorite, onClick, pending}) => {
+const FavoriteButton = ({isFavorite, onClick, pending, hide}) => {
+
+    const style = {
+        display: hide ? 'none' : 'inline'
+    };
+
     return (
         <div className={`favorite-button ${isFavorite?'is-favorite':''}`}
-            onClick={onClick}>
+            onClick={onClick}
+            style={style}
+        >
              <i className={`star icon big ${pending?'pending':''}`}></i>
         </div>
     )

@@ -186,6 +186,7 @@ class ChannelRoute extends Component {
                     isFavorite={status.channelInfo.isFavorite}
                     onClick={handleFavoriteButtonClick}  
                     pending={status.favoritePending}  
+                    hide={params.username === status.session.user.common_profile.username}
                 />
                 {(status.focusBox.type !== null)
                     ? <Channel.UserList

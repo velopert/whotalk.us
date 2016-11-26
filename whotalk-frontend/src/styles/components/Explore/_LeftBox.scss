@@ -14,17 +14,26 @@
     border-radius: 2px;
     margin-bottom: 20px;
 
+    .mock-data {
+        padding: 15px;
+    }
+    .links-container {
+        padding: 15px;
 
-    .recent-visits {
-        padding: 10px;
-        padding-top: 20px;
+
         .title {
             color: #f1f3f5;
             font-size: 14px;
-            font-weight: 600;  
+            font-weight: 600;
+            //border-bottom: 2px solid #868e96;
         }
         .links {
-            padding-top: 8px;
+
+            span.hashtag {
+                color: #868e96;
+            }
+
+            padding-top: 5px;
 
             font-size: 16px;
             .link + .link {
