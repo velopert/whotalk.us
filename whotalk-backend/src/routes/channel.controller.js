@@ -1,6 +1,7 @@
 import Account from './../models/account.js';
 import Follow from './../models/follow.js';
 import Visit from './../models/visit.js';
+import Favorite from './../models/favorite.js';
 
 import mongoose from 'mongoose';
 
@@ -18,6 +19,8 @@ export const getInfo = async (req, res) => {
         const following = await Follow.getFollowingCount(account._id);
 
         let followed = false;
+        let isFavorite = false;
+
 
 
         // logged
@@ -25,6 +28,11 @@ export const getInfo = async (req, res) => {
             followed = (await Follow.checkFollow({ 
                 followee: account._id, 
                 follower: req.user._id 
+            })) ? true : false;
+
+            isFavorite = (await Favorite.check({
+                accountId: req.user._id,
+                favoriteChannel: req.params.username
             })) ? true : false;
         }
 
@@ -37,7 +45,8 @@ export const getInfo = async (req, res) => {
                 thumbnail,
                 following,
                 followers,
-                followed
+                followed,
+                isFavorite
             }
         });
     } else {
@@ -65,4 +74,67 @@ export const getInfo = async (req, res) => {
             });
         }
     }
+}
+
+// POST /api/channel/add-favorite/:username
+export const addFavorite = async (req, res) => {
+
+    // not logged in
+    if (!req.user) {
+        return res
+            .status(401)
+            .json({code: 0, message: 'NOT LOGGED IN'});
+    }
+
+    // check whether it is already in Favorite
+    const favorite = await Favorite.check({
+        accountId: req.user._id,
+        favoriteChannel: req.params.username
+    });
+
+    if(favorite) {
+        return res.json({
+            success: true
+        });
+    } 
+
+    // add to follow
+    await Favorite.add({
+        accountId: req.user._id,
+        favoriteChannel: req.params.username
+    });
+
+    return res.json({
+        success: true
+    })
+}
+
+// DELETE /api/channel/favorite/:username
+export const deleteFavorite = async (req, res) => {
+    // not logged in
+    if (!req.user) {
+        return res
+            .status(401)
+            .json({code: 0, message: 'NOT LOGGED IN'});
+    }
+
+    // check whether it is already in Favorite
+    const favorite = await Favorite.check({
+        accountId: req.user._id,
+        favoriteChannel: req.params.username
+    });
+
+    // not a favorite channel
+    if(!favorite) {
+        return res.json({
+            success: true
+        });
+    } 
+
+    // remove the favorite channel
+    await Favorite.findByIdAndRemove(favorite._id);
+
+    return res.json({
+        success: true
+    });
 }

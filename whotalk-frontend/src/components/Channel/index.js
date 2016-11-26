@@ -4,6 +4,8 @@ import Profile from './Profile';
 import Info from './Info';
 import Buttons from './Buttons';
 import UserList from './UserList';
+import FavoriteButton from './FavoriteButton';
+
 
 export {
     Box,
@@ -11,5 +13,6 @@ export {
     Profile,
     Info,
     Buttons,
-    UserList
+    UserList,
+    FavoriteButton
 };

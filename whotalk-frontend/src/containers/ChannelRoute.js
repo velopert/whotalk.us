@@ -169,6 +169,7 @@ class ChannelRoute extends Component {
         
         return (
             <div className="channel">
+                <Channel.FavoriteButton/>
                 {(status.focusBox.type !== null)
                     ? <Channel.UserList
                             type={status.focusBox.type}
