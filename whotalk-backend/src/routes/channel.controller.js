@@ -50,10 +50,11 @@ export const getInfo = async (req, res) => {
             }
         });
     } else {
-         res.status(404).json({code: 0, message: 'USER NOT FOUND'});
+         return res.status(404).json({code: 0, message: 'USER NOT FOUND'});
     }
 
     // process this after response
+
 
     // logged
     if (req.user) {
