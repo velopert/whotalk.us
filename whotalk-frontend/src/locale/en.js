@@ -18,6 +18,7 @@ export default {
     "Login.createAccount": "Create an account",
     "Login.forgotPassword": "Forgot Password?",
     "Login.socialLogin": "CLICK TO LOG IN WITH",
+    "Login.notify.greeting": "Hello, {name}!",
 
     "Register.signUpWith": "SIGN UP WITH",
     "Register.signUpWithUsername": "SIGN UP WITH YOUR USERNAME",
@@ -44,7 +45,7 @@ export default {
     "Additional.signUp": "SIGN UP",
 
     "AdditionalO.almostThere": "YOU ARE ALMOST THERE!",
-    "AdditionalO.tellUs": "TELL US YOUR USERNAME",
+    "AdditionalO.tellUs": "PLEASE TELL US YOUR USERNAME",
     "AdditionalO.usernameCapitalized": "USERNAME",
     "AdditionalO.username": "Username",
     "AdditionalO.cancel": "CANCEL",

@@ -18,7 +18,7 @@ export default {
     "Login.createAccount": "회원가입 하세요",
     "Login.forgotPassword": "비밀번호를 잊으셨나요?",
     "Login.socialLogin": "소셜 로그인",
-
+    "Login.notify.greeting": "{name}님, 안녕하세요!",
 
     "Register.signUpWith": "소셜 로그인",
     "Register.signUpWithUsername": "계정 만들기",

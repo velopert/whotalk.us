@@ -63,6 +63,9 @@
         padding-top: 30px;
         color: white;
         padding-bottom: 15px;
+        @include media("<=tablet") {
+            font-size: 15px;
+        }
     }
     .button {
         
