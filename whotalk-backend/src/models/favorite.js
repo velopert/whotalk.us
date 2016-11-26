@@ -20,6 +20,12 @@ Favorite.statics.check = function({accountId, favoriteChannel}) {
     }).exec();
 }
 
+Favorite.statics.list = function(accountId) {
+    return this.find({
+        accountId
+    })
+}
+
 
 export default mongoose.model('Favorite', Favorite);
 
