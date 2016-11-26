@@ -4,6 +4,8 @@ import inspector from 'schema-inspector';
 import PassportError from './../passport/PassportError.js';
 import Account from './../models/account.js'
 import cache from './../helpers/cache';
+import Follow from './../models/follow.js';
+
 
 const router = express.Router();
 
@@ -47,20 +49,30 @@ router.get('/success', (req, res) => {
     }
 });
 
-router.get('/check', (req, res) => {
+router.get('/check', async (req, res) => {
 
     let user = null;
+    let followInfo = null;
 
     if (req.user) {
         const {_id, type, common_profile} = req.user;
+        const followers = await Follow.getFollowerCount(req.user._id);
+        const following = await Follow.getFollowingCount(req.user._id);
+        followInfo = {
+            followers,
+            following
+        }
+
         user = {
             _id,
             type,
-            common_profile
+            common_profile,
         };
+
+
     }
 
-    res.json({sessionID: req.sessionID, user});
+    res.json({sessionID: req.sessionID, user, followInfo});
 });
 
 router.get('/failure', (req, res) => {
