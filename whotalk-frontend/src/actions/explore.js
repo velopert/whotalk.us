@@ -39,10 +39,9 @@ export const unfollowFromActivity = (username) => ({
     }
 });
 
-
-export const getRecentVisits = () => ({
-    type: EXPLORE.GET_RECENT_VISITS,
+export const getSidebarLinks = () => ({
+    type: EXPLORE.GET_SIDEBAR_LINKS,
     payload: {
-        promise: service.getRecentVisits()
+        promise: service.getSidebarLinks()
     }
 });

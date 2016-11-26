@@ -25,9 +25,9 @@ class ExploreRoute extends Component {
         await ExploreActions.getInitialActivity();
     }
 
-    fetchRecentVisits = async () => {
+    fetchSidebarLinks = async () => {
         const { ExploreActions } = this.props;
-        await ExploreActions.getRecentVisits();
+        await ExploreActions.getSidebarLinks();
     }
 
     handleFollow = async ({activityIndex, userIndex, username}) => {
@@ -61,7 +61,7 @@ class ExploreRoute extends Component {
         //     notify({type: 'error', message: 'Please login before you explore'});
         //     return;
         // }
-        this.fetchRecentVisits();
+        this.fetchSidebarLinks();
         this.fetchInitialActivities();
         
         // fetch initialActivities
@@ -74,11 +74,19 @@ class ExploreRoute extends Component {
         const { status } = this.props;
         const { handleFollow, handleUnfollow } = this;
         
+        console.log(status.sidebarLinks);
+        
         return (
             <Explore.Container>
-                <Explore.LeftBox>
-
-                    <Explore.RecentVisits data={status.recentVisits}/>
+                <Explore.LeftBox fetching={status.fetchingLinks}>
+                    <Explore.LinksContainer 
+                        title="Recently Visited"
+                        data={status.sidebarLinks.recentVisits}
+                    />
+                    <Explore.LinksContainer 
+                        title="Favorite Channels"
+                        data={status.sidebarLinks.favoriteChannels}
+                    />
 
                 </Explore.LeftBox>
                 <Explore.Feeds 
@@ -105,8 +113,10 @@ ExploreRoute = connect(
             session: state.auth.session,
             clientSize: state.ui.clientSize,
             activityData: state.explore.activityData,
+            sidebarLinks: state.explore.sidebarLinks,
             recentVisits: state.explore.recentVisits,
-            isLast: state.explore.isLast
+            isLast: state.explore.isLast,
+            fetchingLinks: state.explore.requests.getSidebarLinks.fetching
         }
     }),
     dispatch => ({

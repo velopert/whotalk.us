@@ -3,7 +3,10 @@ import * as rs from 'helpers/requestStatus';
 
 const initialState = {
     activityData: [],
-    recentVisits: [],
+    sidebarLinks: {
+        favoriteChannels: [],
+        recentVisits: []
+    },
     isLast: false,
     requests: {
         getInitialActivity: {
@@ -12,7 +15,7 @@ const initialState = {
         getActivityBefore: {
             ...rs.request
         },
-        getRecentVisits: {
+        getSidebarLinks: {
             ...rs.request
         }
     }
@@ -144,51 +147,38 @@ function explore(state = initialState, action) {
                     },
                     ...activityData.slice(payload.activityIndex + 1, activityData.length)
                 ]
-            }
+            }      
 
 
-            // return {
-            //     ...state,
-            //     focusBox: {
-            //         ...state.focusBox,
-            //         userList: [
-            //             ...userList.slice(0, payload),
-            //             { ...userList[payload], disabled: !(userList[payload].disabled), following: userList[payload].disabled ? !(userList[payload].following) : userList[payload].following},
-            //             ...userList.slice(payload + 1, userList.length)
-            //         ]
-            //     }
-
-            // }
-
-        case EXPLORE.GET_RECENT_VISITS + '_PENDING':
+        case EXPLORE.GET_SIDEBAR_LINKS + '_PENDING':
             return {
                 ...state,
                 requests: {
                     ...state.requests,
-                    getRecentVisits: {
+                    getSidebarLinks: {
                         ...rs.pending
                     }
                 }
             }
         
-        case EXPLORE.GET_RECENT_VISITS + '_FULFILLED':
+        case EXPLORE.GET_SIDEBAR_LINKS + '_FULFILLED':
             return {
                 ...state,
-                recentVisits: payload.data.recentVisits,
+                sidebarLinks: payload.data,
                 requests: {
                     ...state.requests,
-                    getRecentVisits: {
+                    getSidebarLinks: {
                         ...rs.fulfilled
                     }
                 }
             }
 
-        case EXPLORE.GET_RECENT_VISITS + '_REJECTED':
+        case EXPLORE.GET_SIDEBAR_LINKS + '_REJECTED':
             return {
                 ...state,
                 requests: {
                     ...state.requests,
-                    getRecentVisits: {
+                    getSidebarLinks: {
                         ...rs.rejected,
                         error: payload
                     }

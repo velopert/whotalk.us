@@ -4,16 +4,17 @@ export const getInitialActivity = () => {
     return request({
         url: '/api/activity'
     });
-}
+};
+
 
 export const getActivityBefore= (activityId) => {
     return request({
         url: '/api/activity/before/' + activityId
     });
-}
+};
 
-export const getRecentVisits = () => {
+export const getSidebarLinks = () => {
     return request({
-        url: '/api/common/recent-visits/'
+        url: '/api/common/sidebar-links/'
     });
-}
+};
