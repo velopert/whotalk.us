@@ -127,7 +127,6 @@ class ChannelRoute extends Component {
         const {UIActions} = this.props;
 
         UIActions.setChannelBoxState('closing');
-status.channelInfo.isFavorite
         document.body.style.overflow = "hidden";
         setTimeout(() => {
             document.body.style.overflow = ""
