@@ -58,13 +58,14 @@
         b {
             font-weight: 800; 
         }
-        letter-spacing: 5px;
+        //letter-spacing: 5px;
         font-size: 18px;
         padding-top: 30px;
         color: white;
         padding-bottom: 15px;
     }
     .button {
+        
         margin-top: 15px;
         letter-spacing: 2px;
         font-size: 18px;
@@ -73,6 +74,7 @@
         margin-left: 10px;
     }
     .learn-more {
+        font-weight: 600;
         color: white;
         position: absolute;
         left: 50%;

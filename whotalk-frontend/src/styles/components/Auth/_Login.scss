@@ -1,4 +1,5 @@
 .login {
+    font-weight: 600;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -7,11 +8,15 @@
         background-color: rgba(0, 0, 0, 0.6);
         border: 1px solid rgba(255, 156, 229, 0.3);
         .local {
+
+            .title {
+                font-weight: 600;
+            }
             label {
                 color: white;
-                font-weight: 400;
+
                 font-size: 16px;
-        letter-spacing: 1.8px;
+        //letter-spacing: 1.8px;
                 padding-bottom: 3px;
             }
             .login-footer {
@@ -20,7 +25,7 @@
                 p {
                     margin: 0px;
                     font-size: 16px;
-                    letter-spacing: 0px;
+                    //letter-spacing: 0px;
                 }
                 p+p {
                     margin-top: 5px;
@@ -31,6 +36,11 @@
                 &:hover {
                     color: #FF5AD3;
                 }
+            }
+        }
+        .social {
+            .title {
+                font-weight: 600;
             }
         }
         p {
@@ -126,7 +136,7 @@
                 padding: 35px;
                 label {
                 font-size: 16px;
-        letter-spacing: 1.8px;
+        //letter-spacing: 1.8px;
                 }
             }
             .social {
@@ -139,7 +149,7 @@
             }
             p {
                 font-size: 19px;
-                letter-spacing: 2.5px;
+                //letter-spacing: 2.5px;
             }
         }
     }
