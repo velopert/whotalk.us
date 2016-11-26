@@ -1,9 +1,23 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router';
-import { AdditionalOForm } from './forms';
+import {AdditionalOForm} from './forms';
+import {injectIntl, defineMessages} from 'react-intl';
 
 import autobind from 'autobind-decorator';
 import notify from 'helpers/notify';
+
+
+const messages = defineMessages({
+    almostThere: {
+        id: "AdditionalO.almostThere",
+        defaultMessage: "YOU ARE ALMOST THERE"
+    },
+    tellUs: {
+        id: "Additional.pleaseTell",
+        defaultMessage: "PLEASE TELL YOUR USERNAME"
+    }
+})
+
 
 class AdditionalO extends Component {
     constructor(props) {
@@ -33,20 +47,23 @@ class AdditionalO extends Component {
 
     @autobind
     async checkSession() {
-        await this.props.AuthActions.checkSession();
+        await this
+            .props
+            .AuthActions
+            .checkSession();
 
-        if(!this.props.status.session.user) {
+        if (!this.props.status.session.user) {
             // INVALID REQUEST
             this.leaveTo('/auth');
             notify({type: 'error', message: 'Oops, your social ID is invalid'});
-            return;            
+            return;
         }
 
-        if(this.props.status.session.logged) {
+        if (this.props.status.session.logged) {
             // already has a username
             this.leaveTo('/');
-            // toastr.warning('You already have signed in');
-            // toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`);
+            // toastr.warning('You already have signed in'); toastr.success(`Hello,
+            // ${this.props.status.session.user.common_profile.givenName}!`);
             notify({type: 'warning', message: 'You already have signed in'});
             notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`})
             return;
@@ -61,25 +78,24 @@ class AdditionalO extends Component {
 
     @autobind
     async handleSubmit() {
-        const { form, AuthActions } = this.props;
+        const {form, AuthActions} = this.props;
 
         const regex = /^[0-9a-z_]{4,20}$/
-        
 
         notify.clear();
 
-
         // check regex
-        if(!regex.test(form.username)) {
-            notify({type: 'error', message: 'Username should be 4~20 alphanumeric characters or an underscore'});            return;
+        if (!regex.test(form.username)) {
+            notify({type: 'error', message: 'Username should be 4~20 alphanumeric characters or an underscore'});
+            return;
         }
 
         AuthActions.setSubmitStatus({name: 'additional_o', value: true});
 
         // check username
         await AuthActions.checkUsername(form.username);
-        
-        if(this.props.status.usernameExists) {
+
+        if (this.props.status.usernameExists) {
             // toastr.error('That username is already taken, please try another one.');
             notify({type: 'error', message: 'That username is already taken, please try another one.'});
             AuthActions.setSubmitStatus({name: 'register', value: false});
@@ -87,23 +103,28 @@ class AdditionalO extends Component {
         }
 
         try {
-            await AuthActions.oauthRegister({
-                username: form.username
-            });
+            await AuthActions.oauthRegister({username: form.username});
         } catch (e) {
-            // toastr.error('Oops, server rejected your request (' + e.response.data.message + ')');
-            notify({type: 'error', message: 'Oops, server rejected your request (' + e.response.data.message + ')'})
+            // toastr.error('Oops, server rejected your request (' + e.response.data.message
+            // + ')');
+            notify({
+                type: 'error',
+                message: 'Oops, server rejected your request (' + e.response.data.message + ')'
+            })
             AuthActions.setSubmitStatus({name: 'additional', value: false});
             this.leaveTo('/auth');
             return;
         }
 
-
         // do session check one more time
-        await this.props.AuthActions.checkSession();
+        await this
+            .props
+            .AuthActions
+            .checkSession();
 
         AuthActions.setSubmitStatus({name: 'additional_o', value: false});
-        // toastr.success(`Hello, ${this.props.status.session.user.common_profile.givenName}!`)
+        // toastr.success(`Hello,
+        // ${this.props.status.session.user.common_profile.givenName}!`)
         notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`});
         this.leaveTo('/');
     }
@@ -114,7 +135,6 @@ class AdditionalO extends Component {
             this.handleSubmit();
         }
     }
-    
 
     render() {
         const redirect = (<Redirect
@@ -125,8 +145,10 @@ class AdditionalO extends Component {
             }
         }}/>);
 
-        const { handleChange, handleSubmit, handleKeyPress, leaveTo } = this;
-        const { form, status } = this.props;
+        const {handleChange, handleSubmit, handleKeyPress, leaveTo} = this;
+        const {form, status, intl: {
+                formatMessage
+            }} = this.props;
 
         return (
             <div className="additional">
@@ -134,16 +156,15 @@ class AdditionalO extends Component {
                     className={"box bounceInRight " + (this.state.animate
                     ? 'bounceOutLeft'
                     : '')}>
-                    <div className="title">YOU ARE ALMOST THERE!</div>
-                    <div className="subtitle">TELL US YOUR USERNAME</div>
+                    <div className="title">{formatMessage(messages.almostThere)}</div>
+                    <div className="subtitle">{formatMessage(messages.tellUs)}</div>
                     <AdditionalOForm
                         form={form}
                         status={status}
                         onChange={handleChange}
-                        onCancel={()=>leaveTo('/auth')}
+                        onCancel={() => leaveTo('/auth')}
                         onKeyPress={handleKeyPress}
-                        onSubmit={handleSubmit}
-                    />
+                        onSubmit={handleSubmit}/>
                 </div>
 
                 {this.state.leave
@@ -154,4 +175,4 @@ class AdditionalO extends Component {
     }
 }
 
-export default AdditionalO;
+export default injectIntl(AdditionalO);

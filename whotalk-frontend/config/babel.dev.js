@@ -11,6 +11,13 @@ module.exports = {
     require.resolve('babel-preset-react')
   ],
   plugins: [
+    [
+      require.resolve('babel-plugin-react-intl'), {
+        // Async functions are converted to generators by babel-preset-latest
+        "messagesDir": "./build/messages/"
+      }
+    ],
+
     // @autobind
     require.resolve('babel-plugin-transform-decorators-legacy'),
     // class { handleClick = () => { } }

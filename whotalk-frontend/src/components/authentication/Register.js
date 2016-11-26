@@ -3,8 +3,26 @@ import {Link, Redirect} from 'react-router';
 import {RegisterForm} from './forms';
 import autobind from 'autobind-decorator'
 import notify from 'helpers/notify';
+import {injectIntl, defineMessages} from 'react-intl';
 
-const toastr = window.toastr;
+const messages = defineMessages({
+    signUpWith: {
+        id: "Register.signUpWith",
+        defaultMessage: "SIGN UP WITH"
+    },
+    signUpWithUsername: {
+        id: "Register.signUpWithUsername",
+        defaultMessage: "SIGN UP WITH YOUR USERNAME"
+    },
+    already: {
+        id: "Register.already",
+        defaultMessage: "Already have an account?"
+    },
+    logIn: {
+        id: "Register.logIn",
+        defaultMessage: "Login"
+    }
+})
 
 class Register extends Component {
 
@@ -149,7 +167,9 @@ class Register extends Component {
         }}/>);
 
         const {handleChange, handleSubmit, handleBlur, handleKeyPress, leaveTo} = this;
-        const {form, formError, status} = this.props;
+        const {form, formError, status, intl: {
+                formatMessage
+            }} = this.props;
 
         return (
             <div className="register">
@@ -158,7 +178,7 @@ class Register extends Component {
                     ? 'bounceOutLeft'
                     : '')}>
                     <div className="social">
-                        <h2>SIGN UP WITH</h2>
+                        <h2>{formatMessage(messages.signUpWith)}</h2>
                         <div className="ui grid">
                             <div className="eight wide column">
                                 <button
@@ -174,13 +194,15 @@ class Register extends Component {
                                 </button>
                             </div>
                             <div className="eight wide column">
-                                <button onClick={()=>leaveTo({path: '/api/authentication/google', express: true})}
-                                className="ui google plus button massive hide-on-mobile">
+                                <button
+                                    onClick={() => leaveTo({path: '/api/authentication/google', express: true})}
+                                    className="ui google plus button massive hide-on-mobile">
                                     <i className="google icon"></i>
                                     Google
                                 </button>
-                                <button onClick={()=>leaveTo({path: '/api/authentication/google', express: true})}
-                                className="ui google plus icon button massive hide-on-desktop">
+                                <button
+                                    onClick={() => leaveTo({path: '/api/authentication/google', express: true})}
+                                    className="ui google plus icon button massive hide-on-desktop">
                                     <i className="google icon"></i>
                                 </button>
                             </div>
@@ -190,7 +212,7 @@ class Register extends Component {
                         OR
                     </div>
                     <div className="local">
-                        <h2>SIGN UP WITH YOUR USERNAME</h2>
+                        <h2>{formatMessage(messages.signUpWithUsername)}</h2>
                         <RegisterForm
                             username={form.username}
                             password={form.password}
@@ -200,8 +222,8 @@ class Register extends Component {
                             onSubmit={handleSubmit}
                             error={formError}
                             onKeyPress={handleKeyPress}/>
-                        <div className="side-message">Already have an account?&nbsp;
-                            <a onClick={() => this.leaveTo({path: "/auth"})}>Log In</a>
+                        <div className="side-message">{formatMessage(messages.already)}&nbsp;
+                            <a onClick={() => this.leaveTo({path: "/auth"})}>{formatMessage(messages.logIn)}</a>
                         </div>
                     </div>
                 </div>
@@ -213,4 +235,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default injectIntl(Register);

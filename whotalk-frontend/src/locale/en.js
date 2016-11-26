@@ -1,0 +1,52 @@
+export default {
+    /* HomeScreen */
+    "HomeScreen.centerMessage": "LET <b>ANYBODY</b> TALK TO YOU",
+    "HomeScreen.myChannel": "MY CHANNEL",
+    "HomeScreen.explore": "EXPLORE",
+    "HomeScreen.createChannel": "CREATE YOUR CHANNEL",
+    "HomeScreen.logIn": "LOG IN",
+    "HomeScreen.more": "MORE",
+
+    /* AUTH */
+    "Login.loginWithUsername": "LOG IN WITH YOUR USERNAME",
+    "Login.usernameCapitalized": "USERNAME",
+    "Login.username": "Username",
+    "Login.passwordCapitalized": "PASSWORD",
+    "Login.password": "Password",
+    "Login.logIn": "LOGIN",
+    "Login.newHere": "New Here?",
+    "Login.createAccount": "Create an account",
+    "Login.forgotPassword": "Forgot Password?",
+    "Login.socialLogin": "CLICK TO LOG IN WITH",
+
+    "Register.signUpWith": "SIGN UP WITH",
+    "Register.signUpWithUsername": "SIGN UP WITH YOUR USERNAME",
+    "Register.usernameCapitalized": "USERNAME",
+    "Register.username": "Username",
+    "Register.passwordCapitalized": "PASSWORD",
+    "Register.password": "Password",
+    "Register.already": "Already have an account?",
+    "Register.logIn": "Login",
+    "Register.next": "NEXT",
+
+    "Additional.almostThere": "YOU ARE ALMOST THERE!",
+    "Additional.pleaseTell": "PLEASE TELL US MORE ABOUT YOU",
+    "Additional.name": "NAME",
+    "Additional.firstName": "First Name",
+    "Additional.lastName": "Last Name",
+    "Additional.emailCapitalized": "EMAIL",
+    "Additional.email": "Email",
+    "Additional.genderCapitalized": "GENDER",
+    "Additional.gender": "Gender",
+    "Additional.male": "Male",
+    "Additional.female": "Female",
+    "Additional.cancel": "Cancel",
+    "Additional.signUp": "SIGN UP",
+
+    "AdditionalO.almostThere": "YOU ARE ALMOST THERE!",
+    "AdditionalO.tellUs": "TELL US YOUR USERNAME",
+    "AdditionalO.usernameCapitalized": "USERNAME",
+    "AdditionalO.username": "Username",
+    "AdditionalO.cancel": "CANCEL",
+    "AdditionalO.signUp": "SIGN UP"
+}

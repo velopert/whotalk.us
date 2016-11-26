@@ -3,6 +3,20 @@ import {Redirect} from 'react-router';
 import {AdditionalForm} from './forms';
 import autobind from 'autobind-decorator';
 import notify from 'helpers/notify';
+import {injectIntl, defineMessages} from 'react-intl';
+
+
+const messages = defineMessages({
+    almostThere: {
+        id: "Additional.almostThere",
+        defaultMessage: "YOU ARE ALMOST THERE"
+    },
+    pleaseTell: {
+        id: "Additional.pleaseTell",
+        defaultMessage: "PLEASE TELL US MORE ABOUT YOU"
+    }
+})
+
 
 class Additional extends Component {
     constructor(props) {
@@ -152,7 +166,9 @@ class Additional extends Component {
         }}/>);
 
         const {handleSelect, handleChange, handleSubmit, handleBlur, leaveTo} = this;
-        const {form, formError, status} = this.props;
+        const {form, formError, status, intl: {
+                formatMessage
+            }} = this.props;
 
         return (
             <div className="additional">
@@ -160,8 +176,8 @@ class Additional extends Component {
                     className={"box bounceInRight " + (this.state.animate
                     ? 'bounceOutLeft'
                     : '')}>
-                    <div className="title">YOU ARE ALMOST THERE!</div>
-                    <div className="subtitle">PLEASE TELL US MORE ABOUT YOU</div>
+                    <div className="title">{formatMessage(messages.almostThere)}</div>
+                    <div className="subtitle">{formatMessage(messages.pleaseTell)}</div>
                     <AdditionalForm 
                         form={form} 
                         onSelect={handleSelect} 
@@ -187,4 +203,4 @@ class Additional extends Component {
     }
 }
 
-export default Additional;
+export default injectIntl(Additional);

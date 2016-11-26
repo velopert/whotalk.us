@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { Link as ScrollLink } from 'react-scroll';
 import { Link } from 'react-router';
 import { storage } from 'helpers';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 
 const propTypes = {
     like: PropTypes.bool
@@ -55,15 +56,19 @@ class HomeScreen extends Component {
 
         const notLogged = (
             <div>
-                <Link to="/auth/register" className="ui inverted basic orange button">CREATE YOUR CHANNEL</Link>
-                <Link to="/auth" className="ui inverted basic green button">SIGN IN</Link>
+                <Link to="/auth/register" className="ui inverted basic orange button"><FormattedMessage id="HomeScreen.createChannel"/></Link>
+                <Link to="/auth" className="ui inverted basic green button"><FormattedMessage id="HomeScreen.logIn"/></Link>
             </div>
         );
 
 
         const isLogged = (
             <div>
-                <Link to={"/" + username } className={`ui inverted basic orange button ${username===null?'disabled':''}`}>MY CHANNEL</Link><button onClick={onOpenExplore} className="ui inverted basic green button">EXPLORE</button>
+                <Link to={"/" + username } className={`ui inverted basic orange button ${username===null?'disabled':''}`}>
+                    <FormattedMessage id="HomeScreen.myChannel"/>
+                </Link><button onClick={onOpenExplore} className="ui inverted basic green button">
+                    <FormattedMessage id="HomeScreen.explore"/>
+                </button>
             </div>
         );
 
@@ -79,7 +84,7 @@ class HomeScreen extends Component {
                                 WHOTALK
                             </div>
                         </div>
-                        <div className="site-info"><b>ANYONE</b> CAN TALK TO YOU.</div>
+                        <div className="site-info"><FormattedHTMLMessage id="HomeScreen.centerMessage"/></div>
                         <div className="button-container">
                             {buttons}
                         </div>
@@ -94,7 +99,7 @@ class HomeScreen extends Component {
                     <ScrollLink to="below-header" activeClass="active" spy={true} smooth={true} offset={-50} duration={1000}>
                         <div className="learn-more">
                             <div className={`wrapper ${animate}`}>
-                                <div className="text">MORE</div>
+                                <div className="text"><FormattedMessage id="HomeScreen.more"/></div>
                                 <i className="angle double down icon"></i>
                             </div>
                         </div>

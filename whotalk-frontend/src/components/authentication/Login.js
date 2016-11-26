@@ -4,6 +4,8 @@ import {LoginForm} from './forms';
 import autobind from 'autobind-decorator';
 import { storage } from 'helpers';
 import notify from 'helpers/notify'
+import { FormattedMessage } from 'react-intl';
+
 
 class Login extends Component {
 
@@ -113,7 +115,7 @@ class Login extends Component {
                     ? 'bounceOutLeft'
                     : '')}>
                     <div className="local">
-                        <p className="title">LOG IN WITH YOUR USERNAME</p>
+                        <p className="title"><FormattedMessage id="Login.loginWithUsername"/></p>
                         <LoginForm 
                             form={form}
                             status={status}
@@ -122,11 +124,11 @@ class Login extends Component {
                             onKeyPress={handleKeyPress}
                         />
                         <div className="login-footer">
-                            <p>New Here?&nbsp;<a onClick={() => this.leaveTo({path: '/auth/register'})}>
-                                    Create an account</a>
+                            <p><FormattedMessage id="Login.newHere"/>&nbsp;<a onClick={() => this.leaveTo({path: '/auth/register'})}>
+                                    <FormattedMessage id="Login.createAccount"/></a>
                             </p>
                             <p>
-                                <Link to="/">* Forgot Password?</Link>
+                                <Link to="/">* <FormattedMessage id="Login.forgotPassword"/></Link>
                             </p>
                         </div>
                     </div>
@@ -136,7 +138,7 @@ class Login extends Component {
                         Or
                     </div>
                     <div className="social">
-                        <p className="title">CLICK TO LOG IN WITH</p>
+                        <p className="title"><FormattedMessage id="Login.socialLogin"/></p>
                         <div className="hide-on-mobile">
                             <button className="ui facebook oauth button massive" onClick={()=>leaveTo({path: '/api/authentication/facebook', express: true})}>
                                 <i className="facebook icon"></i>
