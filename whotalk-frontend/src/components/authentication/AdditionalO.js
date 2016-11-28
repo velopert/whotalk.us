@@ -5,17 +5,18 @@ import {injectIntl, defineMessages} from 'react-intl';
 
 import autobind from 'autobind-decorator';
 import notify from 'helpers/notify';
+import { prepareMessages } from 'locale/helper';
 
 
-const messages = defineMessages({
-    almostThere: {
-        id: "AdditionalO.almostThere",
-        defaultMessage: "YOU ARE ALMOST THERE"
-    },
-    tellUs: {
-        id: "Additional.pleaseTell",
-        defaultMessage: "PLEASE TELL YOUR USERNAME"
-    }
+
+const messages = prepareMessages({
+    "AdditionalO.almostThere": "거의 다 끝났습니다!",
+    "AdditionalO.tellUs": "아이디를 정해주세요",
+    "AdditionalO.notify.invalidId": "유효하지 않은 Social ID입니다",
+    "AdditionalO.notify.alreadySigned": "이미 가입하셨습니다",
+    "AdditionalO.notify.usernameFormat": "비밀번호의 길이는 5~30 사이여야 합니다",
+    "AdditionalO.notify.usernameDuplicated": "이미 사용중인 아이디입니다",
+    "AdditionalO.notify.greeting": "안녕하세요, {name}님!"
 })
 
 
@@ -38,7 +39,7 @@ class AdditionalO extends Component {
 
     @autobind
     handleRegister(data) {
-        console.log(data);
+        //console.log(data);
     }
 
     componentDidMount() {
@@ -47,6 +48,10 @@ class AdditionalO extends Component {
 
     @autobind
     async checkSession() {
+        const { intl: {
+                formatMessage
+            }} = this.props;
+
         await this
             .props
             .AuthActions
@@ -55,7 +60,7 @@ class AdditionalO extends Component {
         if (!this.props.status.session.user) {
             // INVALID REQUEST
             this.leaveTo('/auth');
-            notify({type: 'error', message: 'Oops, your social ID is invalid'});
+            notify({type: 'error', message: formatMessage(messages.invalidId)});
             return;
         }
 
@@ -64,8 +69,8 @@ class AdditionalO extends Component {
             this.leaveTo('/');
             // toastr.warning('You already have signed in'); toastr.success(`Hello,
             // ${this.props.status.session.user.common_profile.givenName}!`);
-            notify({type: 'warning', message: 'You already have signed in'});
-            notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`})
+            notify({type: 'warning', message: formatMessage(messages.alreadySigned)});
+            notify({type: 'success', message: formatMessage(messages.greeting, {name: this.props.status.session.user.common_profile.givenName})})
             return;
         }
     }
@@ -78,7 +83,9 @@ class AdditionalO extends Component {
 
     @autobind
     async handleSubmit() {
-        const {form, AuthActions} = this.props;
+        const {form, AuthActions, intl: {
+                formatMessage
+            }} = this.props;
 
         const regex = /^[0-9a-z_]{4,20}$/
 
@@ -86,7 +93,7 @@ class AdditionalO extends Component {
 
         // check regex
         if (!regex.test(form.username)) {
-            notify({type: 'error', message: 'Username should be 4~20 alphanumeric characters or an underscore'});
+            notify({type: 'error', message: formatMessage(messages.usernameFormat)});
             return;
         }
 
@@ -97,7 +104,7 @@ class AdditionalO extends Component {
 
         if (this.props.status.usernameExists) {
             // toastr.error('That username is already taken, please try another one.');
-            notify({type: 'error', message: 'That username is already taken, please try another one.'});
+            notify({type: 'error', message: formatMessage(messages.usernameDuplicated)});
             AuthActions.setSubmitStatus({name: 'register', value: false});
             return;
         }
@@ -125,7 +132,7 @@ class AdditionalO extends Component {
         AuthActions.setSubmitStatus({name: 'additional_o', value: false});
         // toastr.success(`Hello,
         // ${this.props.status.session.user.common_profile.givenName}!`)
-        notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`});
+        notify({type: 'success', message: formatMessage(messages.success, {name: this.props.status.session.user.common_profile.givenName})});
         this.leaveTo('/');
     }
 

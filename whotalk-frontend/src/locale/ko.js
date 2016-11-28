@@ -1,5 +1,6 @@
 export default {
     /* HomeScreen */
+
     "HomeScreen.centerMessage": "<b>누구든지</b> 당신에게 말을 걸 수 있게 해보세요",
     "HomeScreen.myChannel": "내 채널",
     "HomeScreen.explore": "둘러보기",
@@ -8,6 +9,7 @@ export default {
     "HomeScreen.more": "더 보기",
 
     /* AUTH */
+    
     "Login.loginWithUsername": "로그인",
     "Login.usernameCapitalized": "아이디",
     "Login.username": "아이디",
@@ -20,9 +22,7 @@ export default {
     "Login.socialLogin": "소셜 로그인",
     "Login.notify.greeting": "{name}님, 안녕하세요!",
     "Login.notify.failure": "계정인증에 실패하였습니다",
-    "Login.notify.regexFailure": "아이디/비밀번호 형식이 잘못되었습니다",
-    
-    
+    "Login.notify.regexFailure": "아이디/비밀번호 형식이 잘못되었습니다",    
 
     "Register.signUpWith": "소셜 로그인",
     "Register.signUpWithUsername": "계정 만들기",
@@ -62,5 +62,10 @@ export default {
     "AdditionalO.usernameCapitalized": "아이디",
     "AdditionalO.username": "아이디",
     "AdditionalO.cancel": "취소",
-    "AdditionalO.signUp": "회원가입"
+    "AdditionalO.signUp": "회원가입",
+    "AdditionalO.notify.invalidId": "유효하지 않은 Social ID입니다",
+    "AdditionalO.notify.alreadySigned": "이미 가입하셨습니다",
+    "AdditionalO.notify.usernameFormat": "아이디는 5~20자의 영문 소문자, 숫자와 _ 만 사용 가능합니다",
+    "AdditionalO.notify.usernameDuplicated": "이미 사용중인 아이디입니다",
+    "AdditionalO.notify.greeting": "안녕하세요, {name}님!"
 }

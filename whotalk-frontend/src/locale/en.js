@@ -62,5 +62,10 @@ export default {
     "AdditionalO.usernameCapitalized": "USERNAME",
     "AdditionalO.username": "Username",
     "AdditionalO.cancel": "CANCEL",
-    "AdditionalO.signUp": "SIGN UP"
+    "AdditionalO.signUp": "SIGN UP",
+    "AdditionalO.notify.invalidId": "Oops, your social ID is invalid",
+    "AdditionalO.notify.alreadySigned": "You already have signed in",
+    "AdditionalO.notify.usernameFormat": "Username should be 4~20 alphanumeric characters or an underscore",
+    "AdditionalO.notify.usernameDuplicated": "That username is already taken, please try another one.",
+    "AdditionalO.notify.greeting": "Hello, {name}"
 }
