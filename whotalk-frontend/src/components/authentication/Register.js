@@ -4,25 +4,19 @@ import {RegisterForm} from './forms';
 import autobind from 'autobind-decorator'
 import notify from 'helpers/notify';
 import {injectIntl, defineMessages} from 'react-intl';
+import { prepareMessages } from 'locale/helper';
 
-const messages = defineMessages({
-    signUpWith: {
-        id: "Register.signUpWith",
-        defaultMessage: "SIGN UP WITH"
-    },
-    signUpWithUsername: {
-        id: "Register.signUpWithUsername",
-        defaultMessage: "SIGN UP WITH YOUR USERNAME"
-    },
-    already: {
-        id: "Register.already",
-        defaultMessage: "Already have an account?"
-    },
-    logIn: {
-        id: "Register.logIn",
-        defaultMessage: "Login"
-    }
-})
+const messages = prepareMessages ({
+    "Register.signUpWith": "SIGN UP WITH",
+    "Register.signUpWithUsername": "SIGN UP WITH YOUR USERNAME",
+    "Register.already": "Already have an account?",
+    "Register.logIn": "Login",
+    "Register.next": "NEXT",
+    "Register.notify.passwordLength": "Password should be 5~30 characters.",
+    "Register.notify.usernameLength": "Username should be 4~20 alphanumeric characters or an underscore",
+    "Register.notify.duplicatedUsername": "That username is already taken, please try another one.",
+});
+
 
 class Register extends Component {
 
@@ -55,7 +49,9 @@ class Register extends Component {
 
     @autobind
     async handleSubmit() {
-        const {form, status, AuthActions, FormActions} = this.props;
+        const {form, status, AuthActions, FormActions, intl: {
+                formatMessage
+            }} = this.props;
         const {username, password} = form;
 
         notify.clear();
@@ -72,7 +68,7 @@ class Register extends Component {
 
         if (!regex.password.test(password)) {
             error = true;
-            notify({type: 'error', message: 'Password should be 5~30 characters.'});
+            notify({type: 'error', message: formatMessage(messages.passwordLength)});
             // toastr.error('<b><i>Password</i></b> should be 5 ~ 30 alphanumeric
             // characters.');
             FormActions.setInputError({form: 'register', name: 'password', error: true});
@@ -82,7 +78,7 @@ class Register extends Component {
 
         if (!regex.username.test(username)) {
             error = true;
-            notify({type: 'error', message: 'Username should be 4~20 alphanumeric characters or an underscore'});
+            notify({type: 'error', message: formatMessage(messages.usernameLength)});
             // toastr.error('<b><i>Username</i></b> should be 4 ~ 20 alphanumeric characters
             // or an underscore (_)');
             FormActions.setInputError({form: 'register', name: 'username', error: true});
@@ -96,7 +92,7 @@ class Register extends Component {
                 if (this.props.status.usernameExists) {
                     FormActions.setInputError({form: 'register', name: 'username', error: true});
                     // toastr.error('That username is already taken, please try another one.');
-                    notify({type: 'error', message: 'That username is already taken, please try another one.'});
+                    notify({type: 'error', message: formatMessage(messages.duplicatedUsername)});
                     error = true;
                 } else {
                     FormActions.setInputError({form: 'register', name: 'username', error: false});
@@ -126,7 +122,9 @@ class Register extends Component {
 
     @autobind
     async handleBlur(e) {
-        const {form, AuthActions} = this.props;
+        const {form, AuthActions, intl: {
+                formatMessage
+            }} = this.props;
 
         if (e.target.name === 'username') {
             // on username blur, do check username
@@ -134,7 +132,7 @@ class Register extends Component {
             if (this.props.status.usernameExists) {
                 // toastr.error('That username is already taken, please try another one.',
                 // 'ERROR');
-                notify({type: 'error', message: 'That username is already taken, please try another one.'});
+                notify({type: 'error', message: formatMessage(messages.duplicatedUsername)});
             }
         }
     }

@@ -19,6 +19,10 @@ export default {
     "Login.forgotPassword": "비밀번호를 잊으셨나요?",
     "Login.socialLogin": "소셜 로그인",
     "Login.notify.greeting": "{name}님, 안녕하세요!",
+    "Login.notify.failure": "계정인증에 실패하였습니다",
+    "Login.notify.regexFailure": "아이디/비밀번호 형식이 잘못되었습니다",
+    
+    
 
     "Register.signUpWith": "소셜 로그인",
     "Register.signUpWithUsername": "계정 만들기",
@@ -29,6 +33,9 @@ export default {
     "Register.already": "계정이 이미 있으신가요?",
     "Register.logIn": "로그인하세요",
     "Register.next": "다음",
+    "Register.notify.passwordLength": "비밀번호의 길이는 5~30 사이여야 합니다",
+    "Register.notify.usernameLength": "아이디는 5~20자의 영문 소문자, 숫자와 _ 만 사용 가능합니다",
+    "Register.notify.duplicatedUsername": "이미 사용중인 아이디입니다",
 
     "Additional.almostThere": "거의 다 끝났습니다!",
     "Additional.pleaseTell": "당신에 대하여 더 알려주세요",

@@ -19,6 +19,9 @@ export default {
     "Login.forgotPassword": "Forgot Password?",
     "Login.socialLogin": "CLICK TO LOG IN WITH",
     "Login.notify.greeting": "Hello, {name}!",
+    "Login.notify.failuire": "Incorrect username or password",
+    "Login.notify.regexFailure": "Please check your username or password",
+    
 
     "Register.signUpWith": "SIGN UP WITH",
     "Register.signUpWithUsername": "SIGN UP WITH YOUR USERNAME",

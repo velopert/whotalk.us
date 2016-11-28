@@ -10,6 +10,14 @@ const messages = defineMessages({
     greeting: {
         id: "Login.notify.greeting",
         defaultMessage: "Hello, {name}!"
+    },
+    failure: {
+        id: "Login.notify.failure",
+        defaultMessage: "Incorrect username or password"
+    },
+    regexFailure: {
+        id: "Login.notify.regexFailure",
+        defaultMessage: "Please check your username or password"
     }
 })
 
@@ -62,7 +70,7 @@ class Login extends Component {
 
         if (!(regex.test(username) && regex.test(password))) {
             //toastr.error('Please check your username or password');
-            notify({type: 'error', message: 'Please check your username or password'});
+            notify({type: 'error', message: formatMessage(messages.regexFailure)});
             return;
         }
 
@@ -72,7 +80,7 @@ class Login extends Component {
             await AuthActions.localLogin({username, password});
         } catch (e) {
             //toastr.error('Incorrect username or password');
-            notify({type: 'error', message: 'Incorrect username or password'});
+            notify({type: 'error', message: formatMessage(messages.failure)});
             AuthActions.setSubmitStatus({name: 'login', value: false});
             return;
         }
