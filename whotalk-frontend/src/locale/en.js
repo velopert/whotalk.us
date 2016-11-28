@@ -32,6 +32,9 @@ export default {
     "Register.already": "Already have an account?",
     "Register.logIn": "Login",
     "Register.next": "NEXT",
+    "Register.notify.passwordLength": "Password should be 5~30 characters.",
+    "Register.notify.usernameLength": "Username should be 4~20 alphanumeric characters or an underscore",
+    "Register.notify.duplicatedUsername": "That username is already taken, please try another one.",
 
     "Additional.almostThere": "YOU ARE ALMOST THERE!",
     "Additional.pleaseTell": "PLEASE TELL US MORE ABOUT YOU",
