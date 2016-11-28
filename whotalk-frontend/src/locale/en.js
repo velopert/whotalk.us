@@ -49,6 +49,13 @@ export default {
     "Additional.female": "Female",
     "Additional.cancel": "Cancel",
     "Additional.signUp": "SIGN UP",
+    "Additional.notify.firstNameFormat": "First name should not be empty",
+    "Additional.notify.lastNameFormat": "Last name should not be empty",
+    "Additional.notify.emailFormat": "Email is invalid",
+    "Additional.notify.genderFormat": "Gender is not selected",
+    "Additional.notify.emailDuplicated": "Oops, that email already exists. You might already have an account!",
+    "Additional.notify.success": "Hello, {name}! Pelase sign in.",
+    
 
     "AdditionalO.almostThere": "YOU ARE ALMOST THERE!",
     "AdditionalO.tellUs": "PLEASE TELL US YOUR USERNAME",

@@ -50,6 +50,12 @@ export default {
     "Additional.female": "여자",
     "Additional.cancel": "취소",
     "Additional.signUp": "회원가입",
+    "Additional.notify.firstNameFormat": "이름을 적어주세요",
+    "Additional.notify.lastNameFormat": "성을 적어주세요",
+    "Additional.notify.emailFormat": "유효하지 않은 이메일입니다",
+    "Additional.notify.genderFormat": "성별을 선택하세요",
+    "Additional.notify.emailDuplicated": "이미 존재하는 이메일입니다",
+    "Additional.notify.success": "안녕하세요, {name}님! 로그인 해주세요",
 
     "AdditionalO.almostThere": "거의 다 끝났습니다!",
     "AdditionalO.tellUs": "아이디를 정해주세요",

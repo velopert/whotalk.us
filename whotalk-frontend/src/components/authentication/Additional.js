@@ -4,17 +4,17 @@ import {AdditionalForm} from './forms';
 import autobind from 'autobind-decorator';
 import notify from 'helpers/notify';
 import {injectIntl, defineMessages} from 'react-intl';
+import { prepareMessages } from 'locale/helper';
 
-
-const messages = defineMessages({
-    almostThere: {
-        id: "Additional.almostThere",
-        defaultMessage: "YOU ARE ALMOST THERE"
-    },
-    pleaseTell: {
-        id: "Additional.pleaseTell",
-        defaultMessage: "PLEASE TELL US MORE ABOUT YOU"
-    }
+const messages = prepareMessages({
+    "Additional.almostThere": "YOU ARE ALMOST THERE!",
+    "Additional.pleaseTell": "PLEASE TELL US MORE ABOUT YOU",
+    "Additional.notify.firstNameFormat": "First name should not be empty",
+    "Additional.notify.lastNameFormat": "Last name should not be empty",
+    "Additional.notify.emailFormat": "Email is invalid",
+    "Additional.notify.genderFormat": "Gender is not selected",
+    "Additional.notify.emailDuplicated": "Oops, that email already exists. You might already have an account!",
+    "Additional.notify.success": "Hello, {name}! Pelase sign in."
 })
 
 
@@ -53,7 +53,9 @@ class Additional extends Component {
 
     @autobind
     async handleSubmit() {
-        const { form, accountInfo, status, FormActions, AuthActions } = this.props;
+        const { form, accountInfo, status, FormActions, AuthActions, intl: {
+                formatMessage
+            } } = this.props;
         const { firstName, lastName, email, gender } = form;
         const { username, password } = accountInfo;
 
@@ -64,19 +66,19 @@ class Additional extends Component {
         const validation = {
             firstName: {
                 regex: /^.{1,30}$/,
-                message: 'First name should not be empty'
+                message: formatMessage(messages.firstNameFormat)
             },
             lastName: {
                 regex: /^.{1,30}$/,
-                message: 'Last name should not be empty'
+                message: formatMessage(messages.lastNameFormat)
             },
             email: {
                 regex: /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i,
-                message: 'Email is invalid'
+                message: formatMessage(messages.emailFormat)
             },
             gender: {
                 regex: /(male|female)$/,
-                message: 'Gender is not selected'
+                message: formatMessage(messages.genderFormat)
             }
         };
 
@@ -99,7 +101,7 @@ class Additional extends Component {
             await AuthActions.checkEmail(form.email);
             if (this.props.status.emailExists) {
                 FormActions.setInputError({form: 'additional', name: 'email', error: true});
-                notify({type: 'error', message: 'Oops, that email already exists. You might already have an account!'});
+                notify({type: 'error', message: formatMessage(messages.emailDuplicated)});
                 error = true;
             } else {
                 FormActions.setInputError({form: 'additional', name: 'email', error: false});
@@ -130,7 +132,7 @@ class Additional extends Component {
         }
 
         AuthActions.setSubmitStatus({name: 'additional', value: false});
-        notify({type: 'success', message: `Hello, ${firstName}! Please sign in.`});
+        notify({type: 'success', message: formatMessage(messages.success, {name: firstName})});
         //toastr.success(`Hello, ${firstName}! Please sign in.`);
         this.leaveTo('/auth');
     }
@@ -138,12 +140,14 @@ class Additional extends Component {
 
     @autobind
     async handleBlur(e) {
-        const { form, AuthActions, FormActions } = this.props;
+        const { form, AuthActions, FormActions, intl: {
+                formatMessage
+            } } = this.props;
         if(e.target.name==='email') {
             const result = await AuthActions.checkEmail(form.email);
             if (this.props.status.emailExists) {
                 FormActions.setInputError({form: 'additional', name: 'email', error: true});
-                notify({type: 'error', message: 'Oops, that email already exists. You might already have an account!'});
+                notify({type: 'error', message: formatMessage(messages.emailDuplicated)});
             } else {
                 FormActions.setInputError({form: 'additional', name: 'email', error: false});
             }
