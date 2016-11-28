@@ -3,8 +3,15 @@ import {Redirect} from 'react-router';
 import autobind from 'autobind-decorator';
 import { storage } from 'helpers';
 import notify from 'helpers/notify';
-const toastr = window.toastr;
+import {injectIntl} from 'react-intl';
+import { prepareMessages } from 'locale/helper';
 
+const messages = prepareMessages({
+    "OAuthSuccess.notify.invalidId": "Oops, your social ID is invalid!",
+    "OAuthSuccess.notify.success": "Hello, {name}!"   
+});
+
+ 
 class OAuthSuccess extends Component {
 
     constructor(props) {
@@ -27,6 +34,10 @@ class OAuthSuccess extends Component {
 
     @autobind
     async checkSession() {
+        const { intl: {
+                formatMessage
+            }} = this.props;
+
         await this
             .props
             .AuthActions
@@ -36,12 +47,12 @@ class OAuthSuccess extends Component {
             // INVALID REQUEST
             this.leave();
             // toastr.error('Oops, your social ID is invalid');
-            notify({type: 'error', message: 'Oops, your social ID is invalid!'});
+            notify({type: 'error', message: formatMessage(messages.invalidId)});
             return;
         }
 
         if (this.props.status.session.logged) {
-            notify({type: 'success', message: `Hello, ${this.props.status.session.user.common_profile.givenName}!`})
+            notify({type: 'success', message: formatMessage(messages.success, { name: this.props.status.session.user.common_profile.givenName})})
             storage.set('session', this.props.status.session);
 
             // get redirect
@@ -77,4 +88,4 @@ OAuthSuccess.contextTypes = {
 };
 
 
-export default OAuthSuccess;
+export default injectIntl(OAuthSuccess);

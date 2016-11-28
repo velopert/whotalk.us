@@ -67,5 +67,10 @@ export default {
     "AdditionalO.notify.alreadySigned": "You already have signed in",
     "AdditionalO.notify.usernameFormat": "Username should be 4~20 alphanumeric characters or an underscore",
     "AdditionalO.notify.usernameDuplicated": "That username is already taken, please try another one.",
-    "AdditionalO.notify.greeting": "Hello, {name}"
+    "AdditionalO.notify.greeting": "Hello, {name}",
+
+    "OAuthFailure.notify.failure": "OAuth failed, please try again",
+    
+    "OAuthSuccess.notify.invalidId": "Oops, your social ID is invalid!",
+    "OAuthSuccess.notify.success": "Hello, {name}!"
 }

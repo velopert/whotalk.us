@@ -67,5 +67,10 @@ export default {
     "AdditionalO.notify.alreadySigned": "이미 가입하셨습니다",
     "AdditionalO.notify.usernameFormat": "아이디는 5~20자의 영문 소문자, 숫자와 _ 만 사용 가능합니다",
     "AdditionalO.notify.usernameDuplicated": "이미 사용중인 아이디입니다",
-    "AdditionalO.notify.greeting": "안녕하세요, {name}님!"
+    "AdditionalO.notify.greeting": "안녕하세요, {name}님!",
+
+    "OAuthFailure.notify.failure": "계정인증에 실패했습니다. 다시시도 해보세요",
+    
+    "OAuthSuccess.notify.invalidId": "유효하지 않은 Social ID 입니다",
+    "OAuthSuccess.notify.success": "안녕하세요, {name}님!"
 }
