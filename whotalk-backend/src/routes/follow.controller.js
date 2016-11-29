@@ -92,6 +92,7 @@ export const follow = async (req, res) => {
         }
 
         preExisting.payload.follow.followee.push({
+            _id: account._id,
             username: account.common_profile.username,
             familyName: account.common_profile.familyName,
             givenName: account.common_profile.givenName
@@ -105,6 +106,7 @@ export const follow = async (req, res) => {
             username: req.user.common_profile.username
         },
         followee: {
+            _id: account._id,
             username: account.common_profile.username,
             familyName: account.common_profile.familyName,
             givenName: account.common_profile.givenName

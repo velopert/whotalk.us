@@ -88,16 +88,19 @@ async function processActivities({activities, accountId}) {
         const index = followActivityIndexes[i];
         const followees = activities[index].payload.follow.followee;
 
-        // get AccountIds
-        const getAccountsPromises = followees.map(
-            (followee) => {
-                return Account.findUser(followee.username);
-            }
-        );
+        // // get AccountIds
+        // const getAccountsPromises = followees.map(
+        //     (followee) => {
+        //         return Account.findUser(followee.username);
+        //     }
+        // );
 
-        const accounts =  await Promise.all(getAccountsPromises);
-        const accountIds = accounts.map(
-            account => account._id
+        // const accounts =  await Promise.all(getAccountsPromises);
+        // const accountIds = accounts.map(
+        //     account => account._id
+        // );
+        const accountIds = followees.map(
+            followee => followee._id
         );
 
         // for(let j = 0; j < followees.length; j++) {
