@@ -1,4 +1,5 @@
 export default {
+
     /* HomeScreen */
     "HomeScreen.centerMessage": "LET <b>ANYBODY</b> TALK TO YOU",
     "HomeScreen.myChannel": "MY CHANNEL",
@@ -72,5 +73,14 @@ export default {
     "OAuthFailure.notify.failure": "OAuth failed, please try again",
     
     "OAuthSuccess.notify.invalidId": "Oops, your social ID is invalid!",
-    "OAuthSuccess.notify.success": "Hello, {name}!"
+    "OAuthSuccess.notify.success": "Hello, {name}!",
+
+
+    /* Channel */
+    "Channel.follow": "FOLLOW",
+    "Channel.unfollow": "UNFOLLOW",
+    "Channel.enter": "ENTER CHANNEL",
+    "Channel.following": "FOLLOWING",
+    "Channel.followers": "FOLLOWERS",
+    "Channel.talkers": "TALKERS"
 }

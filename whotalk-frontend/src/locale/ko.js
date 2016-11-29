@@ -1,4 +1,7 @@
 export default {
+    
+
+    
     /* HomeScreen */
 
     "HomeScreen.centerMessage": "<b>누구든지</b> 당신에게 말을 걸 수 있게 해보세요",
@@ -72,5 +75,14 @@ export default {
     "OAuthFailure.notify.failure": "계정인증에 실패했습니다. 다시시도 해보세요",
     
     "OAuthSuccess.notify.invalidId": "유효하지 않은 Social ID 입니다",
-    "OAuthSuccess.notify.success": "안녕하세요, {name}님!"
+    "OAuthSuccess.notify.success": "안녕하세요, {name}님!",
+
+
+    /* Channel */
+    "Channel.follow": "팔로우",
+    "Channel.unfollow": "언팔로우",
+    "Channel.enter": "채널 들어가기",
+    "Channel.following": "팔로잉",
+    "Channel.followers": "팔로워",
+    "Channel.talkers": "톡커"
 }

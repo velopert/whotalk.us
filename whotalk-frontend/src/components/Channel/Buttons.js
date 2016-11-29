@@ -1,19 +1,30 @@
 import React from 'react';
 
+import {injectIntl} from 'react-intl';
+import { prepareMessages } from 'locale/helper';
+
+const messages = prepareMessages({
+    "Channel.follow": "FOLLOW",
+    "Channel.unfollow": "UNFOLLOW",
+    "Channel.enter": "ENTER CHANNEL"
+})
 const Buttons = ({
     followed,
     pending,
     onEnter,
     onFollow,
     onUnfollow,
-    disableFollow
+    disableFollow,
+    intl: {
+        formatMessage
+    }
 }) => {
     return (
         <div className="ui grid stackable buttons">
             <div className="ten wide column">
                 <button className="ui inverted pink button" onClick={onEnter}>
                     <i className="sign in icon"></i>
-                    ENTER CHANNEL
+                    {formatMessage(messages.enter)}
                 </button>
             </div>
             <div className="six wide column">
@@ -23,11 +34,11 @@ const Buttons = ({
                     onClick={followed ? onUnfollow : onFollow}>
                     <i
                         className={`${followed ? 'remove' : 'add'} user icon`}></i>
-                    {followed ? 'UNFOLLOW' : 'FOLLOW'}
+                    {followed ? formatMessage(messages.unfollow) : formatMessage(messages.follow)}
                 </button>
             </div>
         </div>
     );
 };
 
-export default Buttons;
+export default injectIntl(Buttons);

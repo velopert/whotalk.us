@@ -35,8 +35,11 @@ class Sidebar extends Component {
         let username,
             name;
         if (session.logged) {
+            
             username = session.user.common_profile.username;
-            name = session.user.common_profile.givenName + ' ' + session.user.common_profile.familyName;
+            name = /[가-힣]$/.test(session.user.common_profile.givenName) 
+                    ? session.user.common_profile.familyName + ' ' + session.user.common_profile.givenName
+                    : session.user.common_profile.givenName + ' ' + session.user.common_profile.familyName ;
         }
 
         return (

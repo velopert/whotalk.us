@@ -7,7 +7,9 @@ const Profile = ({username, channelInfo}) => {
                 @{username}
             </div>
             <div className="name">
-                {channelInfo.givenName} {channelInfo.familyName}
+                {/[가-힣]$/.test(channelInfo.givenName) ? channelInfo.familyName : channelInfo.givenName }
+                &nbsp;
+                {/[가-힣]$/.test(channelInfo.givenName) ? channelInfo.givenName : channelInfo.familyName }
             </div>
         </div>
     );
