@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import cache from './../helpers/cache';
 
 const Message = new Schema({
     suID: { type: String, unique: true },
@@ -59,19 +60,33 @@ Message.statics.getSleepMessageAfter = function({channel, messageId}) {
         type: 'SLEEP',
         channel,
         _id: { $gt: messageId }
-    }, '_id').exec();
+    }, '_id').lean().exec();
 }
 
 
+// cached
+Message.statics.getMessagesForActivity = async function({channel, initId, lastId = null}) {
 
-Message.statics.getMessagesForActivity = function({channel, initId, lastId = null}) {
-    return this.find({
+    if(cache.chatActivities.has(channel+initId)) {
+        return Promise.resolve(cache.chatActivities.get(channel+initId));
+    }
+    
+    const messages = await this.find({
         type: 'MSG',
         channel, 
         _id: (lastId) ? { $gte: initId, $lte: lastId } : { $gte: initId }
     }, 'username message date anonymous')
     .limit(10)
+    .lean()
     .exec();
+
+    if(lastId) {
+        cache.chatActivities.set(channel+initId, messages)
+    }
+
+
+    return Promise.resolve(messages);
+
 }
 
 export default mongoose.model('Message', Message);
