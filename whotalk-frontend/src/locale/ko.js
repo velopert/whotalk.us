@@ -84,5 +84,12 @@ export default {
     "Channel.enter": "채널 들어가기",
     "Channel.following": "팔로잉",
     "Channel.followers": "팔로워",
-    "Channel.talkers": "톡커"
+    "Channel.talkers": "톡커",
+
+    "Chat.join": "* 채널에 입장하셨습니다",
+    "Chat.left": "* 채널을 퇴장하셨습니다",
+    "Chat.selectIdentity": "당신의 신원을 선택하세요",
+    "Chat.anonymous": "익명",
+    "Chat.pleaseLogin": "로그인해주세요..",
+    "Chat.startTalking": "토크 하기"
 }

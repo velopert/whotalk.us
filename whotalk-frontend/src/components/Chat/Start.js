@@ -1,11 +1,21 @@
 import React from 'react';
 
-const Start = ({onClick, disabled}) => {
+
+import {injectIntl} from 'react-intl';
+import { prepareMessages } from 'locale/helper';
+
+const messages = prepareMessages({
+    "Chat.startTalking": "START TALKING"
+})
+
+const Start = ({onClick, disabled, intl: {
+                formatMessage
+            }}) => {
     return (
         <div className="start">
-            <button className={`ui pink button ${disabled?'loading':''}`} disabled={disabled} onClick={onClick}>START TALKING</button>
+            <button className={`ui pink button ${disabled?'loading':''}`} disabled={disabled} onClick={onClick}>{formatMessage(messages.startTalking)}</button>
         </div>
     );
 };
 
-export default Start;
+export default injectIntl(Start);

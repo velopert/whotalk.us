@@ -16,7 +16,11 @@ const UserInfo = ({onFollow, onUnfollow, username, givenName, familyName, thumbn
             <Thumbnail/>
             <BasicInfo
                 username={username}
-                name={`${givenName} ${familyName}`}
+                name={
+                    /[가-힣]$/.test(givenName)
+                    ? familyName + ' ' + givenName
+                    : givenName + ' ' + familyName
+                }
             />
             {!hideButton ? <Button following={following} onClick={following ? onUnfollow : onFollow} disabled={disabled}/> : undefined}
             

@@ -4,6 +4,15 @@ import Thumbnail from './Thumbnail';
 import anonymousThumbnail from 'assets/anonymous.png';
 import autobind from 'autobind-decorator';
 
+
+import {injectIntl} from 'react-intl';
+import { prepareMessages } from 'locale/helper';
+
+const messages = prepareMessages({
+    "Chat.join": "* Joined the channel",
+    "Chat.left": "* Left the channel"
+})
+
 function printTime(d) {
     var hh = ("0" + d.getHours() % 12).slice(0, 2);
     var mm = ("0" + d.getMinutes()).slice(0, 2);
@@ -79,7 +88,10 @@ class Message extends Component {
             failed,
             index,
             onRemove,
-            onSend
+            onSend,
+             intl: {
+                formatMessage
+            }
         } = this.props;
 
         const { generateColor } = this;
@@ -112,8 +124,8 @@ class Message extends Component {
         
         if (isEvent) {
             eventText = (type === 'JOIN')
-                ? 'Joined the channel'
-                : 'Left the channel';
+                ? formatMessage(messages.join)
+                : formatMessage(messages.left);
         }
 
         return (
@@ -177,4 +189,4 @@ class Message extends Component {
     }
 }
 
-export default Message;
+export default injectIntl(Message);

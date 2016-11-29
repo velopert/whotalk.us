@@ -82,5 +82,12 @@ export default {
     "Channel.enter": "ENTER CHANNEL",
     "Channel.following": "FOLLOWING",
     "Channel.followers": "FOLLOWERS",
-    "Channel.talkers": "TALKERS"
+    "Channel.talkers": "TALKERS",
+
+    "Chat.join": "* Joined the channel",
+    "Chat.left": "* Left the channel",
+    "Chat.selectIdentity": "SELECT YOUR IDENTITY",
+    "Chat.anonymous": "anonymous",
+    "Chat.pleaseLogin": "please login..",
+    "Chat.startTalking": "START TALKING"
 }
