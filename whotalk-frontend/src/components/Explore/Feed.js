@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import { UserInfo } from 'components/Common';
 import Message from './Message';
 import User from './User';
+import {Scrollbars} from 'react-custom-scrollbars';
 
 /* FeedTypes:
     - FOLLOW 
@@ -72,7 +73,9 @@ class Feed extends Component {
                     <UserInfo username={payload.follow.followee.username} givenName={payload.follow.followee.givenName} familyName={payload.follow.followee.familyName}/>*/}
                     <User username={payload.follow.follower.username}/> is following&nbsp;
                     {length === 1 ? <User username={payload.follow.followee[0].username}/> : <span><span className="number"> {length} </span>users</span>}
+                    <Scrollbars style={{minHeight: '440px'}}>
                     {this.mapToUserInfos(payload.follow.followee)}
+                    </Scrollbars>
                 </div>
             )
         } else if (type === 'CHAT') {
