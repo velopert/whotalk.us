@@ -18,6 +18,11 @@ import {client as SEND} from 'socket/packetTypes';
 
 import autobind from 'autobind-decorator';
 
+import {injectIntl} from 'react-intl';
+import { prepareMessages } from 'locale/helper';
+
+
+
 class ChatRoute extends Component {
 
     constructor(props) {
@@ -48,7 +53,7 @@ class ChatRoute extends Component {
 
     @autobind
     async connectToChannel() {
-        const {params, ChannelActions} = this.props;
+        const {params, ChannelActions, intl} = this.props;
 
         try {
             await ChannelActions.getRecentMsg(params.username);
@@ -56,6 +61,7 @@ class ChatRoute extends Component {
             console.log(e);
         }
 
+        socket.configure(intl);
         socket.init();
     }
 
@@ -308,4 +314,4 @@ ChatRoute = connect(state => ({
     }, dispatch)
 }))(ChatRoute);
 
-export default ChatRoute;
+export default injectIntl(ChatRoute);

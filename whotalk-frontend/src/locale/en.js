@@ -89,5 +89,14 @@ export default {
     "Chat.selectIdentity": "SELECT YOUR IDENTITY",
     "Chat.anonymous": "anonymous",
     "Chat.pleaseLogin": "please login..",
-    "Chat.startTalking": "START TALKING"
+    "Chat.startTalking": "START TALKING",
+
+    "Chat.notify.invalidReq": "Invalid Request",
+    "Chat.notify.selectIdentity": "You have to select your identity before you talk.",
+    "Chat.notify.invalidSession": "Your session is invalid, try refreshing the page.",
+    "Chat.notify.tooMany": "Too many messages! Please slow down...",
+    "Chat.notify.anonySuccess":"Your ID is <b>{name}</b>",
+    "Chat.notify.reconnect": "Reconnected successfully",
+    "Chat.notify.disconnect": "Disconnected from server. Reconnecting..."
+
 }

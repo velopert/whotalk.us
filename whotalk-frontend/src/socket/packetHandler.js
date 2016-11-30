@@ -4,6 +4,19 @@ import * as channel from 'actions/channel';
 import notify from 'helpers/notify';
 import * as helper from './helper';
 import worker from './worker';
+import { prepareMessages } from 'locale/helper';
+
+
+let _intl = false;
+
+const messages = prepareMessages({
+    "Chat.notify.invalidReq": "Invalid Request",
+    "Chat.notify.selectIdentity": "You have to select your identity before you talk.",
+    "Chat.notify.invalidSession": "Your session is invalid, try refreshing the page.",
+    "Chat.notify.tooMany": "Too many messages! Please slow down...",
+    "Chat.notify.anonySuccess":"Your ID is <b>{name}</b>"
+})
+
 
 const setSocketState = (payload) => {
     store.dispatch(channel.setSocketState(payload));
@@ -22,7 +35,7 @@ const service = {
         auth: (packet) => {
             setSocketState({auth: true, username: packet.payload.username});
             if (store.getState().channel.chat.identity === 'anonymous') {
-                notify({type: 'success', message: `Your ID is <b>${packet.payload.username}</b>`})
+                notify({type: 'success', message: _intl.formatHTMLMessage(messages.anonySuccess, {name: packet.payload.username})})
             }
         }
     },
@@ -30,17 +43,17 @@ const service = {
     error: (packet) => {
         switch (packet.payload.code) {
             case 0:
-                notify({type: 'error', message: 'Invalid request'});
+                notify({type: 'error', message: _intl.formatMessage(messages.invalidReq)});
                 break;
             case 1:
-                notify({type: 'error', message: 'You have to select your identity before you talk.'});
+                notify({type: 'error', message: _intl.formatMessage(messages.selectIdentity)});
                 break;
             case 2:
-                notify({type: 'error', message: 'Your session is invalid, try refreshing the page.'});
+                notify({type: 'error', message: _intl.formatMessage(messages.invalidSession)});
                 setSocketState({auth: false});
                 break;
             case 3:
-                notify({type: 'warning', message: 'Too many messages! Please slow down...'});
+                notify({type: 'warning', message: _intl.formatMessage(messages.tooMany)});
                 if(store.getState().channel.chat.socket.controlled) break;
                 setSocketState({controlled: true});
                 setTimeout(
@@ -99,4 +112,8 @@ export default function packetHandler(packet) {
         default:
             console.error('[SOCKET] Received invalid response from server');
     }
+}
+
+packetHandler.configure = (intl) => {
+    _intl = intl;
 }

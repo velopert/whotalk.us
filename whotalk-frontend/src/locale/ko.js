@@ -80,7 +80,7 @@ export default {
 
     /* Channel */
     "Channel.follow": "팔로우",
-    "Channel.unfollow": "언팔로우",
+    "Channel.unfollow": "팔로우 취소",
     "Channel.enter": "채널 들어가기",
     "Channel.following": "팔로잉",
     "Channel.followers": "팔로워",
@@ -91,5 +91,15 @@ export default {
     "Chat.selectIdentity": "당신의 신원을 선택하세요",
     "Chat.anonymous": "익명",
     "Chat.pleaseLogin": "로그인해주세요..",
-    "Chat.startTalking": "토크 하기"
+    "Chat.startTalking": "토크 하기",
+
+
+    "Chat.notify.invalidReq": "잘못된 요청입니다.",
+    "Chat.notify.selectIdentity": "말하기전에 당신의 신원을 선택하세요.",
+    "Chat.notify.invalidSession": "세션이 만료되었습니다. 새로고침을 해보세요.",
+    "Chat.notify.tooMany": "너무 빨라요! 조금만 늦춰주세요.",
+    "Chat.notify.anonySuccess":"당신의 익명 아이디는 <b>{name}</b>입니다.",
+    "Chat.notify.reconnect": "재연결되었습니다",
+    "Chat.notify.disconnect": "연결이 끊겼습니다. 재연결중..."
+
 }
