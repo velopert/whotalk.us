@@ -22,6 +22,7 @@
     "nodemon": "^1.10.2"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "babel-core": "^6.17.0",
     "babel-eslint": "^6.1.2",
     "babel-plugin-syntax-async-functions": "^6.13.0",
@@ -40,6 +41,7 @@
     "express": "^4.14.0",
     "express-graphql": "^0.5.4",
     "express-session": "^1.14.1",
+    "fb": "^1.1.1",
     "graphql": "^0.7.0",
     "gzip-js": "^0.3.2",
     "lru-cache": "^4.0.1",

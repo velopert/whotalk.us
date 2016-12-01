@@ -4,3 +4,5 @@ module.exports = {
   'callbackURL' : 'http://localhost:4000/api/authentication/facebook/callback',
   'profileFields': ['id', 'name', 'emails', 'friends', 'gender']
 }
+
+

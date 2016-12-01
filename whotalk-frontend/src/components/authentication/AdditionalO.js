@@ -132,7 +132,7 @@ class AdditionalO extends Component {
         AuthActions.setSubmitStatus({name: 'additional_o', value: false});
         // toastr.success(`Hello,
         // ${this.props.status.session.user.common_profile.givenName}!`)
-        notify({type: 'success', message: formatMessage(messages.success, {name: this.props.status.session.user.common_profile.givenName})});
+        notify({type: 'success', message: formatMessage(messages.greeting, {name: this.props.status.session.user.common_profile.givenName})});
         this.leaveTo('/');
     }
 

@@ -1,9 +1,11 @@
 import Visit from '../models/visit';
 import Favorite from '../models/favorite';
+import facebook from '../helpers/facebook';
+
 
 // GET /api/common/sidebar-links
 export const getSidebarLinks = async (req, res) => {
-    if(!req.user) {
+    if (!req.user) {
         return res.status(403).json({
             error: 'not logged in'
         });
@@ -24,3 +26,22 @@ export const getSidebarLinks = async (req, res) => {
         favoriteChannels
     });
 }
+
+// GET /api/common/friend-list
+
+export const getFriendList = async (req, res) => {
+    const response = await facebook.api({
+        path: '/874721505962690/friends'
+    })
+
+    res.json(response.data);
+}
+
+// FB.api(
+//   '/874721505962690/friends',
+//   'GET',
+//   {},
+//   function(response) {
+//       // Insert your code here
+//   }
+// );

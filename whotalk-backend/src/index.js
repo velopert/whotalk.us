@@ -19,6 +19,8 @@ import api from './routes';
 import path from 'path';
 
 import echo from './echo';
+import facebook from './helpers/facebook';
+
 
 
 const app = express();
@@ -89,6 +91,7 @@ const server = http.createServer(app).listen(port, () => {
 });
 
 echo.installHandlers(server, { prefix: '/echo' });
+facebook.init();
 
 // /* bind echo server */
 // echo.installHandlers(app, { prefix: '/echo' });

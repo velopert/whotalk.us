@@ -17,6 +17,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
     if(cache.passport.has(id)) {
+        console.log('using cache:', cache.passport.get(id));
         return done(null, cache.passport.get(id));
     }
     //cb(null, user);
