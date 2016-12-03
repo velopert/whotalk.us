@@ -17,6 +17,19 @@
     .mock-data {
         padding: 15px;
     }
+
+    .empty {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        text-align: center;
+        color: rgba(255,255,255,0.7);
+        span {
+            margin-top: 4px;
+            font-weight: 600;
+            font-size: 12px;    
+        }
+    }
+
     .links-container {
         padding: 15px;
 
@@ -25,7 +38,7 @@
             color: #f1f3f5;
             font-size: 14px;
             font-weight: 600;
-            //border-bottom: 2px solid #868e96;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .links {
 

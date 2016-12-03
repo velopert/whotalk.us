@@ -109,5 +109,6 @@ export default {
     "Feed.followAfter": " 님을 팔로우했습니다",
 
     "LinksContainer.recentlyVisited": "최근 방문한 채널",
-    "LinksContainer.favorites": "즐겨찾기"
+    "LinksContainer.favorites": "즐겨찾기",
+    "LinksContainer.empty": "리스트가 비어있습니다"
 }

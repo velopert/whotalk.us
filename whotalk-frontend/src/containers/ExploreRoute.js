@@ -64,14 +64,7 @@ class ExploreRoute extends Component {
     componentDidMount () {
         const { status } = this.props;
 
-        // // redirect to login when not logged in
-        // if(!status.session.logged) {
-        //     this.context.router.transitionTo('/auth');
-        //     notify({type: 'error', message: 'Please login before you explore'});
-        //     return;
-        // }
-
-        if(status.sessionChecked && status.session.logged) {
+        if(status.sessionChecked && !status.session.logged) {
             this.context.router.transitionTo('/')
         }
 

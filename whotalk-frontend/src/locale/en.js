@@ -106,5 +106,6 @@ export default {
     "Feed.followAfter": " ",
 
     "LinksContainer.recentlyVisited": "RECENTLY VISITED",
-    "LinksContainer.favorites": "FAVORITES"
+    "LinksContainer.favorites": "FAVORITES",
+    "LinksContainer.empty": "List is empty"
 }
