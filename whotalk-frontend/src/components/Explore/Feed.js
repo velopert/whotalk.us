@@ -6,6 +6,17 @@ import Message from './Message';
 import User from './User';
 import {Scrollbars} from 'react-custom-scrollbars';
 
+import {injectIntl} from 'react-intl';
+import { prepareMessages } from 'locale/helper';
+
+const messages = prepareMessages({
+    "Feed.hasTalkedTo": " has talked to ",
+    "Feed.talkAfter": "",
+    "Feed.isFollowing": " is following ",
+    "Feed.numberUsers": " <span className='number'>{number}</span> users",
+    "Feed.followAfter": " "
+});
+
 /* FeedTypes:
     - FOLLOW 
     - CHAT
@@ -63,7 +74,9 @@ class Feed extends Component {
     }
 
     renderFeed = () => {
-        const { type, payload } = this.props;
+        const { type, payload, intl: {
+                formatHTMLMessage, formatMessage
+            } } = this.props;
         
         if(type === 'FOLLOW') {
             const length = payload.follow.followee.length;
@@ -71,9 +84,12 @@ class Feed extends Component {
                 <div>
                     {/*<span className="user">{payload.follow.follower.username}</span> is following <span className="user">{payload.follow.followee.username}</span>
                     <UserInfo username={payload.follow.followee.username} givenName={payload.follow.followee.givenName} familyName={payload.follow.followee.familyName}/>*/}
-                    <User username={payload.follow.follower.username}/> is following&nbsp;
-                    {length === 1 ? <User username={payload.follow.followee[0].username}/> : <span><span className="number"> {length} </span>users</span>}
-                    <Scrollbars style={{minHeight: '440px'}}>
+                    <User username={payload.follow.follower.username}/>{formatMessage(messages.isFollowing)}
+                    {length === 1 
+                        ? <span><User username={payload.follow.followee[0].username}/>{formatMessage(messages.followAfter)}</span>
+                        : <span dangerouslySetInnerHTML={{__html:formatHTMLMessage(messages.numberUsers, { number: length })}}/>
+                    }
+                    <Scrollbars style={{marginTop: '10px', height: 55 * length + 'px', maxHeight: '440px'}}>
                     {this.mapToUserInfos(payload.follow.followee)}
                     </Scrollbars>
                 </div>
@@ -81,7 +97,7 @@ class Feed extends Component {
         } else if (type === 'CHAT') {
             return (
                 <div>
-                    <User username={payload.chat.username} anonymous={payload.chat.anonymous}/> has talked to <User username={payload.chat.channel}/>
+                    <User username={payload.chat.username} anonymous={payload.chat.anonymous}/>{formatMessage(messages.hasTalkedTo)}<User username={payload.chat.channel}/>{formatMessage(messages.talkAfter)}
                     <div className="first-message"><span className="quote">“</span>{payload.chatData[0].message}<span className="quote">”</span></div>
                     <div className="message-container">
                         {this.mapToMessages(payload.chatData)}
@@ -109,4 +125,4 @@ class Feed extends Component {
     }
 }
 
-export default Feed
+export default injectIntl(Feed)

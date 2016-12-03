@@ -100,6 +100,14 @@ export default {
     "Chat.notify.tooMany": "너무 빨라요! 조금만 늦춰주세요.",
     "Chat.notify.anonySuccess":"당신의 익명 아이디는 <b>{name}</b>입니다.",
     "Chat.notify.reconnect": "재연결되었습니다",
-    "Chat.notify.disconnect": "연결이 끊겼습니다. 재연결중..."
+    "Chat.notify.disconnect": "연결이 끊겼습니다. 재연결중...",
 
+    "Feed.hasTalkedTo": " 님이 ",
+    "Feed.talkAfter": " 님에게 말을 걸었습니다",
+    "Feed.isFollowing": " 님이 ",
+    "Feed.numberUsers": " <span class='number'>{number}</span>명의 유저를 팔로우했습니다",
+    "Feed.followAfter": " 님을 팔로우했습니다",
+
+    "LinksContainer.recentlyVisited": "최근 방문한 채널",
+    "LinksContainer.favorites": "즐겨찾기"
 }

@@ -22,7 +22,7 @@ $(window).bind("load", function() {
     $('#loader').addClass('hide');
     ReactDOM.render((
         <Provider store={store}>
-            <IntlProvider locale="ko" messages={locale['ko']} >
+            <IntlProvider locale="en" messages={locale['en']} >
                 <App/>
             </IntlProvider>
         </Provider>

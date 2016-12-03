@@ -140,7 +140,14 @@ class App extends Component {
                 });
                 return;
             }
+
+            if(!session.logged && window.location.pathname === "/explore") {
+                // not logged in AND location is /explore
+                document.location = "/"
+            }
+            
         }
+
         await this
             .props
             .AuthActions
@@ -151,6 +158,12 @@ class App extends Component {
                 ...session,
                 logged: false
             });
+
+            if(window.location.pathname === "/explore") {
+                // not logged in AND location is /explore
+                document.location = "/"
+            }
+
             if (session.logged) {
                 // session is expired
                 session = storage.get('session');
@@ -216,7 +229,6 @@ class App extends Component {
     }
     
 }
-
 
 App = connect(state => ({
     status: {

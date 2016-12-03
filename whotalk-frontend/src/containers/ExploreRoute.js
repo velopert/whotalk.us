@@ -7,6 +7,14 @@ import {Explore} from 'components';
 import notify from 'helpers/notify'
 
 
+import {injectIntl} from 'react-intl';
+import { prepareMessages } from 'locale/helper';
+
+const messages = prepareMessages({
+    "LinksContainer.recentlyVisited": "RECENTLY VISITED",
+    "LinksContainer.favorites": "FAVORITES"
+})
+
 class ExploreRoute extends Component {
 
     constructor(props) {
@@ -62,6 +70,11 @@ class ExploreRoute extends Component {
         //     notify({type: 'error', message: 'Please login before you explore'});
         //     return;
         // }
+
+        if(status.sessionChecked && status.session.logged) {
+            this.context.router.transitionTo('/')
+        }
+
         this.fetchSidebarLinks();
         this.fetchInitialActivities();
         
@@ -72,7 +85,9 @@ class ExploreRoute extends Component {
     
     render() {
 
-        const { status } = this.props;
+        const { status, intl: {
+                formatMessage
+            } } = this.props;
         const { handleFollow, handleUnfollow } = this;
         
         console.log(status.sidebarLinks);
@@ -81,11 +96,11 @@ class ExploreRoute extends Component {
             <Explore.Container>
                 <Explore.LeftBox fetching={status.fetchingLinks}>
                     <Explore.LinksContainer 
-                        title="Recently Visited"
+                        title={formatMessage(messages.recentlyVisited)}
                         data={status.sidebarLinks.recentVisits}
                     />
                     <Explore.LinksContainer 
-                        title="Favorite Channels"
+                         title={formatMessage(messages.favorites)}
                         data={status.sidebarLinks.favoriteChannels}
                     />
 
@@ -112,6 +127,7 @@ ExploreRoute = connect(
     state => ({
         status: {
             session: state.auth.session,
+            sessionChecked: state.auth.requests.checkSession.fetched,
             clientSize: state.ui.clientSize,
             activityData: state.explore.activityData,
             sidebarLinks: state.explore.sidebarLinks,
@@ -129,4 +145,4 @@ ExploreRoute = connect(
         ExploreActions: bindActionCreators(explore, dispatch)
     })
 )(ExploreRoute)
-export default ExploreRoute;
+export default injectIntl(ExploreRoute);

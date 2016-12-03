@@ -97,6 +97,14 @@ export default {
     "Chat.notify.tooMany": "Too many messages! Please slow down...",
     "Chat.notify.anonySuccess":"Your ID is <b>{name}</b>",
     "Chat.notify.reconnect": "Reconnected successfully",
-    "Chat.notify.disconnect": "Disconnected from server. Reconnecting..."
+    "Chat.notify.disconnect": "Disconnected from server. Reconnecting...",
 
+    "Feed.hasTalkedTo": " has talked to ",
+    "Feed.talkAfter": " ",
+    "Feed.isFollowing": " is following ",
+    "Feed.numberUsers": " <span className='number'>{number}</span> users",
+    "Feed.followAfter": " ",
+
+    "LinksContainer.recentlyVisited": "RECENTLY VISITED",
+    "LinksContainer.favorites": "FAVORITES"
 }

@@ -16,6 +16,7 @@ const LinksContainer = ({title,data}) => {
         <div className="fadeIn7 links-container">
             <div className="title">{title}</div>
             <div className="links">
+                { data.length === 0 && 'EMPTY' }
                { mapToLinks(data) }
             </div>
         </div>
