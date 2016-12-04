@@ -29,8 +29,9 @@ const receiveRealtimeData = (payload) => {
 
 const service = {
     success: {
-        enter: () => {
+        enter: (payload) => {
             setSocketState({enter: true});
+            console.log(payload);
         },
         auth: (packet) => {
             setSocketState({auth: true, username: packet.payload.username});
@@ -87,9 +88,10 @@ export default function packetHandler(packet) {
 
     switch (o.type) {
         case RECEIVE.SUCCESS.ENTER:
+            console.log(o);
             service
                 .success
-                .enter();
+                .enter(o);
             break;
         case RECEIVE.SUCCESS.AUTH:
             service

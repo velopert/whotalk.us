@@ -15,7 +15,9 @@ const service = {
 
         connection.data.channel = payload.channel;
 
-        helper.emit(connection, helper.createAction(SEND.SUCCESS.ENTER));
+        helper.emit(connection, helper.createAction(SEND.SUCCESS.ENTER, {
+            userList: ch.getUserList()
+        }));
     },
 
     auth: async (connection, payload) => {

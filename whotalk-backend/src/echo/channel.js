@@ -158,6 +158,31 @@ function Channel(name) {
     this.countUser = (username) => {
         return this.usernames[username];
     }
+
+    this.getUserList = () => {
+        const usernames = Object.keys(this.usernames);
+
+        // find the socket by username
+        // then identify whether it is anonymous user
+        const users = [...this.users];
+
+        const userList = usernames.map(
+            (username) => {
+                for(var i = 0; i < users.length; i++) {
+                    var userId = users[i];
+                    if(sockets[userId].data.username === username) {
+                        users.splice(i,1);
+                        return {
+                            username,
+                            anonymous: sockets[userId].data.anonymous
+                        }
+                    }
+                }
+            }
+        );
+
+        return userList;
+    }
 }
 
 function channel(_sockets) {
