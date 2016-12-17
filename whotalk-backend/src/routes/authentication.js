@@ -18,11 +18,12 @@ router.get('/', (req, res) => {
 router.get('/success', (req, res) => {
     //res.json({user: req.user});
     if (process.env.NODE_ENV === 'development') {
+
         let url = req.protocol + '://' + req.get('host');
         url = url.replace(process.env.PORT, process.env.DEVPORT);
 
         if(!req.user) {
-            return  res.redirect(url + '/auth/oauth-failure');
+            return res.redirect(url + '/auth/oauth-failure');
             // check whether this is the first error
             // if(!tempFix[req.sessionID]) {
             //     // try one more time

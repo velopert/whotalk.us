@@ -24,7 +24,8 @@ const initialState = {
         chat: {
             started: false,
             selecting: false,
-            closing: false
+            closing: false,
+            onlineList: 'hidden'
         },
     },
     focusBox: {

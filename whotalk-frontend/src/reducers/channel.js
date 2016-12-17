@@ -41,9 +41,11 @@ const initialState = {
         listIndex: -1
     },
     chat: {
+        userList: [],
+        showOnlineList: false,
         identity: null,
         socket: {
-            enter: null,
+            enter: false,
             auth: null,
             username: null,
             controlled: false
@@ -330,7 +332,42 @@ function channel(state = initialState, action) {
                 }
             };
 
-            /* GET_RECENT_MSG */
+        case CHANNEL.SET_INITIAL_ONLINE_LIST:
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    userList: payload
+                }
+            };
+
+        case CHANNEL.ADD_ONLINE_USER:
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    userList: [
+                        ...state.chat.userList,
+                        payload
+                    ]
+                }
+            }
+
+        case CHANNEL.REMOVE_ONLINE_USER:
+            const removingUserIndex = state.chat.userList.findIndex(user=>user.username===payload);
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    userList: [
+                        ...state.chat.userList.slice(0, removingUserIndex),
+                        ...state.chat.userList.slice(removingUserIndex+1, state.chat.userList.length)
+                    ]
+                }
+            };
+        
+
+        /* GET_RECENT_MSG */
         case CHANNEL.GET_RECENT_MSG + '_PENDING':
             return {
                 ...state,

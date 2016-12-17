@@ -18,6 +18,11 @@ export const writeMessage = createAction(CHANNEL.WRITE_MESSAGE);
 export const messageFailure = createAction(CHANNEL.MESSAGE_FAILURE);
 export const removeMessage = createAction(CHANNEL.REMOVE_MESSAGE);
 
+export const setInitialOnlineList = createAction(CHANNEL.SET_INITIAL_ONLINE_LIST);
+export const addOnlineUser = createAction(CHANNEL.ADD_ONLINE_USER);
+export const removeOnlineUser = createAction(CHANNEL.REMOVE_ONLINE_USER);
+
+
 export const getRecentMsg = (username) => ({
     type: CHANNEL.GET_RECENT_MSG,
     payload: {

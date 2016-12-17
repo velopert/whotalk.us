@@ -169,6 +169,11 @@ class ChatRoute extends Component {
         console.log(scrollTop, scrollHeight, clientHeight)
     }
 
+    handleOpenOnlineList = () => {
+        const {UIActions} = this.props;
+        UIActions.setChannelChatState({onlineList: 'show'})
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
 
         // update when client resize
@@ -241,7 +246,8 @@ class ChatRoute extends Component {
             handleSend,
             handleFailure,
             handleRemove,
-            handleScroll
+            handleScroll,
+            handleOpenOnlineList
         } = this;
 
         const showStartButton = !status.chatState.started;
@@ -250,6 +256,12 @@ class ChatRoute extends Component {
 
         return (
             <Chat.Screen>
+                <Chat.OnlineListButton 
+                    onClick={handleOpenOnlineList}
+                    userCount={status.userCount}
+                    loading={!status.connected}
+                />
+                { status.onlineListStatus === 'show' && (<Chat.OnlineList/>)}
                 <Scrollbars
                     style={{
                     width: '100%',
@@ -301,7 +313,10 @@ ChatRoute = connect(state => ({
         chatData: state.channel.chat.data,
         tempDataIndex: state.channel.chat.tempDataIndex,
         top: state.channel.chat.top,
-        clientHeight: state.ui.clientSize.height
+        clientHeight: state.ui.clientSize.height,
+        userCount: state.channel.chat.userList.length,
+        connected: state.channel.chat.socket.enter,
+        onlineListStatus: state.ui.channel.chat.onlineList
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

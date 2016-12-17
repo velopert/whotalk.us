@@ -22,6 +22,20 @@ const setSocketState = (payload) => {
     store.dispatch(channel.setSocketState(payload));
 };
 
+const setInitialOnlineList = (list) => {
+    store.dispatch(channel.setInitialOnlineList(list));
+}
+
+const addOnlineUser = (user) => {
+    store.dispatch(channel.addOnlineUser(user));
+}
+
+const removeOnlineUser = (username) => {
+    store.dispatch(channel.removeOnlineUser(username));
+}
+
+
+
 const receiveRealtimeData = (payload) => {
     // store.dispatch(channel.receiveRealtimeData(payload));
     worker.assign(payload);
@@ -29,9 +43,9 @@ const receiveRealtimeData = (payload) => {
 
 const service = {
     success: {
-        enter: (payload) => {
+        enter: (packet) => {
             setSocketState({enter: true});
-            console.log(payload);
+            setInitialOnlineList(packet.payload.userList);
         },
         auth: (packet) => {
             setSocketState({auth: true, username: packet.payload.username});
@@ -69,6 +83,10 @@ const service = {
 
     join: (packet) => {
         receiveRealtimeData(packet);
+        addOnlineUser({
+            username: packet.payload.username,
+            anonymous: packet.payload.anonymous
+        });
     },
 
     message: (packet) => {
@@ -77,6 +95,7 @@ const service = {
 
     leave: (packet) => {
         receiveRealtimeData(packet);
+        removeOnlineUser(packet.payload.username);
     }
 }
 
@@ -88,7 +107,6 @@ export default function packetHandler(packet) {
 
     switch (o.type) {
         case RECEIVE.SUCCESS.ENTER:
-            console.log(o);
             service
                 .success
                 .enter(o);
