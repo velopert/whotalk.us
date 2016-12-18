@@ -24,7 +24,11 @@
         width: 65px;
         background: lighten(rgba(68, 74, 78, 0.9), 10%);
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
 
+    &:active {
+        background: lighten(rgba(68, 74, 78, 0.9), 20%);
+        width: 70px;
     }
     .loader {
         margin-top: -5px;
