@@ -1,18 +1,14 @@
 .online-list {
-
-
-
-
     background-color: #495057;
     width: 200px;
-    height: 300px;
+    max-height: 300px;
     position: fixed;
     top: 95px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 29;
     /*padding-top: 30px;*/
-    padding-bottom: 10px;
+    padding-bottom: 0px;
     color: #f1f3f5;
      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
@@ -50,23 +46,30 @@
     li + li {
         border-top: 1px solid #868e96;
     }
+
+    .empty {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        color: rgba(255,255,255,0.7);
+        font-weight: 600;
+    }
 }
 
 
 .reveal {
-    -webkit-animation-duration: 0.4s;
-    animation-duration: 0.4s;
+    -webkit-animation-duration: 0.7s;
+    animation-duration: 0.7s;
     -webkit-animation-name: reveal;
     animation-name: reveal;
-    animation-timing-function: ease-in-out;
+    animation-timing-function: ease-out;
 }
 
 @-webkit-keyframes reveal {}
 
 @keyframes reveal {
     0% {
-        width: 0px;
-        min-height: 0px;
+        opacity: 0;
         transform: translate(-50%, -300px);
     }
     20% {
@@ -75,36 +78,29 @@
          transform: translate(-50%, 50px);
     }
     100% {
-        min-height: 300px;
+        /*max-height: 300px;*/
+        opacity: 1;
         transform: translate(-50%, 0px);
-        width: 200px;
+        /*width: 200px;*/
     }
 }
 
 .hide {
-    -webkit-animation-duration: 0.5s;
-    animation-duration: 0.5s;
+    -webkit-animation-duration: 0.7s;
+    animation-duration: 0.7s;
     -webkit-animation-name: hide;
     animation-name: hide;
-    animation-timing-function: ease-in-out;
+    animation-timing-function: ease-out;
 }
 
 @-webkit-keyframes hide {}
 
 @keyframes hide {
-    /*0% {
-        transform: translate(-50%, -300px);
-    }
-    20% {
-    }
-    70% {
-         transform: translate(-50%, 20px);
-    }
-    100% {
-        transform: translate(-50%, 0px);
-    }*/
 
     0% {
+        /*max-height: 300px;*/
+        /*width: 200px;*/
+        opacity: 1;
         transform: translate(-50%, 0px);
     }
     30% {
@@ -112,5 +108,8 @@
     }
     100% {
         transform: translate(-50%, -300px);
+        opacity: 0;
+        /*width: 0px;*/
+        /*max-height: 0px;*/
     }
 }

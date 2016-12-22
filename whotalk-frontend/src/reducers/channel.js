@@ -42,7 +42,6 @@ const initialState = {
     },
     chat: {
         userList: [],
-        showOnlineList: false,
         identity: null,
         socket: {
             enter: false,

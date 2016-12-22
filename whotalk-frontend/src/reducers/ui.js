@@ -25,7 +25,7 @@ const initialState = {
             started: false,
             selecting: false,
             closing: false,
-            onlineList: 'hidden'
+            onlineList: false
         },
     },
     focusBox: {

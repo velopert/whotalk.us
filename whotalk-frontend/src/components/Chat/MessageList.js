@@ -28,6 +28,19 @@ class MessageList extends Component {
         return chunks;
     }
 
+    shouldComponentUpdate (nextProps, nextState) {
+        if(this.props.showLoader !== nextProps.showLoader) {
+            return true;
+        }
+
+        if(this.props.data.length === nextProps.data.length) {
+            return false;
+        }
+
+        return true;
+    }
+    
+
     render() {
         const {data, showLoader} = this.props;
         const {mapToChunks} = this;

@@ -169,9 +169,9 @@ class ChatRoute extends Component {
         console.log(scrollTop, scrollHeight, clientHeight)
     }
 
-    handleOpenOnlineList = () => {
-        const {UIActions} = this.props;
-        UIActions.setChannelChatState({onlineList: 'show'})
+    handleToggleOnlineList = () => {
+        const {UIActions, status} = this.props;
+        UIActions.setChannelChatState({onlineList: !status.onlineList})
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -247,7 +247,7 @@ class ChatRoute extends Component {
             handleFailure,
             handleRemove,
             handleScroll,
-            handleOpenOnlineList
+            handleToggleOnlineList
         } = this;
 
         const showStartButton = !status.chatState.started;
@@ -257,11 +257,16 @@ class ChatRoute extends Component {
         return (
             <Chat.Screen>
                 <Chat.OnlineListButton 
-                    onClick={handleOpenOnlineList}
-                    userCount={status.userCount}
+                    onClick={handleToggleOnlineList}
+                    userCount={status.userList.length}
                     loading={!status.connected}
                 />
-                { status.onlineListStatus === 'show' && (<Chat.OnlineList/>)}
+                <Chat.OnlineList
+                    show={status.onlineList}
+                    users={status.userList}
+                    onClose={handleToggleOnlineList}
+                    owner={status.channelName}
+                />
                 <Scrollbars
                     style={{
                     width: '100%',
@@ -306,6 +311,7 @@ class ChatRoute extends Component {
 
 ChatRoute = connect(state => ({
     status: {
+        channelName: state.channel.info.username,
         chatState: state.ui.channel.chat,
         session: state.auth.session,
         socket: state.channel.chat.socket,
@@ -314,9 +320,10 @@ ChatRoute = connect(state => ({
         tempDataIndex: state.channel.chat.tempDataIndex,
         top: state.channel.chat.top,
         clientHeight: state.ui.clientSize.height,
+        userList: state.channel.chat.userList,
         userCount: state.channel.chat.userList.length,
         connected: state.channel.chat.socket.enter,
-        onlineListStatus: state.ui.channel.chat.onlineList
+        onlineList: state.ui.channel.chat.onlineList
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),
