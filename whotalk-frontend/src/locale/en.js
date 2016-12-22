@@ -99,6 +99,11 @@ export default {
     "Chat.notify.reconnect": "Reconnected successfully",
     "Chat.notify.disconnect": "Disconnected from server. Reconnecting...",
 
+    "OnlineList.title": "ONLINE USERS",
+    "OnlineList.empty": "LIST IS EMPTY",
+
+    /* EXPLORE */
+
     "Feed.hasTalkedTo": " has talked to ",
     "Feed.talkAfter": " ",
     "Feed.isFollowing": " is following ",
@@ -107,5 +112,6 @@ export default {
 
     "LinksContainer.recentlyVisited": "RECENTLY VISITED",
     "LinksContainer.favorites": "FAVORITES",
-    "LinksContainer.empty": "List is empty"
+    "LinksContainer.empty": "List is empty",
+
 }

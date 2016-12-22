@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {FormattedMessage} from 'react-intl';
 
 const User = ({username, anonymous, owner}) => {
     return (
@@ -53,13 +54,22 @@ class OnlineList extends Component {
             )
         );
 
+// <FormattedMessage 
+//                             id="LinksContainer.empty" 
+//                             defaultMessage="List is empty"/>
+
                     // <li><i className="user icon"></i>auser</li>
                     // <li><i className="user yellow icon"></i>anotherUser</li>
                     // <li className="anonymous"><i className="spy icon"></i>anonymous</li>
         return (
             <div className={`online-list ${closing ? 'hide' : 'reveal'}`}>
                 <div className="title-bar">
-                    <div className="title">ONLINE USERS</div>
+                    <div className="title">
+                        <FormattedMessage
+                            id="OnlineList.title"
+                            defaultMessage="ONLINE LIST"
+                        />
+                    </div>
                     <button 
                         className="ui mini red button circular icon close"
                         onClick={onClose}
@@ -73,7 +83,10 @@ class OnlineList extends Component {
                             <div className="empty">
                                 <div><i className="large help circle icon"></i></div>
                                 <span>
-                                    LIST IS EMPTY
+                                    <FormattedMessage
+                                        id="OnlineList.empty"
+                                        defaultMessage="LIST IS EMPTY"
+                                    />
                                 </span>
                             </div> 
                         )

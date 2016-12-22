@@ -102,6 +102,11 @@ export default {
     "Chat.notify.reconnect": "재연결되었습니다",
     "Chat.notify.disconnect": "연결이 끊겼습니다. 재연결중...",
 
+    "OnlineList.title": "온라인 유저",
+    "OnlineList.empty": "리스트가 비어있습니다",
+
+    /* EXPLORE */
+
     "Feed.hasTalkedTo": " 님이 ",
     "Feed.talkAfter": " 님에게 말을 걸었습니다",
     "Feed.isFollowing": " 님이 ",
