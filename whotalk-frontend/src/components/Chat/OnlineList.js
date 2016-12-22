@@ -25,15 +25,15 @@ class OnlineList extends Component {
             this.setState({
                 closing: true
             });
-        }
 
-        setTimeout(
-            () => {
-                this.setState({
-                    closing: false
-                });
-            }, 700
-        );
+            setTimeout(
+                () => {
+                    this.setState({
+                        closing: false
+                    });
+                }, 700
+            );
+        }
     }
 
     renderThumb = ({ style, ...props }) => {
