@@ -24,9 +24,9 @@ const Header = ({onSidebarToggle, transparency, onSearchBtnClick}) => {
                         </div>
                     </div>
 
-                    <div className="search-button" onClick={onSearchBtnClick}>
-                        <div className="icon-wrapper">
-                            <i className="search icon"></i>
+                    <div className="search-button" onClick={onSearchBtnClick} data-is-user-search={true}>
+                        <div className="icon-wrapper" data-is-user-search={true}>
+                            <i className="search icon" data-is-user-search={true}></i>
                         </div>
                     </div>
 
