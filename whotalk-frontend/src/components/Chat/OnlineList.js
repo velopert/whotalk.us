@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import {FormattedMessage} from 'react-intl';
 
+import {Scrollbars} from 'react-custom-scrollbars';
+
 const User = ({username, anonymous, owner}) => {
     return (
         <li className={anonymous && 'anonymous'}>
-            <i className={`user icon ${owner && 'yellow'}`}></i>{username}
+            <i className={`user icon ${owner ? 'yellow' : ''}`}></i>{username}
         </li>
     )
 }
@@ -34,6 +36,19 @@ class OnlineList extends Component {
         );
     }
 
+    renderThumb = ({ style, ...props }) => {
+        // IT STYLIZES THE CUSTOM SCROLLBAR
+        const thumbStyle = {
+            backgroundColor: 'rgba(255,255, 255, 0.8)',
+            borderRadius: '3px'
+        };
+
+        return (
+            <div
+                style={{ ...style, ...thumbStyle }}
+                {...props}/>
+        );
+    }
 
     render() {
         const { show, onClose, users, owner } = this.props;
@@ -93,7 +108,20 @@ class OnlineList extends Component {
                     }
                     
                 <ul>
-                    { userList }
+                    { users.length < 7 ? userList : (
+                        <Scrollbars 
+                        
+                            style={{
+                                width: 200, height: 250
+                            }}
+
+                            renderThumbVertical={this.renderThumb}
+                        
+                        >
+                            {userList}
+                        </Scrollbars>
+                    ) }
+                    
                 </ul>
             </div>
         );
