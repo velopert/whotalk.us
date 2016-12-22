@@ -28,6 +28,8 @@ import * as Common from './Common';
 
 import * as Explore from './Explore';
 
+import UserSearch from './UserSearch/UserSearch';
+
 
 export { 
     Background, 
@@ -50,5 +52,6 @@ export {
     Channel,
     Chat,
     Common,
-    Explore
+    Explore,
+    UserSearch
 }

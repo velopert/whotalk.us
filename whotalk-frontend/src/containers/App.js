@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Match} from 'react-router';
-import {Background, Dimmed, Header, Sidebar, Footer} from 'components';
+import {Background, Dimmed, Header, Sidebar, Footer, UserSearch} from 'components';
 import {Home, Auth, ExploreRoute, ChannelCheck, ChatRoute, NotFound} from 'containers';
 import {connect} from 'react-redux';
 import {storage} from 'helpers';
 import {bindActionCreators} from 'redux';
-import * as auth from 'actions/auth.js';
+import * as auth from 'actions/auth';
 import * as ui from 'actions/ui';
 import { getActivityBefore } from 'actions/explore';
 import autobind from 'autobind-decorator';
@@ -191,10 +191,21 @@ class App extends Component {
     componentWillUnmount() {
         window.removeEventListener("resize", this.updateClientSize);
     }
+
+
+    toggleUserSearch = () => {
+        const { UIActions } = this.props;
+        UIActions.toggleUserSearch();
+    }
     
     render() {
         const { ui, status } = this.props;
-        const { handleSidebarToggle, handleLogout, closeFocusBox } = this;
+        const { 
+                handleSidebarToggle, 
+                handleLogout, 
+                closeFocusBox,
+                toggleUserSearch
+             } = this;
 
         return (
             <Router>
@@ -209,7 +220,16 @@ class App extends Component {
                     />
                     <Dimmed enable={ui.sidebar.show} onClick={handleSidebarToggle} isSidebar={true}/>
                     <Dimmed enable={ui.focusBox.show} onClick={closeFocusBox}/>
-                    <Header transparency={ui.header.transparent} onSidebarToggle={handleSidebarToggle}/>
+                    <Header 
+                        transparency={ui.header.transparent} 
+                        onSidebarToggle={handleSidebarToggle}
+                        onSearchBtnClick={toggleUserSearch}
+                    />
+                    <UserSearch 
+                        show={ui.userSearch.show}
+                        onClose={toggleUserSearch}
+                    />
+                 
                     <div style={{height: '100%'}}>
                         <Match exactly pattern="/" component={Home}/>
                         <Match pattern="/auth" component={Auth}/>
@@ -243,7 +263,8 @@ App = connect(state => ({
         header: state.ui.header,
         like: state.ui.home.like,
         footer: state.ui.footer,
-        focusBox: state.ui.focusBox
+        focusBox: state.ui.focusBox,
+        userSearch: state.ui.userSearch
     }
 }), dispatch => ({
     AuthActions: bindActionCreators({
@@ -258,7 +279,8 @@ App = connect(state => ({
         setFooterVisibility: ui.setFooterVisibility,
         updateClientSize: ui.updateClientSize,
         toggleFocusBox: ui.toggleFocusBox,
-        closingFocusBox: ui.closingFocusBox
+        closingFocusBox: ui.closingFocusBox,
+        toggleUserSearch: ui.toggleUserSearch
     }, dispatch),
     ExploreActions: bindActionCreators({
         getActivityBefore

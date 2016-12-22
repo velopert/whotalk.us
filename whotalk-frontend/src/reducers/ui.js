@@ -1,6 +1,9 @@
 import UI from 'actions/ActionTypes/ui';
 
 const initialState = {
+    userSearch : {
+        show: false
+    },
     sidebar: {
         show: false
     },
@@ -156,7 +159,15 @@ function ui(state=initialState, action) {
                     preAnimate: true
                 }
             }
-            
+        
+        case UI.USER_SEARCH_TOGGLE: 
+            return {
+                ...state,
+                userSearch: {
+                    ...state.userSearch,
+                    show: !state.userSearch.show
+                }
+            }
 
         default: 
             return state;

@@ -11,7 +11,7 @@ const defaultProps = {
     transparency: true
 };
 
-const Header = ({onSidebarToggle, transparency}) => {
+const Header = ({onSidebarToggle, transparency, onSearchBtnClick}) => {
     return (
             <div className="header">
                 <div className="top" style={ detectMobile() ? { width: '100vw' } : { } }>
@@ -24,7 +24,7 @@ const Header = ({onSidebarToggle, transparency}) => {
                         </div>
                     </div>
 
-                    <div className="search-button">
+                    <div className="search-button" onClick={onSearchBtnClick}>
                         <div className="icon-wrapper">
                             <i className="search icon"></i>
                         </div>
