@@ -31,8 +31,12 @@ class UserSearch extends Component {
         
         const bodyClickListener = (e) => {
             if(!e.target.dataset.isUserSearch) {
-                onClose();
-                document.body.removeEventListener('click', bodyClickListener, true);
+                setTimeout(
+                    () => {
+                        onClose();
+                        document.body.removeEventListener('click', bodyClickListener, true);
+                    }, 1
+                )
             }
         }
 

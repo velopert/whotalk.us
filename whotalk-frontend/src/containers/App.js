@@ -223,6 +223,7 @@ class App extends Component {
                     <Header 
                         transparency={ui.header.transparent} 
                         onSidebarToggle={handleSidebarToggle}
+                        disableSearchButton={ui.userSearch.show}
                         onSearchBtnClick={toggleUserSearch}
                     />
                     <UserSearch 

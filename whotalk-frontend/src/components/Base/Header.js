@@ -11,7 +11,8 @@ const defaultProps = {
     transparency: true
 };
 
-const Header = ({onSidebarToggle, transparency, onSearchBtnClick}) => {
+const Header = ({onSidebarToggle, transparency, onSearchBtnClick, disableSearchButton}) => {
+    
     return (
             <div className="header">
                 <div className="top" style={ detectMobile() ? { width: '100vw' } : { } }>
@@ -24,9 +25,9 @@ const Header = ({onSidebarToggle, transparency, onSearchBtnClick}) => {
                         </div>
                     </div>
 
-                    <div className="search-button" onClick={onSearchBtnClick} data-is-user-search={true}>
-                        <div className="icon-wrapper" data-is-user-search={true}>
-                            <i className="search icon" data-is-user-search={true}></i>
+                    <div className="search-button" onClick={disableSearchButton ? undefined : onSearchBtnClick} >
+                        <div className="icon-wrapper" >
+                            <i className="search icon" ></i>
                         </div>
                     </div>
 
