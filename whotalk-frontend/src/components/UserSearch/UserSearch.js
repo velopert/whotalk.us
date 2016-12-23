@@ -29,14 +29,17 @@ class UserSearch extends Component {
 
         const { onClose } = this.props;
         
+        
+
         const bodyClickListener = (e) => {
-            if(!e.target.dataset.isUserSearch) {
+            const el = this.container;
+            if(e.target !== el && !el.contains(e.target)) {
                 setTimeout(
-                    () => {
-                        onClose();
-                        document.body.removeEventListener('click', bodyClickListener, true);
-                    }, 1
-                )
+                     () => {
+                         onClose();
+                         document.body.removeEventListener('click', bodyClickListener, true);
+                     }, 1
+                 )
             }
         }
 
@@ -59,7 +62,7 @@ class UserSearch extends Component {
         return (
             <div 
                 className={`user-search ${closing ? 'flipOutX animated' : 'flipInX animated'}`}
-                data-is-user-search={true}
+                ref={(ref) => this.container = ref}
             >
                 
             </div>
