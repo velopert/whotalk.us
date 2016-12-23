@@ -1,7 +1,7 @@
 import Visit from '../models/visit';
 import Favorite from '../models/favorite';
 import facebook from '../helpers/facebook';
-
+import Account from '../models/account';
 
 // GET /api/common/sidebar-links
 export const getSidebarLinks = async (req, res) => {
@@ -45,3 +45,25 @@ export const getFriendList = async (req, res) => {
 //       // Insert your code here
 //   }
 // );
+
+
+// GET /api/common/search-user/:username
+export const getSearchUser = async (req, res) => {
+    const username = req.params.username;
+
+    if(username.length < 1) {
+        return res.json({
+            result: []
+        });
+    }
+
+    const accounts = await Account.search(username); 
+
+    return res.json({
+        result: accounts.map(
+            account=>account.common_profile.username
+        )
+    });
+    
+    
+}

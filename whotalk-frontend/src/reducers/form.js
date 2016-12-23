@@ -36,6 +36,9 @@ const initialState = {
             username: false
         }
     },
+    search: {
+        keyword: ''
+    }
 }
 
 function form(state = initialState, action) {

@@ -12,6 +12,8 @@ import autobind from 'autobind-decorator';
 import { Events, scrollSpy } from 'react-scroll';
 import { toggleScroll } from 'helpers/scroll';
 import notify from 'helpers/notify';
+import * as form from 'actions/form';
+import * as common from 'actions/common';
 
 class App extends Component {
 
@@ -28,6 +30,8 @@ class App extends Component {
                 logged: false
             });
         }
+        
+        this.searchTimeout = null;
     }    
 
     @autobind
@@ -184,6 +188,10 @@ class App extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if(nextProps.form.keyword !== this.props.form.keyword) {
+            return false;
+        }
+
         return JSON.stringify(nextProps) !== JSON.stringify(this.props);
     }
     
@@ -194,17 +202,52 @@ class App extends Component {
 
 
     toggleUserSearch = () => {
-        const { UIActions } = this.props;
+        const { ui, UIActions, CommonActions } = this.props;
+        if(!ui.userSearch.show) {
+            CommonActions.initializeSearch();
+        }
         UIActions.toggleUserSearch();
+    }
+
+    handleUserClick = () => {
+        
+    }
+
+    handleSearchInputChange = (e) => {
+        const { FormActions, CommonActions } = this.props;
+
+
+        const keyword = e.target.value;
+
+        if(keyword==='') {
+            CommonActions.initializeSearch();
+            return;
+        }
+        
+        FormActions.changeInput({
+            form: 'search', 
+            name: 'keyword', 
+            value: keyword
+        });
+
+        const search = () => {          
+            CommonActions.getSearchUser(keyword);
+        };
+
+        clearTimeout(this.searchTimeout);
+        this.searchTimeout = setTimeout(search, 500);
+
+        
     }
     
     render() {
-        const { ui, status } = this.props;
+        const { ui, status, form } = this.props;
         const { 
                 handleSidebarToggle, 
                 handleLogout, 
                 closeFocusBox,
-                toggleUserSearch
+                toggleUserSearch,
+                handleSearchInputChange
              } = this;
 
         return (
@@ -229,6 +272,8 @@ class App extends Component {
                     <UserSearch 
                         show={ui.userSearch.show}
                         onClose={toggleUserSearch}
+                        onChange={handleSearchInputChange}
+                        users={status.searchResult}
                     />
                  
                     <div style={{height: '100%'}}>
@@ -257,7 +302,8 @@ App = connect(state => ({
         fetchingActivity: state.explore.requests.getActivityBefore.fetching,
         activityCursorId: state.explore.activityData.length === 0 ? null : state.explore.activityData[state.explore.activityData.length-1]._id,
         isLastActivity: state.explore.isLast,
-        followInfo: state.auth.followInfo
+        followInfo: state.auth.followInfo,
+        searchResult: state.common.search.result
     },
     ui: {
         sidebar: state.ui.sidebar,
@@ -266,6 +312,9 @@ App = connect(state => ({
         footer: state.ui.footer,
         focusBox: state.ui.focusBox,
         userSearch: state.ui.userSearch
+    },
+    form: {
+        keyword: state.form.search.keyword
     }
 }), dispatch => ({
     AuthActions: bindActionCreators({
@@ -285,7 +334,9 @@ App = connect(state => ({
     }, dispatch),
     ExploreActions: bindActionCreators({
         getActivityBefore
-    }, dispatch)
+    }, dispatch),
+    FormActions: bindActionCreators(form, dispatch),
+    CommonActions: bindActionCreators(common, dispatch)
 }))(App);
 
 export default App;

@@ -1,0 +1,6 @@
+const COMMON = {
+    SEARCH_INITIALIZE: 'SEARCH_INITIALIZE',
+    SEARCH_USER_GET: 'SEARCH_USER_GET'
+}
+
+export default COMMON;

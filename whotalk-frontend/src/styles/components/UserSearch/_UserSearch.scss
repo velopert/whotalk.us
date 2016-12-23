@@ -5,6 +5,45 @@
     right: 50px;
     background-color: #f1f3f5;
     width: 500px;
-    height: 300px;
     z-index: 100;
+    padding: 10px;
+    border-radius: 2px;
+    max-height: 300px;
+    transition: height 1s ease-out;
+    
+    @include media("<tablet") {
+        top: 50px;
+        left: 0px;
+        width: 100%;
+    }
+
+    .input {
+        width: 100%;
+    }
+
+    .result-container {
+        background-color: #f8f9fa;
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+        list-style-type: none;
+        margin-top: 10px;
+        border-radius: 2px;
+        border: 1px solid #dee2e6;
+
+        li {
+            padding: 10px;
+            cursor: pointer;
+            font-weight: 600;
+
+            &:hover {
+                background-color: #f06595;
+                color: white;
+            }
+        }
+
+        li + li {
+            border-top: 1px solid #e9ecef;
+        }
+    }
 }

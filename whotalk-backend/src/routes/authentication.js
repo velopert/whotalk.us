@@ -86,6 +86,7 @@ router.get('/failure', (req, res) => {
     }
 });
 
+
 /* require addition info for oauth registration */
 router.post('/oauth/register', (req, res) => {
     // not logged in through oauth

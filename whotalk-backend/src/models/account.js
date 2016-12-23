@@ -45,5 +45,16 @@ Account.statics.findUserByGoogleId = function(id) {
     return this.findOne({ 'o_auth.google.id' : id });
 }
 
+Account.statics.search = function(username) {
+    const re = new RegExp('^' + username);
+    return this.find(
+        {'common_profile.username': { $regex: re }},
+        { 
+            'common_profile.username': true
+        })
+        .limit(5)
+        .sort({'common_profile.username': 1})
+        .exec();
+}
 
 export default mongoose.model('Account', Account);
