@@ -8,6 +8,17 @@ export default {
     "HomeScreen.logIn": "LOG IN",
     "HomeScreen.more": "MORE",
 
+    "MainSection.wrapper1.title": "WHOTALK IS A CHAT-BASED SNS PLATFORM",
+    "MainSection.wrapper1.detail": "WE WILL BE THE KEY TO THE COMMUNICATION BETWEEN YOU AND PEOPLE AROUND THE WORLD",
+
+    "MainSection.wrapper2.anonymous": "ANONYMOUS TALKS",
+    "MainSection.wrapper2.anonymousBody": "Strangers can talk to you anonymously. Tell them to ask anything about you.",
+    "MainSection.wrapper2.user": "USER TALKS",
+    "MainSection.wrapper2.userBody": "You can sign in and talk to another users using your username. You can still choose to remain anonymous while signed in though.",
+    "MainSection.wrapper2.follow": "FOLLOW",
+    "MainSection.wrapper2.followBody": "You can follow your favorite channels so that you can visit them easily.",
+    
+
     /* AUTH */
     "Login.loginWithUsername": "LOG IN WITH YOUR USERNAME",
     "Login.usernameCapitalized": "USERNAME",

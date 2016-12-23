@@ -11,6 +11,17 @@ export default {
     "HomeScreen.logIn": "로그인",
     "HomeScreen.more": "더 보기",
 
+    "MainSection.wrapper1.title": "WHOTALK 은 채팅 기반 SNS 플랫폼입니다.",
+    "MainSection.wrapper1.detail": "우리가 여러분들과 이 세상에 있는 사람들 사이 커뮤니케이션의 열쇠가 되어드리겠습니다.",
+
+    "MainSection.wrapper2.anonymous": "익명 토크",
+    "MainSection.wrapper2.anonymousBody": "낯선이들이 당신에게 익명으로 말을 걸 수 있습니다. 뭐든지 물어보라고 해보세요.",
+    "MainSection.wrapper2.user": "유저 토크",
+    "MainSection.wrapper2.userBody": "로그인을 하면 여러분의 유저명으로 말을 걸 수 있습니다. 로그인 상태에서도 익명으로 말 할 수도 있습니다.",
+    "MainSection.wrapper2.follow": "팔로우",
+    "MainSection.wrapper2.followBody": "여러분의 자주 가는 채널을 팔로우하고, 채널 소식을 구독하세요.",
+    
+
     /* AUTH */
     
     "Login.loginWithUsername": "로그인",

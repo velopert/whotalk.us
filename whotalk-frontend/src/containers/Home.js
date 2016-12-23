@@ -57,7 +57,7 @@ class Home extends Component {
 
                 <MainSection/>
 
-                <InfoSection
+                {/*<InfoSection
                     image={unknown}
                     title="ANONYMOUS TALKS"
                     text={`Strangers can talk to you anonymously. \nTell them to ask anything about you.`}
@@ -76,9 +76,9 @@ class Home extends Component {
                     title="FOLLOW"
                     text={`You can follow your favorite channels so that you can visit them easily.`}
                     inverted={false}
-                />
+                />*/}
 
-                <DevSection/>
+                
 
                 
             </div>
