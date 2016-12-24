@@ -39,11 +39,15 @@ class Home extends Component {
             }, 700
         )
     }
+
+    handleOpenDevChannel = () => {
+        this.context.router.transitionTo('/velopert');
+    }
     
     render() {
 
         const { status } = this.props;
-        const { handleOpenExplore } = this;
+        const { handleOpenExplore, handleOpenDevChannel } = this;
 
         return (
             <div className="home">
@@ -55,7 +59,7 @@ class Home extends Component {
                     onOpenExplore={handleOpenExplore}
                 />
 
-                <MainSection/>
+                <MainSection onOpenDevChannel={handleOpenDevChannel}/>
 
                 {/*<InfoSection
                     image={unknown}

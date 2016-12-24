@@ -78,12 +78,14 @@ class App extends Component {
 
     @autobind
     handleScroll(e) {
-        console.log(document.body.scrollHeight - document.body.scrollTop - document.body.clientHeight);
+        //console.log(document.body.scrollHeight - document.body.scrollTop - document.body.clientHeight);
+        //console.log(document.body.scrollTop +  window.innerHeight);
 
         const { UIActions, ExploreActions, ui, status} = this.props;
+        const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
 
         if(window.location.pathname === "/explore") {
-            if(document.body.scrollHeight - document.body.scrollTop - document.body.clientHeight < 90) {
+            if(document.body.scrollHeight - scrollTop - document.body.clientHeight < 90) {
                 if(status.fetchingActivity) return;
                 if(status.isLastActivity) return;
 
@@ -92,7 +94,7 @@ class App extends Component {
         }
 
         if(window.location.pathname === "/") {
-            console.log((window.innerHeight - window.scrollY)/ window.innerHeight)
+            //console.log((window.innerHeight - window.scrollY)/ window.innerHeight)
             /* HIDE & SHOW HEADER BAR */
             if(window.innerHeight - window.scrollY <= window.innerHeight*0.90 && ui.header.transparent) {
                 UIActions.setHeaderTransparency(false);

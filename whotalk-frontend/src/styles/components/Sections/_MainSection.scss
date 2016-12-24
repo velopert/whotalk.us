@@ -6,8 +6,11 @@
         -moz-box-shadow: 0px -15px 15px -10px rgba(0, 0, 0, .85);
         background-color: #212529;
         text-align: center;
-        padding-top: 9rem;
-        padding-bottom: 9rem;
+        height: 100vh;
+        display: table;
+        width: 100%;
+
+
 
         hr {
             border: 0;
@@ -18,19 +21,25 @@
         }
 
         .text-title {
-            font-size: 2.5rem;
+            
+            font-size: 3.5rem;
+            line-height: 3.7rem;
             font-weight: 600;
             color: #f8f9fa;
+            transition: font-size 0.4s;
         }
 
         .text-detail {
-            font-size: 1.5rem;
+            font-size: 2rem;
             color: #e9ecef;
+            line-height: 2.3rem;
+            transition: font-size 0.4s;
         }
 
         @include media("<desktop") {
             .text-title {
                 font-size: 2.5rem;
+                line-height: 2.7rem;
                 font-weight: 600;
                 color: #f8f9fa;
             }
@@ -40,15 +49,14 @@
             }
         }
 
-        @include media("<tablet") {
-            display: none;
-        }
+
     }
 
     .wrapper-2 {
         background-color: #f06595;
-        padding-top: 12rem;
-        padding-bottom: 8rem;
+        height: 100vh;
+        display: table;
+        width: 100%;
 
         .column {
             width: 33%;
@@ -59,7 +67,6 @@
             }
             &.center {
                 display: inline-block;
-                height: 400px;
             }
             &.right {
                 padding-left: 0;
@@ -72,8 +79,9 @@
             position: relative;
             width: 100%;
             background-color: white;
-            border-radius: 5px;
+            border-radius: 2px;;
             text-align: center;
+             box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
             .badge {
                 position: absolute;
                 top: 0px;
@@ -88,21 +96,116 @@
                 font-weight: 300;
                 color: #fff0f6;
                 background-color: #a61e4d;
+                border-top-left-radius: 2px;
+                border-top-right-radius: 2px; 
             }
 
             .body {
-                margin-top: 3rem;
-                padding-bottom: 3rem;
-                padding-left: 20%;
-                padding-right: 20%;
+                height: 17rem;
+                padding-left: 2rem;
+                padding-right: 2rem;
+                padding-bottom: 1rem;
+                
                 font-size: 1.5rem;
-                text-align: center;
+                text-align: left;
                 font-weight: 400;
                 color: #495057;
                 line-height: 2.4rem;
+                display: table;
+                padding-top: 1rem;
+                span {
+                    display: table-cell;
+                }
             }
         }
     }
+
+    .wrapper-3 {
+        background-color: rgba(0,0,0,0.4);
+        width: 100%;
+        height: 100vh;
+        display: table;
+        h1 {
+            color: #f8f9fa;
+            font-weight: 600;
+            font-size: 3rem;
+            padding-bottom: 2rem;
+        }
+        p {
+            color: #dee2e6;
+            font-size: 1.5rem;
+
+            font-weight: 400;
+        }
+        button {
+            margin-top: 3rem;
+            color: white;
+        }
+    }
+
+    .contents {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+
+    @include media(">=desktop") {
+        .wrapper-2 {
+            padding-left: 6rem;
+            padding-right: 6rem;
+        }
+    }
+
+    @include media("<desktop") {
+        .wrapper-2 {
+
+            .box .body {
+                padding-left: 1rem;
+                padding-right: 1rem;
+                font-size: 1.3rem;
+                line-height: 1.7rem;
+                height: 13rem;
+            }
+        }
+    }
+
+    @include media("<tablet") {
+        .wrapper-2 {
+            height: auto;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+            .column {
+                width: 100%;
+                &.left {
+                    padding: 2rem;
+                    float: none;
+                }
+                &.center {
+                    margin-top: 3rem;
+                    padding: 2rem;
+                    margin-bottom: 3rem;
+                }
+                &.right {
+                    padding: 2rem;
+                    float: none;
+                }
+            }
+        }
+
+        .wrapper-3 {
+            h1 {
+                font-size: 2.2rem;
+            }
+            p {
+                font-size: 1.1rem;
+                padding-left: 3%;
+                padding-right: 3%;
+
+            }
+        }
+    }
+
 
 
 
