@@ -14,6 +14,7 @@ class ChannelCheck extends Component {
         '/auth': true,
         '/404': true,
         '/chat': true,
+        '/page': true
     }
 
     @autobind

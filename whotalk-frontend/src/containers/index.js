@@ -5,8 +5,7 @@ import ExploreRoute from './ExploreRoute';
 import ChannelCheck from './ChannelCheck';
 import NotFound from './NotFound';
 import ChatRoute from './ChatRoute';
+import Page from './Page';
 
 
-
-
-export { App, Home, Auth, ExploreRoute, ChannelCheck, ChatRoute, NotFound };
+export { App, Home, Auth, ExploreRoute, ChannelCheck, ChatRoute, NotFound, Page };

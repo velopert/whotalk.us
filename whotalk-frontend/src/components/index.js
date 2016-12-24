@@ -32,6 +32,8 @@ import UserSearch from './UserSearch/UserSearch';
 
 import SelectLanguage from './SelectLanguage/SelectLanguage';
 
+import StaticPage from './StaticPage/StaticPage';
+
 export { 
     Background, 
     Header, 
@@ -55,5 +57,6 @@ export {
     Common,
     Explore,
     UserSearch,
-    SelectLanguage
+    SelectLanguage,
+    StaticPage
 }
