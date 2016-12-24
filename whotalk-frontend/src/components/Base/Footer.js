@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router';
+
+
 
 class Footer extends Component {
     render() {
@@ -10,9 +13,9 @@ class Footer extends Component {
                 <div className="footer">
                     <ul>
                         <li><a onClick={onLanguageClick}>SELECT LANGUAGE</a></li>
-                        <li><a>ABOUT</a></li>
-                        <li><a>PRIVACY</a></li>
-                        <li><a>TERMS</a></li>
+                        <li><Link to="/page/about">ABOUT</Link></li>
+                        <li><Link to="/page/privacy">PRIVACY</Link></li>
+                        <li><Link to="/page/terms">TERM</Link></li>
                         <li className="right">© whotalk.us 2016</li>
                     </ul>
                 </div>
