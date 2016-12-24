@@ -34,6 +34,9 @@ import SelectLanguage from './SelectLanguage/SelectLanguage';
 
 import StaticPage from './StaticPage/StaticPage';
 
+import * as MyPage from './MyPage';
+
+
 export { 
     Background, 
     Header, 
@@ -58,5 +61,6 @@ export {
     Explore,
     UserSearch,
     SelectLanguage,
-    StaticPage
+    StaticPage,
+    MyPage
 }

@@ -6,6 +6,7 @@ import ChannelCheck from './ChannelCheck';
 import NotFound from './NotFound';
 import ChatRoute from './ChatRoute';
 import Page from './Page';
+import MyPageRoute from './MyPageRoute';
 
 
-export { App, Home, Auth, ExploreRoute, ChannelCheck, ChatRoute, NotFound, Page };
+export { App, Home, Auth, ExploreRoute, ChannelCheck, ChatRoute, NotFound, Page, MyPageRoute };
