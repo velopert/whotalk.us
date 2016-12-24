@@ -158,9 +158,150 @@ const Privacy = () => {
 
 const Terms = () => {
     return (
-        <div>
-            Terms
-        </div>
+        <StaticPage title="Terms of Use">
+
+<h1>
+	1. Terms
+</h1>
+
+<p>
+	By accessing this web site, you are agreeing to be bound by these 
+	web site Terms and Conditions of Use, all applicable laws and regulations, 
+	and agree that you are responsible for compliance with any applicable local 
+	laws. If you do not agree with any of these terms, you are prohibited from 
+	using or accessing this site. The materials contained in this web site are 
+	protected by applicable copyright and trade mark law.
+</p>
+
+<h1>
+	2. Use License
+</h1>
+
+<ol type="a">
+	<li>
+		Permission is granted to temporarily download one copy of the materials 
+		(information or software) on WhoTalk's web site for personal, 
+		non-commercial transitory viewing only. This is the grant of a license, 
+		not a transfer of title, and under this license you may not:
+		
+		<ol type="i">
+			<li>modify or copy the materials;</li>
+			<li>use the materials for any commercial purpose, or for any public display (commercial or non-commercial);</li>
+			<li>attempt to decompile or reverse engineer any software contained on WhoTalk's web site;</li>
+			<li>remove any copyright or other proprietary notations from the materials; or</li>
+			<li>transfer the materials to another person or "mirror" the materials on any other server.</li>
+		</ol>
+	</li>
+	<li>
+		This license shall automatically terminate if you violate any of these restrictions and may be terminated by WhoTalk at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format.
+	</li>
+</ol>
+
+<h1>
+	3. Disclaimer
+</h1>
+
+<ol type="a">
+	<li>
+		The materials on WhoTalk's web site are provided "as is". WhoTalk makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights. Further, WhoTalk does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its Internet web site or otherwise relating to such materials or on any sites linked to this site.
+	</li>
+</ol>
+
+<h1>
+	4. Limitations
+</h1>
+
+<p>
+	In no event shall WhoTalk or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption,) arising out of the use or inability to use the materials on WhoTalk's Internet site, even if WhoTalk or a WhoTalk authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.
+</p>
+			
+<h1>
+	5. Revisions and Errata
+</h1>
+
+<p>
+	The materials appearing on WhoTalk's web site could include technical, typographical, or photographic errors. WhoTalk does not warrant that any of the materials on its web site are accurate, complete, or current. WhoTalk may make changes to the materials contained on its web site at any time without notice. WhoTalk does not, however, make any commitment to update the materials.
+</p>
+
+<h1>
+    6. Code of Conduct
+</h1>
+
+<p>
+    When you write anything on the Services, it can be seen or accessed by general public (not just registered members). You are responsible for everything you write on the services, and you are subject to the code of conduct.
+</p>
+
+<p>
+    When using the Services, you must not write anything which:
+</p>
+
+<ul>
+    <li>
+        is bullying, harassing, or causing anybody to get upset; 
+    </li>
+    <li>
+        is provoking or antagonizing people, or trolling;
+    </li>
+    <li>
+        is using rude words;
+    </li>
+    <li>
+        is encouraging dangerous or illegal activities;
+    </li>
+    <li>
+        is depicting horrible, shocking or distressing things;
+    </li>
+    <li>
+        is pornographic or depicts graphic violence;
+    </li>
+    <li>
+        is containing threat to any kind;
+    </li>
+    <li>
+        is illgal;
+    </li>
+    <li>
+        may cause any harm or damage to you or anyone else;
+    </li>
+    <li>
+        is a spam;
+    </li>
+</ul>
+
+<p>
+    We may access, preserve or disclose any of your information if we are required to do so by law, or if we believe in good faith that it is reasonably necessary.
+</p>
+
+<h1>
+	7. Links
+</h1>
+
+<p>
+	WhoTalk has not reviewed all of the sites linked to its Internet web site and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by WhoTalk of the site. Use of any such linked web site is at the user's own risk.
+</p>
+
+<h1>
+	8. Site Terms of Use Modifications
+</h1>
+
+<p>
+	WhoTalk may revise these terms of use for its web site at any time without notice. By using this web site you are agreeing to be bound by the then current version of these Terms and Conditions of Use.
+</p>
+
+<h1>
+	9. Governing Law
+</h1>
+
+<p>
+	Any claim relating to WhoTalk's web site shall be governed by the laws of the Republic of Korea without regard to its conflict of law provisions.
+</p>
+
+<p>
+	General Terms and Conditions applicable to Use of a Web Site.
+</p>
+
+			
+        </StaticPage>
     );
 };
 
