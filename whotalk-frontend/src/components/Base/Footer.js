@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 
 class Footer extends Component {
     render() {
-        const { show, space } = this.props;
+        const { show, space, onLanguageClick } = this.props;
 
         return (
             <div>
                 <div className={`footer-space ${space ? ' desktop' : ''}`}/>
                 <div className="footer">
                     <ul>
-                        <li><a>SELECT LANGUAGE</a></li>
+                        <li><a onClick={onLanguageClick}>SELECT LANGUAGE</a></li>
                         <li><a>ABOUT</a></li>
                         <li><a>PRIVACY</a></li>
                         <li><a>TERMS</a></li>

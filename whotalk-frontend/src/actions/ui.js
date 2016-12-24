@@ -25,3 +25,5 @@ export const closingFocusBox = createAction(UI.CLOSING_FOCUS_BOX);
 export const openExplore = createAction(UI.OPEN_EXPLORE);
 
 export const toggleUserSearch = createAction(UI.USER_SEARCH_TOGGLE);
+
+export const toggleSelectLanguage = createAction(UI.SELECT_LANGUAGE_TOGGLE);

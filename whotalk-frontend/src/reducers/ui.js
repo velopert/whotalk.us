@@ -1,6 +1,9 @@
 import UI from 'actions/ActionTypes/ui';
 
 const initialState = {
+    selectLanguage: {
+        visible: false
+    },
     userSearch : {
         show: false
     },
@@ -168,6 +171,15 @@ function ui(state=initialState, action) {
                     show: !state.userSearch.show
                 }
             }
+        
+        case UI.SELECT_LANGUAGE_TOGGLE:
+            return {
+                ...state,
+                selectLanguage: {
+                    ...state.selectLanguage,
+                    visible: !state.selectLanguage.visible
+                }
+            };
 
         default: 
             return state;

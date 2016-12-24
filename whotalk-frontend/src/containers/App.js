@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Match} from 'react-router';
-import {Background, Dimmed, Header, Sidebar, Footer, UserSearch} from 'components';
+import {Background, Dimmed, Header, Sidebar, Footer, UserSearch, SelectLanguage} from 'components';
 import {Home, Auth, ExploreRoute, ChannelCheck, ChatRoute, NotFound} from 'containers';
 import {connect} from 'react-redux';
 import {storage} from 'helpers';
@@ -115,6 +115,7 @@ class App extends Component {
             // }
         }
     }
+    
 
     async componentDidMount() {
 
@@ -211,6 +212,22 @@ class App extends Component {
         UIActions.toggleUserSearch();
     }
 
+    toggleSelectLanguage = () => {
+        const {UIActions} = this.props;
+        UIActions.toggleSelectLanguage();
+    }
+
+    
+    handleSelectLanguage = (lang) => {
+        const {UIActions, ui} = this.props;
+        // to prevent double click
+        if(!ui.selectLanguageVisibility) return;
+        UIActions.toggleSelectLanguage();
+        
+        storage.set('language', { lang });
+        location.reload();
+    }
+
     handleUserClick = () => {
         
     }
@@ -249,7 +266,9 @@ class App extends Component {
                 handleLogout, 
                 closeFocusBox,
                 toggleUserSearch,
-                handleSearchInputChange
+                handleSearchInputChange,
+                toggleSelectLanguage,
+                handleSelectLanguage
              } = this;
 
         return (
@@ -277,7 +296,11 @@ class App extends Component {
                         onChange={handleSearchInputChange}
                         users={status.searchResult}
                     />
-                 
+                    <SelectLanguage 
+                        visible={ui.selectLanguageVisibility}
+                        onSelect={handleSelectLanguage}
+                    />
+                    
                     <div style={{height: '100%'}}>
                         <Match exactly pattern="/" component={Home}/>
                         <Match pattern="/auth" component={Auth}/>
@@ -286,7 +309,7 @@ class App extends Component {
                         <Match pattern="/chat/:username" component={ChatRoute}/>
                         <Match pattern="/404" component={NotFound}/>
                     </div>
-                    {ui.footer.show ? <Footer {...ui.footer}/> : undefined}
+                    {ui.footer.show ? <Footer onLanguageClick={toggleSelectLanguage} {...ui.footer}/> : undefined}
                 </div>
             </Router>
         );
@@ -313,7 +336,8 @@ App = connect(state => ({
         like: state.ui.home.like,
         footer: state.ui.footer,
         focusBox: state.ui.focusBox,
-        userSearch: state.ui.userSearch
+        userSearch: state.ui.userSearch,
+        selectLanguageVisibility: state.ui.selectLanguage.visible
     },
     form: {
         keyword: state.form.search.keyword
@@ -332,7 +356,8 @@ App = connect(state => ({
         updateClientSize: ui.updateClientSize,
         toggleFocusBox: ui.toggleFocusBox,
         closingFocusBox: ui.closingFocusBox,
-        toggleUserSearch: ui.toggleUserSearch
+        toggleUserSearch: ui.toggleUserSearch,
+        toggleSelectLanguage: ui.toggleSelectLanguage
     }, dispatch),
     ExploreActions: bindActionCreators({
         getActivityBefore

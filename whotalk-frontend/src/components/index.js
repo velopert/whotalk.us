@@ -30,6 +30,7 @@ import * as Explore from './Explore';
 
 import UserSearch from './UserSearch/UserSearch';
 
+import SelectLanguage from './SelectLanguage/SelectLanguage';
 
 export { 
     Background, 
@@ -53,5 +54,6 @@ export {
     Chat,
     Common,
     Explore,
-    UserSearch
+    UserSearch,
+    SelectLanguage
 }
