@@ -220,12 +220,15 @@ class App extends Component {
     
     handleSelectLanguage = (lang) => {
         const {UIActions, ui} = this.props;
+        storage.set('language', { lang });
+        location.reload();
+    }
+
+    handleCloseSelectLanguage = () => {
+        const {UIActions, ui} = this.props;
         // to prevent double click
         if(!ui.selectLanguageVisibility) return;
         UIActions.toggleSelectLanguage();
-        
-        storage.set('language', { lang });
-        location.reload();
     }
 
     handleUserClick = () => {
@@ -268,7 +271,8 @@ class App extends Component {
                 toggleUserSearch,
                 handleSearchInputChange,
                 toggleSelectLanguage,
-                handleSelectLanguage
+                handleSelectLanguage,
+                handleCloseSelectLanguage
              } = this;
 
         return (
@@ -299,6 +303,7 @@ class App extends Component {
                     <SelectLanguage 
                         visible={ui.selectLanguageVisibility}
                         onSelect={handleSelectLanguage}
+                        onClose={handleCloseSelectLanguage}
                     />
                     
                     <div style={{height: '100%'}}>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 
 class SelectLanguage extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -9,7 +10,7 @@ class SelectLanguage extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if(this.props.visible === true && nextProps.visible) {
+        if(this.props.visible === true && nextProps.visible === false) {
             this.setState({
                 closing: true
             });
@@ -24,7 +25,7 @@ class SelectLanguage extends Component {
     }
 
     render () {
-        const { visible, onSelect } = this.props;
+        const { visible, onSelect, onClose } = this.props;
         const { closing } = this.state;
 
         if(!visible && !closing) return null;
@@ -44,7 +45,7 @@ class SelectLanguage extends Component {
                             onClick={ () => {onSelect('ko') } }
                             className="choice right">한국어</div>
                     </div>
-                    <div className="cancel">
+                    <div className="cancel" onClick={onClose}>
                         CANCEL
                     </div>
                 </div>
