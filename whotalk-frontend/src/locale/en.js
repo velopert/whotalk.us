@@ -18,6 +18,10 @@ export default {
     "MainSection.wrapper2.follow": "FOLLOW",
     "MainSection.wrapper2.followBody": "You can follow your favorite channels so that you can visit them easily.",
     
+    "MainSection.wrapper3.title": "TALK TO DEVELOPER",
+    "MainSection.wrapper3.firstLine": "<b>WHOTALK</b> is currently in <i>beta</i>.",
+    "MainSection.wrapper3.secondLine": "Do you have any suggestions or questions?",
+    "MainSection.wrapper3.thirdLine": "How about talking to the developer <b>DIRECTLY</b>?",
 
     /* AUTH */
     "Login.loginWithUsername": "LOG IN WITH YOUR USERNAME",

@@ -21,6 +21,11 @@ export default {
     "MainSection.wrapper2.follow": "팔로우",
     "MainSection.wrapper2.followBody": "여러분의 자주 가는 채널을 팔로우하고, 채널 소식을 구독하세요.",
     
+    "MainSection.wrapper3.title": "개발자에게 얘기하세요",
+    "MainSection.wrapper3.firstLine": "<b>WHOTALK</b> 은 현재 <i>베타</i>버전입니다.",
+    "MainSection.wrapper3.secondLine": "건의사항이나 질문이 있으신가요?",
+    "MainSection.wrapper3.thirdLine": "개발자에게 <b>바로</b> 말을 걸어보는건 어때요?",
+
 
     /* AUTH */
     

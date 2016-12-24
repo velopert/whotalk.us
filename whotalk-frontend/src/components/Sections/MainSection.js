@@ -1,6 +1,6 @@
 import React, { Component  } from 'react';
 import { Element } from 'react-scroll';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 class MainSection extends Component {
 
@@ -168,15 +168,29 @@ class MainSection extends Component {
                     </div>
                     <div className="wrapper-3">
                         <div className={`contents ${fadeInLeft2}`}>
-                            <h1 ref={ref=>this.wrapper3 = ref}>TALK TO DEVELOPER</h1>
+                            <h1 ref={ref=>this.wrapper3 = ref}>
+                                <FormattedMessage
+                                    id="MainSection.wrapper3.title"
+                                    defaultMessage="TALK TO DEVELOPER"
+                                />
+                            </h1>
                             <p>
-                                <b>WHOTALK</b> is currently in <i>beta</i>.
+                                <FormattedHTMLMessage
+                                    id="MainSection.wrapper3.firstLine"
+                                    defaultMessage="<b>WHOTALK</b> is currently in <i>beta</i>."
+                                />
                             </p>
                             <p>
-                                Do you have any suggestions or questions?
+                                <FormattedHTMLMessage
+                                    id="MainSection.wrapper3.secondLine"
+                                    defaultMessage="Do you have any suggestions or questions?"
+                                />
                             </p>
                             <p>
-                                How about talking to the developer <b>DIRECTLY</b>?
+                                <FormattedHTMLMessage
+                                    id="MainSection.wrapper3.thirdLine"
+                                    defaultMessage="How about talking to the developer <b>DIRECTLY</b>?"
+                                />
                             </p>
 
                             <button className="ui button massive inverted pink"
