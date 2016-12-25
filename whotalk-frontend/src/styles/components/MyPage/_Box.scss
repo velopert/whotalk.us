@@ -8,10 +8,31 @@
             border-bottom: 1px solid #ced4da;
             p {
                 margin-bottom: 0px;
+                color: #495057;
+            }
+            .title {
+                font-weight: 600;
+                font-size: 1.2rem;
+                color: #212529;
             }
         }
         .body {
             padding: 1rem;
+            label {
+                font-weight: 600;
+                font-size: 1rem;
+            }
+            label + .fields, label + input {
+                margin-top: .5rem;
+            }
+
+            label.disabled {
+                color: #868e96;
+            }
+
+            .btn-container {
+                text-align: right;
+            }
         }
     }
 }

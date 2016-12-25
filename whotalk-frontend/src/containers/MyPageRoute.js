@@ -11,6 +11,8 @@ class MyPageRoute extends Component {
     componentDidMount () {
         const {UIActions} = this.props;
         UIActions.setHeaderTransparency(false);
+        UIActions.setFooterSpace(true);
+        UIActions.setFooterVisibility(true);
     }
     
 
@@ -30,7 +32,9 @@ MyPageRoute = connect(
     }),
     dispatch => ({
         UIActions: bindActionCreators({
-            setHeaderTransparency: ui.setHeaderTransparency
+            setHeaderTransparency: ui.setHeaderTransparency,
+            setFooterSpace: ui.setFooterSpace,
+            setFooterVisibility: ui.setFooterVisibility,
         }, dispatch)
     })
 )(MyPageRoute);
