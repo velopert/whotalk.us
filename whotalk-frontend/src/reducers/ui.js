@@ -188,14 +188,14 @@ function ui(state=initialState, action) {
                 }
             };
 
-        case UI.EDIT_PASSWORD_SHOW:
+        case UI.EDIT_PASSWORD_VISIBILITY_SET:
             return {
                 ...state,
                 myPage: {
                     ...state.myPage,
                     account: {
                         ...state.account,
-                        editPassword: true
+                        editPassword: payload
                     }
                 }
             };

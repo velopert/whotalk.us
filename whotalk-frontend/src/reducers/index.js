@@ -5,6 +5,7 @@ import ui from './ui';
 import channel from './channel';
 import explore from './explore';
 import common from './common';
+import mypage from './mypage';
 
 const reducers = {
     form,
@@ -12,7 +13,8 @@ const reducers = {
     ui,
     channel,
     explore,
-    common
+    common,
+    mypage
 }
 
 export default combineReducers(reducers);

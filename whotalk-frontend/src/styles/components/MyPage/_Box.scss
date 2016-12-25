@@ -1,5 +1,7 @@
 .box-wrapper {
     .box {
+
+
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         background-color: #f8f9fa;
         .top-bar {
@@ -16,7 +18,22 @@
                 color: #212529;
             }
         }
+
+        .loader-container {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .opacify {
+            opacity: 0.2
+        }
+
+
         .body {
+            position: relative;
+
             padding: 1rem;
 
             .field {

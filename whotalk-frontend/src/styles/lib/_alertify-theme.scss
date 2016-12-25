@@ -10,7 +10,7 @@
 }
 .alertify .ajs-header {
   color: black;
-  font-weight: bold;
+  font-weight: 600;
   background: #fafafa;
   border-bottom: #eee 1px solid;
   border-radius: 2px 2px 0 0;
@@ -39,7 +39,7 @@
   color: #000;
   border: 0;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
   text-transform: uppercase;
 }
 .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-ok {
@@ -51,6 +51,7 @@
   text-align: center;
   border: solid 1px #ddd;
   border-radius: 2px;
+  font-weight: 600;
 }
 .alertify-notifier .ajs-message.ajs-success {
   color: #fff;

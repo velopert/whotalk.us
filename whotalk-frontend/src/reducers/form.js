@@ -41,11 +41,12 @@ const initialState = {
     },
 
     accountSetting: {
+        currentPassword: '',
         password: '',
         confirmPassword: '',
         email: '',
         givenName: '',
-        firstName: ''
+        familyName: ''
     }
     
 }

@@ -5,15 +5,18 @@ import cache from './../helpers/cache';
 
 // GET /api/mypage/account
 
-export const getAccountSetting = (req, res) => {
+export const getAccountSetting = async (req, res) => {
     if (!req.user) {
         return res.status(403).json({
             error: 'not logged in'
         });
     }
 
+    const account = await Account.findById(req.user._id).lean();
+    console.log(account);
+    
     return res.json({
-        account: req.user.common_profile
+        account: { ...account.common_profile, type: account.type }
     });
 }
 
@@ -34,7 +37,8 @@ export const updateAccountSetting = async (req, res) => {
         type: 'object',
         properties: {
             email: {
-                type: 'email'
+                type: 'string',
+                pattern: 'email',
             },
             givenName: {
                 type: 'string',
@@ -46,17 +50,17 @@ export const updateAccountSetting = async (req, res) => {
             },
             currentPassword: {
                 type: 'string',
-                minLength: 1,
+                minLength: 0,
                 optional: true
             },
             pasword: {
                 type: 'string',
-                minLength: 1,
+                minLength: 0,
                 optional: true
             },
             confirmPassword: {
                 type: 'string',
-                minLength: 1,
+                minLength: 0,
                 optional: true
             }
         }
@@ -81,7 +85,8 @@ export const updateAccountSetting = async (req, res) => {
         console.log(hash, body.currentPassword);
         
         // password not provided
-        if(!body.password || !body.confirmPassword) {
+        if(body.password === "" || body.confirmPassword === "" 
+            || !body.password || !body.confirmPassword) {
             return res.status(400).json({
                 code: 0,
                 message: 'INVALID REQUEST'
@@ -89,7 +94,7 @@ export const updateAccountSetting = async (req, res) => {
         }
         
         // password does not match
-        if(body.password === body.confirmPassword) {
+        if(body.password !== body.confirmPassword) {
             return res.status(400).json({
                 code: 1,
                 message: 'CONFIRM PASSWORD'
@@ -107,6 +112,13 @@ export const updateAccountSetting = async (req, res) => {
             });
         }
 
+        if(account.password.length < 5) {
+            return res.status(400).json({
+                code: 3,
+                message: 'PASSWORD TOO SHORT'
+            });
+        }
+
         account.password = await generateHash(body.password);
     }
 
@@ -117,7 +129,7 @@ export const updateAccountSetting = async (req, res) => {
         const duplicate = await Account.findUserByEmail(body.email);
         if(duplicate) {
             return res.status(400).json({
-                code: 3,
+                code: 4,
                 message: 'THAT EMAIL EXISTS'
             });
         }

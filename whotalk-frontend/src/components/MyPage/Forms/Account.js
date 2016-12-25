@@ -1,15 +1,20 @@
 import React from 'react'
 
 const Account = ({
+    type,
     username, 
     email, 
     givenName, 
     familyName, 
+    currentPassword,
     password,
     confirmPassword,
     editPassword,
     onEditPasswordClick,
-    onChange
+    onChange,
+    loading,
+    updating,
+    onUpdate
 }) => {
     return (
         <div>
@@ -17,7 +22,14 @@ const Account = ({
                 <p className="title">Account</p>
                 <p>Change your basic account settings</p>
             </div>
-            <div className="body">
+            {loading && (
+                <div className="loader-container">
+                    <div className="ui active inverted dimmer">
+                        <div className="ui text loader huge">Loading</div>
+                    </div>
+                </div>
+            )}
+            <div className={`body ${loading?'opacify':''}`}>
                 <div className="ui form huge">
                     <div className="field">
                         <label className="disabled">USERNAME <i className="ban icon"></i></label>
@@ -32,6 +44,16 @@ const Account = ({
                     { editPassword 
                       ? (
                             <div className="animated flipInX" style={{marginBottom: '20px'}}>
+                                <div className="field">
+                                    <label>CURRENT PASSWORD</label>
+                                    <input 
+                                        type="password" 
+                                        name="currentPassword" 
+                                        placeholder="Current Password"
+                                        onChange={onChange}
+                                        value={currentPassword}
+                                    />
+                                </div>
                                 <div className="field">
                                     <label>PASSWORD</label>
                                     <input 
@@ -54,7 +76,7 @@ const Account = ({
                                 </div>
                             </div>
                         )
-                      : (
+                      : type === 'local' && (
                             <div className="field">
                                 <label>PASSWORD</label>
                                 <input disabled type="password" name="password" value="password"/>
@@ -78,7 +100,6 @@ const Account = ({
                             onChange={onChange}
                         />
                     </div>
-
 
                     <div className="field">
                         <label>NAME</label>
@@ -104,7 +125,21 @@ const Account = ({
                         </div>
                     </div>
                     <div className="btn-container">
-                        <button className="ui pink huge button">Save</button>
+                        <button 
+                            className={`ui pink huge button ${updating?'loading':''}`}
+                            onClick={
+                                () => {
+                                    onUpdate({
+                                        currentPassword,
+                                        password,
+                                        confirmPassword,
+                                        email,
+                                        givenName,
+                                        familyName
+                                    });
+                                }
+                            }
+                        >Save</button>
                     </div>
                 </div>
             </div>

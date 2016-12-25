@@ -31,4 +31,4 @@ export const toggleSelectLanguage = createAction(UI.SELECT_LANGUAGE_TOGGLE);
 
 
 // MY PAGE
-export const showEditPassword = createAction(UI.EDIT_PASSWORD_SHOW);
+export const setEditPasswordVisibility = createAction(UI.EDIT_PASSWORD_VISIBILITY_SET);

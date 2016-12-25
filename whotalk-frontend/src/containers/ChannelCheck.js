@@ -43,16 +43,12 @@ class ChannelCheck extends Component {
         this.getChannelData();
     }
 
-
-
     componentDidUpdate(prevProps, prevState) {
         // handle goBack
         if(this.props.pathname !== prevProps.pathname) {
             this.getChannelData();
         }
     }
-    
-    
     
     render() {
 
@@ -72,7 +68,6 @@ class ChannelCheck extends Component {
         }
 
         return <ChannelRoute {...{pathname, params}}/>
-
     }
     
 }
