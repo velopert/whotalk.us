@@ -48,6 +48,7 @@ export const getFriendList = async (req, res) => {
 
 
 // GET /api/common/search-user/:username
+
 export const getSearchUser = async (req, res) => {
     const username = req.params.username;
 
