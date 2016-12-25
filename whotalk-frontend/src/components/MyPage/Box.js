@@ -1,12 +1,12 @@
 import React from 'react'
-import * as Forms from './Forms'
 
 
-const Box = () => {
+
+const Box = ({children}) => {
     return (
          <div className="twelve wide column box-wrapper">
             <div className="box">
-                <Forms.Account/>
+                {children}
             </div>
          </div>
     );

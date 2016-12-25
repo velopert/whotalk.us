@@ -27,3 +27,8 @@ export const openExplore = createAction(UI.OPEN_EXPLORE);
 export const toggleUserSearch = createAction(UI.USER_SEARCH_TOGGLE);
 
 export const toggleSelectLanguage = createAction(UI.SELECT_LANGUAGE_TOGGLE);
+
+
+
+// MY PAGE
+export const showEditPassword = createAction(UI.EDIT_PASSWORD_SHOW);

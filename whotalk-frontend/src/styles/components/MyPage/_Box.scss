@@ -18,6 +18,10 @@
         }
         .body {
             padding: 1rem;
+
+            .field {
+                position: relative;
+            }
             label {
                 font-weight: 600;
                 font-size: 1rem;
@@ -28,6 +32,28 @@
 
             label.disabled {
                 color: #868e96;
+            }
+
+            .edit-password {
+                position: absolute;
+                top: 2.9rem;
+                right: 1.5rem;
+                padding-top:0.4rem;
+                padding-left: 0.8rem;
+                padding-right: 0.8rem;
+                padding-bottom: 0.4rem;
+                color: #e64980;
+                cursor: pointer;
+                transition: all .5s;
+                border-radius: 5px;
+                &:hover {
+                    background-color: #fff0f6;
+                    color: #d6336c;
+                }
+                &:active {
+                    background-color: #e64980;
+                    color: #fff0f6;;
+                }
             }
 
             .btn-container {

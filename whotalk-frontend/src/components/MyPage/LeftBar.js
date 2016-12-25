@@ -13,6 +13,9 @@ const LeftBar = () => {
                 <div className="item">
                     <span>Notification</span>
                 </div>
+                <div className="item">
+                    <span style={{color: '#c92a2a'}}>Unregister</span>
+                </div>
             </div>
         </div>
     )

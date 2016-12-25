@@ -42,6 +42,13 @@ const initialState = {
     clientSize: {
         height: null,
         width: null
+    },
+
+    myPage: {
+        menuIndex: 0,
+        account: {
+            editPassword: false
+        }
     }
 };
 
@@ -178,6 +185,18 @@ function ui(state=initialState, action) {
                 selectLanguage: {
                     ...state.selectLanguage,
                     visible: !state.selectLanguage.visible
+                }
+            };
+
+        case UI.EDIT_PASSWORD_SHOW:
+            return {
+                ...state,
+                myPage: {
+                    ...state.myPage,
+                    account: {
+                        ...state.account,
+                        editPassword: true
+                    }
                 }
             };
 

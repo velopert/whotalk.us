@@ -38,7 +38,16 @@ const initialState = {
     },
     search: {
         keyword: ''
+    },
+
+    accountSetting: {
+        password: '',
+        confirmPassword: '',
+        email: '',
+        givenName: '',
+        firstName: ''
     }
+    
 }
 
 function form(state = initialState, action) {
