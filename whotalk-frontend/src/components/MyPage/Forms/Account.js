@@ -14,7 +14,8 @@ const Account = ({
     onChange,
     loading,
     updating,
-    onUpdate
+    onUpdate,
+    error
 }) => {
     return (
         <div>
@@ -44,7 +45,7 @@ const Account = ({
                     { editPassword 
                       ? (
                             <div className="animated flipInX" style={{marginBottom: '20px'}}>
-                                <div className="field">
+                                <div className={`field ${error.currentPassword ? 'error' : ''}`}>
                                     <label>CURRENT PASSWORD</label>
                                     <input 
                                         type="password" 
@@ -54,7 +55,7 @@ const Account = ({
                                         value={currentPassword}
                                     />
                                 </div>
-                                <div className="field">
+                                <div className={`field ${error.password ? 'error' : ''}`}>
                                     <label>PASSWORD</label>
                                     <input 
                                         type="password" 
@@ -64,7 +65,7 @@ const Account = ({
                                         value={password}
                                     />
                                 </div>
-                                <div className="field">
+                                <div className={`field ${error.confirmPassword ? 'error' : ''}`}>
                                     <label>CONFIRM PASSWORD</label>
                                     <input 
                                         type="password" 
@@ -90,7 +91,7 @@ const Account = ({
                         )
                     }
 
-                    <div className="field">
+                    <div className={`field ${error.email ? 'error' : ''}`}>
                         <label>EMAIL</label>
                         <input 
                             type="text" 
@@ -101,7 +102,7 @@ const Account = ({
                         />
                     </div>
 
-                    <div className="field">
+                    <div className={`field ${error.givenName ? 'error' : ''}`}>
                         <label>NAME</label>
                         <div className="two fields">
                             <div className="field">
@@ -113,7 +114,7 @@ const Account = ({
                                     onChange={onChange}
                                 />
                             </div>
-                            <div className="field">
+                            <div className={`field ${error.familyName ? 'error' : ''}`}>
                                 <input 
                                     type="text" 
                                     name="familyName" 

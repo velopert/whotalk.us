@@ -10,7 +10,6 @@ import * as ui from 'actions/ui';
 import * as form from 'actions/form';
 import * as mypage from 'reducers/mypage';
 
-
 import {bindActionCreators} from 'redux';
 
 class MyPageRoute extends Component {
@@ -20,6 +19,7 @@ class MyPageRoute extends Component {
         UIActions.setHeaderTransparency(false);
         UIActions.setFooterSpace(true);
         UIActions.setFooterVisibility(true);
+        FormActions.formReset();
     
              
         // thunk
@@ -47,6 +47,69 @@ class MyPageRoute extends Component {
     handleUpdate = {
         account: async (data) => {
             const {MyPageActions, UIActions, FormActions, ui} = this.props;
+            
+            const form = this.props.form.account;
+
+            const validation = {
+                givenName: {
+                    regex: /^.{1,30}$/,
+                    message: 'Check your givenName'
+                },
+                familyName: {
+                    regex: /^.{1,30}$/,
+                    message: 'Check your familyName'
+                },
+                email: {
+                    regex: /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i,
+                    message: 'Invalid email'
+                }
+            };
+            
+
+            let error = false;
+
+            // regex Check
+            const types = Object.keys(validation);
+
+            // check for each types
+            for(let type of types) {
+                if(!validation[type].regex.test(form[type])) {
+                    error = true;
+                    FormActions.setInputError({
+                        form: 'accountSetting', 
+                        name: type,
+                        error: true
+                    });
+                    notify({
+                        type: 'error',
+                        message: validation[type].message
+                    });
+                }
+            }
+
+            // check the password!
+            if(form['password'] !== form['confirmPassword']) {
+                FormActions.setInputError({
+                    form: 'accountSetting', 
+                    name: 'password',
+                    error: true
+                });
+                FormActions.setInputError({
+                    form: 'accountSetting', 
+                    name: 'confirmPassword',
+                    error: true
+                });
+                
+                notify({type: 'error', message: 'Confirm Password does not match'});
+
+                error = true; 
+            }
+            
+
+        
+            // if there is an error, stop at here
+            if(error) return;
+            
             try {
                 await MyPageActions.updateAccountSetting(data);   
                 notify({type: 'success', message: 'Saved!'});
@@ -56,22 +119,30 @@ class MyPageRoute extends Component {
                     FormActions.changeInput({ form: 'accountSetting', name: 'password', value: ''});
                     FormActions.changeInput({ form: 'accountSetting', name: 'confirmPassword', value: ''});
                 }
+                FormActions.resetError('account');
             } catch (e) {
                 const errors = {
                     0: 'Invalid Request',
-                    1: 'Confirm your password',
+                    1: 'Confirm Password does not match',
                     2: 'You\'ve input wrong password',
                     3: 'Your new password is to short',
                     4: 'That email exists'
                 }
                 if(!e.response) return; 
                 notify({type: 'error', message: errors[e.response.data.code]});
+                if( e.response.data.code === 4 ) {
+                    FormActions.setInputError({
+                        form: 'accountSetting', 
+                        name: 'email',
+                        error: true
+                    });
+                }
             }
         }
     }
 
     render () {
-        const { UIActions, ui, form, status } = this.props;
+        const { UIActions, ui, form, formError, status } = this.props;
         const { handleChange, handleUpdate } = this;
 
 
@@ -94,6 +165,7 @@ class MyPageRoute extends Component {
                         onUpdate={handleUpdate['account']}
                         loading={status.loadingAccount}
                         updating={status.updatingAccount}
+                        error={formError['account']}
                     />
                 </MyPage.Box>
             </MyPage.Wrapper>
@@ -113,6 +185,9 @@ MyPageRoute = connect(
         },
         form: {
             account: state.form.accountSetting
+        },
+        formError: {
+            account: state.form.error.accountSetting
         }
     }),
     dispatch => ({

@@ -34,6 +34,14 @@ const initialState = {
         },
         additional_o: {
             username: false
+        },
+        accountSetting: {
+            currentPassword: false,
+            password: false,
+            confirmPassword: false,
+            email: false,
+            givenName: false,
+            familyName: false
         }
     },
     search: {
@@ -77,6 +85,13 @@ function form(state = initialState, action) {
             }
         case FORM.FORM_RESET:
             return initialState;
+        case FORM.ERROR_RESET: 
+            return {
+                ...state,
+                error: {
+                    ...initialState.error
+                }
+            };
         default:
             return state;
     }
