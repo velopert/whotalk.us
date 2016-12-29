@@ -49,6 +49,7 @@ class ChatRoute extends Component {
 
 
         this.connectToChannel();
+
     }
 
     @autobind
@@ -63,6 +64,7 @@ class ChatRoute extends Component {
 
         socket.configure(intl);
         socket.init();
+        this.handleShowStatusMessage();
     }
 
     @autobind
@@ -174,6 +176,18 @@ class ChatRoute extends Component {
         UIActions.setChannelChatState({onlineList: !status.onlineList})
     }
 
+    handleShowStatusMessage = () => {
+        const {UIActions, status} = this.props;
+        UIActions.setChannelChatState({statusMessage: true})
+        setTimeout(
+            () => {
+                UIActions.setChannelChatState({statusMessage: false});
+            }, 3000
+        );
+        
+
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
 
         // update when client resize
@@ -247,7 +261,8 @@ class ChatRoute extends Component {
             handleFailure,
             handleRemove,
             handleScroll,
-            handleToggleOnlineList
+            handleToggleOnlineList,
+            handleShowStatusMessage
         } = this;
 
         const showStartButton = !status.chatState.started;
@@ -267,6 +282,12 @@ class ChatRoute extends Component {
                     onClose={handleToggleOnlineList}
                     owner={status.channelName}
                 />
+                <Chat.StatusMessage 
+                    visible={status.statusMessage}
+                    onShow={handleShowStatusMessage}
+                >
+                    Here is a status message prepared for you
+                </Chat.StatusMessage>
                 <Scrollbars
                     style={{
                     width: '100%',
@@ -323,7 +344,8 @@ ChatRoute = connect(state => ({
         userList: state.channel.chat.userList,
         userCount: state.channel.chat.userList.length,
         connected: state.channel.chat.socket.enter,
-        onlineList: state.ui.channel.chat.onlineList
+        onlineList: state.ui.channel.chat.onlineList,
+        statusMessage: state.ui.channel.chat.statusMessage
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

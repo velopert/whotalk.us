@@ -31,7 +31,8 @@ const initialState = {
             started: false,
             selecting: false,
             closing: false,
-            onlineList: false
+            onlineList: false,
+            statusMessage: false
         },
     },
     focusBox: {

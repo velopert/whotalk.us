@@ -6,6 +6,7 @@ import MessageList from './MessageList';
 import Loader from './Loader';
 import OnlineListButton from './OnlineListButton';
 import OnlineList from './OnlineList';
+import StatusMessage from './StatusMessage';
 
 export {
     Screen,
@@ -15,5 +16,6 @@ export {
     Loader,
     MessageList,
     OnlineListButton,
-    OnlineList
+    OnlineList,
+    StatusMessage
 }
