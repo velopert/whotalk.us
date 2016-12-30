@@ -17,6 +17,7 @@ const ACCOUNT_SETTING_UPDATE_PENDING = "mypage/ACCOUNT_SETTING_UPDATE_PENDING";
 const ACCOUNT_SETTING_UPDATE_FULFILLED = "mypage/ACCOUNT_SETTING_UPDATE_FULFILLED";
 const ACCOUNT_SETTING_UPDATE_REJECTED = "mypage/ACCOUNT_SETTING_UPDATE_REJECTED";
 
+const SETTING_TYPE_SET = "mypage/SETTING_TYPE_SET";
 
 /* Action Creators */
 
@@ -36,10 +37,13 @@ export const updateAccountSetting = (data) => ({
     }
 });
 
+export const setSettingType = createAction(SETTING_TYPE_SET);
+
 
 
 /* Initial State */
 const initialState = {
+    type: 'account',
     account: {
         username: '',
         familyName: '',
@@ -127,6 +131,11 @@ export default handleActions({
                 error: action.payload
             }
         }
+    }),
+
+    [SETTING_TYPE_SET]: (state,action) => ({
+        ...state,
+        type: action.payload
     })
 
 }, initialState);

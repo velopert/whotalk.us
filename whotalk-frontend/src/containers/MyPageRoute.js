@@ -20,6 +20,7 @@ class MyPageRoute extends Component {
         UIActions.setFooterSpace(true);
         UIActions.setFooterVisibility(true);
         FormActions.formReset();
+        MyPageActions.initialize();
     
              
         // thunk
@@ -141,15 +142,20 @@ class MyPageRoute extends Component {
         }
     }
 
+    handleSetType = (type) => {
+        const { MyPageActions } = this.props;
+        MyPageActions.setSettingType(type);
+    }
+
     render () {
         const { UIActions, ui, form, formError, status } = this.props;
-        const { handleChange, handleUpdate } = this;
+        const { handleChange, handleUpdate, handleSetType } = this;
 
+        let setting = null;
 
-        return (
-            <MyPage.Wrapper>
-                <MyPage.LeftBar/>
-                <MyPage.Box>
+        switch(status.settingType) {
+            case 'account':
+                setting = (
                     <Forms.Account
                         type={status.account.type}
                         username={status.account.username}
@@ -167,6 +173,24 @@ class MyPageRoute extends Component {
                         updating={status.updatingAccount}
                         error={formError['account']}
                     />
+                );
+                break;
+            case 'channel':
+                setting = (
+                    <Forms.Channel/>
+                );
+                break;
+        }
+
+
+        return (
+            <MyPage.Wrapper>
+                <MyPage.LeftBar
+                    onSetType={handleSetType}
+                    currentType={status.settingType}
+                />
+                <MyPage.Box>
+                    {setting}
                 </MyPage.Box>
             </MyPage.Wrapper>
         );
@@ -176,6 +200,7 @@ class MyPageRoute extends Component {
 MyPageRoute = connect(
     state => ({
         status: {
+            settingType: state.mypage.type,
             account: state.mypage.account,
             loadingAccount: state.mypage.requests.getAccountSetting.fetching,
             updatingAccount: state.mypage.requests.updateAccountSetting.fetching

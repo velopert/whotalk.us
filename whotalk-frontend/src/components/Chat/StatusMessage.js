@@ -5,11 +5,20 @@ class StatusMessage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            closing: false
+            closing: false,
+            firstRender: true
         };
 
     }
     componentWillReceiveProps (nextProps) {
+        if(!this.props.visible && nextProps.visible) {
+            if(this.state.firstRender) {
+                this.setState({
+                    firstRender: false
+                });
+            }
+        }
+
         // visible is turning true -> false
         if(this.props.visible && !nextProps.visible) {
             this.setState({
@@ -23,16 +32,18 @@ class StatusMessage extends Component {
             );
         }
     }
-    
+
+
 
     render () {
         const { children, visible, onShow } = this.props;
-        const { closing } = this.state;
+        const { closing, firstRender } = this.state;
 
         // not visible and not closing -> do not render
         if(!visible && !closing) {
+            if(firstRender) return null;
             return (
-                <div className="fadeIn3 status-message-icon" onClick={onShow}>
+                <div className="fadeIn3 status-message-icon animated bounce" onClick={onShow}>
                     <i className="announcement icon"></i>
                 </div>    
             );

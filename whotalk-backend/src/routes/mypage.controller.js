@@ -1,4 +1,5 @@
 import Account from './../models/account.js'
+import StatusMessage from './../models/statusMessage.js';
 import inspector from 'schema-inspector';
 import { generateHash, compareHash } from './../helpers/bcrypt';
 import cache from './../helpers/cache';
@@ -12,22 +13,35 @@ export const getAccountSetting = async (req, res) => {
         });
     }
 
-    const account = await Account.findById(req.user._id).lean();
-    console.log(account);
+    const promises = [
+        Account.findById(req.user._id).lean(),
+        StatusMessage.get(req.user._id)
+    ];
+
+    const results = await Promise.all(promises);
+
+
+    const account = results[0];
+    const statusMessage = results[1];
+
+    console.log(statusMessage);
+    
     
     return res.json({
-        account: { ...account.common_profile, type: account.type }
+        account: { 
+            ...account.common_profile, 
+            type: account.type,
+        },
+        statusMessage: statusMessage.message
     });
 }
 
 // PATCH /api/mypage/account
-
-
-
 export const updateAccountSetting = async (req, res) => {
 
     if (!req.user) {
         return res.status(403).json({
+            code: -1,
             error: 'not logged in'
         });
     }
@@ -146,3 +160,42 @@ export const updateAccountSetting = async (req, res) => {
         success: true
     });
 };
+
+// POST /api/mypage/status-message
+export const changeStatusMessage = async (req, res) => {
+    if (!req.user) {
+        return res.status(403).json({
+            code: -1,
+            error: 'not logged in'
+        });
+    }
+
+    // validate the data
+    const validation = {
+        type: 'object',
+        properties: {
+            message: {
+                type: 'string'
+            }
+        }
+    };
+
+    const body = req.body;
+    const validated = inspector.validate(validation, body);
+
+    if(!validated.valid) {
+        return res.status(400).json({
+            code: 0,
+            message: 'INVALID REQUEST'
+        });
+    }
+
+    await StatusMessage.change({
+        accountId: req.user._id, 
+        message: body.message
+    });
+
+    res.json({
+        success: true
+    });
+}
