@@ -24,7 +24,15 @@ const CHANNEL_SETTING_UPDATE_FULFILLED = "mypage/CHANNEL_SETTING_UPDATE_FULFILLE
 const CHANNEL_SETTING_UPDATE_REJECTED = "mypage/CHANNEL_SETTING_UPDATE_REJECTED";
 
 
+const MESSAGE_CLEAR = "mypage/MESSAGE_CLEAR";
+const MESSAGE_CLEAR_PENDING = "mypage/MESSAGE_CLEAR_PENDING";
+const MESSAGE_CLEAR_FULFILLED = "mypage/MESSAGE_CLEAR_FULFILLED";
+const MESSAGE_CLEAR_REJECTED = "mypage/MESSAGE_CLEAR_REJECTED";
+
+
 const SETTING_TYPE_SET = "mypage/SETTING_TYPE_SET";
+const CONFIRM_CLEAR_VISIBILITY_SET = "mypage/CONFIRM_CLEAR_VISIBILITY_SET";
+
 
 /* Action Creators */
 
@@ -53,6 +61,15 @@ export const updateChannelSetting = (data) => ({
     }
 });
 
+export const clearMessage = () => ({
+    type: MESSAGE_CLEAR,
+    payload: {
+        promise: service.clearMessage()
+    }
+});
+
+export const setConfirmClearVisibility = createAction(CONFIRM_CLEAR_VISIBILITY_SET);
+
 
 /* Initial State */
 const initialState = {
@@ -67,6 +84,7 @@ const initialState = {
     channel: {
         statusMessage: ''
     },
+    confirmClearVisibility: false,
     requests: {
         getInitialSetting: {
             ...rs.request
@@ -75,6 +93,9 @@ const initialState = {
             ...rs.request
         },
         updateChannelSetting: {
+            ...rs.request
+        },
+        clearMessage: {
             ...rs.request
         }
     }
@@ -188,7 +209,46 @@ export default handleActions({
     }),
 
 
+    /* MESSAGE_CLEAR */
+
+    [MESSAGE_CLEAR_PENDING]: (state, action) => ({
+        ...state,
+        requests: {
+            ...state.requests,
+            clearMessage: {
+                ...rs.pending
+            }
+        }
+    }),
+
+    [MESSAGE_CLEAR_FULFILLED]: (state, action) => ({
+        ...state,
+        requests: {
+            ...state.requests,
+            clearMessage: {
+                ...rs.fulfilled
+            }
+        }
+    }),
+
+    [MESSAGE_CLEAR_REJECTED]: (state, action) => ({
+        ...state,
+        requests: {
+            ...state.requests,
+            clearMessage: {
+                ...rs.rejected,
+                error: action.payload
+            }
+        }
+    }),
+
+
     [SETTING_TYPE_SET]: (state,action) => ({
+        ...state,
+        type: action.payload
+    }),
+
+    [CONFIRM_CLEAR_VISIBILITY_SET]: (state, action) => ({
         ...state,
         type: action.payload
     })

@@ -6,5 +6,6 @@ const router = express.Router();
 router.get('/', controller.getInitialSetting);
 router.patch('/account', controller.updateAccountSetting);
 router.patch('/channel', controller.updateChannelSetting);
+router.delete('/message', controller.clearMessage);
 
 export default router;

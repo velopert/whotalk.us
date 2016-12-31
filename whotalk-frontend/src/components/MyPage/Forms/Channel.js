@@ -1,6 +1,19 @@
 import React from 'react';
 
-const Channel = ({onChange, onUpdate, statusMessage, loading, updating}) => {
+const Confirm = ({visible}) => {
+    if(!visible) return null;
+
+    return (
+        <div className="confirm-clear fadeIn3">
+            <div className="text">REALLY?</div>
+            <button className="ui red button">YES</button>
+            <button className="ui button">NO</button>
+        </div>
+    );
+
+}
+
+const Channel = ({onChange, onClear, onUpdate, statusMessage, loading, updating, confirmVisible, onSetConfirmClearVisibility}) => {
     return (
         <div>
             <div className="top-bar">
@@ -20,6 +33,18 @@ const Channel = ({onChange, onUpdate, statusMessage, loading, updating}) => {
                             value={statusMessage}
                         />
                     </div>
+                    <div className="field">
+                        <label>
+                            CLEAR CHATTING LOG
+                        </label>
+                        <button className="ui red huge button" onClick={() => {
+                            onSetConfirmClearVisibility(true)
+                        }}>
+                            CLEAR
+                        </button>
+                    </div>
+                    <Confirm visible={confirmVisible} onClear={onClear}/>
+                </div>
 
                 <div className="btn-container">
                     <button
@@ -28,8 +53,6 @@ const Channel = ({onChange, onUpdate, statusMessage, loading, updating}) => {
                     >
                         Save
                     </button>
-                </div>
-                
                 </div>
             </div>
         </div>

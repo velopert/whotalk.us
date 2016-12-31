@@ -86,7 +86,10 @@ Message.statics.getMessagesForActivity = async function({channel, initId, lastId
 
 
     return Promise.resolve(messages);
+}
 
+Message.statics.clear = function(username) {
+    return this.remove({channel: username}).exec();
 }
 
 export default mongoose.model('Message', Message);

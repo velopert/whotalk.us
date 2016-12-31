@@ -1,5 +1,8 @@
 import Account from './../models/account.js'
 import StatusMessage from './../models/statusMessage.js';
+import Message from './../models/message.js';
+import Activity from './../models/activity';
+
 import inspector from 'schema-inspector';
 import { generateHash, compareHash } from './../helpers/bcrypt';
 import cache from './../helpers/cache';
@@ -212,43 +215,20 @@ export const updateChannelSetting = async (req, res) => {
 }
 
 
-
-
-// POST /api/mypage/status-message
-export const changeStatusMessage = async (req, res) => {
-    if (!req.user) {
+// DELETE /api/mypage/message
+export const clearMessage = async (req, res) => {
+    if(!req.user) {
         return res.status(403).json({
             code: -1,
             error: 'not logged in'
         });
     }
 
-    // validate the data
-    const validation = {
-        type: 'object',
-        properties: {
-            message: {
-                type: 'string'
-            }
-        }
-    };
+    const username = req.user.common_profile.username;
+    await Message.clear(username);
+    await Activity.clearChatActivity(username);
 
-    const body = req.body;
-    const validated = inspector.validate(validation, body);
-
-    if(!validated.valid) {
-        return res.status(400).json({
-            code: 0,
-            message: 'INVALID REQUEST'
-        });
-    }
-
-    await StatusMessage.change({
-        accountId: req.user._id, 
-        message: body.message
-    });
-
-    res.json({
+    return res.json({
         success: true
     });
 }

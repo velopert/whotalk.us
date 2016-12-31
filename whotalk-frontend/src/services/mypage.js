@@ -35,3 +35,8 @@ export const updateChannelSetting = ({
         message
     }
 });
+
+export const clearMessage = () => request({
+    url: '/api/mypage/message',
+    method: 'delete'
+});

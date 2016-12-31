@@ -113,6 +113,12 @@ Activity.statics.getActivityBefore = function({subscriberId, activityId}) {
     .exec()
 }
 
+Activity.statics.clearChatActivity = function(username) {
+    return this.remove({
+        type: "CHAT",
+        "payload.chat.channel": username  
+    }).exec();
+}
 
 
 export default mongoose.model('Activity', Activity);

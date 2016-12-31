@@ -109,8 +109,6 @@ class MyPageRoute extends Component {
 
                 error = true; 
             }
-            
-
         
             // if there is an error, stop at here
             if(error) return;
@@ -144,6 +142,7 @@ class MyPageRoute extends Component {
                 }
             }
         },
+
         channel: async (data) => {
             const { MyPageActions, channel, status } = this.props;
             const form = this.props.form.channel;
@@ -162,14 +161,24 @@ class MyPageRoute extends Component {
         }
     }
 
+    handleClear = () => {
+        const { MyPageActions } = this.props;
+        MyPageActions.clearMessage();
+    }
+
     handleSetType = (type) => {
         const { MyPageActions } = this.props;
         MyPageActions.setSettingType(type);
     }
 
+    handleSetConfirmClearVisibility = (visible) => {
+        const { MyPageActions } = this.props;
+        MyPageActions.setConfirmClearVisibility(visible);
+    }
+
     render () {
         const { UIActions, ui, form, formError, status } = this.props;
-        const { handleChange, handleUpdate, handleSetType } = this;
+        const { handleChange, handleUpdate, handleSetType, handleClear, handleSetConfirmClearVisibility } = this;
 
         let setting = null;
 
@@ -189,7 +198,7 @@ class MyPageRoute extends Component {
                         onEditPasswordClick={()=>UIActions.setEditPasswordVisibility(true)}
                         onChange={handleChange['account']}
                         onUpdate={handleUpdate['account']}
-                        loading={status.loadingAccount}
+                        loading={status.loadingInitialSetting}
                         updating={status.updatingAccount}
                         error={formError['account']}
                     />
@@ -201,6 +210,12 @@ class MyPageRoute extends Component {
                         onChange={handleChange['channel']}
                         statusMessage={form.channel.statusMessage}
                         onUpdate={handleUpdate['channel']}
+                        onSetConfirmClearVisibility={handleSetConfirmClearVisibility}
+                        onClear={handleClear}
+                        updating={status.updatingChannel}
+                        clearing={status.clearingMessage}
+                        confirmVisible={status.confirmClearVisibility}
+
                     />
                 );
                 break;
@@ -227,8 +242,11 @@ MyPageRoute = connect(
             settingType: state.mypage.type,
             account: state.mypage.account,
             channel: state.mypage.channel,
-            loadingAccount: state.mypage.requests.getInitialSetting.fetching,
-            updatingAccount: state.mypage.requests.updateAccountSetting.fetching
+            confirmClearVisibility: state.mypage.confirmClearVisibility,
+            loadingInitialSetting: state.mypage.requests.getInitialSetting.fetching,
+            updatingAccount: state.mypage.requests.updateAccountSetting.fetching,
+            updatingChannel: state.mypage.requests.updateChannelSetting.fetching,
+            clearingMessage: state.mypage.requests.clearMessage.fetching
         },
         ui: {
             account: state.ui.myPage.account

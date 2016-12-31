@@ -70,6 +70,23 @@
                     color: #fff0f6;;
                 }
             }
+            
+            .confirm-clear {
+                position: absolute;
+                box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+                padding: 1rem;
+                background-color: white;
+                margin-top: -3.5rem;
+                margin-left: 4rem;
+                .text {
+                    text-align: center;
+                    font-weight: 600;
+                    padding-bottom: 1rem;
+                }
+                button + button {
+                    margin-left: 0.5rem;
+                }
+            }
 
             .btn-container {
                 text-align: right;
@@ -77,3 +94,6 @@
         }
     }
 }
+
+
+
