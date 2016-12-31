@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Channel = ({loading, updating}) => {
+const Channel = ({onChange, onUpdate, statusMessage, loading, updating}) => {
     return (
         <div>
             <div className="top-bar">
@@ -16,12 +16,15 @@ const Channel = ({loading, updating}) => {
                         <input
                             name="statusMessage"
                             placeholder="Status Message"
+                            onChange={onChange}
+                            value={statusMessage}
                         />
                     </div>
 
                 <div className="btn-container">
                     <button
                         className={`ui pink huge button ${updating?'loading':''}`}
+                        onClick={onUpdate}
                     >
                         Save
                     </button>

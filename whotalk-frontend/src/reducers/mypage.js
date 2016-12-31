@@ -7,15 +7,22 @@ import * as rs from 'helpers/requestStatus';
 const INITIALIZE = "mypage/INITIALIZE";
 
 
-const ACCOUNT_SETTING_GET = "mypage/ACCOUNT_SETTING_GET";
-const ACCOUNT_SETTING_GET_PENDING = "mypage/ACCOUNT_SETTING_GET_PENDING";
-const ACCOUNT_SETTING_GET_FULFILLED = "mypage/ACCOUNT_SETTING_GET_FULFILLED";
-const ACCOUNT_SETTING_GET_REJECTED = "mypage/ACCOUNT_SETTING_GET_REJECTED";
+const INITIAL_SETTING_GET = "mypage/INITIAL_SETTING_GET";
+const INITIAL_SETTING_GET_PENDING = "mypage/INITIAL_SETTING_GET_PENDING";
+const INITIAL_SETTING_GET_FULFILLED = "mypage/INITIAL_SETTING_GET_FULFILLED";
+const INITIAL_SETTING_GET_REJECTED = "mypage/INITIAL_SETTING_GET_REJECTED";
 
 const ACCOUNT_SETTING_UPDATE = "mypage/ACCOUNT_SETTING_UPDATE";
 const ACCOUNT_SETTING_UPDATE_PENDING = "mypage/ACCOUNT_SETTING_UPDATE_PENDING";
 const ACCOUNT_SETTING_UPDATE_FULFILLED = "mypage/ACCOUNT_SETTING_UPDATE_FULFILLED";
 const ACCOUNT_SETTING_UPDATE_REJECTED = "mypage/ACCOUNT_SETTING_UPDATE_REJECTED";
+
+
+const CHANNEL_SETTING_UPDATE = "mypage/CHANNEL_SETTING_UPDATE";
+const CHANNEL_SETTING_UPDATE_PENDING = "mypage/CHANNEL_SETTING_UPDATE_PENDING";
+const CHANNEL_SETTING_UPDATE_FULFILLED = "mypage/CHANNEL_SETTING_UPDATE_FULFILLED";
+const CHANNEL_SETTING_UPDATE_REJECTED = "mypage/CHANNEL_SETTING_UPDATE_REJECTED";
+
 
 const SETTING_TYPE_SET = "mypage/SETTING_TYPE_SET";
 
@@ -23,12 +30,14 @@ const SETTING_TYPE_SET = "mypage/SETTING_TYPE_SET";
 
 export const initialize = createAction(INITIALIZE);
 
-export const getAccountSetting = () => ({
-    type: ACCOUNT_SETTING_GET,
+export const getInitialSetting = () => ({
+    type: INITIAL_SETTING_GET,
     payload: {
-        promise: service.getAccountSetting()
+        promise: service.getInitialSetting()
     }
 });
+
+export const setSettingType = createAction(SETTING_TYPE_SET);
 
 export const updateAccountSetting = (data) => ({
     type: ACCOUNT_SETTING_UPDATE,
@@ -37,8 +46,12 @@ export const updateAccountSetting = (data) => ({
     }
 });
 
-export const setSettingType = createAction(SETTING_TYPE_SET);
-
+export const updateChannelSetting = (data) => ({
+    type: CHANNEL_SETTING_UPDATE,
+    payload: {
+        promise: service.updateChannelSetting(data)
+    }
+});
 
 
 /* Initial State */
@@ -51,11 +64,17 @@ const initialState = {
         email: '',
         type: ''
     },
+    channel: {
+        statusMessage: ''
+    },
     requests: {
-        getAccountSetting: {
+        getInitialSetting: {
             ...rs.request
         },
         updateAccountSetting: {
+            ...rs.request
+        },
+        updateChannelSetting: {
             ...rs.request
         }
     }
@@ -65,35 +84,37 @@ const initialState = {
 export default handleActions({
     [INITIALIZE]: (state, action) => initialState,
 
-    /* ACCOUNT_SETTING_GET */
+    /* INITIAL_SETTING_GET */
 
-    [ACCOUNT_SETTING_GET_PENDING]: (state, action) => ({
+    [INITIAL_SETTING_GET_PENDING]: (state, action) => ({
         ...state,
         requests: {
             ...state.requests,
-            getAccountSetting: {
+            getInitialSetting: {
                 ...rs.pending
             }
         }
     }),
 
-    [ACCOUNT_SETTING_GET_FULFILLED]: (state, action) => ({
+    [INITIAL_SETTING_GET_FULFILLED]: (state, action) => ({
         ...state,
         account: action.payload.data.account,
+        channel: action.payload.data.channel,
         requests: {
             ...state.requests,
-            getAccountSetting: {
+            getInitialSetting: {
                 ...rs.fulfilled
             }
         }
     }),
 
-    [ACCOUNT_SETTING_GET_REJECTED]: (state, action) => ({
+    [INITIAL_SETTING_GET_REJECTED]: (state, action) => ({
         ...state,
         account: initialState.account,
+        channel: initialState.channel,
         requests: {
             ...state.requests,
-            getAccountSEtting: {
+            getInitialSetting: {
                 ...rs.rejected,
                 error: action.payload
             }
@@ -132,6 +153,40 @@ export default handleActions({
             }
         }
     }),
+
+    /* CHANNEL_SETTING_UPDATE */
+
+    [CHANNEL_SETTING_UPDATE_PENDING]: (state, action) => ({
+        ...state,
+        requests: {
+            ...state.requests,
+            updateChannelSetting: {
+                ...rs.pending
+            }
+        }
+    }),
+
+    [CHANNEL_SETTING_UPDATE_FULFILLED]: (state, action) => ({
+        ...state,
+        requests: {
+            ...state.requests,
+            updateChannelSetting: {
+                ...rs.fulfilled
+            }
+        }
+    }),
+
+    [CHANNEL_SETTING_UPDATE_REJECTED]: (state, action) => ({
+        ...state,
+        requests: {
+            ...state.requests,
+            updateChannelSetting: {
+                ...rs.rejected,
+                error: action.payload
+            }
+        }
+    }),
+
 
     [SETTING_TYPE_SET]: (state,action) => ({
         ...state,

@@ -108,3 +108,10 @@ export const deleteFavorite = (username) => ({
         promise: service.deleteFavorite(username)
     }
 });
+
+export const getStatusMessage = (username) => ({
+    type: CHANNEL.GET_STATUS_MSG,
+    payload: {
+        promise: service.getStatusMessage(username)
+    }
+});

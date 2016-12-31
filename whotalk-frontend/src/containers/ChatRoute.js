@@ -56,8 +56,13 @@ class ChatRoute extends Component {
     async connectToChannel() {
         const {params, ChannelActions, intl} = this.props;
 
+        const promises = [
+            ChannelActions.getRecentMsg(params.username),
+            ChannelActions.getStatusMessage(params.username)
+        ];
+
         try {
-            await ChannelActions.getRecentMsg(params.username);
+            await Promise.all(promises);
         } catch(e) {
             console.log(e);
         }
@@ -283,10 +288,11 @@ class ChatRoute extends Component {
                     owner={status.channelName}
                 />
                 <Chat.StatusMessage 
-                    visible={status.statusMessage}
+                    hide={status.chatState.statusMessage === ""}
+                    visible={status.statusMessageVisibility}
                     onShow={handleShowStatusMessage}
                 >
-                    Here is a status message prepared for you
+                    {status.statusMessage}
                 </Chat.StatusMessage>
                 <Scrollbars
                     style={{
@@ -345,7 +351,8 @@ ChatRoute = connect(state => ({
         userCount: state.channel.chat.userList.length,
         connected: state.channel.chat.socket.enter,
         onlineList: state.ui.channel.chat.onlineList,
-        statusMessage: state.ui.channel.chat.statusMessage
+        statusMessage: state.channel.chat.statusMessage,
+        statusMessageVisibility: state.ui.channel.chat.statusMessage
     }
 }), dispatch => ({
     ChannelActions: bindActionCreators(channel, dispatch),

@@ -4,9 +4,9 @@ import inspector from 'schema-inspector';
 import { generateHash, compareHash } from './../helpers/bcrypt';
 import cache from './../helpers/cache';
 
-// GET /api/mypage/account
+// GET /api/mypage
 
-export const getAccountSetting = async (req, res) => {
+export const getInitialSetting = async (req, res) => {
     if (!req.user) {
         return res.status(403).json({
             error: 'not logged in'
@@ -32,7 +32,9 @@ export const getAccountSetting = async (req, res) => {
             ...account.common_profile, 
             type: account.type,
         },
-        statusMessage: statusMessage.message
+        channel: {
+            statusMessage: statusMessage === null ? '' : statusMessage.message
+        } 
     });
 }
 
@@ -160,6 +162,57 @@ export const updateAccountSetting = async (req, res) => {
         success: true
     });
 };
+
+
+// PATCH /api/mypage/channel
+export const updateChannelSetting = async (req, res) => {
+    if (!req.user) {
+        return res.status(403).json({
+            code: -1,
+            error: 'not logged in'
+        });
+    }
+
+    // validate the data
+    const validation = {
+        type: 'object',
+        properties: {
+            message: {
+                type: 'string',
+                optional: true
+            }
+        }
+    };
+
+    const body = req.body;
+    const validated = inspector.validate(validation, body);
+
+    if(!validated.valid) {
+        return res.status(400).json({
+            code: 0,
+            message: 'INVALID REQUEST'
+        });
+    }
+
+    // if the statusMessage is changed, create a new statusMessage document
+    if(req.body.message) {
+        await StatusMessage.change({
+            accountId: req.user._id, 
+            message: body.message
+        });
+        /*
+            create new activity later.
+        */
+    }
+
+
+    res.json({
+        success: true
+    });
+}
+
+
+
 
 // POST /api/mypage/status-message
 export const changeStatusMessage = async (req, res) => {

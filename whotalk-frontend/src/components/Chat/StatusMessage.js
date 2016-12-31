@@ -36,8 +36,10 @@ class StatusMessage extends Component {
 
 
     render () {
-        const { children, visible, onShow } = this.props;
+        const { children, visible, onShow, hide } = this.props;
         const { closing, firstRender } = this.state;
+
+        if(hide) return null;
 
         // not visible and not closing -> do not render
         if(!visible && !closing) {

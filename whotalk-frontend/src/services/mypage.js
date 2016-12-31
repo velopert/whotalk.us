@@ -1,8 +1,8 @@
 import request from 'helpers/request';
 
-export const getAccountSetting = () => {
+export const getInitialSetting = () => {
     return request({
-        url: '/api/mypage/account'
+        url: '/api/mypage/'
     });
 }
 
@@ -23,5 +23,15 @@ export const updateAccountSetting = ({
         givenName,
         familyName,
         email
+    }
+});
+
+export const updateChannelSetting = ({
+    message
+}) => request({
+    url: '/api/mypage/channel',
+    method: 'patch',
+    data: {
+        message
     }
 });

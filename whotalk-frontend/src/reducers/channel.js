@@ -53,7 +53,8 @@ const initialState = {
         tempDataIndex: [],
         top: true,
         lastInitId: null,
-        loadedBetween: false
+        loadedBetween: false,
+        statusMessage: ''
     },
     requests: {
         checkInfo: {
@@ -90,6 +91,9 @@ const initialState = {
             ...request
         },
         deleteFavorite: {
+            ...request
+        },
+        getStatusMessage: {
             ...request
         }
     }
@@ -852,6 +856,43 @@ function channel(state = initialState, action) {
                 }
             }
 
+        case CHANNEL.GET_STATUS_MSG + "_PENDING":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getStatusMessage: {
+                        ...pending
+                    }
+                }
+            }
+
+        case CHANNEL.GET_STATUS_MSG + "_FULFILLED":            
+            return {
+                ...state,
+                chat: {
+                    ...state.chat,
+                    statusMessage: action.payload.data.message
+                },
+                requests: {
+                    ...state.requests,
+                    getStatusMessage: {
+                        ...fulfilled
+                    }
+                }
+            }
+
+        case CHANNEL.GET_STATUS_MSG + "_REJECTED":
+            return {
+                ...state,
+                requests: {
+                    ...state.requests,
+                    getStatusMessage: {
+                        ...rejected,
+                        error: payload
+                    }
+                }
+            }
 
         
 

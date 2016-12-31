@@ -65,3 +65,10 @@ export const deleteFavorite = (username) => {
         method: 'delete'
     });
 };
+
+
+export const getStatusMessage = (username) => {
+    return request({
+        url: '/api/channel/status-message/' + username
+    });
+}

@@ -3,9 +3,8 @@ import * as controller from './mypage.controller.js';
 
 const router = express.Router();
 
-router.get('/', controller.getAccountSetting);
-router.get('/account', controller.getAccountSetting);
+router.get('/', controller.getInitialSetting);
 router.patch('/account', controller.updateAccountSetting);
-router.post('/status-message', controller.changeStatusMessage);
+router.patch('/channel', controller.updateChannelSetting);
 
 export default router;

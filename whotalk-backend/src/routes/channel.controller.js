@@ -3,6 +3,7 @@ import Follow from './../models/follow.js';
 import Visit from './../models/visit.js';
 import Favorite from './../models/favorite.js';
 import Message from './../models/message.js';
+import StatusMessage from './../models/statusMessage.js';
 
 import mongoose from 'mongoose';
 
@@ -144,3 +145,25 @@ export const deleteFavorite = async (req, res) => {
         success: true
     });
 }
+
+
+// GET /api/channel/status-message/:username
+export const getStatusMessage = async (req, res) => {
+    const username = req.params.username;
+
+    const account = await Account.findUser(req.params.username);
+    
+    if(!account) {
+        return res.status(403).json({
+            error: 'USER NOT FOUND',
+            code: 1
+        });
+    }
+
+    const statusMessage = await StatusMessage.get(account);
+
+    res.json({
+        message: statusMessage === null ? '' : statusMessage.message
+    });
+}
+

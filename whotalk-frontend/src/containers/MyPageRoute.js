@@ -24,16 +24,19 @@ class MyPageRoute extends Component {
     
              
         // thunk
-        const getAccountSetting = async () => {
-            await MyPageActions.getAccountSetting();
+        const getInitialSetting = async () => {
+            await MyPageActions.getInitialSetting();
             const { email, givenName, familyName } = this.props.status.account;
+            const { statusMessage } = this.props.status.channel;
             
             FormActions.changeInput({ form: 'accountSetting', name: 'email', value: email});
             FormActions.changeInput({ form: 'accountSetting', name: 'givenName', value: givenName});
             FormActions.changeInput({ form: 'accountSetting', name: 'familyName', value: familyName});
+            
+            FormActions.changeInput({ form: 'channelSetting', name: 'statusMessage', value: statusMessage})
         }
 
-        getAccountSetting();
+        getInitialSetting();
     }
 
     changeInput = (form, e) => {
@@ -42,7 +45,8 @@ class MyPageRoute extends Component {
     }
 
     handleChange = {
-        account: (e) => this.changeInput('accountSetting', e)
+        account: (e) => this.changeInput('accountSetting', e),
+        channel: (e) => this.changeInput('channelSetting', e)
     }
 
     handleUpdate = {
@@ -139,6 +143,22 @@ class MyPageRoute extends Component {
                     });
                 }
             }
+        },
+        channel: async (data) => {
+            const { MyPageActions, channel, status } = this.props;
+            const form = this.props.form.channel;
+
+
+            const messageChanged= status.channel.statusMessage !== form.statusMessage;
+
+            if(messageChanged) {
+                await MyPageActions.updateChannelSetting({
+                    message: form.statusMessage
+                });
+            }
+
+            notify({type: 'success', message: 'Saved!'});
+
         }
     }
 
@@ -177,7 +197,11 @@ class MyPageRoute extends Component {
                 break;
             case 'channel':
                 setting = (
-                    <Forms.Channel/>
+                    <Forms.Channel
+                        onChange={handleChange['channel']}
+                        statusMessage={form.channel.statusMessage}
+                        onUpdate={handleUpdate['channel']}
+                    />
                 );
                 break;
         }
@@ -202,14 +226,16 @@ MyPageRoute = connect(
         status: {
             settingType: state.mypage.type,
             account: state.mypage.account,
-            loadingAccount: state.mypage.requests.getAccountSetting.fetching,
+            channel: state.mypage.channel,
+            loadingAccount: state.mypage.requests.getInitialSetting.fetching,
             updatingAccount: state.mypage.requests.updateAccountSetting.fetching
         },
         ui: {
             account: state.ui.myPage.account
         },
         form: {
-            account: state.form.accountSetting
+            account: state.form.accountSetting,
+            channel: state.form.channelSetting
         },
         formError: {
             account: state.form.error.accountSetting

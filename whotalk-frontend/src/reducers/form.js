@@ -42,6 +42,9 @@ const initialState = {
             email: false,
             givenName: false,
             familyName: false
+        },
+        channelSetting: {
+            statusMessage: false
         }
     },
     search: {
@@ -55,8 +58,11 @@ const initialState = {
         email: '',
         givenName: '',
         familyName: ''
+    },
+
+    channelSetting: {
+        statusMessage: ''
     }
-    
 }
 
 function form(state = initialState, action) {

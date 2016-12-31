@@ -14,8 +14,8 @@ const messages = prepareMessages({
 })
 
 function printTime(d) {
-    var hh = ("0" + d.getHours() % 12).slice(0, 2);
-    var mm = ("0" + d.getMinutes()).slice(0, 2);
+    var hh = ("0" + d.getHours() % 12).slice(-2);
+    var mm = ("0" + d.getMinutes()).slice(-2);
     return hh + ":" + mm;
 }
 
