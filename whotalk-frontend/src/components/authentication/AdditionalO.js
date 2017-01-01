@@ -8,7 +8,6 @@ import notify from 'helpers/notify';
 import { prepareMessages } from 'locale/helper';
 
 
-
 const messages = prepareMessages({
     "AdditionalO.almostThere": "거의 다 끝났습니다!",
     "AdditionalO.tellUs": "아이디를 정해주세요",

@@ -51,7 +51,12 @@ class Sidebar extends Component {
                     {session.logged
                         ? (
                             <ButtonContainer>
-                                <SettingsButton/>
+                                <SettingsButton onClick={
+                                    ()=> {
+                                        onToggle();
+                                        redirect('/mypage')
+                                    }
+                                }/>
                                 <LogoutButton onClick={onLogout}/>
                             </ButtonContainer>
                         )

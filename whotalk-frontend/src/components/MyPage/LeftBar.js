@@ -1,24 +1,33 @@
-import React from 'react'
+import React from 'react';
+import { prepareMessages } from 'locale/helper';
+import {injectIntl, defineMessages} from 'react-intl';
 
+const messages = prepareMessages({
+    "MyPage.LeftBar.account": "Account",
+    "MyPage.LeftBar.channel": "Channel",
+    "MyPage.LeftBar.unregister": "Unregister"
+});
 
-const ListItem = ({selected, onClick, type, style}) => (
+const ListItem = ({selected, onClick, type, text, style}) => (
     <div 
         className={`item ${selected ? 'active' : ''}`} 
         style={style}
         onClick={onClick}
     >
         <span>
-            {type.charAt(0).toUpperCase() + type.slice(1)}
+            {text}
         </span>
     </div>
 );
 
-const LeftBar = ({onSetType, currentType, onShowUnregister}) => {
+const LeftBar = ({onSetType, currentType, onShowUnregister, intl: { formatMessage }}) => {
     const menus = [
         {
+            text: formatMessage(messages.account),
             type: 'account'
         },
         {
+            text: formatMessage(messages.channel),
             type: 'channel'
         }
     ];
@@ -26,6 +35,7 @@ const LeftBar = ({onSetType, currentType, onShowUnregister}) => {
     const menuItems = menus.map(
         (menu, i) => (
             <ListItem
+                text={menu.text}
                 type={menu.type}
                 style={menu.style}
                 selected={menu.type === currentType}
@@ -42,6 +52,7 @@ const LeftBar = ({onSetType, currentType, onShowUnregister}) => {
             <div className="menu">
                 {menuItems}
                 <ListItem
+                    text={formatMessage(messages.unregister)}
                     type="unregister"
                     style={{color: '#c92a2a'}}
                     onClick={onShowUnregister}
@@ -51,4 +62,4 @@ const LeftBar = ({onSetType, currentType, onShowUnregister}) => {
     )
 }
 
-export default LeftBar
+export default injectIntl(LeftBar);

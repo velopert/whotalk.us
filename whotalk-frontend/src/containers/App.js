@@ -265,7 +265,7 @@ class App extends Component {
     }
     
     render() {
-        const { ui, status, form } = this.props;
+        const { ui, status, form, UIActions } = this.props;
         const { 
                 handleSidebarToggle, 
                 handleLogout, 

@@ -14,6 +14,24 @@ import * as mypage from 'reducers/mypage';
 
 import {bindActionCreators} from 'redux';
 
+import { prepareMessages } from 'locale/helper';
+import {injectIntl} from 'react-intl';
+
+const messages = prepareMessages({
+    "MyPage.notify.saved": "Saved!",
+    "MyPage.notify.cleared": "Chatting log is cleared!",
+    
+    "MyPage.notify.givenName": "Check your given name",
+    "MyPage.notify.familyName": "Check your family name",
+    "MyPage.notify.email": "Invalid email",
+
+    "MyPage.notify.invalidRequest": "Invalid Request",
+    "MyPage.notify.cpMissMatch": "Confirm Password does not match",
+    "MyPage.notify.wrongPassword": "You\'ve input wrong password",
+    "MyPage.notify.passwordShort": "Your new password is too short",
+    "MyPage.notify.emailExists": "That email exists"
+});
+
 class MyPageRoute extends Component {
 
     componentDidMount () {
@@ -53,22 +71,23 @@ class MyPageRoute extends Component {
 
     handleUpdate = {
         account: async (data) => {
-            const {MyPageActions, UIActions, FormActions, ui} = this.props;
+            const {MyPageActions, UIActions, FormActions, ui, intl: { formatMessage }} = this.props;
+
             
             const form = this.props.form.account;
 
             const validation = {
                 givenName: {
                     regex: /^.{1,30}$/,
-                    message: 'Check your givenName'
+                    message: formatMessage(messages.givenName)
                 },
                 familyName: {
                     regex: /^.{1,30}$/,
-                    message: 'Check your familyName'
+                    message: formatMessage(messages.familyName)
                 },
                 email: {
                     regex: /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i,
-                    message: 'Invalid email'
+                    message: formatMessage(messages.email)
                 }
             };
             
@@ -117,7 +136,7 @@ class MyPageRoute extends Component {
             
             try {
                 await MyPageActions.updateAccountSetting(data);   
-                notify({type: 'success', message: 'Saved!'});
+                notify({type: 'success', message: formatMessage(messages.saved)});
                 if(ui.account.editPassword) {
                     UIActions.setEditPasswordVisibility(false);
                     FormActions.changeInput({ form: 'accountSetting', name: 'currentPassword', value: ''});
@@ -127,11 +146,11 @@ class MyPageRoute extends Component {
                 FormActions.resetError('account');
             } catch (e) {
                 const errors = {
-                    0: 'Invalid Request',
-                    1: 'Confirm Password does not match',
-                    2: 'You\'ve input wrong password',
-                    3: 'Your new password is to short',
-                    4: 'That email exists'
+                    0: formatMessage(messages.invalidRequest),
+                    1: formatMessage(messages.cpMissMatch),
+                    2: formatMessage(messages.wrongPassword),
+                    3: formatMessage(messages.passwordShort),
+                    4: formatMessage(messages.emailExists)
                 }
                 if(!e.response) return; 
                 notify({type: 'error', message: errors[e.response.data.code]});
@@ -146,7 +165,7 @@ class MyPageRoute extends Component {
         },
 
         channel: async (data) => {
-            const { MyPageActions, channel, status } = this.props;
+            const { MyPageActions, channel, status, intl: { formatMessage } } = this.props;
             const form = this.props.form.channel;
 
 
@@ -158,15 +177,15 @@ class MyPageRoute extends Component {
                 });
             }
 
-            notify({type: 'success', message: 'Saved!'});
+            notify({type: 'success', message: formatMessage(messages.saved)});
 
         }
     }
 
     handleClear = async () => {
-        const { MyPageActions } = this.props;
+        const { MyPageActions, intl: { formatMessage } } = this.props;
         await MyPageActions.clearMessage();
-        notify({type: 'success', message: 'Chatting log is cleared!'});
+        notify({type: 'success', message: formatMessage(messages.cleared)});
     }
 
     handleSetType = (type) => {
@@ -293,4 +312,4 @@ MyPageRoute = connect(
     })
 )(MyPageRoute);
 
-export default MyPageRoute;
+export default injectIntl(MyPageRoute);

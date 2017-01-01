@@ -1,5 +1,25 @@
 import React from 'react'
 
+import { prepareMessages } from 'locale/helper';
+import {injectIntl, defineMessages} from 'react-intl';
+
+const messages = prepareMessages({
+    "MyPage.Forms.save": "Save",
+    "MyPage.Forms.loading": "Loading",
+    "MyPage.Forms.Account.title": "Account",
+    "MyPage.Forms.Account.description": "Change your basic account settings",
+    "MyPage.Forms.Account.username": "Username",
+    "MyPage.Forms.Account.currentPassword": "Current Password",
+    "MyPage.Forms.Account.password": "Password",
+    "MyPage.Forms.Account.confirmPassword": "Confirm Password",
+    "MyPage.Forms.Account.edit": "Edit",
+    "MyPage.Forms.Account.email": "Email",
+    "MyPage.Forms.Account.name": "Name",
+    "MyPage.Forms.Account.givenName": "Given Name",
+    "MyPage.Forms.Account.familyName": "Family Name"
+});
+
+
 const Account = ({
     type,
     username, 
@@ -15,25 +35,51 @@ const Account = ({
     loading,
     updating,
     onUpdate,
-    error
+    error,
+    intl: { locale, formatMessage }
 }) => {
+
+    const familyNameField = (
+        <div className={`field ${error.familyName ? 'error' : ''}`}>
+            <input 
+                type="text" 
+                name="familyName" 
+                placeholder={formatMessage(messages.familyName)}
+                value={familyName}
+                onChange={onChange}
+            />
+        </div>
+    );
+
+    const givenNameField = (
+        <div className={`field ${error.givenName ? 'error' : ''}`}>
+            <input 
+                type="text" 
+                name="givenName" 
+                placeholder={formatMessage(messages.givenName)}
+                value={givenName}
+                onChange={onChange}
+            />
+        </div>
+    );
+
     return (
         <div>
             <div className="top-bar">
-                <p className="title">Account</p>
-                <p>Change your basic account settings</p>
+                <p className="title">{formatMessage(messages.title)}</p>
+                <p>{formatMessage(messages.description)}</p>
             </div>
             {loading && (
                 <div className="loader-container">
                     <div className="ui active inverted dimmer">
-                        <div className="ui text loader huge">Loading</div>
+                        <div className="ui text loader huge">{formatMessage(messages.loading)}</div>
                     </div>
                 </div>
             )}
             <div className={`body ${loading?'opacify':''}`}>
                 <div className="ui form huge">
                     <div className="field">
-                        <label className="disabled">USERNAME <i className="ban icon"></i></label>
+                        <label className="disabled">{formatMessage(messages.username)} <i className="ban icon"></i></label>
                         <input 
                             disabled type="text" 
                             name="username" 
@@ -46,31 +92,31 @@ const Account = ({
                       ? (
                             <div className="animated flipInX" style={{marginBottom: '20px'}}>
                                 <div className={`field ${error.currentPassword ? 'error' : ''}`}>
-                                    <label>CURRENT PASSWORD</label>
+                                    <label>{formatMessage(messages.currentPassword)}</label>
                                     <input 
                                         type="password" 
                                         name="currentPassword" 
-                                        placeholder="Current Password"
+                                        placeholder={formatMessage(messages.currentPassword)}
                                         onChange={onChange}
                                         value={currentPassword}
                                     />
                                 </div>
                                 <div className={`field ${error.password ? 'error' : ''}`}>
-                                    <label>PASSWORD</label>
+                                    <label>{formatMessage(messages.password)}</label>
                                     <input 
                                         type="password" 
                                         name="password" 
-                                        placeholder="Password"
+                                        placeholder={formatMessage(messages.password)}
                                         onChange={onChange}
                                         value={password}
                                     />
                                 </div>
                                 <div className={`field ${error.confirmPassword ? 'error' : ''}`}>
-                                    <label>CONFIRM PASSWORD</label>
+                                    <label>{formatMessage(messages.confirmPassword)}</label>
                                     <input 
                                         type="password" 
                                         name="confirmPassword" 
-                                        placeholder="Confirm password"
+                                        placeholder={formatMessage(messages.confirmPassword)}
                                         onChange={onChange}
                                         value={confirmPassword}
                                     />
@@ -79,50 +125,35 @@ const Account = ({
                         )
                       : type === 'local' && (
                             <div className="field">
-                                <label>PASSWORD</label>
+                                <label>{formatMessage(messages.password)}</label>
                                 <input disabled type="password" name="password" value="password"/>
                                 <div 
                                     className="edit-password"
                                     onClick={onEditPasswordClick}
                                 >
-                                    Edit
+                                    {formatMessage(messages.edit)}
                                 </div>
                             </div>
                         )
                     }
-
+                    
                     <div className={`field ${error.email ? 'error' : ''}`}>
-                        <label>EMAIL</label>
+                        <label>{formatMessage(messages.email)}</label>
                         <input 
                             type="text" 
                             name="email" 
-                            placeholder="Email"
+                            placeholder={formatMessage(messages.email)}
                             value={email}
                             onChange={onChange}
                         />
                     </div>
 
-                    <div className={`field ${error.givenName ? 'error' : ''}`}>
-                        <label>NAME</label>
+                    <div className="field">
+                        <label>{formatMessage(messages.name)}</label>
                         <div className="two fields">
-                            <div className="field">
-                                <input 
-                                    type="text" 
-                                    name="givenName" 
-                                    placeholder="Given Name"
-                                    value={givenName}
-                                    onChange={onChange}
-                                />
-                            </div>
-                            <div className={`field ${error.familyName ? 'error' : ''}`}>
-                                <input 
-                                    type="text" 
-                                    name="familyName" 
-                                    placeholder="Family Name"
-                                    value={familyName}
-                                    onChange={onChange}
-                                />
-                            </div>
+
+                            {locale=== 'ko' ? familyNameField : givenNameField}
+                            {locale=== 'ko' ? givenNameField : familyNameField}
                         </div>
                     </div>
                     <div className="btn-container">
@@ -140,7 +171,7 @@ const Account = ({
                                     });
                                 }
                             }
-                        >Save</button>
+                        >{formatMessage(messages.save)}</button>
                     </div>
                 </div>
             </div>
@@ -148,4 +179,4 @@ const Account = ({
     )
 }
 
-export default Account
+export default injectIntl(Account);
