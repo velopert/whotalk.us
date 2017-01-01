@@ -29,9 +29,15 @@ const MESSAGE_CLEAR_PENDING = "mypage/MESSAGE_CLEAR_PENDING";
 const MESSAGE_CLEAR_FULFILLED = "mypage/MESSAGE_CLEAR_FULFILLED";
 const MESSAGE_CLEAR_REJECTED = "mypage/MESSAGE_CLEAR_REJECTED";
 
+const UNREGISTER = "mypage/UNREGISTER";
+const UNREGISTER_PENDING = "mypage/UNREGISTER_PENDING";
+const UNREGISTER_FULFILLED = "mypage/UNREGISTER_FULFILLED";
+const UNREGISTER_REJECTED = "mypage/UNREGISTER_REJECTED";
+
 
 const SETTING_TYPE_SET = "mypage/SETTING_TYPE_SET";
 const CONFIRM_CLEAR_VISIBILITY_SET = "mypage/CONFIRM_CLEAR_VISIBILITY_SET";
+const UNREGISTER_VISIBILITY_SET = "mypage/UNREGISTER_VISIBILITY_SET";
 
 
 /* Action Creators */
@@ -68,7 +74,15 @@ export const clearMessage = () => ({
     }
 });
 
+export const unregister = () => ({
+    type: UNREGISTER,
+    payload: {
+        promise: service.unregister()
+    }
+});
+
 export const setConfirmClearVisibility = createAction(CONFIRM_CLEAR_VISIBILITY_SET);
+export const setUnregisterVisibility = createAction(UNREGISTER_VISIBILITY_SET);
 
 
 /* Initial State */
@@ -85,6 +99,7 @@ const initialState = {
         statusMessage: ''
     },
     confirmClearVisibility: false,
+    unregisterVisibility: false,
     requests: {
         getInitialSetting: {
             ...rs.request
@@ -96,6 +111,9 @@ const initialState = {
             ...rs.request
         },
         clearMessage: {
+            ...rs.request
+        },
+        unregister: {
             ...rs.request
         }
     }
@@ -242,6 +260,40 @@ export default handleActions({
         }
     }),
 
+    /* UNREGISTER */
+
+    [UNREGISTER_PENDING]: (state, action) => ({
+        ...state,
+        requests: {
+            ...state.requests,
+            unregister: {
+                ...rs.pending
+            }
+        }
+    }),
+
+    [UNREGISTER_FULFILLED]: (state, action) => ({
+        ...state,
+        requests: {
+            ...state.requests,
+            unregister: {
+                ...rs.fulfilled
+            }
+        }
+    }),
+
+    [UNREGISTER_REJECTED]: (state, action) => ({
+        ...state,
+        requests: {
+            ...state.requests,
+            unregister: {
+                ...rs.rejected,
+                error: action.payload
+            }
+        }
+    }),
+
+
 
     [SETTING_TYPE_SET]: (state,action) => ({
         ...state,
@@ -250,7 +302,12 @@ export default handleActions({
 
     [CONFIRM_CLEAR_VISIBILITY_SET]: (state, action) => ({
         ...state,
-        type: action.payload
+        confirmClearVisibility: action.payload
+    }),
+
+    [UNREGISTER_VISIBILITY_SET]: (state, action) => ({
+        ...state,
+        unregisterVisibility: action.payload
     })
 
 }, initialState);

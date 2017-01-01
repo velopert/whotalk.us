@@ -2,6 +2,7 @@ import Account from './../models/account.js'
 import StatusMessage from './../models/statusMessage.js';
 import Message from './../models/message.js';
 import Activity from './../models/activity';
+import Follow from './../models/follow';
 
 import inspector from 'schema-inspector';
 import { generateHash, compareHash } from './../helpers/bcrypt';
@@ -231,4 +232,25 @@ export const clearMessage = async (req, res) => {
     return res.json({
         success: true
     });
+}
+
+// POST /api/mypage/unregister
+export const unregister = async (req, res) => {
+    if(!req.user) {
+        return res.status(403).json({
+            code: -1,
+            error: 'not logged in'
+        });
+    }
+
+    const username = req.user.common_profile.username;
+
+    Message.clear(username);
+    Activity.clearChatActivity(username);
+    Follow.clear(req.user._id);
+    await Account.unregister(req.user._id); 
+    
+
+    req.logout();
+    res.json({success: true});
 }

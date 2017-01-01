@@ -57,4 +57,8 @@ Account.statics.search = function(username) {
         .exec();
 }
 
+Account.statics.unregister = function(accountId) {
+    return this.remove({_id: accountId}).exec();
+}
+
 export default mongoose.model('Account', Account);

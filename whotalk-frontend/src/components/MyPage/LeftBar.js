@@ -13,20 +13,13 @@ const ListItem = ({selected, onClick, type, style}) => (
     </div>
 );
 
-const LeftBar = ({onSetType, currentType}) => {
+const LeftBar = ({onSetType, currentType, onShowUnregister}) => {
     const menus = [
         {
             type: 'account'
         },
         {
             type: 'channel'
-        },
-        {
-            type: 'notification'
-        },
-        {
-            type: 'unregister',
-            style:{color: '#c92a2a'}
         }
     ];
 
@@ -48,6 +41,11 @@ const LeftBar = ({onSetType, currentType}) => {
         <div className="four wide column left-bar">
             <div className="menu">
                 {menuItems}
+                <ListItem
+                    type="unregister"
+                    style={{color: '#c92a2a'}}
+                    onClick={onShowUnregister}
+                />
             </div>
         </div>
     )

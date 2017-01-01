@@ -145,12 +145,16 @@ class App extends Component {
                     ...session,
                     expired: false
                 });
+                setTimeout(
+                    () => {
+                        document.location = '/'
+                    }, 1000
+                );
                 return;
             }
 
-            if(!session.logged && window.location.pathname === "/explore") {
-                // not logged in AND location is /explore
-                document.location = "/"
+            if(!session.logged && (window.location.pathname === "/explore" || window.location.pathname === "/mypage")){
+                 document.location = "/"
             }
             
         }

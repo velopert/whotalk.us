@@ -1,19 +1,22 @@
 import React from 'react';
 
-const Confirm = ({visible}) => {
+const Confirm = ({visible, onHide, onClear}) => {
     if(!visible) return null;
 
     return (
         <div className="confirm-clear fadeIn3">
             <div className="text">REALLY?</div>
-            <button className="ui red button">YES</button>
-            <button className="ui button">NO</button>
+            <button className="ui red button" onClick={()=> {
+                onHide();
+                onClear();
+            }}>YES</button>
+            <button className="ui button" onClick={onHide}>NO</button>
         </div>
     );
 
 }
 
-const Channel = ({onChange, onClear, onUpdate, statusMessage, loading, updating, confirmVisible, onSetConfirmClearVisibility}) => {
+const Channel = ({onChange, onClear, onUpdate, statusMessage, loading, updating, confirmVisible, onSetConfirmClearVisibility, clearing}) => {
     return (
         <div>
             <div className="top-bar">
@@ -37,13 +40,17 @@ const Channel = ({onChange, onClear, onUpdate, statusMessage, loading, updating,
                         <label>
                             CLEAR CHATTING LOG
                         </label>
-                        <button className="ui red huge button" onClick={() => {
+                        <button className={`clear ui red huge button ${clearing?'loading':''}`} onClick={() => {
                             onSetConfirmClearVisibility(true)
                         }}>
                             CLEAR
                         </button>
+                    <Confirm 
+                        visible={confirmVisible} 
+                        onClear={onClear}
+                        onHide={()=>onSetConfirmClearVisibility(false)}
+                    />
                     </div>
-                    <Confirm visible={confirmVisible} onClear={onClear}/>
                 </div>
 
                 <div className="btn-container">

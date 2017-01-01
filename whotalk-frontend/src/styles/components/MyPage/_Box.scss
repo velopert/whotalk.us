@@ -76,8 +76,9 @@
                 box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
                 padding: 1rem;
                 background-color: white;
-                margin-top: -3.5rem;
+                margin-top: -2rem;
                 margin-left: 4rem;
+
                 .text {
                     text-align: center;
                     font-weight: 600;
@@ -86,6 +87,24 @@
                 button + button {
                     margin-left: 0.5rem;
                 }
+
+
+                /*float: left;
+                position: fixed;
+                display: block;
+                top: 50%;
+                left: 50%;
+                box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+                padding: 1rem;
+                background-color: white;
+                .text {
+                    text-align: center;
+                    font-weight: 600;
+                    padding-bottom: 1rem;
+                }
+                button + button {
+                    margin-left: 0.5rem;
+                }*/
             }
 
             .btn-container {

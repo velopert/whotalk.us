@@ -40,3 +40,8 @@ export const clearMessage = () => request({
     url: '/api/mypage/message',
     method: 'delete'
 });
+
+export const unregister = () => request({
+    url: '/api/mypage/unregister',
+    method: 'delete'
+});

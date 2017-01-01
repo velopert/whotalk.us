@@ -135,6 +135,16 @@ Follow.statics.getAllFollowers = async function(followee) {
     return array;
 }
 
+Follow.statics.clear = function(accountId) {
+    return this.remove({
+        $or: [
+            {followee: accountId},
+            {follwer: accountId}
+        ]
+    }).exec();
+}
+
+
 // Message.statics.write = function({suID, type, channel, anonymous, username, message = ''}) {
 //     const msg = new this({
 //         suID,

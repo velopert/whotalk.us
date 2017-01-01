@@ -288,7 +288,7 @@ class ChatRoute extends Component {
                     owner={status.channelName}
                 />
                 <Chat.StatusMessage 
-                    hide={status.chatState.statusMessage === ""}
+                    hide={status.statusMessage === ""}
                     visible={status.statusMessageVisibility}
                     onShow={handleShowStatusMessage}
                 >

@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 
 import {MyPage} from 'components';
+import {storage} from 'helpers';
+
 const Forms = MyPage.Forms;
 
 import {Redirect, Match} from 'react-router';
@@ -161,9 +163,10 @@ class MyPageRoute extends Component {
         }
     }
 
-    handleClear = () => {
+    handleClear = async () => {
         const { MyPageActions } = this.props;
-        MyPageActions.clearMessage();
+        await MyPageActions.clearMessage();
+        notify({type: 'success', message: 'Chatting log is cleared!'});
     }
 
     handleSetType = (type) => {
@@ -176,9 +179,21 @@ class MyPageRoute extends Component {
         MyPageActions.setConfirmClearVisibility(visible);
     }
 
+    handleSetUnregisterVisibility = (visible) => {
+        const { MyPageActions } = this.props;
+        MyPageActions.setUnregisterVisibility(visible);
+    }
+
+    handleUnregister = async () => {
+        const { MyPageActions } = this.props;
+        await MyPageActions.unregister();
+        storage.set('session', { user: null, logged: false });
+        window.location = '/';
+    }
+
     render () {
         const { UIActions, ui, form, formError, status } = this.props;
-        const { handleChange, handleUpdate, handleSetType, handleClear, handleSetConfirmClearVisibility } = this;
+        const { handleChange, handleUpdate, handleSetType, handleClear, handleSetConfirmClearVisibility, handleSetUnregisterVisibility, handleUnregister } = this;
 
         let setting = null;
 
@@ -227,10 +242,16 @@ class MyPageRoute extends Component {
                 <MyPage.LeftBar
                     onSetType={handleSetType}
                     currentType={status.settingType}
+                    onShowUnregister={()=>{handleSetUnregisterVisibility(true)}}
                 />
                 <MyPage.Box>
                     {setting}
                 </MyPage.Box>
+                <MyPage.Unregister
+                    visible={status.unregisterVisibility}
+                    onClose={()=>{handleSetUnregisterVisibility(false)}}
+                    onUnregister={handleUnregister}
+                />
             </MyPage.Wrapper>
         );
     }
@@ -243,6 +264,7 @@ MyPageRoute = connect(
             account: state.mypage.account,
             channel: state.mypage.channel,
             confirmClearVisibility: state.mypage.confirmClearVisibility,
+            unregisterVisibility: state.mypage.unregisterVisibility,
             loadingInitialSetting: state.mypage.requests.getInitialSetting.fetching,
             updatingAccount: state.mypage.requests.updateAccountSetting.fetching,
             updatingChannel: state.mypage.requests.updateChannelSetting.fetching,

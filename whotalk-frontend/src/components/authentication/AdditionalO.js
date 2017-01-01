@@ -133,6 +133,8 @@ class AdditionalO extends Component {
         // toastr.success(`Hello,
         // ${this.props.status.session.user.common_profile.givenName}!`)
         notify({type: 'success', message: formatMessage(messages.greeting, {name: this.props.status.session.user.common_profile.givenName})});
+        
+        storage.set('session', this.props.status.session);
         this.leaveTo('/');
     }
 
