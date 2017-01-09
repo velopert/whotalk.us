@@ -39,6 +39,10 @@ const SETTING_TYPE_SET = "mypage/SETTING_TYPE_SET";
 const CONFIRM_CLEAR_VISIBILITY_SET = "mypage/CONFIRM_CLEAR_VISIBILITY_SET";
 const UNREGISTER_VISIBILITY_SET = "mypage/UNREGISTER_VISIBILITY_SET";
 
+const EDIT_THUMBNAIL_VISIBILITY_SET = "mypage/EDIT_THUMBNAIL_VISIBILITY_SET";
+const FILE_SET = "mypage/FILE_SET";
+const IMAGE_STORE = "mypage/IMAGE_STORE";
+
 
 /* Action Creators */
 
@@ -83,7 +87,9 @@ export const unregister = () => ({
 
 export const setConfirmClearVisibility = createAction(CONFIRM_CLEAR_VISIBILITY_SET);
 export const setUnregisterVisibility = createAction(UNREGISTER_VISIBILITY_SET);
-
+export const setEditThumbnailVisibility = createAction(EDIT_THUMBNAIL_VISIBILITY_SET);
+export const setFile = createAction(FILE_SET);
+export const storeImage = createAction(IMAGE_STORE);
 
 /* Initial State */
 const initialState = {
@@ -95,11 +101,15 @@ const initialState = {
         email: '',
         type: ''
     },
+    accountUpdateCount: 0,
     channel: {
         statusMessage: ''
     },
+    file: null,
+    image: null,
     confirmClearVisibility: false,
     unregisterVisibility: false,
+    editThumbnailVisibility: false,
     requests: {
         getInitialSetting: {
             ...rs.request
@@ -174,6 +184,10 @@ export default handleActions({
 
     [ACCOUNT_SETTING_UPDATE_FULFILLED]: (state, action) => ({
         ...state,
+        file: null,
+        image: null,
+        editThumbnailVisibility: false,
+        accountUpdateCount: state.accountUpdateCount + 1,
         requests: {
             ...state.requests,
             updateAccountSetting: {
@@ -308,6 +322,21 @@ export default handleActions({
     [UNREGISTER_VISIBILITY_SET]: (state, action) => ({
         ...state,
         unregisterVisibility: action.payload
+    }),
+
+    [EDIT_THUMBNAIL_VISIBILITY_SET]: (state, action) => ({
+        ...state,
+        editThumbnailVisibility: action.payload
+    }),
+
+    [FILE_SET]: (state, action) => ({
+        ...state,
+        file: action.payload
+    }),
+
+    [IMAGE_STORE]: (state, action) => ({
+        ...state,
+        image: action.payload
     })
 
 }, initialState);

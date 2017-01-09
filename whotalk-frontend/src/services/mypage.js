@@ -12,7 +12,8 @@ export const updateAccountSetting = ({
     confirmPassword,
     givenName,
     familyName,
-    email
+    email,
+    image
 }) => request({
     url: '/api/mypage/account',
     method: 'patch',
@@ -22,7 +23,8 @@ export const updateAccountSetting = ({
         confirmPassword,
         givenName,
         familyName,
-        email
+        email,
+        image
     }
 });
 

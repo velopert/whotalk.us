@@ -63,7 +63,7 @@ class Sidebar extends Component {
                         : ''}
                     
                     <Profile>
-                        <Circle/>
+                        <Circle image={"/api/common/thumbnail/" + username}/>
                         <Info username={username} name={name}/>
                     </Profile>
                 </Top>

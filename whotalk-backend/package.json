@@ -57,6 +57,7 @@
     "passport-local-mongoose": "^4.0.0",
     "prompt": "^1.0.0",
     "schema-inspector": "^1.6.6",
+    "shortid": "^2.2.6",
     "sockjs": "^0.3.17",
     "sockjs-client": "^1.1.1"
   },

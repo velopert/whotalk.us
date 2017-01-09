@@ -53,6 +53,7 @@ app.use(passport.session());
 
 // SERVE STATIC FILES
 app.use('/', express.static(path.join(__dirname, '../../whotalk-frontend/build/')));
+app.use('/thumbnails', express.static(path.join(__dirname, '../thumbnails/')));
 
 // SETUP ROUTER
 app.use('/api', api);

@@ -34,6 +34,7 @@ const messages = prepareMessages({
 
 class MyPageRoute extends Component {
 
+
     componentDidMount () {
         const {UIActions, MyPageActions, FormActions} = this.props;
         UIActions.setHeaderTransparency(false);
@@ -58,6 +59,7 @@ class MyPageRoute extends Component {
 
         getInitialSetting();
     }
+
 
     changeInput = (form, e) => {
         const {FormActions} = this.props;
@@ -210,9 +212,37 @@ class MyPageRoute extends Component {
         window.location = '/';
     }
 
+    handleSetEditThumbnailVisibility = (value) => {
+        const { MyPageActions } = this.props;
+        MyPageActions.setEditThumbnailVisibility(value);
+    }
+
+    handleDrop = (acceptedFiles, rejectedFiles) => {
+        const { MyPageActions } = this.props;
+        if(acceptedFiles.length === 0 ) return;
+        MyPageActions.setFile(acceptedFiles[0]);
+        console.log(acceptedFiles, rejectedFiles);
+    }
+
+    handleStoreImage = (dataUrl) => {
+        const { MyPageActions } = this.props;
+        MyPageActions.storeImage(dataUrl);
+    }
+
     render () {
         const { UIActions, ui, form, formError, status } = this.props;
-        const { handleChange, handleUpdate, handleSetType, handleClear, handleSetConfirmClearVisibility, handleSetUnregisterVisibility, handleUnregister } = this;
+        const {
+            handleChange,
+            handleUpdate,
+            handleSetType,
+            handleClear,
+            handleSetConfirmClearVisibility,
+            handleSetUnregisterVisibility,
+            handleUnregister,
+            handleSetEditThumbnailVisibility,
+            handleDrop,
+            handleStoreImage
+        } = this;
 
         let setting = null;
 
@@ -235,6 +265,13 @@ class MyPageRoute extends Component {
                         loading={status.loadingInitialSetting}
                         updating={status.updatingAccount}
                         error={formError['account']}
+                        editThumbnailVisibility={status.editThumbnailVisibility}
+                        onSetEditThumbnailVisibility={handleSetEditThumbnailVisibility}
+                        onDrop={handleDrop}
+                        file={status.file}
+                        image={status.image}
+                        onStoreImage={handleStoreImage}
+                        count={status.accountUpdateCount}
                     />
                 );
                 break;
@@ -249,7 +286,6 @@ class MyPageRoute extends Component {
                         updating={status.updatingChannel}
                         clearing={status.clearingMessage}
                         confirmVisible={status.confirmClearVisibility}
-
                     />
                 );
                 break;
@@ -284,10 +320,14 @@ MyPageRoute = connect(
             channel: state.mypage.channel,
             confirmClearVisibility: state.mypage.confirmClearVisibility,
             unregisterVisibility: state.mypage.unregisterVisibility,
+            editThumbnailVisibility: state.mypage.editThumbnailVisibility,
             loadingInitialSetting: state.mypage.requests.getInitialSetting.fetching,
             updatingAccount: state.mypage.requests.updateAccountSetting.fetching,
             updatingChannel: state.mypage.requests.updateChannelSetting.fetching,
-            clearingMessage: state.mypage.requests.clearMessage.fetching
+            clearingMessage: state.mypage.requests.clearMessage.fetching,
+            file: state.mypage.file,
+            image: state.mypage.image,
+            accountUpdateCount: state.mypage.accountUpdateCount
         },
         ui: {
             account: state.ui.myPage.account
@@ -304,8 +344,7 @@ MyPageRoute = connect(
         UIActions: bindActionCreators({
             setHeaderTransparency: ui.setHeaderTransparency,
             setFooterSpace: ui.setFooterSpace,
-            setFooterVisibility: ui.setFooterVisibility,
-            setEditPasswordVisibility: ui.setEditPasswordVisibility
+            setFooterVisibility: ui.setFooterVisibility
         }, dispatch),
         FormActions: bindActionCreators(form, dispatch),
         MyPageActions: bindActionCreators(mypage, dispatch)

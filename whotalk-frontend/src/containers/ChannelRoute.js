@@ -205,7 +205,7 @@ class ChannelRoute extends Component {
                 <Channel.Box
                     isClosing={status.boxState === 'closing'}
                     height={status.clientHeight - 230 + 'px'}>
-                    <Channel.Circle/>
+                    <Channel.Circle image={"/api/common/thumbnail/" + params.username}/>
                     <Channel.Profile username={params.username} channelInfo={status.channelInfo}/>
                     <Channel.Info channelInfo={status.channelInfo} onOpen={openFocusBox}/>
                     <Channel.Buttons

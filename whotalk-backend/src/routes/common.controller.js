@@ -68,3 +68,28 @@ export const getSearchUser = async (req, res) => {
     
     
 }
+
+// GET /api/common/thumbnail
+
+export const getThumbnail = async(req, res) => {
+    const username =req.params.username;
+
+    const account = await Account.findUser(username);
+
+    let url = req.protocol + '://' + req.get('host');
+    url = url.replace(process.env.PORT, process.env.DEVPORT);
+
+    if(!account) {
+        return res.redirect('https://imgh.us/x-icon.svg');
+    }
+
+    const thumbnail = account.common_profile.thumbnail;
+
+    if(thumbnail === 'none') {
+        return res.redirect('http://imgh.us/user_11.svg')
+    } else {
+        return res.redirect(url + '/' + thumbnail);
+    }
+
+    
+}

@@ -7,6 +7,9 @@ import Follow from './../models/follow';
 import inspector from 'schema-inspector';
 import { generateHash, compareHash } from './../helpers/bcrypt';
 import cache from './../helpers/cache';
+import fs from 'fs';
+import shortid from 'shortid';
+
 
 // GET /api/mypage
 
@@ -159,12 +162,30 @@ export const updateAccountSetting = async (req, res) => {
     account.common_profile.familyName = body.familyName;
     account.common_profile.givenName = body.givenName;
 
+    // image not null
+    if(body.image) {
+        const fileExtension = body.image.match(/data:image\/(.*);/);
+        if(!fileExtension) {
+            return res.status(400).json({
+                code: 0,
+                message: 'INVALID REQUEST'
+            });
+        }
+        const data = body.image.replace(/^data:image\/\w+;base64,/, '');
+        const buf = new Buffer(data, 'base64');
+        const name = shortid.generate() + '.' + fileExtension[1];
+        account.common_profile.thumbnail = '/thumbnails/'+name;
+        fs.writeFile('./thumbnails/' + name, buf, () => {console.log('completed');});
+    }
+
     await account.save();
     cache.passport.del(account._id.toString());
 
     return res.json({
         success: true
     });
+
+
 };
 
 

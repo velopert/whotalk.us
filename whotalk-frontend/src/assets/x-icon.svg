@@ -1,0 +1,24 @@
+<!--?xml version="1.0" standalone="no"?--><svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="300.000000pt" height="291.000000pt" viewBox="0 0 300.000000 291.000000" preserveAspectRatio="xMidYMid meet">
+<metadata>
+  <rdf:rdf xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <rdf:description dc:title="x small" dc:publisher="Hiox" dc:date="2015-03-14" dc:format="image/svg+xml" dc:language="en">
+      <dc:creator>
+        <rdf:bag>
+          <rdf:li>svgimages.com</rdf:li>
+        </rdf:bag>
+      </dc:creator>
+    </rdf:description>
+  </rdf:rdf>
+</metadata>
+<rect fill="#adb5bd" id="canvas_background" height="400" width="400" y="-1" x="-1"/>
+<g transform="translate(0.000000,291.000000) scale(0.100000,-0.100000)" fill="#ffffff" stroke="none">
+<path d="M1735 2040 l-280 -280 -275 275 c-151 151 -280 275 -285 275 -6 0
+-77 -66 -158 -148 l-147 -147 275 -275 c151 -151 275 -279 275 -285 0 -5 -125
+-135 -277 -287 l-277 -277 152 -153 151 -153 278 278 c153 152 283 277 288
+277 6 0 134 -124 285 -275 l275 -275 147 147 c82 81 148 152 148 157 0 5 -124
+133 -275 284 l-276 276 281 281 280 280 -153 153 -152 152 -280 -280z" id="node1" class="node" stroke-width="20"></path>
+</g>
+<g transform="translate(0.000000,291.000000) scale(0.100000,-0.100000)" fill="#989898" stroke="none">
+
+</g>
+</svg>
