@@ -77,7 +77,11 @@ export const getThumbnail = async(req, res) => {
     const account = await Account.findUser(username);
 
     let url = req.protocol + '://' + req.get('host');
-    url = url.replace(process.env.PORT, process.env.DEVPORT);
+    //res.json({user: req.user});
+    
+    if (process.env.NODE_ENV === 'development') {
+        url = url.replace(process.env.PORT, process.env.DEVPORT);
+    }
 
     if(!account) {
         return res.redirect('https://imgh.us/x-icon.svg');

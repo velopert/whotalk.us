@@ -16,7 +16,7 @@ class Footer extends Component {
                         <li><Link to="/page/about">ABOUT</Link></li>
                         <li><Link to="/page/privacy">PRIVACY</Link></li>
                         <li><Link to="/page/terms">TERM</Link></li>
-                        <li className="right">© whotalk.us 2016</li>
+                        <li className="right">© whotalk.us 2017</li>
                     </ul>
                 </div>
             </div>

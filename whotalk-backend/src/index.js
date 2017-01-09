@@ -19,7 +19,7 @@ import api from './routes';
 import path from 'path';
 
 import echo from './echo';
-import facebook from './helpers/facebook';
+//import facebook from './helpers/facebook';
 
 
 
@@ -70,6 +70,12 @@ app.use((err, req, res, next) => {
     next();
 });
 
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../whotalk-frontend/build/'));
+});
+
+
+
 
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
@@ -77,6 +83,7 @@ db.on('error', console.error);
 db.once('open', () => {
     console.log('Connected to mongod server');
 });
+
 
 // ENABLE DEBUG WHEN DEV ENVIRONMENT
 if(process.env.NODE_ENV === 'development') {
@@ -92,7 +99,7 @@ const server = http.createServer(app).listen(port, () => {
 });
 
 echo.installHandlers(server, { prefix: '/echo' });
-facebook.init();
+//facebook.init();
 
 // /* bind echo server */
 // echo.installHandlers(app, { prefix: '/echo' });

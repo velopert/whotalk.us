@@ -16,37 +16,22 @@ router.get('/', (req, res) => {
 });
 
 router.get('/success', (req, res) => {
+
+    let url = req.protocol + '://' + req.get('host');
     //res.json({user: req.user});
+    
     if (process.env.NODE_ENV === 'development') {
-
-        let url = req.protocol + '://' + req.get('host');
         url = url.replace(process.env.PORT, process.env.DEVPORT);
+    }
 
-        if(!req.user) {
-            return res.redirect(url + '/auth/oauth-failure');
-            // check whether this is the first error
-            // if(!tempFix[req.sessionID]) {
-            //     // try one more time
-            //     console.error('User is NULL');
-            //     tempFix[req.sessionID] = true;
-            //     res.redirect('/api/authentication/success');
-            // } else {
-            //     // second time receiving this error
-            //      delete tempFix[req.sessionID];
-            //      res.redirect(url + '/auth/oauth-failure');
-            // }
-            // return;
-        }
+    if(!req.user) {
+        return res.redirect(url + '/auth/oauth-failure');
+    }
 
-        // if(tempFix[req.sessionID]) {
-        //     delete tempFix[req.sessionID];
-        // }
-
-        if (req.user.common_profile.username !== null) {
-            res.redirect(url + '/auth/oauth-success');
-        } else {
-            res.redirect(url + '/auth/register/additional-o');
-        }
+    if (req.user.common_profile.username !== null) {
+        res.redirect(url + '/auth/oauth-success');
+    } else {
+        res.redirect(url + '/auth/register/additional-o');
     }
 });
 

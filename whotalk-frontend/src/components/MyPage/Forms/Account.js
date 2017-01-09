@@ -30,7 +30,7 @@ class Account extends Component {
     componentDidUpdate(prevProps, prevState) {
         const { onStoreImage } = this.props;
 
-        if(prevProps.file !== this.props.file) {
+        if(prevProps.file !== this.props.file && this.canvas) {
             const ctx = this.canvas.getContext('2d');
             const url = URL.createObjectURL(this.props.file);
             const img = new Image();
@@ -83,8 +83,7 @@ class Account extends Component {
             onSetEditThumbnailVisibility,
             onDrop,
             file,
-            image,
-            count
+            image
         } = this.props;
 
         const familyNameField = (
@@ -132,8 +131,7 @@ class Account extends Component {
                             <div className="thumbnail-wrapper">
                                 {/*<img className="thumbnail" src={"/api/common/thumbnail/" + username}/>*/}
                                 <div className="thumbnail" style={{
-                                    background: `url(/api/common/thumbnail/${username}?${count}) cover no-repeat`,
-                                    backgroundSize: 'cover'
+                                    background: `url(/api/common/thumbnail/${username}) 0% 0% / cover no-repeat`
                                 }}></div>
                                 <button className="ui circular pink icon button" onClick={()=>{onSetEditThumbnailVisibility(true)}}><i className="write icon"></i></button>
                             </div>

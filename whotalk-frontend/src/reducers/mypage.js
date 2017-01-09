@@ -101,7 +101,6 @@ const initialState = {
         email: '',
         type: ''
     },
-    accountUpdateCount: 0,
     channel: {
         statusMessage: ''
     },
@@ -184,10 +183,6 @@ export default handleActions({
 
     [ACCOUNT_SETTING_UPDATE_FULFILLED]: (state, action) => ({
         ...state,
-        file: null,
-        image: null,
-        editThumbnailVisibility: false,
-        accountUpdateCount: state.accountUpdateCount + 1,
         requests: {
             ...state.requests,
             updateAccountSetting: {

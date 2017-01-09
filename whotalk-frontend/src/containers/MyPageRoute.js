@@ -138,6 +138,7 @@ class MyPageRoute extends Component {
             
             try {
                 await MyPageActions.updateAccountSetting(data);   
+                location.href = "/mypage";
                 notify({type: 'success', message: formatMessage(messages.saved)});
                 if(ui.account.editPassword) {
                     UIActions.setEditPasswordVisibility(false);
@@ -146,6 +147,7 @@ class MyPageRoute extends Component {
                     FormActions.changeInput({ form: 'accountSetting', name: 'confirmPassword', value: ''});
                 }
                 FormActions.resetError('account');
+
             } catch (e) {
                 const errors = {
                     0: formatMessage(messages.invalidRequest),
@@ -271,7 +273,6 @@ class MyPageRoute extends Component {
                         file={status.file}
                         image={status.image}
                         onStoreImage={handleStoreImage}
-                        count={status.accountUpdateCount}
                     />
                 );
                 break;
@@ -326,8 +327,7 @@ MyPageRoute = connect(
             updatingChannel: state.mypage.requests.updateChannelSetting.fetching,
             clearingMessage: state.mypage.requests.clearMessage.fetching,
             file: state.mypage.file,
-            image: state.mypage.image,
-            accountUpdateCount: state.mypage.accountUpdateCount
+            image: state.mypage.image
         },
         ui: {
             account: state.ui.myPage.account
