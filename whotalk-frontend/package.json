@@ -58,7 +58,7 @@
     "eslint-plugin-flowtype": "^2.15.0",
     "imports-loader": "^0.6.5",
     "jquery": "^3.1.1",
-    "node-sass": "^3.8.0",
+    "node-sass": "^3.13.1",
     "odometer": "^0.4.7",
     "react": "^15.3.1",
     "react-custom-scrollbars": "^4.0.0",
