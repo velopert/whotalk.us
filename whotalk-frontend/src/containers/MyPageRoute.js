@@ -344,7 +344,8 @@ MyPageRoute = connect(
         UIActions: bindActionCreators({
             setHeaderTransparency: ui.setHeaderTransparency,
             setFooterSpace: ui.setFooterSpace,
-            setFooterVisibility: ui.setFooterVisibility
+            setFooterVisibility: ui.setFooterVisibility,
+            setEditPasswordVisibility: ui.setEditPasswordVisibility
         }, dispatch),
         FormActions: bindActionCreators(form, dispatch),
         MyPageActions: bindActionCreators(mypage, dispatch)
