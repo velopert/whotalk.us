@@ -70,10 +70,9 @@ app.use((err, req, res, next) => {
     next();
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../whotalk-frontend/build/'));
-});
-
+app.get('*', function (req, res){
+  res.sendFile(path.resolve(__dirname, '../../whotalk-frontend/build/index.html'))
+})
 
 
 
