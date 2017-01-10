@@ -70,11 +70,11 @@ app.use((err, req, res, next) => {
     next();
 });
 
+app.use('/thumbnails', express.static(path.join(__dirname, '../thumbnails/')));
+
 app.get('*', function (req, res){
   res.sendFile(path.resolve(__dirname, '../../whotalk-frontend/build/index.html'))
 })
-
-app.use('/thumbnails', express.static(path.join(__dirname, '../thumbnails/')));
 
 
 
