@@ -25,13 +25,13 @@ router.get('/success', (req, res) => {
     }
 
     if(!req.user) {
-        return res.redirect(url + '/auth/oauth-failure');
+        return res.redirect('/auth/oauth-failure');
     }
 
     if (req.user.common_profile.username !== null) {
-        res.redirect(url + '/auth/oauth-success');
+        res.redirect('/auth/oauth-success');
     } else {
-        res.redirect(url + '/auth/register/additional-o');
+        res.redirect('/auth/register/additional-o');
     }
 });
 
