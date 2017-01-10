@@ -6,7 +6,7 @@ import {injectIntl, defineMessages} from 'react-intl';
 import autobind from 'autobind-decorator';
 import notify from 'helpers/notify';
 import { prepareMessages } from 'locale/helper';
-
+import storege from 'helpers/storage';
 
 const messages = prepareMessages({
     "AdditionalO.almostThere": "거의 다 끝났습니다!",
