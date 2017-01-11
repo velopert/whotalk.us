@@ -1,0 +1,17 @@
+.share {
+    position: fixed;
+    top: 65px;
+    right: 10px;
+    .url {
+        text-align: center!important;
+    }
+    img {
+        display: inline-block!important;
+        &:nth-child(even) {
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
+        }
+        cursor: pointer;
+    }
+
+}

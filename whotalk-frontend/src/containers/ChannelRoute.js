@@ -9,6 +9,7 @@ import * as channel from 'actions/channel';
 import autobind from 'autobind-decorator';
 
 import notify from 'helpers/notify';
+import Share from 'components/Common/Share';
 
 class ChannelRoute extends Component {
 
@@ -188,6 +189,7 @@ class ChannelRoute extends Component {
                     pending={status.favoritePending}  
                     hide={params.username === status.session.user.common_profile.username}
                 />
+                <Share username={params.username} hide={params.username !== status.session.user.common_profile.username}/>
                 {(status.focusBox.type !== null)
                     ? <Channel.UserList
                             type={status.focusBox.type}
