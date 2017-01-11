@@ -31,7 +31,7 @@ export const getInitialSetting = async (req, res) => {
     const account = results[0];
     const statusMessage = results[1];
 
-    console.log(statusMessage);
+
     
     
     return res.json({
@@ -105,8 +105,7 @@ export const updateAccountSetting = async (req, res) => {
 
     // check password
     if(body.currentPassword) {
-        console.log(hash, body.currentPassword);
-        
+       
         // password not provided
         if(body.password === "" || body.confirmPassword === "" 
             || !body.password || !body.confirmPassword) {
@@ -175,7 +174,7 @@ export const updateAccountSetting = async (req, res) => {
         const buf = new Buffer(data, 'base64');
         const name = shortid.generate() + '.' + fileExtension[1];
         account.common_profile.thumbnail = '/thumbnails/'+name;
-        fs.writeFile('./thumbnails/' + name, buf, () => {console.log('completed');});
+        fs.writeFile('./thumbnails/' + name, buf, () => {});
     }
 
     await account.save();

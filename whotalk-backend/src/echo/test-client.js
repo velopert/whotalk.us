@@ -60,15 +60,15 @@ const initConnection = () => {
     socket = new SockJS("http://localhost:3000/echo");
     clearInterval(intervalId);
     socket.onopen = function () {
-        console.log('connected');
+        // console.log('connected');
         start();
     };
     socket.onmessage = function (e) {
-        console.log(e.data);
+        // console.log(e.data);
     };
     socket.onclose = function () {
         socket = null;
-        console.log("disconnected, reconnecting..")
+        // console.log("disconnected, reconnecting..")
         intervalId = setInterval(function () {
             initConnection();
         }, 2000);

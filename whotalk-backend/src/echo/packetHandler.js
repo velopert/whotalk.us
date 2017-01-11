@@ -178,7 +178,6 @@ export default function packetHandler(connection, packet) {
 
 function chatCount(connection) {
     connection.data.counter++;
-    console.log(connection.data.counter);
     setTimeout(() => {
         connection.data.counter--;
         if(connection.data.counter < 0) {

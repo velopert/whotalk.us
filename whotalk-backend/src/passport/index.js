@@ -17,7 +17,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
     if(cache.passport.has(id)) {
-        console.log('using cache:', {id}, cache.passport.get(id));
+        // console.log('using cache:', {id}, cache.passport.get(id));
         return done(null, cache.passport.get(id));
     }
     //cb(null, user);
@@ -145,7 +145,7 @@ passport.use(
                     if (account) {
                         throw new PassportError(1, "USERNAME EXISTS");
                     } else {
-                        console.log(account);
+                        // console.log(account);
                         // check email duplication
                         return Account.findUserByEmail(req.body.email);
                     }
