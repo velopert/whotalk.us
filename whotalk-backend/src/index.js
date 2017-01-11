@@ -19,6 +19,9 @@ import api from './routes';
 import path from 'path';
 
 import echo from './echo';
+import fs from 'fs';
+
+// import ejs from 'ejs';
 //import facebook from './helpers/facebook';
 
 
@@ -27,6 +30,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const MongoStore = connectMongo(session);
+
+// app.set('views', __dirname + '/views');
+// app.set('view engine', 'ejs');
+// app.engine('html', require('ejs').renderFile);
 
 /* SETUP MIDDLEWARE */
 
@@ -72,8 +79,26 @@ app.use((err, req, res, next) => {
 
 app.use('/thumbnails', express.static(path.join(__dirname, '../thumbnails/')));
 
+
+let indexPage = "";
+
+fs.readFile(path.resolve(__dirname, '../../whotalk-frontend/build/index.html'), 'utf8', function(err, data){
+    indexPage = data;
+});
+
 app.get('*', function (req, res){
-  res.sendFile(path.resolve(__dirname, '../../whotalk-frontend/build/index.html'))
+    const routes = ['explore','auth','404','chat','page','mypage'];
+    const firstPath = req.params[0].split('/')[1];
+
+
+    if(routes.indexOf(firstPath) === -1) {
+        // res.render('index', {
+        //      username: firstPath,
+        // })
+        res.end(indexPage.replace('$DESCRIPTION', `${firstPath}님의 채널 - 익명으로 말을 걸어보세요`));
+    } else {
+        res.end(indexPage.replace('$DESCRIPTION', `N:1 익명 채팅 플랫폼`));
+    }
 })
 
 
