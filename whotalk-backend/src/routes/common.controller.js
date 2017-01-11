@@ -90,7 +90,7 @@ export const getThumbnail = async(req, res) => {
     const thumbnail = account.common_profile.thumbnail;
 
     if(thumbnail === 'none') {
-        return res.redirect('http://imgh.us/user_11.svg')
+        return res.redirect('https://imgh.us/user_11.svg')
     } else {
         return res.redirect(url + thumbnail);
     }
