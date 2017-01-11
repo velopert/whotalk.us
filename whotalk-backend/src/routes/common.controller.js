@@ -92,7 +92,7 @@ export const getThumbnail = async(req, res) => {
     if(thumbnail === 'none') {
         return res.redirect('https://imgh.us/user_11.svg')
     } else {
-        return res.redirect(url + thumbnail);
+        return res.redirect('https://whotalk.us/thumbnails' + thumbnail);
     }
 
     
