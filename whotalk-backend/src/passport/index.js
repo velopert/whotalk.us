@@ -45,6 +45,8 @@ passport.use(
             Account.findUserByFacebookId(profile.id)
             .then(
                 account => {
+                    console.log(profile);
+                    console.log(profile.emails);
                     // user is found
                     if(account) {
                         done(null, account);
