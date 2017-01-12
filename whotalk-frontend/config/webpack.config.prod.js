@@ -36,6 +36,7 @@ module.exports = {
   devtool: 'source-map',
   // In production, we only want to load the polyfills and the app code.
   entry: [
+	require.resolve('babel-polyfill'),
     require.resolve('./polyfills'),
     /*
         path.resolve('./semantic/dist/semantic.min.css'),
