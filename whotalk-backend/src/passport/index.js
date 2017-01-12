@@ -59,7 +59,7 @@ passport.use(
                                 familyName: profile.name.familyName,
                                 givenName: profile.name.givenName,
                                 gender: profile.gender,
-                                email: profile.emails.length > 0 ? profile.emails[0].value : null
+                                email: profile.emails ? (profile.emails.length > 0 ? profile.emails[0].value : null) : null
                             },
                             o_auth: {
                                 facebook: {
