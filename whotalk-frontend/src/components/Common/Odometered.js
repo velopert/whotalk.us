@@ -1,4 +1,4 @@
-import Odometer from 'odometer';
+const Odometer = window.Odometer;
 import 'odometer/themes/odometer-theme-default.css';
 
 

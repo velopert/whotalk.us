@@ -58,7 +58,6 @@
     "eslint-plugin-async-await": "0.0.0",
     "eslint-plugin-flowtype": "^2.15.0",
     "imports-loader": "^0.6.5",
-    "jquery": "^3.1.1",
     "node-sass": "^3.13.1",
     "odometer": "^0.4.7",
     "react": "^15.3.1",
