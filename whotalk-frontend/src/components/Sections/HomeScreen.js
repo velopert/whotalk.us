@@ -91,7 +91,7 @@ class HomeScreen extends Component {
                     </div>
 
 
-                    <iframe className={"like-button" + (this.props.like ? '' : ' hide') } src="https://www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffacebook.com%2Fvelopert&width=152&layout=button_count&action=like&size=small&show_faces=false&share=true&height=46&appId=2114304178795129" width="152" height="46" style={{ border: 'none', overflow: 'hidden' }} scrolling="no" frameBorder="0" allowTransparency="true"></iframe>
+                    <iframe className={"like-button" + (this.props.like ? '' : ' hide') } src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fwhotalkus&width=134&layout=button_count&action=like&size=small&show_faces=false&share=true&height=46&appId=664322480382395" width="152" height="46" style={{ border: 'none', overflow: 'hidden' }} scrolling="no" frameBorder="0" allowTransparency="true"></iframe>
                     {/*<div className="like-button fb-like" data-href="http://facebook.com/velopert" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>*/}
 
 
@@ -115,6 +115,9 @@ class HomeScreen extends Component {
     }
     
 }
+
+//<iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Ffacebook.com%2Fwhotalkus&width=134&layout=button_count&action=like&size=small&show_faces=false&share=true&height=46&appId=664322480382395" width="134" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+
 
 HomeScreen.propTypes = propTypes;
 HomeScreen.defaultProps = defaultProps;
