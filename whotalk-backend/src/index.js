@@ -87,7 +87,7 @@ fs.readFile(path.resolve(__dirname, '../../whotalk-frontend/build/index.html'), 
 });
 
 app.get('*', function (req, res){
-    const routes = ['explore','auth','404','chat','page','mypage', 'static'];
+    const routes = ['explore','auth','404','chat','page','mypage', 'static', 'thumbnails'];
     const firstPath = req.params[0].split('/')[1];
     if(routes.indexOf(firstPath) === -1) {
         // res.render('index', {
