@@ -86,9 +86,11 @@ fs.readFile(path.resolve(__dirname, '../../whotalk-frontend/build/index.html'), 
     indexPage = data;
 });
 
-app.get('*', function (req, res){
-    const routes = ['explore','auth','404','chat','page','mypage', 'static', 'thumbnails'];
+app.get('*', function (req, res, next){
+    const statics = ['static', 'thumbnails'];
+    const routes = ['explore','auth','404','chat','page','mypage'];
     const firstPath = req.params[0].split('/')[1];
+    if(statics.indexOf(firstPath)===-1) { return next(); }
     if(routes.indexOf(firstPath) === -1) {
         // res.render('index', {
         //      username: firstPath,
