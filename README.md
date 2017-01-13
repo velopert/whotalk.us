@@ -1,5 +1,5 @@
 # WHOTALK.US
-[WhoTalk.us](https://whotalk.us/) is a Chat based SNS system that simply allows N to 1 chatting. In this project, React.js is used on th front-end side and Node.js is used on backend-side. MongoDB is used for the database. This project is currently in beta, there are still some functions to be implemented.
+[WhoTalk.us](https://whotalk.us/) is a Chat based SNS system that simply allows N to 1 chatting. In this project, React.js is used on the front-end side and Node.js is used on backend-side. MongoDB is used for the database. This project is currently in beta, there are still some functions to be implemented.
 
 If you have found any bugs, or want to enhance the system, please feel free to post new issues in Github repository. 
 
