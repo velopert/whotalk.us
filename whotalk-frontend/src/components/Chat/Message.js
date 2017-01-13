@@ -140,7 +140,7 @@ class Message extends Component {
                                 <Thumbnail
                                     image={anonymous
                                     ? anonymousThumbnail
-                                    : "/api/common/thumbnail" + username}/>
+                                    : "/api/common/thumbnail/" + username}/>
                                 <div className="info-text">
                                     <span className="username" style={generateColor(username)}>{username}</span>
                                     {anonymous
