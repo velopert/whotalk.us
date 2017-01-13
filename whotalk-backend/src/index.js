@@ -90,7 +90,9 @@ app.get('*', function (req, res, next){
     const statics = ['static', 'thumbnails'];
     const routes = ['explore','auth','404','chat','page','mypage'];
     const firstPath = req.params[0].split('/')[1];
-    if(statics.indexOf(firstPath)===-1) { return next(); }
+    if(statics.indexOf(firstPath)!==-1) { 
+        return next(); 
+    }
     if(routes.indexOf(firstPath) === -1) {
         // res.render('index', {
         //      username: firstPath,
