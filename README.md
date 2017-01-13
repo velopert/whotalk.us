@@ -3,10 +3,7 @@
 
 If you have found any bugs, or want to enhance the system, please feel free to post new issues in Github repository. 
 
-## Core 
-
-
-## Technology 
+## Core Technology 
 
 Following technologies are used in this project (some are omitted)
 - React.js
