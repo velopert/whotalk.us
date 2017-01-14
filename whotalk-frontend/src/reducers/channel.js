@@ -392,7 +392,7 @@ function channel(state = initialState, action) {
                 chat: {
                     ...state.chat,
                     data: [...messages],
-                    top: messages.length < 40,
+                    top: messages.length < 10,
                     lastInitId: messages[messages.length - 1].payload.suID
                 },
                 requests: {
@@ -438,7 +438,7 @@ function channel(state = initialState, action) {
                         ...messages,
                         ...state.chat.data
                     ],
-                    top: messages.length < 40
+                    top: messages.length < 10
                 },
                 requests: {
                     ...state.requests,
