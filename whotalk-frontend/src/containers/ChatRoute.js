@@ -143,6 +143,7 @@ class ChatRoute extends Component {
                 username: status.socket.username
             }
         });
+        this.scrollToBottom();
     }
 
     @autobind
@@ -244,7 +245,7 @@ class ChatRoute extends Component {
         if (prevProps.status.chatData.length !== this.props.status.chatData.length) {
             const scrollTop = this.scrollBox.getScrollTop();
             const clientHeight = this.scrollBox.getClientHeight();
-            if(scrollHeight - scrollTop - clientHeight < 100 || this.state.prevScrollHeight - clientHeight < 100) {
+            if(scrollHeight - scrollTop - clientHeight < 300 || this.state.prevScrollHeight - clientHeight < 300) {
                 this.scrollToBottom();
             }
         }
